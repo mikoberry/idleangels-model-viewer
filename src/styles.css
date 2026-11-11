@@ -619,6 +619,26 @@ button {
   color: #f2f5ff;
 }
 
+.language-select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.055);
+  color: #eef1fb;
+  font-size: var(--text-md);
+  cursor: pointer;
+}
+
+.language-select:hover {
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.language-select option {
+  background: #141a2b;
+  color: #eef1fb;
+}
+
 .model-select {
   position: relative;
 }
@@ -933,6 +953,17 @@ button {
   color: #ffb4c8;
 }
 
+.inspector-model-hints {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.inspector-hint a {
+  color: #a9bbff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .viewer-button {
   display: inline-flex;
   align-items: center;
@@ -966,6 +997,7 @@ button {
 .toggle-row input:focus-visible,
 .animation-select__trigger:focus-visible,
 .animation-select__option:focus-visible,
+.language-select:focus-visible,
 .model-select__trigger:focus-visible,
 .model-select__search:focus-visible,
 .model-select__option:focus-visible,

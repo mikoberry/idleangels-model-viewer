@@ -62,22 +62,28 @@ function encodeAssetPath(file) {
 
 export async function startSpineStage(
   canvas,
-  { model, onStatus, isCancelled = () => false, onAnimationChange } = {},
+  {
+    model,
+    onStatus,
+    t = (key) => key,
+    isCancelled = () => false,
+    onAnimationChange,
+  } = {},
 ) {
-  const report = (text, isError = false) => {
+  const report = (key, vars, isError = false) => {
     if (isCancelled()) return
-    onStatus?.(text, isError)
+    onStatus?.(key, vars, isError)
   }
 
   if (!(canvas instanceof HTMLCanvasElement)) {
-    throw new Error('缺少 canvas 节点')
+    throw new Error(t('stage.missingCanvas'))
   }
 
   if (!model?.layers?.length) {
-    throw new Error('模型缺少图层配置')
+    throw new Error(t('stage.missingModel'))
   }
 
-  report(`模型 ${model.id}：正在创建 WebGL 上下文…`)
+  report('stage.creatingContext', { model: model.id })
 
   const context = new spine.webgl.ManagedWebGLRenderingContext(canvas, {
     alpha: true,
@@ -86,14 +92,14 @@ export async function startSpineStage(
   })
 
   if (!context.gl) {
-    throw new Error('WebGL 不可用')
+    throw new Error(t('stage.webglUnavailable'))
   }
 
   const renderer = new spine.webgl.SceneRenderer(canvas, context, true)
   renderer.camera.position.set(0, 0, 0)
   renderer.camera.update()
 
-  report(`模型 ${model.id}：正在加载 Spine 资源…`)
+  report('stage.loadingAssets', { model: model.id })
 
   const managers = model.layers.map((layer) => {
     const manager = new spine.webgl.AssetManager(context, assetPrefix(layer.basePath))
@@ -138,7 +144,7 @@ export async function startSpineStage(
       const atlas = manager.get(encodeAssetPath(layer.atlas))
 
       if (!binary || !atlas) {
-        throw new Error(`图层 ${layer.id} 资源缺失`)
+        throw new Error(t('stage.missingLayer', { id: layer.id }))
       }
 
       const attachmentLoader = new spine.AtlasAttachmentLoader(atlas)
@@ -364,7 +370,10 @@ export async function startSpineStage(
     return EMPTY_STAGE
   }
 
-  report(`模型 ${model.id} 已加载 · ${layers.map((layer) => layer.id).join(' + ')}`)
+  report('stage.loaded', {
+    model: model.id,
+    layers: layers.map((layer) => layer.id).join(' + '),
+  })
 
   let lastTime = performance.now()
 

@@ -182,12 +182,16 @@ percent = round(scale × 100)
 当前行为：
 
 - `scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction`、`selectedModelId` 只存在于 React state。
-- 刷新页面后播放设置恢复默认值，并重新选中清单第一个模型。
-- 没有 `spine-viewer:playback:v1` 或其他播放设置存储 key。
+- 刷新页面后会重新选中清单第一个模型；未记录的字段恢复默认值，已记录模型视图会从 `localStorage` 恢复。
+- 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key。
 - 没有 `sanitizeSettings` / 版本迁移逻辑。
 - 每个模型的当前视图会写入 `localStorage`：
   ```text
   spine-viewer:model-views:v1
+  ```
+- 界面语言写入：
+  ```text
+  spine-viewer:language:v1
   ```
 - 眼睛提示使用单独的 key：
 

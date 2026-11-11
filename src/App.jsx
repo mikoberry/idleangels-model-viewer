@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import SettingsDrawer from './SettingsDrawer.jsx'
+import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
 import { startSpineStage } from './spineStage.js'
 
 const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
@@ -94,7 +95,7 @@ function recommendedViewFor(model) {
   }
 }
 
-function formatBrowser(userAgent) {
+function formatBrowser(userAgent, t) {
   const version = (pattern) => userAgent.match(pattern)?.[1] ?? ''
   if (userAgent.includes('Edg/')) return `Edge ${version(/Edg\/([\d.]+)/)}`.trim()
   if (userAgent.includes('OPR/')) return `Opera ${version(/OPR\/([\d.]+)/)}`.trim()
@@ -103,19 +104,19 @@ function formatBrowser(userAgent) {
   if (userAgent.includes('Version/') && userAgent.includes('Safari')) {
     return `Safari ${version(/Version\/([\d.]+)/)}`.trim()
   }
-  return '未知'
+  return t('common.unknown')
 }
 
-function readWebglInfo(canvas) {
-  if (!canvas) return '未就绪'
+function readWebglInfo(canvas, t) {
+  if (!canvas) return t('common.notReady')
 
   let gl
   try {
     gl = canvas.getContext('webgl2') || canvas.getContext('webgl')
   } catch {
-    return '不可用'
+    return t('common.unavailable')
   }
-  if (!gl) return '不可用'
+  if (!gl) return t('common.unavailable')
 
   const debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
   const version = gl.getParameter(gl.VERSION)
@@ -129,14 +130,16 @@ function readWebglInfo(canvas) {
   return `${version} · ${vendor} · ${renderer}`
 }
 
-function loadJson(url) {
+function loadJson(url, t) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.open('GET', url, true)
     request.responseType = 'text'
     request.onload = () => {
       if (request.status !== 200 && request.status !== 0) {
-        reject(new Error(`模型清单加载失败：HTTP ${request.status}`))
+        reject(
+          new Error(t('app.error.manifestHttp', { status: request.status })),
+        )
         return
       }
 
@@ -146,52 +149,67 @@ function loadJson(url) {
         reject(error)
       }
     }
-    request.onerror = () => reject(new Error('模型清单加载失败：网络请求错误'))
+    request.onerror = () =>
+      reject(new Error(t('app.error.manifestNetwork')))
     request.send()
   })
 }
 
-function collectDebugInfo(canvas) {
+function collectDebugInfo(canvas, t) {
   const userAgent = navigator.userAgent
   const weApi = window.wallpaperPropertyListener
     ? 'wallpaperPropertyListener'
     : typeof window.wallpaperRegisterAudioListener === 'function'
       ? 'wallpaperRegisterAudioListener'
-      : '未检测到'
+      : t('common.notDetected')
   const isWallpaperEngine =
-    weApi !== '未检测到' || /wallpaper[\s_-]*engine/i.test(userAgent)
+    weApi !== t('common.notDetected') || /wallpaper[\s_-]*engine/i.test(userAgent)
 
   return [
-    { label: '运行环境', value: isWallpaperEngine ? 'Wallpaper Engine' : '浏览器' },
-    { label: '浏览器', value: formatBrowser(userAgent) },
-    { label: '窗口', value: `${window.innerWidth} × ${window.innerHeight}` },
-    { label: 'Canvas', value: canvas ? `${canvas.width} × ${canvas.height}` : '未就绪' },
-    { label: '屏幕', value: `${screen.width} × ${screen.height}` },
-    { label: '可用屏幕', value: `${screen.availWidth} × ${screen.availHeight}` },
-    { label: '像素比', value: String(window.devicePixelRatio) },
     {
-      label: 'CPU 线程',
+      label: t('debug.environment'),
+      value: isWallpaperEngine ? t('common.wallpaperEngine') : t('common.browser'),
+    },
+    { label: t('debug.browser'), value: formatBrowser(userAgent, t) },
+    { label: t('debug.window'), value: `${window.innerWidth} × ${window.innerHeight}` },
+    {
+      label: t('debug.canvas'),
+      value: canvas ? `${canvas.width} × ${canvas.height}` : t('common.notReady'),
+    },
+    { label: t('debug.screen'), value: `${screen.width} × ${screen.height}` },
+    {
+      label: t('debug.availableScreen'),
+      value: `${screen.availWidth} × ${screen.availHeight}`,
+    },
+    { label: t('debug.pixelRatio'), value: String(window.devicePixelRatio) },
+    {
+      label: t('debug.cpuThreads'),
       value: navigator.hardwareConcurrency
         ? String(navigator.hardwareConcurrency)
-        : '未知',
+        : t('common.unknown'),
     },
     {
-      label: '设备内存',
-      value: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : '未知',
+      label: t('debug.deviceMemory'),
+      value: navigator.deviceMemory
+        ? `${navigator.deviceMemory} GB`
+        : t('common.unknown'),
     },
-    { label: '平台', value: navigator.platform || '未知' },
-    { label: '语言', value: navigator.language || '未知' },
-    { label: 'WebGL', value: readWebglInfo(canvas) },
-    { label: 'WE API', value: weApi },
-    { label: '页面', value: window.location.href },
-    { label: 'User Agent', value: userAgent },
+    { label: t('debug.platform'), value: navigator.platform || t('common.unknown') },
+    { label: t('debug.language'), value: navigator.language || t('common.unknown') },
+    { label: t('debug.webgl'), value: readWebglInfo(canvas, t) },
+    { label: t('debug.weApi'), value: weApi },
+    { label: t('debug.page'), value: window.location.href },
+    { label: t('debug.userAgent'), value: userAgent },
   ]
 }
 
 export default function App() {
   const canvasRef = useRef(null)
   const stageRef = useRef(null)
-  const [status, setStatus] = useState('正在启动 React 外壳…')
+  const [language, setLanguage] = useState(detectLanguage)
+  const t = getTranslator(language)
+  const [statusState, setStatusState] = useState({ key: 'app.status.starting' })
+  const status = t(statusState.key, statusState.params)
   const [isError, setIsError] = useState(false)
   const inWallpaperEngine = isWallpaperEngineEnvironment()
   const [isDrawerOpen, setIsDrawerOpen] = useState(() => !inWallpaperEngine)
@@ -211,6 +229,13 @@ export default function App() {
   }))
   const [recordedViews, setRecordedViews] = useState(loadModelViews)
   const modelViewsRef = useRef(recordedViews)
+
+  useEffect(() => {
+    saveLanguage(language)
+    document.documentElement.lang =
+      LANGUAGES.find((item) => item.id === language)?.htmlLang ?? 'en'
+    document.title = t('app.title')
+  }, [language])
 
   const recordModelView = (id, view) => {
     if (!id) return false
@@ -235,24 +260,32 @@ export default function App() {
     let cancelled = false
 
     const loadManifest = async () => {
-      setStatus('正在加载模型清单…')
+      setStatusState({ key: 'app.status.loadingManifest' })
       setIsError(false)
 
       try {
         const manifestUrl = new URL('spine/models/manifest.json', document.baseURI)
-        const data = await loadJson(manifestUrl.href)
+        const data = await loadJson(manifestUrl.href, t)
         if (!Array.isArray(data.models) || data.models.length === 0) {
-          throw new Error('模型清单为空')
+          throw new Error(t('app.error.manifestEmpty'))
         }
 
         if (cancelled) return
         setModels(data.models)
         setSelectedModelId(data.models[0].id)
-        setStatus(`模型清单已加载 · ${data.models.length} 个模型`)
+        setStatusState({
+          key: 'app.status.manifestLoaded',
+          params: { count: data.models.length },
+        })
       } catch (error) {
         if (cancelled) return
         console.error(error)
-        setStatus(error instanceof Error ? error.message : String(error))
+        setStatusState({
+          key: 'app.status.error',
+          params: {
+            message: error instanceof Error ? error.message : String(error),
+          },
+        })
         setIsError(true)
       }
     }
@@ -277,9 +310,10 @@ export default function App() {
 
     startSpineStage(canvas, {
       model: selectedModel,
-      onStatus: (text, error = false) => {
+      t,
+      onStatus: (key, vars, error = false) => {
         if (disposed) return
-        setStatus(text)
+        setStatusState({ key, params: vars })
         setIsError(error)
       },
       onAnimationChange: (name) => {
@@ -318,7 +352,12 @@ export default function App() {
       .catch((error) => {
         if (disposed) return
         console.error(error)
-        setStatus(error instanceof Error ? error.message : String(error))
+        setStatusState({
+          key: 'app.status.error',
+          params: {
+            message: error instanceof Error ? error.message : String(error),
+          },
+        })
         setIsError(true)
       })
 
@@ -343,7 +382,7 @@ export default function App() {
   useEffect(() => {
     if (!debugOpen) return undefined
 
-    const update = () => setDebugInfo(collectDebugInfo(canvasRef.current))
+    const update = () => setDebugInfo(collectDebugInfo(canvasRef.current, t))
     update()
     window.addEventListener('resize', update)
     const viewport = window.visualViewport
@@ -353,7 +392,7 @@ export default function App() {
       window.removeEventListener('resize', update)
       viewport?.removeEventListener('resize', update)
     }
-  }, [debugOpen])
+  }, [debugOpen, language])
 
   const dismissEyeHint = (openDrawer = false) => {
     setShowEyeHint(false)
@@ -398,14 +437,18 @@ export default function App() {
       />
       {debugOpen && (
         <div className="debug-hud">
-          <section id="debug-panel" className="debug-panel" aria-label="调试信息">
+          <section
+            id="debug-panel"
+            className="debug-panel"
+            aria-label={t('debug.title')}
+          >
             <header className="debug-panel__header">
-              <span className="debug-panel__title">调试信息</span>
-              <span className="debug-panel__hint">可在播放设置中关闭</span>
+              <span className="debug-panel__title">{t('debug.title')}</span>
+              <span className="debug-panel__hint">{t('debug.closeHint')}</span>
             </header>
             <dl className="debug-panel__list">
               <div className={`debug-panel__row${isError ? ' is-error' : ''}`}>
-                <dt>状态</dt>
+                <dt>{t('debug.status')}</dt>
                 <dd>{status}</dd>
               </div>
               {debugInfo.map(({ label, value }) => (
@@ -434,8 +477,10 @@ export default function App() {
         }}
         aria-expanded={isDrawerOpen}
         aria-controls="settings-drawer"
-        aria-label={isDrawerOpen ? '关闭设置' : '打开设置'}
-        title={isDrawerOpen ? '关闭设置' : '打开设置'}
+        aria-label={
+          isDrawerOpen ? t('viewer.closeSettings') : t('viewer.openSettings')
+        }
+        title={isDrawerOpen ? t('viewer.closeSettings') : t('viewer.openSettings')}
       >
         <svg
           viewBox="0 0 24 24"
@@ -453,13 +498,13 @@ export default function App() {
       </button>
       {showEyeHint && (
         <aside className="eye-hint" role="status">
-          <p className="eye-hint__text">点击小眼睛可以打开设置</p>
+          <p className="eye-hint__text">{t('eyeHint.text')}</p>
           <button
             type="button"
             className="eye-hint__button"
             onClick={() => dismissEyeHint(true)}
           >
-            我知道了
+            {t('eyeHint.confirm')}
           </button>
           <span className="eye-hint__arrow" aria-hidden="true" />
         </aside>
@@ -483,6 +528,9 @@ export default function App() {
         recommendedView={currentRecommendedView}
         recordedViews={recordedViews}
         onRecordView={handleRecordView}
+        language={language}
+        onLanguageChange={setLanguage}
+        t={t}
       />
     </main>
   )

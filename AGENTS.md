@@ -56,7 +56,8 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - `src/main.jsx` mounts `<App />`; React StrictMode is not used.
 - `src/App.jsx` loads `spine/models/manifest.json`, owns `viewSettings`, the selected model, `currentAnimation`, the drawer/debug UI, and the canvas. The Stage effect depends on the selected model, so switching models disposes and recreates the Stage and applies the model's recommended view (or fallback).
 - `src/spineStage.js` is the imperative WebGL layer: dynamic layer list, context, renderer, asset managers, skeletons, animation state, camera, resize handling, rAF loop, action state machine, and resource disposal.
-- `src/SettingsDrawer.jsx` stays mounted; `.is-open` slides it in, and it is `inert` while closed. It contains the searchable model picker.
+- `src/SettingsDrawer.jsx` stays mounted; `.is-open` slides it in, and it is `inert` while closed. It contains the searchable model picker and the language selector.
+- `src/i18n.js` owns Chinese, English, Japanese, and Korean UI strings, browser-language detection, and the `spine-viewer:language:v1` preference.
 - There is no edit/show mode and no URL state. Clicking the canvas triggers `action` whenever the drawer is closed and `clickToAction` is true.
 - Playback settings and the selected model are React state only; the first model in the generated manifest is selected on every load. Per-model view records are persisted separately under `spine-viewer:model-views:v1`; the eye-hint flag uses `spine-viewer:eye-hint:v1`. Do not treat the selected model itself as persisted.
 - The UI is intentionally chrome-less: full-screen canvas, no header/footer/card borders. Preserve the immersive layout.

@@ -1,13 +1,10 @@
 import * as Slider from '@radix-ui/react-slider'
 import { useEffect, useRef, useState } from 'react'
+import { LANGUAGES } from './i18n.js'
 
 const MIN_SCALE = 0.5
 const MAX_SCALE = 5
 const POSITION_LIMIT = 100
-const ANIMATION_LABELS = {
-  idle: '待机 · idle',
-  action: '动作 · action',
-}
 const BACKGROUND_PRESETS = [
   '#06070d',
   '#000000',
@@ -18,8 +15,10 @@ const BACKGROUND_PRESETS = [
 ]
 const HEX_COLOR = /^#[0-9a-f]{6}$/i
 
-function animationLabel(name) {
-  return ANIMATION_LABELS[name] ?? name
+function animationLabel(name, t) {
+  if (name === 'idle') return t('animation.idle')
+  if (name === 'action') return t('animation.action')
+  return name
 }
 
 function normalizeHexColor(value) {
@@ -103,13 +102,20 @@ function ViewerSlider({ value, min, max, step, label, valueText, onChange }) {
   )
 }
 
-function StepControl({ label, onStep, canDecrease, canIncrease, children }) {
+function StepControl({
+  label,
+  onStep,
+  canDecrease,
+  canIncrease,
+  children,
+  t,
+}) {
   return (
     <div className="step-control">
       <button
         type="button"
         className="step-button"
-        aria-label={`${label}减少 1%`}
+        aria-label={t('step.decreaseAria', { label })}
         disabled={!canDecrease}
         onClick={() => onStep(-1)}
       >
@@ -119,7 +125,7 @@ function StepControl({ label, onStep, canDecrease, canIncrease, children }) {
       <button
         type="button"
         className="step-button"
-        aria-label={`${label}增加 1%`}
+        aria-label={t('step.increaseAria', { label })}
         disabled={!canIncrease}
         onClick={() => onStep(1)}
       >
@@ -129,7 +135,7 @@ function StepControl({ label, onStep, canDecrease, canIncrease, children }) {
   )
 }
 
-function ModelSelect({ models, value, onChange, active }) {
+function ModelSelect({ models, value, onChange, active, t }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [query, setQuery] = useState('')
   const rootRef = useRef(null)
@@ -190,12 +196,13 @@ function ModelSelect({ models, value, onChange, active }) {
         className="model-select__trigger"
         aria-haspopup="listbox"
         aria-expanded={menuOpen}
-        aria-label="选择模型"
+        aria-label={t('model.select')}
         disabled={models.length === 0}
         onClick={() => setMenuOpen((current) => !current)}
       >
         <span className="model-select__label">
-          {selected?.label ?? (models.length > 0 ? '选择模型' : '模型未加载')}
+          {selected?.label ??
+            (models.length > 0 ? t('model.select') : t('model.notLoaded'))}
         </span>
         <span className="model-select__count">{models.length}</span>
         <span className="model-select__chevron" aria-hidden="true" />
@@ -207,14 +214,18 @@ function ModelSelect({ models, value, onChange, active }) {
             className="model-select__search"
             type="search"
             value={query}
-            placeholder="搜索模型目录…"
-            aria-label="搜索模型"
+            placeholder={t('model.searchPlaceholder')}
+            aria-label={t('model.searchAria')}
             autoFocus
             onChange={(event) => setQuery(event.currentTarget.value)}
           />
-          <div className="model-select__list" role="listbox" aria-label="模型列表">
+          <div
+            className="model-select__list"
+            role="listbox"
+            aria-label={t('model.listAria')}
+          >
             {filteredModels.length === 0 ? (
-              <p className="model-select__empty">没有匹配的模型</p>
+              <p className="model-select__empty">{t('model.empty')}</p>
             ) : (
               filteredModels.map((model) => (
                 <button
@@ -239,7 +250,7 @@ function ModelSelect({ models, value, onChange, active }) {
   )
 }
 
-function AnimationSelect({ animations, value, onChange, active }) {
+function AnimationSelect({ animations, value, onChange, active, t }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const rootRef = useRef(null)
   const triggerRef = useRef(null)
@@ -282,12 +293,20 @@ function AnimationSelect({ animations, value, onChange, active }) {
         disabled={animations.length === 0}
         onClick={() => setMenuOpen((current) => !current)}
       >
-        <span>{animations.length === 0 ? '正在加载动画…' : animationLabel(selected)}</span>
+        <span>
+          {animations.length === 0
+            ? t('animation.loading')
+            : animationLabel(selected, t)}
+        </span>
         <span className="animation-select__chevron" aria-hidden="true" />
       </button>
 
       {menuOpen && (
-        <div className="animation-select__menu" role="listbox" aria-label="Spine 动画">
+        <div
+          className="animation-select__menu"
+          role="listbox"
+          aria-label={t('animation.listAria')}
+        >
           {animations.map((name) => (
             <button
               key={name}
@@ -300,7 +319,7 @@ function AnimationSelect({ animations, value, onChange, active }) {
                 setMenuOpen(false)
               }}
             >
-              {animationLabel(name)}
+              {animationLabel(name, t)}
             </button>
           ))}
         </div>
@@ -309,7 +328,7 @@ function AnimationSelect({ animations, value, onChange, active }) {
   )
 }
 
-function BackgroundColorField({ value, onChange }) {
+function BackgroundColorField({ value, onChange, t }) {
   const [draft, setDraft] = useState(value)
   const [hsv, setHsv] = useState(() => hexToHsv(value))
   const lastEmittedRef = useRef(null)
@@ -381,7 +400,11 @@ function BackgroundColorField({ value, onChange }) {
 
   return (
     <div className="color-field">
-      <div className="color-swatches" role="group" aria-label="背景色预设">
+      <div
+        className="color-swatches"
+        role="group"
+        aria-label={t('background.presetsAria')}
+      >
         {BACKGROUND_PRESETS.map((color) => (
           <button
             key={color}
@@ -389,7 +412,7 @@ function BackgroundColorField({ value, onChange }) {
             className={`color-swatch${color === value ? ' is-active' : ''}`}
             style={{ backgroundColor: color }}
             title={color}
-            aria-label={`背景色 ${color}`}
+            aria-label={t('background.swatchAria', { color })}
             aria-pressed={color === value}
             onClick={() => selectSwatch(color)}
           />
@@ -401,7 +424,7 @@ function BackgroundColorField({ value, onChange }) {
           className="color-picker__area"
           style={{ backgroundColor: `hsl(${hsv.h}, 100%, 50%)` }}
           role="slider"
-          aria-label="背景色饱和度与亮度"
+          aria-label={t('background.saturationAria')}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(hsv.v * 100)}
@@ -420,7 +443,7 @@ function BackgroundColorField({ value, onChange }) {
         <div
           className="color-picker__hue"
           role="slider"
-          aria-label="背景色色相"
+          aria-label={t('background.hueAria')}
           aria-valuemin={0}
           aria-valuemax={359}
           aria-valuenow={Math.round(hsv.h)}
@@ -446,7 +469,7 @@ function BackgroundColorField({ value, onChange }) {
           value={draft}
           maxLength={7}
           spellCheck={false}
-          aria-label="背景色十六进制值"
+          aria-label={t('background.hexAria')}
           onChange={(event) => {
             const next = event.currentTarget.value
             setDraft(next)
@@ -489,6 +512,9 @@ export default function SettingsDrawer({
   recommendedView,
   recordedViews = {},
   onRecordView,
+  language,
+  onLanguageChange,
+  t,
 }) {
   const [copyState, setCopyState] = useState('idle')
   const [recordState, setRecordState] = useState('idle')
@@ -616,43 +642,73 @@ export default function SettingsDrawer({
       className={`playback-inspector${open ? ' is-open' : ''}`}
       inert={open ? undefined : ''}
       aria-hidden={!open}
-      aria-label="播放设置"
+      aria-label={t('drawer.title')}
     >
       <header className="inspector-header">
         <div>
-          <p className="inspector-eyebrow">Playback</p>
-          <h2 className="inspector-title">播放设置</h2>
+          <p className="inspector-eyebrow">{t('drawer.eyebrow')}</p>
+          <h2 className="inspector-title">{t('drawer.title')}</h2>
         </div>
         <button
           type="button"
           className="viewer-button viewer-button--ghost"
           onClick={onClose}
         >
-          收起
+          {t('drawer.collapse')}
         </button>
       </header>
 
       <section className="inspector-section">
-        <span className="inspector-section__title">模型</span>
+        <span className="inspector-section__title">{t('drawer.language')}</span>
+        <select
+          className="language-select"
+          value={language}
+          aria-label={t('drawer.language')}
+          onChange={(event) => onLanguageChange(event.currentTarget.value)}
+        >
+          {LANGUAGES.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.label}
+            </option>
+          ))}
+        </select>
+      </section>
+
+      <section className="inspector-section">
+        <span className="inspector-section__title">{t('drawer.model')}</span>
         <ModelSelect
           models={models}
           value={selectedModelId}
           onChange={onModelChange}
           active={open}
+          t={t}
         />
-        <p className="inspector-hint">
-          当前包内 {models.length} 个模型；支持拼音首字母或全拼搜索，例如海皇波塞冬搜
-          hhbsd，赫拉搜 hl 或 hela。刷新后默认第一个。
-        </p>
+        <div className="inspector-model-hints">
+          <p className="inspector-hint">
+            {t('drawer.modelHint', { count: models.length })}
+          </p>
+          <p className="inspector-hint">
+            {t('drawer.modelDeployHint')}{' '}
+            <a
+              href="https://github.com/mikoberry/anime-model-viewer"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('drawer.modelSource')}
+            </a>
+          </p>
+          <p className="inspector-hint">{t('drawer.modelUpdateHint')}</p>
+        </div>
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-section__title">动画</span>
+        <span className="inspector-section__title">{t('drawer.animation')}</span>
         <AnimationSelect
           animations={animations}
           value={currentAnimation}
           onChange={onAnimationChange}
           active={open}
+          t={t}
         />
         <label className="toggle-row">
           <input
@@ -660,37 +716,43 @@ export default function SettingsDrawer({
             checked={settings.clickToAction}
             onChange={(event) => onChange({ clickToAction: event.currentTarget.checked })}
           />
-          <span>点击画面触发 action</span>
+          <span>{t('clickAction.label')}</span>
         </label>
-        <p className="inspector-hint">
-          选择后立即播放；action 播放一次后回到 idle。取消勾选后点击画面不会触发 action。
-        </p>
+        <p className="inspector-hint">{t('drawer.animationHint')}</p>
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-section__title">画面变换</span>
+        <span className="inspector-section__title">{t('drawer.transform')}</span>
 
-        <p className="inspector-note">
-          Wallpaper Engine 中滑块拖动可能失效，请直接点击轨道对应位置进行设置。
+        <p className="inspector-note" aria-label={t('transform.noteLabel')}>
+          {t('drawer.transformHint')}
         </p>
 
         <div className="reset-row">
           <button
             type="button"
             className="reset-button"
-            title="100% · X 0% · Y 0%"
+            title={t('reset.initialTitle')}
             onClick={() => resetView({ scale: 1, positionX: 0, positionY: 0 })}
           >
-            初始 100 / 0 / 0
+            {t('reset.initial')}
           </button>
           <button
             type="button"
             className="reset-button"
-            title={`${Math.round(recommendedView.scale * 100)}% · X ${recommendedView.positionX}% · Y ${recommendedView.positionY}% · ${recommendedView.backgroundColor}`}
+            title={t('reset.recommendedTitle', {
+              scale: Math.round(recommendedView.scale * 100),
+              x: recommendedView.positionX,
+              y: recommendedView.positionY,
+              bg: recommendedView.backgroundColor,
+            })}
             onClick={() => resetView(recommendedView)}
           >
-            推荐 {Math.round(recommendedView.scale * 100)} / {recommendedView.positionX} /{' '}
-            {recommendedView.positionY}
+            {t('reset.recommended', {
+              scale: Math.round(recommendedView.scale * 100),
+              x: recommendedView.positionX,
+              y: recommendedView.positionY,
+            })}
           </button>
         </div>
 
@@ -701,10 +763,10 @@ export default function SettingsDrawer({
           onClick={recordCurrentView}
         >
           {recordState === 'recorded'
-            ? '已记录当前视图'
+            ? t('record.recorded')
             : recordState === 'error'
-              ? '记录失败'
-              : '记录当前视图'}
+              ? t('record.error')
+              : t('record.idle')}
         </button>
 
         <button
@@ -714,23 +776,22 @@ export default function SettingsDrawer({
           onClick={copyAllViews}
         >
           {copyState === 'copied'
-            ? `已复制全部 ${recordedCount} 个模型`
+            ? t('copy.copied', { count: recordedCount })
             : copyState === 'error'
-              ? '复制失败'
-              : `复制全部视图（${recordedCount}）`}
+              ? t('copy.error')
+              : t('copy.idle', { count: recordedCount })}
         </button>
-        <p className="inspector-hint">
-          调整好后点击“记录当前视图”；“复制全部视图”只复制已记录的模型。
-        </p>
+        <p className="inspector-hint">{t('drawer.recordHint')}</p>
 
         <div className="inspector-field">
           <div className="inspector-field inspector-field--split">
-            <span className="inspector-field__label">缩放</span>
+            <span className="inspector-field__label">{t('field.scale')}</span>
             <StepControl
-              label="缩放"
+              label={t('field.scale')}
               onStep={(delta) => setScalePercent(scalePercent + delta)}
               canDecrease={scalePercent > MIN_SCALE * 100}
               canIncrease={scalePercent < MAX_SCALE * 100}
+              t={t}
             >
               <label className="scale-input">
                 <input
@@ -740,7 +801,7 @@ export default function SettingsDrawer({
                   max={MAX_SCALE * 100}
                   step={1}
                   value={scaleInput}
-                  aria-label="缩放百分比"
+                  aria-label={t('field.scalePercentAria')}
                   onChange={(event) => setScaleInput(event.currentTarget.value)}
                   onBlur={commitScaleInput}
                   onKeyDown={(event) => {
@@ -759,7 +820,7 @@ export default function SettingsDrawer({
             min={MIN_SCALE}
             max={MAX_SCALE}
             step={0.01}
-            label="动画缩放"
+            label={t('field.scaleSliderAria')}
             valueText={`${Math.round(settings.scale * 100)}%`}
             onChange={(scale) => onChange({ scale })}
           />
@@ -767,12 +828,13 @@ export default function SettingsDrawer({
 
         <div className="inspector-field">
           <div className="inspector-field inspector-field--split">
-            <span className="inspector-field__label">水平位置</span>
+            <span className="inspector-field__label">{t('field.positionX')}</span>
             <StepControl
-              label="水平位置"
+              label={t('field.positionX')}
               onStep={(delta) => stepPosition('positionX', delta, setPositionXInput)}
               canDecrease={Math.round(settings.positionX) > -POSITION_LIMIT}
               canIncrease={Math.round(settings.positionX) < POSITION_LIMIT}
+              t={t}
             >
               <label className="scale-input">
                 <input
@@ -782,7 +844,7 @@ export default function SettingsDrawer({
                   max={POSITION_LIMIT}
                   step={1}
                   value={positionXInput}
-                  aria-label="水平位置百分比"
+                  aria-label={t('field.positionXAria')}
                   onChange={(event) => setPositionXInput(event.currentTarget.value)}
                   onBlur={() =>
                     commitPositionInput('positionX', positionXInput, setPositionXInput)
@@ -803,7 +865,7 @@ export default function SettingsDrawer({
             min={-POSITION_LIMIT}
             max={POSITION_LIMIT}
             step={1}
-            label="水平位置"
+            label={t('field.positionX')}
             valueText={formatOffset(settings.positionX)}
             onChange={(positionX) => onChange({ positionX })}
           />
@@ -811,12 +873,13 @@ export default function SettingsDrawer({
 
         <div className="inspector-field">
           <div className="inspector-field inspector-field--split">
-            <span className="inspector-field__label">垂直位置</span>
+            <span className="inspector-field__label">{t('field.positionY')}</span>
             <StepControl
-              label="垂直位置"
+              label={t('field.positionY')}
               onStep={(delta) => stepPosition('positionY', delta, setPositionYInput)}
               canDecrease={Math.round(settings.positionY) > -POSITION_LIMIT}
               canIncrease={Math.round(settings.positionY) < POSITION_LIMIT}
+              t={t}
             >
               <label className="scale-input">
                 <input
@@ -826,7 +889,7 @@ export default function SettingsDrawer({
                   max={POSITION_LIMIT}
                   step={1}
                   value={positionYInput}
-                  aria-label="垂直位置百分比"
+                  aria-label={t('field.positionYAria')}
                   onChange={(event) => setPositionYInput(event.currentTarget.value)}
                   onBlur={() =>
                     commitPositionInput('positionY', positionYInput, setPositionYInput)
@@ -847,43 +910,40 @@ export default function SettingsDrawer({
             min={-POSITION_LIMIT}
             max={POSITION_LIMIT}
             step={1}
-            label="垂直位置"
+            label={t('field.positionY')}
             valueText={formatOffset(settings.positionY)}
             onChange={(positionY) => onChange({ positionY })}
           />
         </div>
 
-        <p className="inspector-hint">
-          缩放范围 50%–500%，位置范围 -100%–100%。
-        </p>
+        <p className="inspector-hint">{t('drawer.rangeHint')}</p>
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-section__title">页面背景色</span>
+        <span className="inspector-section__title">{t('drawer.background')}</span>
         <BackgroundColorField
           value={settings.backgroundColor}
           onChange={(backgroundColor) => onChange({ backgroundColor })}
+          t={t}
         />
-        <p className="inspector-hint">
-          显示在透明区域和缩放后的留白处；可直接输入 #RRGGBB。
-        </p>
+        <p className="inspector-hint">{t('drawer.backgroundHint')}</p>
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-section__title">调试</span>
+        <span className="inspector-section__title">{t('drawer.debug')}</span>
         <label className="toggle-row">
           <input
             type="checkbox"
             checked={debugOpen}
             onChange={(event) => onDebugChange(event.currentTarget.checked)}
           />
-          <span>显示调试信息</span>
+          <span>{t('debug.show')}</span>
         </label>
         <p
           className={`inspector-hint${isError ? ' is-error' : ''}`}
           title={status}
         >
-          当前状态：{status}
+          {t('debug.currentStatus', { status })}
         </p>
       </section>
     </aside>
