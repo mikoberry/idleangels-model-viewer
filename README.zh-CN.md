@@ -323,6 +323,7 @@ main.jsx
 - [Spine 3.8 与资源](docs/spine-runtime-and-assets.md)
 - [开发与验证](docs/development.md)
 - [设置字段参考](docs/settings-reference.md)
+- [Wallpaper Engine 能力参考](docs/wallpaper-engine.md)
 
 ## 验证
 

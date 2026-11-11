@@ -180,6 +180,7 @@ The detailed documentation is currently written in Chinese:
 - [Spine 3.8 and assets](docs/spine-runtime-and-assets.md)
 - [Development and verification](docs/development.md)
 - [Settings reference](docs/settings-reference.md)
+- [Wallpaper Engine capabilities](docs/wallpaper-engine.md)
 
 ## Notes
 
