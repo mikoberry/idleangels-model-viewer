@@ -10,11 +10,13 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - If a step stalls or times out, terminate it, inspect the output/logs, and continue with a smaller bounded check. Never wait for the user to interrupt.
 - Clean up background processes and temporary test dependencies before reporting completion.
 - Do not run Playwright/browser automation unless the user explicitly requests it. The user manually tests each change in Wallpaper Engine.
+- Do not run `npm run build`, `npm run build:we`, `npm run dev:all`, or any `npm run package:*` command after making changes unless the user explicitly asks for a build, packaging, or verification. Do not build speculatively; leave verification to the user unless requested.
 - If `npm run build` or `npm run build:we` fails with `spawn EPERM` from esbuild inside a restricted sandbox, rerun the exact command outside the sandbox. That is a sandbox pipe restriction, not a dependency or code fault; do not change dependencies to work around it.
 
 ## Commands
 
-- `npm run dev` — Vite dev server. Default `http://localhost:5173/`; Vite may choose another port if 5173 is occupied. There is no asset-sync step.
+- `npm run dev` — Vite dev server for the currently prepared `public/spine/models` package. Default `http://localhost:5173/`; Vite may choose another port if 5173 is occupied.
+- `npm run dev:all` — prepares all models (skips copying if the current package matches `model-library/models.json` and `model-presets.json`) and starts Vite. Extra arguments are passed to Vite.
 - `npm run build` — `vite build` only, writes `dist/`. There is no `tsc --noEmit`, no asset sync, and no test step. It must pass.
 - `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying the current `public/spine/models` content.
 - `npm run models:import` — scans `MODEL_SOURCE_DIR` (default `F:/live2d/IdleAngels/model-output`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
@@ -36,6 +38,9 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 
 - `model-library/` is the local source library and is gitignored. `public/spine/models/` is generated from it and is also gitignored; do not edit generated model assets by hand.
 - `model-library/models.json` is the raw library manifest. `public/spine/models/manifest.json` is generated per package and lists only the models included in that build.
+- `model-presets.json` (tracked) stores optional per-model `recommendedView` values: `scale`, `positionX`, `positionY`, optional `backgroundColor`. `scripts/prepare-models.mjs` merges it into the package manifest.
+- If a model has no preset, use `scale: 1`, `positionX: 0`, `positionY: 0`, `backgroundColor: '#000000'`. Do not hard-code a global recommended view in the UI.
+- A model's current view is recorded only when the user clicks “记录当前视图”; records live in `localStorage` under `spine-viewer:model-views:v1`. The “复制全部视图” button copies only recorded models as a ready-to-paste `model-presets.json` object. Do not auto-record on model switch or view change.
 - Current accepted model shape: `angel` + `bg`, exactly one `.skel`/`.atlas`/`.png` per layer, `idle` and `action` present. Models without `action`, without `bg`, NPC-only models, and malformed directories are intentionally skipped.
 - `scripts/import-models.mjs` imports eligible models and rescales atlas metadata in `scripts/prepare-models.mjs` so atlas `size` matches the actual PNG. Do not bypass that step.
 - Layers are `bg` then `angel`; each contains one skeleton, one atlas, and one PNG. File names are model-specific and may contain spaces or `+`; the stage encodes path segments.
@@ -46,11 +51,11 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 ## Architecture
 
 - `src/main.jsx` mounts `<App />`; React StrictMode is not used.
-- `src/App.jsx` loads `spine/models/manifest.json`, owns `viewSettings`, the selected model, `currentAnimation`, the drawer/debug UI, and the canvas. The Stage effect depends on the selected model, so switching models disposes and recreates the Stage.
+- `src/App.jsx` loads `spine/models/manifest.json`, owns `viewSettings`, the selected model, `currentAnimation`, the drawer/debug UI, and the canvas. The Stage effect depends on the selected model, so switching models disposes and recreates the Stage and applies the model's recommended view (or fallback).
 - `src/spineStage.js` is the imperative WebGL layer: dynamic layer list, context, renderer, asset managers, skeletons, animation state, camera, resize handling, rAF loop, action state machine, and resource disposal.
 - `src/SettingsDrawer.jsx` stays mounted; `.is-open` slides it in, and it is `inert` while closed. It contains the searchable model picker.
 - There is no edit/show mode and no URL state. Clicking the canvas triggers `action` whenever the drawer is closed and `clickToAction` is true.
-- Playback settings and the selected model are React state only; they are not persisted. The first model in the generated manifest is selected on every load. Only the eye-hint flag uses `localStorage`, under `spine-viewer:eye-hint:v1`.
+- Playback settings and the selected model are React state only; the first model in the generated manifest is selected on every load. Per-model view records are persisted separately under `spine-viewer:model-views:v1`; the eye-hint flag uses `spine-viewer:eye-hint:v1`. Do not treat the selected model itself as persisted.
 - The UI is intentionally chrome-less: full-screen canvas, no header/footer/card borders. Preserve the immersive layout.
 
 ## Non-obvious behavior

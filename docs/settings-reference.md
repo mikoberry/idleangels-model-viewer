@@ -6,13 +6,15 @@
 
 ```js
 const [viewSettings, setViewSettings] = useState({
-  scale: 2.4,
-  positionX: -30,
-  positionY: -27,
-  backgroundColor: '#06070d',
+  scale: 1,
+  positionX: 0,
+  positionY: 0,
+  backgroundColor: '#000000',
   clickToAction: true,
 })
 ```
+
+模型加载完成后，如果当前模型在 `model-presets.json` 里有推荐视图，会覆盖 `scale` / `positionX` / `positionY` / `backgroundColor`。
 
 当前模型和动画是独立 state：
 
@@ -35,7 +37,7 @@ spine-viewer:eye-hint:v1
 ### `scale`
 
 - 类型：`number`
-- 默认：`2.4`，即 240%
+- 默认：当前模型推荐值；没有推荐时 `1`（100%）
 - 范围：`0.5`–`5`，即 50%–500%
 - UI：
   - 滑杆步进 `0.01`
@@ -60,7 +62,7 @@ percent = round(scale × 100)
 ### `positionX`
 
 - 类型：`number`
-- 默认：`-30`
+- 默认：当前模型推荐值；没有推荐时 `0`
 - 范围：`-100`–`100`
 - 单位：视口宽度的百分比
 - App 传给 Stage 时除以 100：`positionX / 100`
@@ -75,7 +77,7 @@ percent = round(scale × 100)
 ### `positionY`
 
 - 类型：`number`
-- 默认：`-27`
+- 默认：当前模型推荐值；没有推荐时 `0`
 - 范围：`-100`–`100`
 - 单位：视口高度的百分比
 - App 传给 Stage 时除以 100：`positionY / 100`
@@ -90,7 +92,7 @@ percent = round(scale × 100)
 ### `backgroundColor`
 
 - 类型：`string`
-- 默认：`"#06070d"`
+- 默认：当前模型推荐背景色；没有推荐时 `"#000000"`
 - 格式：`#RRGGBB`（大小写不敏感，提交后转小写）
 - 校验：`/^#[0-9a-f]{6}$/i`
 - 用途：写到 `<main>` 的内联 `backgroundColor`
@@ -114,7 +116,7 @@ percent = round(scale × 100)
 - 初始值：`manifest.models[0].id`
 - 可选值：当前打包清单里的模型 id（目录名）
 - UI：设置抽屉顶部“Spine 模型”搜索选择器
-- 切换行为：dispose 旧 Stage，按新模型重新加载资源；保留缩放、位置、背景色、点击开关
+- 切换行为：dispose 旧 Stage，按新模型重新加载资源；应用该模型的推荐缩放/位置/背景色，没有推荐时回到 `100 / 0 / 0` + 黑色
 - 持久化：不持久化；刷新后总是第一个模型
 - 当前全模型包有 128 个可选模型
 
@@ -130,26 +132,50 @@ percent = round(scale × 100)
   - `action` → “动作 · action”
   - 其他动画名直接显示原名
 
-## 默认值汇总
+## 推荐视图 `recommendedView`
 
-```js
-{
-  scale: 2.4,
-  positionX: -30,
-  positionY: -27,
-  backgroundColor: '#06070d',
-  clickToAction: true,
+模型 manifest 里可以带：
+
+```json
+"recommendedView": {
+  "scale": 2.4,
+  "positionX": -30,
+  "positionY": -27,
+  "backgroundColor": "#06070d"
 }
 ```
 
-当前没有“恢复所有默认值”按钮。抽屉里只有两个**视图**复位按钮：
+- `scale` / `positionX` / `positionY`：推荐取景
+- `backgroundColor`：可选；没有时使用黑色 `#000000`
+- 数据来源：仓库根目录的 `model-presets.json`
+- `scripts/prepare-models.mjs` 会把它合并进当前包的 manifest
+- 在“画面变换”区域点击“记录当前视图”，才会把该模型写入 `localStorage`；点击“复制全部视图”只复制已记录模型，可直接粘贴到 `model-presets.json`
+
+## 默认值汇总
+
+```js
+// 有推荐
+{ ...model.recommendedView }
+
+// 没有推荐
+{
+  scale: 1,
+  positionX: 0,
+  positionY: 0,
+  backgroundColor: '#000000',
+}
+```
+
+抽屉里的视图按钮：
 
 | 按钮 | 效果 |
 | --- | --- |
 | 初始 100 / 0 / 0 | `scale = 1`、`positionX = 0`、`positionY = 0` |
-| 推荐 240 / -30 / -27 | `scale = 2.4`、`positionX = -30`、`positionY = -27` |
+| 推荐 … | 应用当前模型的 `recommendedView`，包含背景色 |
+| 记录当前视图 | 把当前模型 + 当前缩放/位置/背景色写入 localStorage |
+| 复制全部视图 | 只复制所有已记录模型的 JSON |
 
-这两个按钮不会修改背景色或 `clickToAction`。
+“初始”只改缩放和位置；“推荐”会同时应用推荐背景色。
 
 ## 持久化
 
@@ -159,7 +185,11 @@ percent = round(scale × 100)
 - 刷新页面后播放设置恢复默认值，并重新选中清单第一个模型。
 - 没有 `spine-viewer:playback:v1` 或其他播放设置存储 key。
 - 没有 `sanitizeSettings` / 版本迁移逻辑。
-- 唯一写入 `localStorage` 的是眼睛提示：
+- 每个模型的当前视图会写入 `localStorage`：
+  ```text
+  spine-viewer:model-views:v1
+  ```
+- 眼睛提示使用单独的 key：
 
   ```text
   spine-viewer:eye-hint:v1

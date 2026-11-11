@@ -54,7 +54,10 @@ function assetPrefix(basePath) {
 }
 
 function encodeAssetPath(file) {
-  return file.split('/').map((part) => encodeURIComponent(part)).join('/')
+  return file
+    .split('/')
+    .map((part) => encodeURIComponent(part).replace(/%2B/g, '+'))
+    .join('/')
 }
 
 export async function startSpineStage(

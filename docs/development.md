@@ -28,7 +28,8 @@ Vite 在端口被占用时会自动选择下一个可用端口，以终端输出
 
 | 命令 | 行为 |
 | --- | --- |
-| `npm run dev` | 启动 Vite 开发服务器，默认 `5173` |
+| `npm run dev` | 启动 Vite 开发服务器，默认 `5173`；使用当前已准备的模型包 |
+| `npm run dev:all` | 准备全部模型（已准备好时跳过）后启动 Vite |
 | `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制 |
 | `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
 | `npm run models:import` | 扫描源目录，导入合格模型到 `model-library/` |
@@ -102,6 +103,7 @@ public/spine/models/     # 当前包，忽略
 ```bash
 npm run models:import
 npm run models:use -- spine_hhbsd_bdmy,spine_abl0
+npm run dev:all       # 准备全部模型并启动 dev
 npm run build
 npm run package:model -- spine_hhbsd_bdmy
 npm run package:all
@@ -109,6 +111,8 @@ npm run package:all
 
 - `models:import` 只导入“有 `action` + `angel` + `bg` + 单套资源”的模型；当前 128 个。
 - `models:use` / `package:*` 会按 PNG 实际尺寸重写 atlas。
+- `model-presets.json` 存每个模型的推荐缩放/位置/可选背景；没有配置时回退到 `100 / 0 / 0` + 黑色。
+- 点击“记录当前视图”才会把该模型写入 localStorage；画面变换里的“复制全部视图”只复制已记录模型，粘贴到 `model-presets.json` 后重新准备模型。
 - 模型选择不持久化，刷新后默认清单第一个。
 - `package:all` 约 731 MB，构建和复制都会明显变慢。
 
@@ -148,6 +152,9 @@ npm run package:all
 
 - [ ] 抽屉里能搜索模型，默认选中第一个
 - [ ] 切换模型后 canvas 重载，不残留上一个模型的动画/贴图
+- [ ] 有推荐配置的模型应用推荐缩放/位置/背景；没有推荐时回到 100/0/0 + 黑色
+- [ ] “记录当前视图”只在点击时写入；切换模型不会自动记录
+- [ ] “推荐”和“复制全部视图”按钮正常，记录能恢复
 - [ ] 两个图层都能显示，顺序为 `bg` 在下、`angel` 在上
 - [ ] 启动后播放 `idle`
 - [ ] 动画下拉框可以选择 `idle` / `action`
@@ -159,16 +166,16 @@ npm run package:all
 - [ ] 两个视图复位按钮恢复 100/0/0 和 240/-30/-27
 - [ ] 背景色即时生效，透明区域显示该颜色
 - [ ] 眼睛提示首次出现，点击“我知道了”后不再出现
-- [ ] `log` 按钮能展开/收起调试面板
+- [ ] 设置抽屉里的“显示调试信息”能控制左上角调试窗口的显示/隐藏
 - [ ] 移动端宽度下抽屉占满宽度
 - [ ] 刷新后播放设置恢复默认值，并回到第一个模型（当前版本不持久化）
 - [ ] 浏览器控制台无资源 404、WebGL 错误或未捕获异常
 
 ## 调试
 
-### log 面板
+### 调试面板
 
-左上角 `log` 按钮可以展开调试面板，内容包括：
+在设置抽屉的“调试”区域勾选“显示调试信息”，左上角会显示调试面板，内容包括：
 
 - 运行环境（Wallpaper Engine / 浏览器）
 - 浏览器版本
@@ -180,7 +187,7 @@ npm run package:all
 - WE API 检测结果
 - 页面 URL、User Agent
 
-面板在打开时和窗口 resize 时更新。错误状态会反映在 `log` 按钮的颜色和 `title` 上；当前没有全屏错误遮罩。
+面板在勾选后和窗口 resize 时更新。错误状态显示在面板顶部“状态”行和抽屉状态行里；当前没有全屏错误遮罩。
 
 ### canvas 数据属性
 

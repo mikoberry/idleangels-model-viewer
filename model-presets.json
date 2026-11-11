@@ -1,0 +1,38 @@
+{
+  "spine_hhbsd_bdmy": {
+    "scale": 2.4,
+    "positionX": -30,
+    "positionY": -27,
+    "backgroundColor": "#06070d"
+  },
+  "spine_hl_cshs": {
+    "scale": 2,
+    "positionX": 0,
+    "positionY": 2,
+    "backgroundColor": "#000000"
+  },
+  "spine_hls_my": {
+    "scale": 3,
+    "positionX": 0,
+    "positionY": 0,
+    "backgroundColor": "#000000"
+  },
+  "spine_bmh_cshs": {
+    "scale": 3.21,
+    "positionX": 5,
+    "positionY": -4,
+    "backgroundColor": "#000000"
+  },
+  "spine_bmh_mr": {
+    "scale": 2.41,
+    "positionX": 0,
+    "positionY": -34,
+    "backgroundColor": "#06070d"
+  },
+  "spine_smzpdl_np": {
+    "scale": 1.75,
+    "positionX": 0,
+    "positionY": 0,
+    "backgroundColor": "#000000"
+  }
+}

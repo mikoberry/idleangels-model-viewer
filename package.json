@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:all": "node scripts/dev-all.mjs",
     "build": "vite build",
     "build:we": "npm run build && node scripts/copy-to-we.mjs",
     "models:import": "node scripts/import-models.mjs",

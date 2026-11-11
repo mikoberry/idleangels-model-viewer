@@ -3,6 +3,7 @@ import SettingsDrawer from './SettingsDrawer.jsx'
 import { startSpineStage } from './spineStage.js'
 
 const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
+const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 
 function hasSeenEyeHint() {
   try {
@@ -17,6 +18,79 @@ function markEyeHintSeen() {
     window.localStorage.setItem(EYE_HINT_KEY, '1')
   } catch {
     return
+  }
+}
+
+function loadModelViews() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(MODEL_VIEWS_KEY) ?? '{}')
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+
+    const views = {}
+    for (const [id, view] of Object.entries(value)) {
+      if (!view || typeof view !== 'object') continue
+      if (
+        !Number.isFinite(view.scale) ||
+        !Number.isFinite(view.positionX) ||
+        !Number.isFinite(view.positionY)
+      ) {
+        continue
+      }
+
+      views[id] = {
+        scale: view.scale,
+        positionX: view.positionX,
+        positionY: view.positionY,
+        ...(typeof view.backgroundColor === 'string' &&
+        /^#[0-9a-f]{6}$/i.test(view.backgroundColor)
+          ? { backgroundColor: view.backgroundColor.toLowerCase() }
+          : {}),
+      }
+    }
+    return views
+  } catch {
+    return {}
+  }
+}
+
+function saveModelViews(views) {
+  try {
+    window.localStorage.setItem(MODEL_VIEWS_KEY, JSON.stringify(views))
+  } catch {
+    return
+  }
+}
+
+function isWallpaperEngineEnvironment() {
+  return (
+    Boolean(window.wallpaperPropertyListener) ||
+    typeof window.wallpaperRegisterAudioListener === 'function' ||
+    /wallpaper[\s_-]*engine/i.test(navigator.userAgent)
+  )
+}
+
+const DEFAULT_MODEL_VIEW = {
+  scale: 1,
+  positionX: 0,
+  positionY: 0,
+  backgroundColor: '#000000',
+}
+
+function recommendedViewFor(model) {
+  const view = model?.recommendedView ?? {}
+  return {
+    scale: Number.isFinite(view.scale) ? view.scale : DEFAULT_MODEL_VIEW.scale,
+    positionX: Number.isFinite(view.positionX)
+      ? view.positionX
+      : DEFAULT_MODEL_VIEW.positionX,
+    positionY: Number.isFinite(view.positionY)
+      ? view.positionY
+      : DEFAULT_MODEL_VIEW.positionY,
+    backgroundColor:
+      typeof view.backgroundColor === 'string' &&
+      /^#[0-9a-f]{6}$/i.test(view.backgroundColor)
+        ? view.backgroundColor.toLowerCase()
+        : DEFAULT_MODEL_VIEW.backgroundColor,
   }
 }
 
@@ -119,7 +193,8 @@ export default function App() {
   const stageRef = useRef(null)
   const [status, setStatus] = useState('正在启动 React 外壳…')
   const [isError, setIsError] = useState(false)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const inWallpaperEngine = isWallpaperEngineEnvironment()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(() => !inWallpaperEngine)
   const [showEyeHint, setShowEyeHint] = useState(() => !hasSeenEyeHint())
   const [debugOpen, setDebugOpen] = useState(false)
   const [debugInfo, setDebugInfo] = useState([])
@@ -129,16 +204,32 @@ export default function App() {
   const [selectedModelId, setSelectedModelId] = useState(null)
   const selectedModel =
     models.find((model) => model.id === selectedModelId) ?? models[0] ?? null
-  const [viewSettings, setViewSettings] = useState({
-    scale: 2.4,
-    positionX: -30,
-    positionY: -27,
-    backgroundColor: '#06070d',
+  const currentRecommendedView = recommendedViewFor(selectedModel)
+  const [viewSettings, setViewSettings] = useState(() => ({
+    ...DEFAULT_MODEL_VIEW,
     clickToAction: true,
-  })
+  }))
+  const [recordedViews, setRecordedViews] = useState(loadModelViews)
+  const modelViewsRef = useRef(recordedViews)
 
-  const viewSettingsRef = useRef(viewSettings)
-  viewSettingsRef.current = viewSettings
+  const recordModelView = (id, view) => {
+    if (!id) return false
+
+    const next = {
+      ...modelViewsRef.current,
+      [id]: {
+        scale: view.scale,
+        positionX: view.positionX,
+        positionY: view.positionY,
+        backgroundColor: view.backgroundColor,
+      },
+    }
+
+    modelViewsRef.current = next
+    setRecordedViews(next)
+    saveModelViews(next)
+    return true
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -208,11 +299,19 @@ export default function App() {
         setCurrentAnimation((name) =>
           stage.animations.includes(name) ? name : (stage.animations[0] ?? 'idle'),
         )
-        const current = viewSettingsRef.current
+        const recorded = modelViewsRef.current[selectedModel.id]
+        const initialView = recorded
+          ? { ...currentRecommendedView, ...recorded }
+          : currentRecommendedView
+
+        setViewSettings((current) => ({
+          ...current,
+          ...initialView,
+        }))
         stage.setView(
-          current.scale,
-          current.positionX / 100,
-          current.positionY / 100,
+          initialView.scale,
+          initialView.positionX / 100,
+          initialView.positionY / 100,
         )
         disposeStage = stage.dispose
       })
@@ -276,6 +375,11 @@ export default function App() {
     setSelectedModelId(id)
   }
 
+  const handleRecordView = () => {
+    if (!selectedModel) return false
+    return recordModelView(selectedModel.id, viewSettings)
+  }
+
   const handleCanvasPointerUp = (event) => {
     if (isDrawerOpen || !viewSettings.clickToAction) return
     if (event.pointerType === 'mouse' && event.button !== 0) return
@@ -292,28 +396,18 @@ export default function App() {
         className="viewer__canvas"
         onPointerUp={handleCanvasPointerUp}
       />
-      <div className="debug-hud">
-        <button
-          type="button"
-          className={`viewer__status${isError ? ' is-error' : ''}`}
-          onClick={() => setDebugOpen((open) => !open)}
-          aria-expanded={debugOpen}
-          aria-controls="debug-panel"
-          title={status}
-        >
-          <span>log</span>
-          <span
-            className={`viewer__status-chevron${debugOpen ? ' is-open' : ''}`}
-            aria-hidden="true"
-          />
-        </button>
-        {debugOpen && (
-          <section id="debug-panel" className="debug-panel" aria-label="log">
+      {debugOpen && (
+        <div className="debug-hud">
+          <section id="debug-panel" className="debug-panel" aria-label="调试信息">
             <header className="debug-panel__header">
-              <span className="debug-panel__title">log</span>
-              <span className="debug-panel__hint">再次点击状态栏收起</span>
+              <span className="debug-panel__title">调试信息</span>
+              <span className="debug-panel__hint">可在播放设置中关闭</span>
             </header>
             <dl className="debug-panel__list">
+              <div className={`debug-panel__row${isError ? ' is-error' : ''}`}>
+                <dt>状态</dt>
+                <dd>{status}</dd>
+              </div>
               {debugInfo.map(({ label, value }) => (
                 <div className="debug-panel__row" key={label}>
                   <dt>{label}</dt>
@@ -322,8 +416,8 @@ export default function App() {
               ))}
             </dl>
           </section>
-        )}
-      </div>
+        </div>
+      )}
       {isDrawerOpen && (
         <div
           className="inspector-backdrop"
@@ -357,7 +451,7 @@ export default function App() {
           <circle cx="12" cy="12" r="3" />
         </svg>
       </button>
-      {showEyeHint && !isDrawerOpen && (
+      {showEyeHint && (
         <aside className="eye-hint" role="status">
           <p className="eye-hint__text">点击小眼睛可以打开设置</p>
           <button
@@ -381,6 +475,14 @@ export default function App() {
         models={models}
         selectedModelId={selectedModel?.id ?? ''}
         onModelChange={handleModelChange}
+        debugOpen={debugOpen}
+        onDebugChange={setDebugOpen}
+        status={status}
+        isError={isError}
+        modelId={selectedModel?.id ?? ''}
+        recommendedView={currentRecommendedView}
+        recordedViews={recordedViews}
+        onRecordView={handleRecordView}
       />
     </main>
   )

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 export const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 export const libraryDir = path.join(rootDir, 'model-library')
 export const libraryManifestPath = path.join(libraryDir, 'models.json')
+export const presetsPath = path.join(rootDir, 'model-presets.json')
 export const publicModelsDir = path.join(rootDir, 'public', 'spine', 'models')
 export const publicManifestPath = path.join(publicModelsDir, 'manifest.json')
 export const defaultSourceDir =

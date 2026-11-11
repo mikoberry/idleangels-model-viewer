@@ -15,7 +15,7 @@ index.html
             ├─ <SettingsDrawer />  // 模型选择 + 播放设置
             ├─ 眼睛按钮 / 提示气泡
             ├─ <main style={{ backgroundColor }} />
-            └─ 左上角 log 调试面板
+            └─ 左上角调试面板（由抽屉开关控制）
 ```
 
 核心原则：
@@ -46,7 +46,7 @@ index.html
   - `viewSettings`
 - 挂载后 fetch `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })`；切换模型会先 dispose 旧 Stage。
-- 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用一次初始视图。
+- 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
 - 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
 - 把 `backgroundColor` 写到 `<main>` 的内联样式。
 - 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
@@ -260,7 +260,7 @@ SettingsDrawer 模型选择
   → App.selectedModelId
   → stage effect cleanup：dispose 旧 Stage
   → startSpineStage(canvas, { model: 新模型 })
-  → 新 Stage ready 后重新应用 viewSettings
+  → 新 Stage ready 后应用该模型已记录的视图（无记录则 recommendedView，再无则 100/0/0 + 黑色）
 ```
 
 ```text
@@ -311,7 +311,7 @@ localStorage key: spine-viewer:eye-hint:v1
 | 元素 | z-index | 说明 |
 | --- | --- | --- |
 | canvas | 默认 | 全屏画面 |
-| `.debug-hud` | 4 | 左上角 `log` 按钮和调试面板 |
+| `.debug-hud` | 4 | 左上角调试面板（可开关） |
 | `.inspector-backdrop` | 15 | 抽屉打开时的透明点击层 |
 | `.playback-inspector` | 20 | 右侧设置抽屉 |
 | `.viewer__settings-button` | 30 | 右下角眼睛按钮 |
@@ -324,7 +324,7 @@ localStorage key: spine-viewer:eye-hint:v1
 - 抽屉关闭时点击 canvas 触发 `action`（如果开关开启）。
 - 抽屉打开时 canvas 被 backdrop 覆盖，点击只会关闭抽屉，不会触发 `action`。
 - 没有 `Esc` 快捷键。
-- 调试面板只在 `log` 按钮展开时更新；窗口 resize 时刷新。
+- 调试面板由设置抽屉里的“显示调试信息”开关控制；勾选后显示并更新，窗口 resize 时刷新。
 
 ## 已知限制与取舍
 
@@ -336,7 +336,7 @@ localStorage key: spine-viewer:eye-hint:v1
 - **无包围盒调试**：没有逐层 bounds 绘制。
 - **高 DPI 偏软**：canvas 未按 DPR 放大。
 - **加载无超时**：`waitForLoad` 每 50ms 轮询，没有超时。
-- **错误提示弱**：错误只显示在 `log` 按钮的 `title`/颜色里。
+- **错误提示弱**：错误显示在抽屉状态行和调试面板里，没有全屏错误遮罩。
 - **构建与部署**：`npm run build` 只写 `dist/`；`npm run build:we` 再调用 `scripts/copy-to-we.mjs` 替换 WE 目标目录；`dist/` 被 git 忽略。
 - **无类型检查**：纯 JS，`vite build` 不会做类型检查。
 - **沉浸式 UI**：不引入页头、页脚或卡片边框；设置以抽屉形式按需出现。

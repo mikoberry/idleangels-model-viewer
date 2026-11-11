@@ -141,10 +141,7 @@ function ModelSelect({ models, value, onChange, active }) {
   }, [active])
 
   useEffect(() => {
-    if (!menuOpen) {
-      setQuery('')
-      return undefined
-    }
+    if (!menuOpen) return undefined
 
     function handlePointerDown(event) {
       if (!rootRef.current?.contains(event.target)) setMenuOpen(false)
@@ -164,9 +161,25 @@ function ModelSelect({ models, value, onChange, active }) {
     }
   }, [menuOpen])
 
-  const normalizedQuery = query.trim().toLowerCase()
+  const normalizedQuery = query.trim().toLowerCase().replace(/[\s_-]+/g, '')
   const filteredModels = normalizedQuery
-    ? models.filter((model) => model.label.toLowerCase().includes(normalizedQuery))
+    ? models.filter((model) => {
+        const searchText = [
+          model.id,
+          model.label,
+          ...(model.layers ?? []).flatMap((layer) => [
+            layer.skeleton,
+            layer.atlas,
+            layer.texture,
+          ]),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+          .replace(/[\s_-]+/g, '')
+
+        return searchText.includes(normalizedQuery)
+      })
     : models
 
   return (
@@ -468,7 +481,17 @@ export default function SettingsDrawer({
   models,
   selectedModelId,
   onModelChange,
+  debugOpen,
+  onDebugChange,
+  status,
+  isError,
+  modelId,
+  recommendedView,
+  recordedViews = {},
+  onRecordView,
 }) {
+  const [copyState, setCopyState] = useState('idle')
+  const [recordState, setRecordState] = useState('idle')
   const [scaleInput, setScaleInput] = useState(() =>
     String(Math.round(settings.scale * 100)),
   )
@@ -552,7 +575,40 @@ export default function SettingsDrawer({
     onChange(next)
   }
 
+  function recordCurrentView() {
+    const recorded = onRecordView?.() ?? false
+    setRecordState(recorded ? 'recorded' : 'error')
+    window.setTimeout(() => setRecordState('idle'), 2000)
+  }
+
+  async function copyAllViews() {
+    const text = JSON.stringify(recordedViews, null, 2)
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text)
+      } else {
+        const textarea = document.createElement('textarea')
+        textarea.value = text
+        textarea.style.position = 'fixed'
+        textarea.style.opacity = '0'
+        document.body.appendChild(textarea)
+        textarea.select()
+        const copied = document.execCommand('copy')
+        textarea.remove()
+        if (!copied) throw new Error('copy failed')
+      }
+
+      setCopyState('copied')
+    } catch {
+      setCopyState('error')
+    }
+
+    window.setTimeout(() => setCopyState('idle'), 2000)
+  }
+
   const scalePercent = Math.round(settings.scale * 100)
+  const recordedCount = Object.keys(recordedViews).length
 
   return (
     <aside
@@ -577,7 +633,7 @@ export default function SettingsDrawer({
       </header>
 
       <section className="inspector-section">
-        <span className="inspector-field__label">Spine 模型</span>
+        <span className="inspector-section__title">模型</span>
         <ModelSelect
           models={models}
           value={selectedModelId}
@@ -585,12 +641,13 @@ export default function SettingsDrawer({
           active={open}
         />
         <p className="inspector-hint">
-          当前包内 {models.length} 个模型；刷新后默认第一个。
+          当前包内 {models.length} 个模型；支持拼音首字母或全拼搜索，例如海皇波塞冬搜
+          hhbsd，赫拉搜 hl 或 hela。刷新后默认第一个。
         </p>
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-field__label">Spine 动画</span>
+        <span className="inspector-section__title">动画</span>
         <AnimationSelect
           animations={animations}
           value={currentAnimation}
@@ -611,10 +668,59 @@ export default function SettingsDrawer({
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-field__label">画面变换</span>
+        <span className="inspector-section__title">画面变换</span>
 
         <p className="inspector-note">
           Wallpaper Engine 中滑块拖动可能失效，请直接点击轨道对应位置进行设置。
+        </p>
+
+        <div className="reset-row">
+          <button
+            type="button"
+            className="reset-button"
+            title="100% · X 0% · Y 0%"
+            onClick={() => resetView({ scale: 1, positionX: 0, positionY: 0 })}
+          >
+            初始 100 / 0 / 0
+          </button>
+          <button
+            type="button"
+            className="reset-button"
+            title={`${Math.round(recommendedView.scale * 100)}% · X ${recommendedView.positionX}% · Y ${recommendedView.positionY}% · ${recommendedView.backgroundColor}`}
+            onClick={() => resetView(recommendedView)}
+          >
+            推荐 {Math.round(recommendedView.scale * 100)} / {recommendedView.positionX} /{' '}
+            {recommendedView.positionY}
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className={`copy-view-button record-view-button${recordState === 'error' ? ' is-error' : ''}`}
+          disabled={!modelId}
+          onClick={recordCurrentView}
+        >
+          {recordState === 'recorded'
+            ? '已记录当前视图'
+            : recordState === 'error'
+              ? '记录失败'
+              : '记录当前视图'}
+        </button>
+
+        <button
+          type="button"
+          className={`copy-view-button${copyState === 'error' ? ' is-error' : ''}`}
+          disabled={recordedCount === 0}
+          onClick={copyAllViews}
+        >
+          {copyState === 'copied'
+            ? `已复制全部 ${recordedCount} 个模型`
+            : copyState === 'error'
+              ? '复制失败'
+              : `复制全部视图（${recordedCount}）`}
+        </button>
+        <p className="inspector-hint">
+          调整好后点击“记录当前视图”；“复制全部视图”只复制已记录的模型。
         </p>
 
         <div className="inspector-field">
@@ -657,25 +763,6 @@ export default function SettingsDrawer({
             valueText={`${Math.round(settings.scale * 100)}%`}
             onChange={(scale) => onChange({ scale })}
           />
-        </div>
-
-        <div className="reset-row">
-          <button
-            type="button"
-            className="reset-button"
-            title="100% · X 0% · Y 0%"
-            onClick={() => resetView({ scale: 1, positionX: 0, positionY: 0 })}
-          >
-            初始 100 / 0 / 0
-          </button>
-          <button
-            type="button"
-            className="reset-button"
-            title="240% · X -30% · Y -27%"
-            onClick={() => resetView({ scale: 2.4, positionX: -30, positionY: -27 })}
-          >
-            推荐 240 / -30 / -27
-          </button>
         </div>
 
         <div className="inspector-field">
@@ -772,13 +859,31 @@ export default function SettingsDrawer({
       </section>
 
       <section className="inspector-section">
-        <span className="inspector-field__label">页面背景色</span>
+        <span className="inspector-section__title">页面背景色</span>
         <BackgroundColorField
           value={settings.backgroundColor}
           onChange={(backgroundColor) => onChange({ backgroundColor })}
         />
         <p className="inspector-hint">
           显示在透明区域和缩放后的留白处；可直接输入 #RRGGBB。
+        </p>
+      </section>
+
+      <section className="inspector-section">
+        <span className="inspector-section__title">调试</span>
+        <label className="toggle-row">
+          <input
+            type="checkbox"
+            checked={debugOpen}
+            onChange={(event) => onDebugChange(event.currentTarget.checked)}
+          />
+          <span>显示调试信息</span>
+        </label>
+        <p
+          className={`inspector-hint${isError ? ' is-error' : ''}`}
+          title={status}
+        >
+          当前状态：{status}
         </p>
       </section>
     </aside>

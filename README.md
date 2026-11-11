@@ -2,7 +2,7 @@
 
 基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，支持在多个模型之间切换。当前模型库已导入 **128 个** 同时具备 `angel`、`bg` 和 `action` 动画的模型。
 
-画布常驻全屏，右侧设置抽屉按需打开。抽屉里有可搜索的模型选择器；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
+画布常驻全屏，右侧设置抽屉在浏览器中默认打开、在 Wallpaper Engine 中默认收起。抽屉里有可搜索的模型选择器；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
 
 ## 功能
 
@@ -14,7 +14,7 @@
 - 水平/垂直位置偏移（-100%–100%）
 - 页面背景色（预设色、取色器、`#RRGGBB` 输入）
 - 首次打开的眼睛按钮提示
-- 左上角 `log` 调试信息面板
+- 设置抽屉里的“显示调试信息”开关；勾选后左上角显示调试窗口
 - 全屏响应式布局；移动端设置抽屉占满宽度
 - 单模型包 / 全模型包两种打包方式
 
@@ -42,6 +42,7 @@ http://localhost:5173/
 | 命令 | 说明 |
 | --- | --- |
 | `npm run dev` | 启动 Vite 开发服务器，默认 `5173`；不会同步资源 |
+| `npm run dev:all` | 准备全部 128 个模型后启动开发服务器；已经准备好时会跳过复制 |
 | `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制到 WE 目录 |
 | `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
 | `npm run models:import` | 扫描源模型目录，把合格模型导入 `model-library/` |
@@ -98,6 +99,7 @@ node scripts/copy-to-we.mjs
 
 ```text
 model-library/                 # 源模型库，git 忽略
+model-presets.json             # 每个模型的推荐缩放/位置/背景，跟踪提交
 public/spine/models/           # 按包生成的模型，git 忽略
   manifest.json
 ```
@@ -111,6 +113,9 @@ npm run models:import
 # 开发时准备一个或多个模型
 npm run models:use -- spine_hhbsd_bdmy,spine_abl0
 
+# 准备全部模型并启动 dev（已准备好时会跳过复制）
+npm run dev:all
+
 # 打包单个模型到 WE
 npm run package:model -- spine_hhbsd_bdmy
 
@@ -121,8 +126,10 @@ npm run package:all
 说明：
 
 - `model-library/models.json` 是源库清单；`public/spine/models/manifest.json` 是当前包的实际清单。
+- `model-presets.json` 存每个模型的推荐缩放、位置和可选背景色；没有配置时回退到 `100 / 0 / 0` 和黑色背景。
 - 准备模型时会按 PNG 实际尺寸重写 atlas 元数据，避免贴图错位。
-- 每次刷新默认选择当前包清单里的第一个模型；模型选择不持久化。
+- 调整好画面后点击“记录当前视图”，该模型视图会写入 `localStorage`；画面变换区域的“复制全部视图”只复制已记录模型，可直接粘贴到 `model-presets.json`。
+- 每次刷新或切换模型时，有推荐就用推荐，没有就回到初始视图；模型选择不持久化。
 - 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
 
 ## 设置项
@@ -131,16 +138,17 @@ npm run package:all
 
 | 设置 | 默认值 | 范围 / 说明 |
 | --- | --- | --- |
-| `scale` | `2.4`（240%） | `0.5`–`5`，即 50%–500% |
-| `positionX` | `-30` | `-100`–`100`，单位是视口宽度的百分比 |
-| `positionY` | `-27` | `-100`–`100`，单位是视口高度的百分比 |
-| `backgroundColor` | `#06070d` | `#RRGGBB`，只影响页面 CSS 背景 |
+| `scale` | 当前模型推荐，缺省 `1`（100%） | `0.5`–`5`，即 50%–500% |
+| `positionX` | 当前模型推荐，缺省 `0` | `-100`–`100`，单位是视口宽度的百分比 |
+| `positionY` | 当前模型推荐，缺省 `0` | `-100`–`100`，单位是视口高度的百分比 |
+| `backgroundColor` | 当前模型推荐，缺省 `#000000` | `#RRGGBB`，只影响页面 CSS 背景 |
 | `clickToAction` | `true` | 抽屉关闭时点击 canvas 是否触发 `action` |
 
 另外：
 
-- 当前模型由 `manifest.json` 的第一项初始化；切换模型只影响当前会话，刷新后回到第一个。
+- 当前模型由 `manifest.json` 的第一项初始化；切换模型会应用该模型的推荐视图，刷新后回到第一个。
 - 当前动画是独立 state，初始为 `idle`；可选值来自 Stage 返回的 `animations`。
+- 每个模型的当前视图记录在 `localStorage` 的 `spine-viewer:model-views:v1`。
 - 眼睛提示是否看过保存在 `localStorage` 的 `spine-viewer:eye-hint:v1`，与播放设置无关。
 - 页面没有 URL 状态，刷新后恢复上述默认值并选择第一个模型。
 
@@ -221,7 +229,7 @@ main.jsx
 - 模型选择不持久化，刷新后总是第一个模型。
 - 高 DPI 屏幕上 canvas 按 CSS 像素渲染，没有乘 `devicePixelRatio`，画面可能偏软。
 - 资源加载没有超时；网络或文件服务卡住时，页面可能一直停在加载状态。
-- 加载和错误状态只显示在左上角 `log` 按钮上，没有全屏遮罩。
+- 加载和错误状态显示在调试窗口和抽屉的状态行里，没有全屏遮罩。
 - `npm run build` 没有类型检查；逻辑错误不会被构建发现。
 - 复制步骤会清空 WE 目标目录；目标被 Wallpaper Engine 占用时可能失败。
 

@@ -6,6 +6,7 @@ import {
   libraryManifestPath,
   publicManifestPath,
   publicModelsDir,
+  presetsPath,
   readAtlasPages,
   readJson,
   readPngSize,
@@ -45,6 +46,7 @@ if (!fs.existsSync(libraryManifestPath)) {
 
 const library = readJson(libraryManifestPath)
 const byId = new Map(library.models.map((model) => [model.id, model]))
+const presets = fs.existsSync(presetsPath) ? readJson(presetsPath) : {}
 
 const selected = selectAll
   ? [...library.models].sort((a, b) => a.id.localeCompare(b.id))
@@ -120,10 +122,12 @@ for (const model of selected) {
     })
   }
 
+  const preset = presets[model.id]
   preparedModels.push({
     id: model.id,
     label: model.label ?? model.id,
     layers,
+    ...(preset ? { recommendedView: preset } : {}),
   })
 }
 
