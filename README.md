@@ -102,7 +102,9 @@ model-library/                 # 源模型库，跟踪提交
 model-presets.json             # 每个模型的推荐缩放/位置/背景，跟踪提交
 public/spine/models/           # 按包生成的模型，git 忽略
   manifest.json
+deploy-models.json             # GitHub Pages / Vercel 部署子集
 vercel.json                    # Vercel 构建配置
+.github/workflows/             # GitHub Pages Actions
 ```
 
 流程：
@@ -116,6 +118,9 @@ npm run models:use -- spine_hhbsd_bdmy,spine_abl0
 
 # 准备全部模型并启动 dev（已准备好时会跳过复制）
 npm run dev:all
+
+# 只准备部署子集（当前 deploy-models.json 中 51 个模型）
+node scripts/prepare-models.mjs --file deploy-models.json
 
 # 打包单个模型到 WE
 npm run package:model -- spine_hhbsd_bdmy
@@ -132,7 +137,33 @@ npm run package:all
 - 调整好画面后点击“记录当前视图”，该模型视图会写入 `localStorage`；画面变换区域的“复制全部视图”只复制已记录模型，可直接粘贴到 `model-presets.json`。
 - 每次刷新或切换模型时，有推荐就用推荐，没有就回到初始视图；模型选择不持久化。
 - 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
-- [vercel.json](vercel.json) 会在 Vercel 构建时先准备全部模型，再执行 `vite build`。全量静态产物约 730 MB，可能超过部分 Vercel 套餐限制；如遇限制，可把构建命令改成只准备部分模型。
+- [deploy-models.json](deploy-models.json) 是部署子集；当前按“每个角色名挑一个、优先 bdmy > np > cshs > mr”选了 51 个模型，约 294 MB。
+- [vercel.json](vercel.json) 在 Vercel 构建时用该子集准备模型，再执行 `vite build`。全量 128 个模型约 730 MB，不适合直接作为 Vercel 构建内容。
+
+### GitHub Pages
+
+[.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) 会在推送 `main` 或手动触发时：
+
+1. `npm ci`
+2. `node scripts/prepare-models.mjs --file deploy-models.json`
+3. `npm run build`
+4. 上传 `dist` 并部署到 GitHub Pages
+
+使用前在仓库：
+
+```text
+Settings → Pages → Build and deployment → Source
+```
+
+选择 **GitHub Actions**。
+
+站点地址：
+
+```text
+https://mikoberry.github.io/anime-model-viewer/
+```
+
+GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署超过 10 分钟会超时。当前部署子集约 296 MB，低于 1 GB。
 
 ## 设置项
 

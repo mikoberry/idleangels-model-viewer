@@ -104,6 +104,7 @@ public/spine/models/     # 当前包，忽略
 npm run models:import
 npm run models:use -- spine_hhbsd_bdmy,spine_abl0
 npm run dev:all       # 准备全部模型并启动 dev
+node scripts/prepare-models.mjs --file deploy-models.json   # 准备部署子集
 npm run build
 npm run package:model -- spine_hhbsd_bdmy
 npm run package:all
@@ -114,6 +115,8 @@ npm run package:all
 - `model-presets.json` 存每个模型的推荐缩放/位置/可选背景；没有配置时回退到 `100 / 0 / 0` + 黑色。
 - 点击“记录当前视图”才会把该模型写入 localStorage；画面变换里的“复制全部视图”只复制已记录模型，粘贴到 `model-presets.json` 后重新准备模型。
 - 模型选择不持久化，刷新后默认清单第一个。
+- `deploy-models.json` 是部署子集，当前 51 个模型、约 294 MB，优先级 `bdmy > np > cshs > mr`；Vercel 和 GitHub Pages 构建只准备该子集。
+- GitHub Pages 使用 [.github/workflows/deploy-pages.yml](../.github/workflows/deploy-pages.yml)，需要在仓库 Settings → Pages 将 Source 设为 GitHub Actions。
 - `package:all` 约 731 MB，构建和复制都会明显变慢。
 
 ### 构建能检查什么

@@ -21,6 +21,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying the current `public/spine/models` content.
 - `npm run models:import` — scans `MODEL_SOURCE_DIR` (default `F:/live2d/IdleAngels/model-output`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
 - `npm run models:use -- <id>[,<id>...]` — prepares one or more selected models into `public/spine/models` for dev/single builds.
+- `node scripts/prepare-models.mjs --file deploy-models.json` — prepares the deployment subset (currently 51 models) without starting Vite.
 - `npm run package:model -- <id>` — prepares one model, builds, and deploys.
 - `npm run package:all` — prepares every eligible model in `model-library`, builds, and deploys.
 - `npm run preview` — serves `dist/` on Vite's default preview port (`4173`); use `--port` if that port is unavailable.
@@ -33,7 +34,8 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - Default target: `F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test`; override it with the `WE_TARGET_DIR` environment variable.
 - The copy replaces the whole target directory. Do not put hand-written files there; if Wallpaper Engine is using those files, the copy may fail.
 - `base` is `'./'`, so generated asset URLs are relative; `build.target` is `es2015`.
-- `vercel.json` prepares all models and builds `dist` for Vercel. The full static output is about 730 MB and may exceed plan limits; adjust the build command to a subset if needed.
+- `deploy-models.json` is the deployment subset (currently 51 models, one per name, priority `bdmy > np > cshs > mr`, about 294 MB). `vercel.json` and `.github/workflows/deploy-pages.yml` prepare that file with `prepare-models --file` before building `dist`; do not switch deployments to all 128 models unless the platform supports a ~730 MB output.
+- GitHub Pages workflow: `.github/workflows/deploy-pages.yml`; Pages source must be set to GitHub Actions. The published site must stay under GitHub Pages' 1 GB limit.
 
 ## Assets and Spine runtime
 

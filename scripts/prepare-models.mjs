@@ -8,6 +8,7 @@ import {
   publicModelsDir,
   presetsPath,
   readAtlasPages,
+  rootDir,
   readJson,
   readPngSize,
   rescaleAtlasText,
@@ -16,6 +17,7 @@ import {
 
 const args = process.argv.slice(2)
 let selectAll = false
+let modelsFile = null
 const requestedIds = []
 
 for (let i = 0; i < args.length; i += 1) {
@@ -27,14 +29,36 @@ for (let i = 0; i < args.length; i += 1) {
     if (!value) throw new Error('--model requires a model id')
     requestedIds.push(...value.split(',').map((id) => id.trim()).filter(Boolean))
     i += 1
+  } else if (arg === '--file') {
+    modelsFile = args[i + 1]
+    if (!modelsFile) throw new Error('--file requires a JSON file path')
+    i += 1
   } else if (!arg.startsWith('-')) {
     requestedIds.push(...arg.split(',').map((id) => id.trim()).filter(Boolean))
   }
 }
 
+if (selectAll && (requestedIds.length > 0 || modelsFile)) {
+  throw new Error('use either --all or explicit model ids / --file, not both')
+}
+
+if (modelsFile) {
+  const file = path.resolve(rootDir, modelsFile)
+  if (!fs.existsSync(file)) {
+    throw new Error(`models file not found: ${file}`)
+  }
+
+  const value = readJson(file)
+  const ids = Array.isArray(value) ? value : value.models
+  if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string')) {
+    throw new Error(`invalid models file: ${file}`)
+  }
+  requestedIds.push(...ids.map((id) => id.trim()).filter(Boolean))
+}
+
 if (!selectAll && requestedIds.length === 0) {
   throw new Error(
-    'usage: node scripts/prepare-models.mjs --model <id>[,<id>...] | --all',
+    'usage: node scripts/prepare-models.mjs --model <id>[,<id>...] | --file <json> | --all',
   )
 }
 
