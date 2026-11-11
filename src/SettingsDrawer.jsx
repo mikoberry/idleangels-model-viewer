@@ -700,7 +700,7 @@ export default function SettingsDrawer({
           <p className="inspector-hint">
             {t('drawer.modelDeployHint')}{' '}
             <a
-              href="https://github.com/mikoberry/anime-model-viewer"
+              href="https://github.com/mikoberry/idleangels-model-viewer/tree/main/model-library"
               target="_blank"
               rel="noreferrer"
             >
