@@ -1,0 +1,1003 @@
+{
+  "source": "F:\\live2d\\IdleAngels\\model-output",
+  "totalDirectories": 377,
+  "imported": 128,
+  "rejected": [
+    {
+      "id": "spine_ad0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ad1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ad2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_anbs_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_app1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_app2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ars0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ars_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ars_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_axl0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_axl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_axl2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_axl3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bldd1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bldd2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_blgz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_blgz_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bmh0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bmh1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bmh_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bmh_np",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bsd1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bsd2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_bsd_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ce1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ce2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_cl0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_cn0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_erbs1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_erbs2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_erbs_yz",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_flj_np",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_fly0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_fly1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_fly_ur",
+      "reason": "bg: expected 1 skel/atlas/png, got 1/1/0"
+    },
+    {
+      "id": "spine_ftss1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ftss2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_fx1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_fx2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gb1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gb2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gb_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gy1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gy2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gy_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_gy_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hds0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hds1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hds2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hds_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hfsts1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hfsts2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hfsts_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hl3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hl4",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hl_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hmde1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hmde2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hmde3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hmde_np",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hmde_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hszr1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hszr2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hszr_sp",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_hszr_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_jyj0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes4",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_kes_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lfe1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lfe2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lh0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lh_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr4",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lhfr_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lj_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ll0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ll_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lls1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lls2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lls_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lxf_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_lznmxs_cshs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mds0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mds1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mds2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mds_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjl2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjl_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjz2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjz_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mjz_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ml_sd",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mntls1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_mntls2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ms1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ms2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ms_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_my0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nbls1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nbls2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nbls_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nfds1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nfds2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nfds_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nk1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nk2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nks1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nks2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nmxs0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nmxs1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nmxs2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nmxs_yz",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc11",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc19",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc21",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc23",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc24",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc28",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc29",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc31",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc32",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc33",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc34",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc35",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc37",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc40",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc41",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc42",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc44",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc46",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_npc47",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nt1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_nt2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_pdl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_pdl_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_plmxs_ur_plus",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt_sp",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_qbt_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r4",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_r_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sdns1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sdns2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_se_ur_plus",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_smzpdl_cshs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_aefry",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_ales",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_bhjy",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_brm",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_brnn",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_bsn",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_fjl",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_glns",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_hjl",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_jwh",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_ln",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_ml",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_ndhg",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_sjl",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_tjl",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_wstl",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_ymjd",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sn_yt",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sqe0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sqe1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_sqe2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_syz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_syz2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_syz_cshs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_syz_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_tzds0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_tzds1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_tzds2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_tzds3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_cj1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_dgf",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_hs",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_main_wsj1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_main_wsj2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_main_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_main_yz2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_main_yz3",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_sd",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_wsj2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_yy0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_user_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wejl0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wejl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wejl2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wejl_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wl1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wl2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wl_yz",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wle_mr",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wn1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wn2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wn_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wns0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wns1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wns2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_wns_ur",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xf1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xf2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xf_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xn1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xn2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xwm1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_xwm2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_y1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_y2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yd1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yd2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yd_yz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ydn0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yh0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ykls1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ykls2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_ykls_bdmy",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yxnm2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yxs1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yxs2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yyjz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_yyjz2",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_zrnz0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_zrnz1",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_zs0",
+      "reason": "not standard angel+bg"
+    },
+    {
+      "id": "spine_zs_ur",
+      "reason": "not standard angel+bg"
+    }
+  ]
+}

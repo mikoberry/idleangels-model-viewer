@@ -98,10 +98,11 @@ node scripts/copy-to-we.mjs
 源目录共有 377 个目录、约 1.27 GB。当前按“**有 `action` + 有 `angel` + 有 `bg` + 单套资源**”筛选，导入了 **128 个模型**。NPC、只有 `angel` 的模型、缺 PNG 的模型和特殊结构目录暂不处理。
 
 ```text
-model-library/                 # 源模型库，git 忽略
+model-library/                 # 源模型库，跟踪提交
 model-presets.json             # 每个模型的推荐缩放/位置/背景，跟踪提交
 public/spine/models/           # 按包生成的模型，git 忽略
   manifest.json
+vercel.json                    # Vercel 构建配置
 ```
 
 流程：
@@ -131,6 +132,7 @@ npm run package:all
 - 调整好画面后点击“记录当前视图”，该模型视图会写入 `localStorage`；画面变换区域的“复制全部视图”只复制已记录模型，可直接粘贴到 `model-presets.json`。
 - 每次刷新或切换模型时，有推荐就用推荐，没有就回到初始视图；模型选择不持久化。
 - 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
+- [vercel.json](vercel.json) 会在 Vercel 构建时先准备全部模型，再执行 `vite build`。全量静态产物约 730 MB，可能超过部分 Vercel 套餐限制；如遇限制，可把构建命令改成只准备部分模型。
 
 ## 设置项
 

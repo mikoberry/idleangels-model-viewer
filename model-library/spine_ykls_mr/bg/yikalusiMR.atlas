@@ -1,0 +1,160 @@
+
+yikalusiMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_beijing
+  rotate: false
+  xy: 2394, 2085
+  size: 400, 550
+  orig: 400, 550
+  offset: 0, 0
+  index: -1
+bj_chuang
+  rotate: true
+  xy: 3270, 2603
+  size: 400, 782
+  orig: 400, 782
+  offset: 0, 0
+  index: -1
+bj_juhua_1
+  rotate: false
+  xy: 974, 2183
+  size: 400, 511
+  orig: 400, 511
+  offset: 0, 0
+  index: -1
+bj_juhua_2
+  rotate: false
+  xy: 3200, 3004
+  size: 595, 1090
+  orig: 595, 1090
+  offset: 0, 0
+  index: -1
+bj_juhua_3
+  rotate: false
+  xy: 1726, 3045
+  size: 757, 1049
+  orig: 808, 1049
+  offset: 51, 0
+  index: -1
+bj_juhua_4
+  rotate: true
+  xy: 2131, 2637
+  size: 655, 898
+  orig: 655, 941
+  offset: 0, 0
+  index: -1
+bj_juhua_5
+  rotate: 180
+  xy: 947, 2931
+  size: 800, 1163
+  orig: 800, 1163
+  offset: 0, 0
+  index: -1
+bj_juhua_6
+  rotate: false
+  xy: 992, 3631
+  size: 146, 463
+  orig: 146, 463
+  offset: 0, 0
+  index: -1
+bj_juhua_7
+  rotate: true
+  xy: 2485, 3294
+  size: 800, 713
+  orig: 800, 713
+  offset: 0, 0
+  index: -1
+bj_piaodai
+  rotate: 270
+  xy: 1717, 1582
+  size: 521, 2375
+  orig: 521, 2375
+  offset: 0, 0
+  index: -1
+bj_zhuangshi_1
+  rotate: false
+  xy: 2, 2119
+  size: 500, 431
+  orig: 500, 431
+  offset: 0, 0
+  index: -1
+bj_zhuangshi_2
+  rotate: false
+  xy: 2, 1797
+  size: 386, 320
+  orig: 386, 320
+  offset: 0, 0
+  index: -1
+bj_zhuangshi_3
+  rotate: true
+  xy: 3749, 2103
+  size: 500, 345
+  orig: 500, 345
+  offset: 0, 0
+  index: -1
+bj_zhuangshi_4
+  rotate: false
+  xy: 504, 1811
+  size: 300, 442
+  orig: 300, 442
+  offset: 0, 0
+  index: -1
+bj_zhuangshi_5
+  rotate: false
+  xy: 3294, 2021
+  size: 400, 580
+  orig: 400, 580
+  offset: 0, 0
+  index: -1
+r_piaodai
+  rotate: false
+  xy: 670, 2245
+  size: 1000, 771
+  orig: 1000, 771
+  offset: 0, 0
+  index: -1
+r_piaodai_y
+  rotate: 180
+  xy: 909, 1802
+  size: 1000, 615
+  orig: 1000, 615
+  offset: 0, 0
+  index: -1
+r_qunzi
+  rotate: false
+  xy: 2, 2818
+  size: 989, 1276
+  orig: 1000, 1276
+  offset: 10, 0
+  index: -1
+r_zhentou
+  rotate: true
+  xy: 2, 2553
+  size: 500, 650
+  orig: 500, 650
+  offset: 0, 0
+  index: -1
+r_zidai_1
+  rotate: 180
+  xy: 1479, 1980
+  size: 1813, 1089
+  orig: 1813, 1089
+  offset: 0, 0
+  index: -1
+r_zidai_2
+  rotate: true
+  xy: 1482, 1533
+  size: 312, 2450
+  orig: 312, 2450
+  offset: 0, 0
+  index: -1
+r_zidai_3
+  rotate: true
+  xy: 2079, 1800
+  size: 253, 1535
+  orig: 253, 1535
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,118 @@
+
+fuleiya_nvpu.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_e
+  rotate: 180
+  xy: 2119, 524
+  size: 1900, 1739
+  orig: 1900, 1739
+  offset: 0, 0
+  index: -1
+bj_f
+  rotate: true
+  xy: 2292, 2295
+  size: 512, 766
+  orig: 512, 766
+  offset: 0, 0
+  index: -1
+bj_g
+  rotate: false
+  xy: 2618, 962
+  size: 755, 920
+  orig: 755, 920
+  offset: 0, 0
+  index: -1
+bj_h
+  rotate: false
+  xy: 2, 1870
+  size: 788, 123
+  orig: 788, 124
+  offset: 0, 1
+  index: -1
+bj_i
+  rotate: false
+  xy: 791, 1887
+  size: 640, 105
+  orig: 640, 105
+  offset: 0, 0
+  index: -1
+bj_j
+  rotate: false
+  xy: 3322, 2165
+  size: 103, 642
+  orig: 103, 642
+  offset: 0, 0
+  index: -1
+bj_k
+  rotate: false
+  xy: 3375, 1060
+  size: 124, 787
+  orig: 124, 787
+  offset: 0, 0
+  index: -1
+bj_l
+  rotate: false
+  xy: 390, 849
+  size: 1140, 408
+  orig: 1140, 408
+  offset: 0, 0
+  index: -1
+bj_m
+  rotate: false
+  xy: 2, 384
+  size: 636, 464
+  orig: 636, 464
+  offset: 0, 0
+  index: -1
+bj_n
+  rotate: false
+  xy: 2399, 355
+  size: 1425, 703
+  orig: 1425, 703
+  offset: 0, 0
+  index: -1
+bj_o
+  rotate: false
+  xy: 2, 1237
+  size: 1898, 400
+  orig: 1900, 400
+  offset: 1, 0
+  index: -1
+bj_p
+  rotate: false
+  xy: 2, 1994
+  size: 1622, 2029
+  orig: 1622, 2029
+  offset: 0, 0
+  index: -1
+bj_q
+  rotate: false
+  xy: 1625, 1620
+  size: 665, 2404
+  orig: 665, 2404
+  offset: 0, 0
+  index: -1
+bj_r
+  rotate: false
+  xy: 3060, 2266
+  size: 260, 542
+  orig: 260, 542
+  offset: 0, 0
+  index: -1
+bj_s
+  rotate: true
+  xy: 3434, 2123
+  size: 1900, 588
+  orig: 1900, 588
+  offset: 0, 0
+  index: -1
+bj_t
+  rotate: false
+  xy: 2292, 2809
+  size: 1140, 1214
+  orig: 1140, 1214
+  offset: 0, 0
+  index: -1

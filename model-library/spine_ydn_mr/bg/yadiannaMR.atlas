@@ -1,0 +1,83 @@
+
+yadiannaMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+s_zhentou_1
+  rotate: false
+  xy: 2, 3354
+  size: 466, 369
+  orig: 466, 369
+  offset: 0, 0
+  index: -1
+s_zhentou_2
+  rotate: 180
+  xy: 3251, 3552
+  size: 508, 476
+  orig: 508, 476
+  offset: 0, 0
+  index: -1
+s_zhentou_3
+  rotate: false
+  xy: 3198, 3269
+  size: 410, 353
+  orig: 410, 353
+  offset: 0, 0
+  index: -1
+s_zhentou_4
+  rotate: false
+  xy: 2712, 3519
+  size: 617, 508
+  orig: 617, 508
+  offset: 0, 0
+  index: -1
+s_zhentou_5
+  rotate: false
+  xy: 2, 3858
+  size: 186, 169
+  orig: 186, 169
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 3
+  size: 3640, 4025
+  orig: 3640, 4147
+  offset: 0, 0
+  index: -1
+z_chuangdan_a1
+  rotate: true
+  xy: 2, 3665
+  size: 363, 1030
+  orig: 392, 1030
+  offset: 0, 0
+  index: -1
+z_chuangdan_a2
+  rotate: false
+  xy: 2, 3957
+  size: 124, 70
+  orig: 124, 70
+  offset: 0, 0
+  index: -1
+z_chuangdan_a3
+  rotate: false
+  xy: 190, 3985
+  size: 59, 42
+  orig: 59, 42
+  offset: 0, 0
+  index: -1
+z_chuangdan_b1
+  rotate: 270
+  xy: 926, 3787
+  size: 240, 380
+  orig: 240, 380
+  offset: 0, 0
+  index: -1
+z_shuzhi_1
+  rotate: 180
+  xy: 3687, 3531
+  size: 168, 496
+  orig: 168, 496
+  offset: 0, 0
+  index: -1

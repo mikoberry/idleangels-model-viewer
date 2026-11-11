@@ -1,0 +1,83 @@
+
+aboluoMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_a
+  rotate: true
+  xy: 2, 1324
+  size: 900, 1439
+  orig: 900, 1439
+  offset: 0, 0
+  index: -1
+bj_b
+  rotate: true
+  xy: 2, 422
+  size: 900, 1693
+  orig: 900, 1712
+  offset: 0, 0
+  index: -1
+bj_c
+  rotate: true
+  xy: 2996, 2807
+  size: 506, 780
+  orig: 506, 780
+  offset: 0, 0
+  index: -1
+bj_e
+  rotate: false
+  xy: 2996, 3315
+  size: 750, 779
+  orig: 750, 779
+  offset: 0, 0
+  index: -1
+bj_f
+  rotate: 180
+  xy: 1718, 329
+  size: 1500, 560
+  orig: 1500, 560
+  offset: 0, 0
+  index: -1
+bj_g
+  rotate: false
+  xy: 994, 3939
+  size: 750, 155
+  orig: 750, 155
+  offset: 0, 0
+  index: -1
+bj_h
+  rotate: false
+  xy: 2594, 1442
+  size: 1500, 1335
+  orig: 1500, 1335
+  offset: 0, 0
+  index: -1
+bj_i
+  rotate: false
+  xy: 1623, 1102
+  size: 750, 1421
+  orig: 750, 1421
+  offset: 0, 0
+  index: -1
+bj_j
+  rotate: true
+  xy: 1804, 2525
+  size: 1570, 1190
+  orig: 1570, 1190
+  offset: 0, 0
+  index: -1
+bj_k
+  rotate: 180
+  xy: 2234, 527
+  size: 1800, 914
+  orig: 1800, 1085
+  offset: 0, 11
+  index: -1
+bj_l
+  rotate: false
+  xy: 2, 2226
+  size: 1800, 1868
+  orig: 1800, 1868
+  offset: 0, 0
+  index: -1

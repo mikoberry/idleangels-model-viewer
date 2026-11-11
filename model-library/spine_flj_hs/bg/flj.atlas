@@ -1,0 +1,83 @@
+
+flj.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+backacccccc
+  rotate: false
+  xy: 2, 1291
+  size: 878, 2766
+  orig: 878, 2766
+  offset: 0, 0
+  index: -1
+backdownhair1
+  rotate: 270
+  xy: 929, 1067
+  size: 702, 1592
+  orig: 702, 1592
+  offset: 0, 0
+  index: -1
+backdownhair2
+  rotate: 270
+  xy: 3062, 1036
+  size: 991, 960
+  orig: 991, 960
+  offset: 0, 0
+  index: -1
+backflow
+  rotate: false
+  xy: 2219, 1418
+  size: 909, 1089
+  orig: 909, 1089
+  offset: 0, 0
+  index: -1
+backflowww
+  rotate: 270
+  xy: 881, 1649
+  size: 645, 1034
+  orig: 766, 1034
+  offset: 121, 0
+  index: -1
+backflowww1_2
+  rotate: true
+  xy: 2, 659
+  size: 631, 743
+  orig: 631, 743
+  offset: 0, 0
+  index: -1
+backflowww2
+  rotate: 180
+  xy: 2639, 2394
+  size: 1416, 1662
+  orig: 1416, 1662
+  offset: 0, 0
+  index: -1
+backgll
+  rotate: true
+  xy: 2274, 664
+  size: 700, 822
+  orig: 700, 822
+  offset: 0, 0
+  index: -1
+music
+  rotate: true
+  xy: 3525, 1720
+  size: 900, 523
+  orig: 900, 523
+  offset: 0, 0
+  index: -1
+sofa
+  rotate: true
+  xy: 881, 2256
+  size: 1800, 1769
+  orig: 1800, 1769
+  offset: 0, 0
+  index: -1
+sofaacback
+  rotate: false
+  xy: 881, 3993
+  size: 73, 64
+  orig: 73, 64
+  offset: 0, 0
+  index: -1

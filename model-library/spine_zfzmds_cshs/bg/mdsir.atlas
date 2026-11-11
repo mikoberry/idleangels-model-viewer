@@ -1,0 +1,153 @@
+
+mdsir.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_mds_114
+  rotate: false
+  xy: 1719, 3202
+  size: 512, 175
+  orig: 512, 175
+  offset: 0, 0
+  index: -1
+bj_mds_115
+  rotate: false
+  xy: 966, 3965
+  size: 256, 129
+  orig: 256, 129
+  offset: 0, 0
+  index: -1
+bj_mds_116
+  rotate: false
+  xy: 595, 4029
+  size: 128, 65
+  orig: 128, 65
+  offset: 0, 0
+  index: -1
+bj_mds_117
+  rotate: false
+  xy: 981, 3126
+  size: 128, 326
+  orig: 128, 326
+  offset: 0, 0
+  index: -1
+bj_mds_118
+  rotate: false
+  xy: 2, 3954
+  size: 128, 69
+  orig: 128, 69
+  offset: 0, 0
+  index: -1
+bj_mds_119
+  rotate: false
+  xy: 2, 4025
+  size: 128, 69
+  orig: 128, 69
+  offset: 0, 0
+  index: -1
+bj_mds_120
+  rotate: true
+  xy: 1561, 258
+  size: 1024, 361
+  orig: 1024, 361
+  offset: 0, 0
+  index: -1
+bj_mds_121
+  rotate: false
+  xy: 2, 2843
+  size: 1024, 1252
+  orig: 1024, 1438
+  offset: 0, 0
+  index: -1
+bj_mds_122
+  rotate: true
+  xy: 935, 449
+  size: 1024, 649
+  orig: 1024, 649
+  offset: 0, 0
+  index: -1
+bj_mds_123
+  rotate: false
+  xy: 2, 957
+  size: 1024, 1884
+  orig: 1024, 1884
+  offset: 0, 0
+  index: -1
+bj_mds_124
+  rotate: 180
+  xy: 745, 2107
+  size: 720, 1017
+  orig: 720, 1017
+  offset: 0, 0
+  index: -1
+bj_mds_126
+  rotate: 180
+  xy: 2, 104
+  size: 1024, 853
+  orig: 1024, 853
+  offset: 0, 0
+  index: -1
+bj_mds_127
+  rotate: 270
+  xy: 1173, 3070
+  size: 1024, 544
+  orig: 1024, 544
+  offset: 0, 0
+  index: -1
+tx_mds_105
+  rotate: true
+  xy: 1753, 1029
+  size: 720, 504
+  orig: 720, 549
+  offset: 0, 0
+  index: -1
+tx_mds_106
+  rotate: 270
+  xy: 1892, 2077
+  size: 720, 493
+  orig: 720, 554
+  offset: 0, 61
+  index: -1
+tx_mds_107
+  rotate: 270
+  xy: 1664, 3379
+  size: 715, 514
+  orig: 720, 581
+  offset: 0, 67
+  index: -1
+tx_mds_108
+  rotate: false
+  xy: 2, 1672
+  size: 256, 701
+  orig: 256, 701
+  offset: 0, 0
+  index: -1
+tx_mds_109
+  rotate: false
+  xy: 492, 2738
+  size: 256, 162
+  orig: 256, 162
+  offset: 0, 0
+  index: -1
+tx_mds_111
+  rotate: 180
+  xy: 1577, 3
+  size: 720, 561
+  orig: 720, 561
+  offset: 0, 0
+  index: -1
+tx_mds_112
+  rotate: true
+  xy: 1405, 2500
+  size: 664, 695
+  orig: 720, 764
+  offset: 0, 0
+  index: -1
+tx_mds_113
+  rotate: 180
+  xy: 1281, 1573
+  size: 627, 924
+  orig: 720, 981
+  offset: 0, 0
+  index: -1

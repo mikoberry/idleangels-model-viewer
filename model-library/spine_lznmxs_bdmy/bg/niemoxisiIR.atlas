@@ -1,0 +1,139 @@
+
+niemoxisiIR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_dun_l
+  rotate: false
+  xy: 2512, 2743
+  size: 1024, 1351
+  orig: 1024, 1351
+  offset: 0, 0
+  index: -1
+j_jian_1
+  rotate: 180
+  xy: 1812, 1937
+  size: 512, 428
+  orig: 512, 428
+  offset: 0, 0
+  index: -1
+j_jian_2
+  rotate: 180
+  xy: 2299, 1719
+  size: 720, 782
+  orig: 720, 782
+  offset: 0, 0
+  index: -1
+j_jian_3
+  rotate: 270
+  xy: 1432, 2235
+  size: 1024, 1378
+  orig: 1024, 1378
+  offset: 0, 0
+  index: -1
+j_jian_4
+  rotate: 270
+  xy: 774, 1710
+  size: 720, 1285
+  orig: 720, 1290
+  offset: 0, 5
+  index: -1
+j_jian_5
+  rotate: false
+  xy: 815, 1979
+  size: 1024, 766
+  orig: 1024, 766
+  offset: 0, 0
+  index: -1
+j_jian_6
+  rotate: 180
+  xy: 2, 1963
+  size: 1024, 934
+  orig: 1024, 934
+  offset: 0, 0
+  index: -1
+j_jian_7
+  rotate: 270
+  xy: 2678, 2293
+  size: 720, 1416
+  orig: 720, 1416
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: true
+  xy: 1496, 3071
+  size: 1024, 1014
+  orig: 1024, 1014
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 2461
+  size: 1500, 1633
+  orig: 1500, 1633
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 776, 1595
+  size: 1024, 264
+  orig: 1024, 269
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: true
+  xy: 3422, 3070
+  size: 1024, 623
+  orig: 1024, 912
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: 180
+  xy: 3119, 1915
+  size: 975, 648
+  orig: 1024, 710
+  offset: 0, 0
+  index: -1
+z_yun_a_1
+  rotate: false
+  xy: 2408, 3765
+  size: 256, 329
+  orig: 256, 329
+  offset: 0, 0
+  index: -1
+z_yun_a_2
+  rotate: false
+  xy: 2, 3902
+  size: 256, 192
+  orig: 256, 192
+  offset: 0, 0
+  index: -1
+z_yun_a_3
+  rotate: false
+  xy: 2853, 1639
+  size: 720, 362
+  orig: 720, 362
+  offset: 0, 0
+  index: -1
+z_yun_a_4
+  rotate: false
+  xy: 2, 1597
+  size: 720, 416
+  orig: 720, 416
+  offset: 0, 0
+  index: -1
+z_yun_a_5
+  rotate: true
+  xy: 3630, 1527
+  size: 512, 464
+  orig: 512, 464
+  offset: 0, 0
+  index: -1
+z_yun_a_6
+  rotate: false
+  xy: 2076, 2739
+  size: 512, 330
+  orig: 512, 330
+  offset: 0, 0
+  index: -1

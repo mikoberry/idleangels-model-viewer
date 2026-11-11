@@ -1,0 +1,41 @@
+
+binglongIR.png
+size: 3898,3898
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_guang_1
+  rotate: false
+  xy: 2, 791
+  size: 1024, 668
+  orig: 1024, 668
+  offset: 0, 0
+  index: -1
+pl_1
+  rotate: false
+  xy: 2, 3454
+  size: 128, 169
+  orig: 128, 169
+  offset: 0, 0
+  index: -1
+pl_2
+  rotate: false
+  xy: 2, 3625
+  size: 129, 271
+  orig: 129, 271
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: true
+  xy: 1321, 4
+  size: 2200, 2242
+  orig: 2200, 2242
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 2, 1461
+  size: 2400, 2435
+  orig: 2400, 2435
+  offset: 0, 0
+  index: -1

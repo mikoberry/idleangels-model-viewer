@@ -1,0 +1,153 @@
+
+shengdannvshen.png
+size: 1999,1999
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shengdannvshen_0
+  rotate: true
+  xy: 1887, 326
+  size: 113, 93
+  orig: 113, 93
+  offset: 0, 0
+  index: -1
+shengdannvshen_1
+  rotate: true
+  xy: 1727, 303
+  size: 235, 158
+  orig: 235, 158
+  offset: 0, 0
+  index: -1
+shengdannvshen_2
+  rotate: true
+  xy: 968, 460
+  size: 317, 332
+  orig: 317, 332
+  offset: 0, 0
+  index: -1
+shengdannvshen_24
+  rotate: false
+  xy: 2, 552
+  size: 964, 1445
+  orig: 964, 1445
+  offset: 0, 0
+  index: -1
+shengdannvshen_3
+  rotate: false
+  xy: 1656, 540
+  size: 93, 62
+  orig: 93, 62
+  offset: 0, 0
+  index: -1
+shengdannvshen_4
+  rotate: false
+  xy: 1751, 560
+  size: 60, 52
+  orig: 60, 52
+  offset: 0, 0
+  index: -1
+shengdannvshen_5
+  rotate: false
+  xy: 2, 396
+  size: 165, 154
+  orig: 165, 162
+  offset: 0, 4
+  index: -1
+shengdannvshen_65
+  rotate: false
+  xy: 1918, 570
+  size: 51, 42
+  orig: 51, 42
+  offset: 0, 0
+  index: -1
+shengdannvshen_66
+  rotate: true
+  xy: 1878, 181
+  size: 120, 102
+  orig: 120, 102
+  offset: 0, 0
+  index: -1
+shengdannvshen_67
+  rotate: true
+  xy: 1865, 564
+  size: 48, 51
+  orig: 50, 53
+  offset: 1, 1
+  index: -1
+shengdannvshen_68
+  rotate: false
+  xy: 1813, 562
+  size: 50, 50
+  orig: 52, 52
+  offset: 1, 1
+  index: -1
+shengdannvshen_69
+  rotate: false
+  xy: 1887, 441
+  size: 98, 121
+  orig: 98, 121
+  offset: 0, 0
+  index: -1
+shengdannvshen_70
+  rotate: false
+  xy: 1878, 72
+  size: 99, 107
+  orig: 99, 107
+  offset: 0, 0
+  index: -1
+shengdannvshen_71
+  rotate: true
+  xy: 1302, 301
+  size: 217, 267
+  orig: 217, 267
+  offset: 0, 0
+  index: -1
+shengdannvshen_72
+  rotate: true
+  xy: 1302, 520
+  size: 257, 249
+  orig: 257, 249
+  offset: 0, 0
+  index: -1
+shengdannvshen_73
+  rotate: true
+  xy: 1571, 249
+  size: 281, 154
+  orig: 284, 156
+  offset: 1, 1
+  index: -1
+shengdannvshen_74
+  rotate: true
+  xy: 1727, 76
+  size: 225, 149
+  orig: 227, 153
+  offset: 1, 3
+  index: -1
+shengdannvshen_75
+  rotate: false
+  xy: 1731, 614
+  size: 191, 163
+  orig: 194, 165
+  offset: 2, 1
+  index: -1
+shengdannvshen_76
+  rotate: false
+  xy: 1553, 532
+  size: 101, 70
+  orig: 101, 70
+  offset: 0, 0
+  index: -1
+shengdannvshen_77
+  rotate: true
+  xy: 1553, 604
+  size: 173, 176
+  orig: 173, 176
+  offset: 0, 0
+  index: -1
+shengdannvshen_78
+  rotate: false
+  xy: 968, 779
+  size: 1029, 1218
+  orig: 1029, 1218
+  offset: 0, 0
+  index: -1

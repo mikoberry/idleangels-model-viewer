@@ -1,0 +1,83 @@
+
+anubisiIR.png
+size: 3688,3688
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_0
+  rotate: false
+  xy: 2, 1504
+  size: 2048, 2182
+  orig: 2048, 2182
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: true
+  xy: 2, 2
+  size: 1500, 1575
+  orig: 1500, 1575
+  offset: 0, 0
+  index: -1
+z_huo_1
+  rotate: 270
+  xy: 2076, 687
+  size: 670, 464
+  orig: 720, 500
+  offset: 0, 36
+  index: -1
+z_st_1
+  rotate: false
+  xy: 1694, 3412
+  size: 256, 274
+  orig: 256, 274
+  offset: 0, 0
+  index: -1
+z_st_2
+  rotate: false
+  xy: 1963, 2826
+  size: 400, 860
+  orig: 400, 860
+  offset: 0, 0
+  index: -1
+z_st_3
+  rotate: false
+  xy: 2, 3435
+  size: 256, 251
+  orig: 256, 251
+  offset: 0, 0
+  index: -1
+z_st_4
+  rotate: false
+  xy: 2052, 2344
+  size: 512, 480
+  orig: 512, 480
+  offset: 0, 0
+  index: -1
+z_st_5
+  rotate: true
+  xy: 2315, 2966
+  size: 720, 277
+  orig: 720, 277
+  offset: 0, 0
+  index: -1
+z_st_6
+  rotate: 270
+  xy: 1963, 1549
+  size: 720, 616
+  orig: 720, 616
+  offset: 0, 0
+  index: -1
+z_st_7
+  rotate: false
+  xy: 1579, 725
+  size: 720, 990
+  orig: 720, 990
+  offset: 0, 0
+  index: -1
+z_wuqi
+  rotate: true
+  xy: 1579, 2
+  size: 720, 675
+  orig: 720, 675
+  offset: 0, 0
+  index: -1

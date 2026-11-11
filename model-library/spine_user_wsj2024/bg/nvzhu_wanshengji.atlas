@@ -1,0 +1,146 @@
+
+nvzhu_wanshengji.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+b_12_sd
+  rotate: false
+  xy: 3047, 2858
+  size: 922, 454
+  orig: 922, 454
+  offset: 0, 0
+  index: -1
+c_sd_1
+  rotate: 180
+  xy: 765, 552
+  size: 1593, 1373
+  orig: 1600, 1482
+  offset: 7, 0
+  index: -1
+t_a_1
+  rotate: false
+  xy: 1, 3693
+  size: 674, 403
+  orig: 674, 403
+  offset: 0, 0
+  index: -1
+t_a_2
+  rotate: false
+  xy: 3500, 3743
+  size: 486, 354
+  orig: 486, 354
+  offset: 0, 0
+  index: -1
+t_a_3
+  rotate: true
+  xy: 68, 637
+  size: 838, 717
+  orig: 838, 717
+  offset: 0, 0
+  index: -1
+t_a_3_sd
+  rotate: false
+  xy: 3205, 2346
+  size: 622, 511
+  orig: 622, 566
+  offset: 0, 55
+  index: -1
+t_a_4
+  rotate: false
+  xy: 674, 3904
+  size: 192, 192
+  orig: 192, 192
+  offset: 0, 0
+  index: -1
+t_a_5
+  rotate: false
+  xy: 3743, 2641
+  size: 286, 217
+  orig: 286, 217
+  offset: 0, 0
+  index: -1
+t_a_6
+  rotate: false
+  xy: 866, 3930
+  size: 262, 166
+  orig: 262, 166
+  offset: 0, 0
+  index: -1
+t_a_7
+  rotate: false
+  xy: 3440, 3384
+  size: 656, 244
+  orig: 656, 244
+  offset: 0, 0
+  index: -1
+t_a_8
+  rotate: false
+  xy: 3796, 1922
+  size: 300, 536
+  orig: 300, 536
+  offset: 0, 0
+  index: -1
+t_b_1
+  rotate: 180
+  xy: 2015, 525
+  size: 890, 456
+  orig: 890, 456
+  offset: 0, 0
+  index: -1
+t_c_1
+  rotate: false
+  xy: 2614, 3311
+  size: 886, 786
+  orig: 886, 786
+  offset: 0, 0
+  index: -1
+t_c_2
+  rotate: false
+  xy: 159, 3480
+  size: 118, 242
+  orig: 118, 242
+  offset: 0, 0
+  index: -1
+t_c_3
+  rotate: false
+  xy: 2468, 3845
+  size: 181, 251
+  orig: 181, 251
+  offset: 0, 0
+  index: -1
+t_c_4
+  rotate: false
+  xy: 1, 3438
+  size: 190, 356
+  orig: 190, 356
+  offset: 0, 0
+  index: -1
+z_shu_1
+  rotate: false
+  xy: 2176, 766
+  size: 1920, 1755
+  orig: 1920, 1755
+  offset: 0, 0
+  index: -1
+z_shu_2
+  rotate: true
+  xy: 1, 1391
+  size: 2706, 3306
+  orig: 2706, 3306
+  offset: 0, 0
+  index: -1
+z_shu_3
+  rotate: true
+  xy: 3256, 635
+  size: 597, 839
+  orig: 597, 839
+  offset: 0, 0
+  index: -1
+z_shu_3sd
+  rotate: false
+  xy: 2142, 810
+  size: 519, 397
+  orig: 519, 397
+  offset: 0, 0
+  index: -1

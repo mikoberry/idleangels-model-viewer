@@ -1,0 +1,104 @@
+
+fenglongUR.png
+size: 2000,2000
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+hudie02
+  rotate: false
+  xy: 1236, 1311
+  size: 89, 228
+  orig: 89, 228
+  offset: 0, 0
+  index: -1
+hudie05
+  rotate: false
+  xy: 2, 37
+  size: 436, 216
+  orig: 462, 222
+  offset: 20, 3
+  index: -1
+hudie06
+  rotate: true
+  xy: 440, 93
+  size: 160, 206
+  orig: 172, 215
+  offset: 5, 4
+  index: -1
+hudie07
+  rotate: true
+  xy: 648, 134
+  size: 119, 163
+  orig: 161, 186
+  offset: 30, 5
+  index: -1
+hudie08
+  rotate: true
+  xy: 1531, 2
+  size: 108, 121
+  orig: 108, 121
+  offset: 0, 0
+  index: -1
+texiaofeng02
+  rotate: false
+  xy: 950, 1373
+  size: 284, 166
+  orig: 290, 171
+  offset: 4, 2
+  index: -1
+texiaofeng03
+  rotate: false
+  xy: 2, 1541
+  size: 1330, 457
+  orig: 1331, 482
+  offset: 1, 25
+  index: -1
+texiaofeng04
+  rotate: true
+  xy: 950, 277
+  size: 1006, 591
+  orig: 1006, 600
+  offset: 0, 0
+  index: -1
+texiaolong0
+  rotate: true
+  xy: 1334, 1285
+  size: 713, 635
+  orig: 713, 777
+  offset: 0, 142
+  index: -1
+texiaolong01
+  rotate: true
+  xy: 950, 14
+  size: 261, 437
+  orig: 263, 439
+  offset: 1, 0
+  index: -1
+texiaolong02
+  rotate: true
+  xy: 1543, 112
+  size: 700, 379
+  orig: 702, 381
+  offset: 1, 2
+  index: -1
+texiaolong03
+  rotate: false
+  xy: 1543, 814
+  size: 455, 469
+  orig: 455, 564
+  offset: 0, 95
+  index: -1
+texiaoxiao11
+  rotate: false
+  xy: 1389, 82
+  size: 140, 193
+  orig: 140, 193
+  offset: 0, 0
+  index: -1
+texiaoxiaodian
+  rotate: true
+  xy: 2, 255
+  size: 1284, 946
+  orig: 1284, 946
+  offset: 0, 0
+  index: -1

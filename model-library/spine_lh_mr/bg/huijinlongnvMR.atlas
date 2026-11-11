@@ -1,0 +1,76 @@
+
+huijinlongnvMR.png
+size: 3994,3994
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_chibang_r
+  rotate: false
+  xy: 3291, 1888
+  size: 700, 951
+  orig: 700, 951
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 1890
+  size: 2100, 2103
+  orig: 2100, 2103
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 2461, 2891
+  size: 276, 365
+  orig: 276, 365
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: true
+  xy: 2, 413
+  size: 1476, 2039
+  orig: 1476, 2039
+  offset: 0, 0
+  index: -1
+z_3hl
+  rotate: false
+  xy: 2104, 2248
+  size: 1136, 1408
+  orig: 1136, 1408
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 2104, 2671
+  size: 356, 1322
+  orig: 356, 1322
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: true
+  xy: 2043, 412
+  size: 1400, 1352
+  orig: 1400, 1352
+  offset: 0, 0
+  index: -1
+z_bu_1
+  rotate: false
+  xy: 2716, 3658
+  size: 801, 335
+  orig: 801, 397
+  offset: 0, 0
+  index: -1
+z_bu_2
+  rotate: false
+  xy: 2461, 3186
+  size: 253, 806
+  orig: 253, 806
+  offset: 0, 0
+  index: -1
+z_bu_3
+  rotate: 270
+  xy: 2215, 1814
+  size: 1684, 1664
+  orig: 1684, 1664
+  offset: 0, 0
+  index: -1

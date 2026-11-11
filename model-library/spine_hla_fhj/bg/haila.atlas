@@ -1,0 +1,48 @@
+
+haila.png
+size: 3554,3554
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_cao02
+  rotate: false
+  xy: 2052, 2489
+  size: 1024, 1063
+  orig: 1024, 1063
+  offset: 0, 0
+  index: -1
+bj_cao03
+  rotate: false
+  xy: 884, 655
+  size: 278, 445
+  orig: 278, 445
+  offset: 0, 0
+  index: -1
+bj_dan
+  rotate: false
+  xy: 2, 560
+  size: 1500, 1012
+  orig: 1500, 1012
+  offset: 0, 0
+  index: -1
+bj_hudiejie
+  rotate: false
+  xy: 2052, 1265
+  size: 1500, 1906
+  orig: 1500, 1906
+  offset: 0, 0
+  index: -1
+bj_menpai
+  rotate: false
+  xy: 2, 1574
+  size: 2048, 1978
+  orig: 2048, 1978
+  offset: 0, 0
+  index: -1
+bj_zhiwu
+  rotate: 270
+  xy: 1836, 496
+  size: 1021, 1598
+  orig: 1024, 1598
+  offset: 3, 0
+  index: -1

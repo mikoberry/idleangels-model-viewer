@@ -1,0 +1,83 @@
+
+kaesi.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bk_0
+  rotate: 180
+  xy: 832, 117
+  size: 1214, 1362
+  orig: 1266, 1398
+  offset: 0, 0
+  index: -1
+bk_1
+  rotate: false
+  xy: 1088, 1587
+  size: 211, 192
+  orig: 211, 192
+  offset: 0, 0
+  index: -1
+bk_2
+  rotate: false
+  xy: 1154, 1384
+  size: 186, 201
+  orig: 186, 201
+  offset: 0, 0
+  index: -1
+bk_3
+  rotate: false
+  xy: 995, 1788
+  size: 315, 259
+  orig: 315, 259
+  offset: 0, 0
+  index: -1
+bk_chuanglian_l
+  rotate: false
+  xy: 995, 1389
+  size: 106, 467
+  orig: 106, 467
+  offset: 0, 0
+  index: -1
+bk_chuanglian_r
+  rotate: false
+  xy: 1068, 1173
+  size: 98, 471
+  orig: 104, 471
+  offset: 6, 0
+  index: -1
+bk_guang
+  rotate: false
+  xy: 2, 687
+  size: 991, 1359
+  orig: 991, 1359
+  offset: 0, 0
+  index: -1
+bk_huo_1
+  rotate: false
+  xy: 995, 2016
+  size: 27, 30
+  orig: 27, 30
+  offset: 0, 0
+  index: -1
+bk_huo_2
+  rotate: false
+  xy: 1001, 2004
+  size: 3, 10
+  orig: 3, 10
+  offset: 0, 0
+  index: -1
+han_17
+  rotate: false
+  xy: 995, 1906
+  size: 3, 10
+  orig: 3, 10
+  offset: 0, 0
+  index: -1
+han_18
+  rotate: false
+  xy: 995, 2004
+  size: 4, 11
+  orig: 4, 11
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,230 @@
+
+yunwaijingSSR.png
+size: 2033,2033
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beij_10
+  rotate: false
+  xy: 1414, 124
+  size: 110, 744
+  orig: 110, 744
+  offset: 0, 0
+  index: -1
+beij_11
+  rotate: true
+  xy: 1886, 1346
+  size: 201, 143
+  orig: 201, 160
+  offset: 0, 17
+  index: -1
+beij_12
+  rotate: false
+  xy: 1886, 1293
+  size: 47, 51
+  orig: 47, 51
+  offset: 0, 0
+  index: -1
+beij_13
+  rotate: true
+  xy: 1949, 1814
+  size: 98, 67
+  orig: 98, 67
+  offset: 0, 0
+  index: -1
+beij_14
+  rotate: false
+  xy: 1026, 64
+  size: 49, 99
+  orig: 49, 99
+  offset: 0, 0
+  index: -1
+beij_15
+  rotate: true
+  xy: 1897, 437
+  size: 189, 86
+  orig: 196, 91
+  offset: 7, 5
+  index: -1
+beij_16
+  rotate: true
+  xy: 1769, 398
+  size: 201, 126
+  orig: 201, 143
+  offset: 0, 17
+  index: -1
+beij_17
+  rotate: true
+  xy: 1843, 1059
+  size: 220, 162
+  orig: 220, 166
+  offset: 0, 4
+  index: -1
+beij_18
+  rotate: false
+  xy: 1291, 20
+  size: 90, 100
+  orig: 90, 103
+  offset: 0, 3
+  index: -1
+beij_19
+  rotate: false
+  xy: 1769, 214
+  size: 172, 182
+  orig: 199, 182
+  offset: 19, 0
+  index: -1
+beij_2
+  rotate: false
+  xy: 1586, 850
+  size: 257, 138
+  orig: 257, 138
+  offset: 0, 0
+  index: -1
+beij_20
+  rotate: false
+  xy: 1586, 990
+  size: 255, 289
+  orig: 255, 289
+  offset: 0, 0
+  index: -1
+beij_21
+  rotate: false
+  xy: 1203, 13
+  size: 86, 107
+  orig: 87, 107
+  offset: 1, 0
+  index: -1
+beij_22
+  rotate: false
+  xy: 795, 34
+  size: 229, 129
+  orig: 243, 166
+  offset: 0, 0
+  index: -1
+beij_23
+  rotate: false
+  xy: 494, 52
+  size: 299, 111
+  orig: 317, 131
+  offset: 0, 6
+  index: -1
+beij_24
+  rotate: true
+  xy: 1985, 562
+  size: 64, 46
+  orig: 64, 46
+  offset: 0, 0
+  index: -1
+beij_25
+  rotate: false
+  xy: 1089, 122
+  size: 323, 746
+  orig: 324, 751
+  offset: 0, 0
+  index: -1
+beij_26
+  rotate: false
+  xy: 2, 38
+  size: 490, 830
+  orig: 533, 887
+  offset: 17, 0
+  index: -1
+beij_27
+  rotate: false
+  xy: 2, 1407
+  size: 1544, 624
+  orig: 1544, 624
+  offset: 0, 0
+  index: -1
+beij_28
+  rotate: false
+  xy: 1949, 1914
+  size: 80, 117
+  orig: 102, 123
+  offset: 22, 6
+  index: -1
+beij_29
+  rotate: false
+  xy: 1526, 321
+  size: 241, 278
+  orig: 241, 282
+  offset: 0, 0
+  index: -1
+beij_30
+  rotate: false
+  xy: 1807, 628
+  size: 214, 218
+  orig: 214, 218
+  offset: 0, 0
+  index: -1
+beij_31
+  rotate: false
+  xy: 1077, 8
+  size: 124, 112
+  orig: 124, 112
+  offset: 0, 0
+  index: -1
+beij_32
+  rotate: false
+  xy: 1548, 1549
+  size: 399, 482
+  orig: 399, 482
+  offset: 0, 0
+  index: -1
+beij_33
+  rotate: false
+  xy: 2, 870
+  size: 1582, 535
+  orig: 1582, 535
+  offset: 0, 0
+  index: -1
+beij_4
+  rotate: false
+  xy: 1526, 601
+  size: 279, 247
+  orig: 279, 247
+  offset: 0, 0
+  index: -1
+beij_6
+  rotate: true
+  xy: 1845, 848
+  size: 209, 184
+  orig: 212, 197
+  offset: 0, 0
+  index: -1
+beij_7
+  rotate: false
+  xy: 1586, 1281
+  size: 298, 266
+  orig: 298, 268
+  offset: 0, 2
+  index: -1
+beij_8
+  rotate: false
+  xy: 494, 165
+  size: 593, 703
+  orig: 604, 704
+  offset: 0, 1
+  index: -1
+beij_9
+  rotate: false
+  xy: 1526, 139
+  size: 239, 180
+  orig: 239, 180
+  offset: 0, 0
+  index: -1
+nv2_lihe
+  rotate: false
+  xy: 1767, 61
+  size: 170, 151
+  orig: 170, 151
+  offset: 0, 0
+  index: -1
+nv2_lihe2
+  rotate: true
+  xy: 1526, 8
+  size: 129, 131
+  orig: 129, 131
+  offset: 0, 0
+  index: -1

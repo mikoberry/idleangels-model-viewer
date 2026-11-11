@@ -1,0 +1,153 @@
+
+beimihuMR+.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+m_l_1
+  rotate: 270
+  xy: 2771, 2998
+  size: 560, 643
+  orig: 560, 643
+  offset: 0, 0
+  index: -1
+m_l_2
+  rotate: true
+  xy: 2638, 318
+  size: 667, 507
+  orig: 667, 507
+  offset: 0, 0
+  index: -1
+m_l_3
+  rotate: false
+  xy: 2991, 733
+  size: 490, 812
+  orig: 490, 812
+  offset: 0, 0
+  index: -1
+m_l_4
+  rotate: true
+  xy: 2586, 2184
+  size: 400, 425
+  orig: 420, 442
+  offset: 20, 0
+  index: -1
+m_m_1
+  rotate: false
+  xy: 3223, 2453
+  size: 276, 396
+  orig: 276, 396
+  offset: 0, 0
+  index: -1
+m_m_2
+  rotate: true
+  xy: 1683, 41
+  size: 276, 396
+  orig: 276, 396
+  offset: 0, 0
+  index: -1
+m_m_3
+  rotate: false
+  xy: 3167, 1548
+  size: 293, 482
+  orig: 293, 482
+  offset: 0, 0
+  index: -1
+m_r_1
+  rotate: 180
+  xy: 2104, 2275
+  size: 1117, 1283
+  orig: 1117, 1283
+  offset: 0, 0
+  index: -1
+m_r_2
+  rotate: 270
+  xy: 2659, 987
+  size: 667, 507
+  orig: 667, 507
+  offset: 0, 0
+  index: -1
+m_r_3
+  rotate: 270
+  xy: 2588, 8
+  size: 490, 812
+  orig: 490, 812
+  offset: 0, 0
+  index: -1
+m_r_4
+  rotate: 270
+  xy: 3107, 2031
+  size: 420, 449
+  orig: 420, 449
+  offset: 0, 0
+  index: -1
+r1
+  rotate: false
+  xy: 2, 1228
+  size: 62, 95
+  orig: 62, 95
+  offset: 0, 0
+  index: -1
+r2
+  rotate: false
+  xy: 2, 1325
+  size: 86, 78
+  orig: 86, 78
+  offset: 0, 0
+  index: -1
+r3
+  rotate: false
+  xy: 2104, 3451
+  size: 72, 108
+  orig: 72, 108
+  offset: 0, 0
+  index: -1
+r4
+  rotate: false
+  xy: 2104, 3035
+  size: 95, 160
+  orig: 95, 160
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 1405
+  size: 2100, 2153
+  orig: 2100, 2153
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 16
+  size: 1680, 1387
+  orig: 1680, 1387
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 2733, 1657
+  size: 354, 503
+  orig: 354, 503
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 1684, 318
+  size: 953, 1085
+  orig: 953, 1085
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 2104, 1405
+  size: 628, 637
+  orig: 628, 637
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: false
+  xy: 2104, 2179
+  size: 481, 711
+  orig: 481, 711
+  offset: 0, 0
+  index: -1

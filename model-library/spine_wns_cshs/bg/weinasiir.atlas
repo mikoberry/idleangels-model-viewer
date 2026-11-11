@@ -1,0 +1,181 @@
+
+weinasiir.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beijing
+  rotate: false
+  xy: 2052, 1076
+  size: 1024, 968
+  orig: 1024, 968
+  offset: 0, 0
+  index: -1
+beijing1
+  rotate: true
+  xy: 2052, 2046
+  size: 2048, 1967
+  orig: 2048, 1967
+  offset: 0, 0
+  index: -1
+gz1_1
+  rotate: 270
+  xy: 950, 1044
+  size: 439, 527
+  orig: 439, 527
+  offset: 0, 0
+  index: -1
+gz1_2
+  rotate: false
+  xy: 3162, 927
+  size: 400, 291
+  orig: 400, 291
+  offset: 0, 0
+  index: -1
+gz1_3
+  rotate: false
+  xy: 3078, 1557
+  size: 257, 353
+  orig: 257, 353
+  offset: 0, 0
+  index: -1
+gz2_1
+  rotate: true
+  xy: 1671, 836
+  size: 308, 416
+  orig: 308, 416
+  offset: 0, 0
+  index: -1
+gz2_2
+  rotate: false
+  xy: 2, 857
+  size: 356, 244
+  orig: 356, 244
+  offset: 0, 0
+  index: -1
+gz2_3
+  rotate: false
+  xy: 3078, 1298
+  size: 274, 204
+  orig: 279, 204
+  offset: 5, 0
+  index: -1
+gz3_1
+  rotate: false
+  xy: 3078, 1131
+  size: 577, 914
+  orig: 577, 914
+  offset: 0, 0
+  index: -1
+gz3_2
+  rotate: false
+  xy: 2, 1103
+  size: 762, 475
+  orig: 762, 475
+  offset: 0, 0
+  index: -1
+gz3_3
+  rotate: true
+  xy: 1453, 1129
+  size: 449, 491
+  orig: 449, 491
+  offset: 0, 0
+  index: -1
+gz4_1
+  rotate: true
+  xy: 430, 894
+  size: 354, 428
+  orig: 354, 428
+  offset: 0, 0
+  index: -1
+gz4_2
+  rotate: false
+  xy: 2800, 905
+  size: 433, 227
+  orig: 433, 227
+  offset: 0, 0
+  index: -1
+gz4_3
+  rotate: false
+  xy: 528, 1308
+  size: 253, 170
+  orig: 253, 170
+  offset: 0, 0
+  index: -1
+gz5_1
+  rotate: false
+  xy: 3513, 1134
+  size: 289, 278
+  orig: 289, 278
+  offset: 0, 0
+  index: -1
+gz5_2
+  rotate: false
+  xy: 3499, 1065
+  size: 304, 129
+  orig: 304, 129
+  offset: 0, 0
+  index: -1
+gz5_3
+  rotate: false
+  xy: 3078, 1340
+  size: 290, 292
+  orig: 290, 292
+  offset: 0, 0
+  index: -1
+gz6_1
+  rotate: false
+  xy: 3548, 1240
+  size: 220, 396
+  orig: 220, 396
+  offset: 0, 0
+  index: -1
+gz6_2
+  rotate: false
+  xy: 3752, 897
+  size: 342, 200
+  orig: 342, 200
+  offset: 0, 0
+  index: -1
+gz6_3
+  rotate: false
+  xy: 1696, 1184
+  size: 304, 394
+  orig: 304, 394
+  offset: 0, 0
+  index: -1
+shenxiang4
+  rotate: true
+  xy: 3543, 1020
+  size: 1024, 353
+  orig: 1024, 353
+  offset: 0, 0
+  index: -1
+shenxiang5
+  rotate: false
+  xy: 547, 1064
+  size: 1024, 514
+  orig: 1024, 514
+  offset: 0, 0
+  index: -1
+shenxiang6
+  rotate: true
+  xy: 3837, 996
+  size: 1024, 257
+  orig: 1024, 257
+  offset: 0, 0
+  index: -1
+shenxiang7
+  rotate: 180
+  xy: 835, 830
+  size: 1024, 483
+  orig: 1024, 483
+  offset: 0, 0
+  index: -1
+shenxiang8
+  rotate: false
+  xy: 2, 1580
+  size: 2048, 2514
+  orig: 2048, 2514
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,160 @@
+
+yuanjieshen.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BD_01
+  rotate: false
+  xy: 2, 1637
+  size: 896, 2457
+  orig: 896, 2457
+  offset: 0, 0
+  index: -1
+BD_02
+  rotate: false
+  xy: 857, 834
+  size: 300, 1620
+  orig: 300, 1620
+  offset: 0, 0
+  index: -1
+BD_03
+  rotate: false
+  xy: 2913, 2684
+  size: 1024, 384
+  orig: 1024, 384
+  offset: 0, 0
+  index: -1
+BD_04
+  rotate: true
+  xy: 575, 360
+  size: 801, 740
+  orig: 801, 740
+  offset: 0, 0
+  index: -1
+BD_05
+  rotate: false
+  xy: 2977, 2349
+  size: 1024, 333
+  orig: 1024, 333
+  offset: 0, 0
+  index: -1
+BD_06
+  rotate: true
+  xy: 2839, 3070
+  size: 1024, 829
+  orig: 1024, 829
+  offset: 0, 0
+  index: -1
+BD_07
+  rotate: false
+  xy: 1089, 2143
+  size: 737, 311
+  orig: 737, 311
+  offset: 0, 0
+  index: -1
+BD_08
+  rotate: true
+  xy: 1315, 403
+  size: 1024, 1888
+  orig: 1024, 1888
+  offset: 0, 0
+  index: -1
+BD_09
+  rotate: true
+  xy: 2379, 691
+  size: 805, 1715
+  orig: 805, 1715
+  offset: 0, 0
+  index: -1
+BD_10
+  rotate: true
+  xy: 3670, 3177
+  size: 918, 364
+  orig: 918, 365
+  offset: 0, 1
+  index: -1
+BD_11
+  rotate: false
+  xy: 890, 2456
+  size: 929, 359
+  orig: 929, 359
+  offset: 0, 0
+  index: -1
+BD_12
+  rotate: false
+  xy: 2, 3406
+  size: 132, 689
+  orig: 132, 689
+  offset: 0, 0
+  index: -1
+BD_13
+  rotate: 270
+  xy: 1158, 1204
+  size: 723, 2935
+  orig: 723, 2935
+  offset: 0, 0
+  index: -1
+BD_14
+  rotate: true
+  xy: 3265, 1867
+  size: 512, 809
+  orig: 512, 810
+  offset: 0, 1
+  index: -1
+BD_15
+  rotate: false
+  xy: 1882, 1769
+  size: 555, 2325
+  orig: 555, 2325
+  offset: 0, 0
+  index: -1
+BD_16
+  rotate: false
+  xy: 434, 3894
+  size: 226, 200
+  orig: 226, 200
+  offset: 0, 0
+  index: -1
+BD_17
+  rotate: false
+  xy: 2439, 1705
+  size: 638, 2390
+  orig: 638, 2390
+  offset: 0, 0
+  index: -1
+BD_18
+  rotate: false
+  xy: 112, 3960
+  size: 103, 134
+  orig: 103, 134
+  offset: 0, 0
+  index: -1
+BD_19
+  rotate: true
+  xy: 2539, 430
+  size: 299, 1426
+  orig: 300, 1427
+  offset: 0, 0
+  index: -1
+BD_20
+  rotate: false
+  xy: 2, 433
+  size: 512, 1726
+  orig: 512, 1726
+  offset: 0, 0
+  index: -1
+BD_21
+  rotate: false
+  xy: 856, 2817
+  size: 1024, 1277
+  orig: 1024, 1277
+  offset: 0, 0
+  index: -1
+BJ_04
+  rotate: false
+  xy: 599, 3786
+  size: 255, 111
+  orig: 256, 111
+  offset: 0, 0
+  index: -1

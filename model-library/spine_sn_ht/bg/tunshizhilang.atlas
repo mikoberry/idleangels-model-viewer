@@ -1,0 +1,153 @@
+
+tunshizhilang.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+B_tou_yan_l_bi
+  rotate: false
+  xy: 2, 1543
+  size: 42, 26
+  orig: 42, 26
+  offset: 0, 0
+  index: -1
+B_tou_yan_r_bi
+  rotate: false
+  xy: 2, 1671
+  size: 56, 39
+  orig: 56, 39
+  offset: 0, 0
+  index: -1
+dimian_0
+  rotate: false
+  xy: 246, 585
+  size: 1423, 417
+  orig: 1423, 417
+  offset: 0, 0
+  index: -1
+hua_R_1
+  rotate: true
+  xy: 459, 1723
+  size: 323, 364
+  orig: 323, 364
+  offset: 0, 0
+  index: -1
+hua_R_2
+  rotate: false
+  xy: 2, 1887
+  size: 79, 81
+  orig: 79, 81
+  offset: 0, 0
+  index: -1
+hua_R_3
+  rotate: false
+  xy: 320, 1735
+  size: 127, 131
+  orig: 127, 131
+  offset: 0, 0
+  index: -1
+hua_R_4
+  rotate: false
+  xy: 2, 1970
+  size: 87, 77
+  orig: 87, 77
+  offset: 0, 0
+  index: -1
+huaban_1
+  rotate: false
+  xy: 2, 1848
+  size: 75, 36
+  orig: 75, 36
+  offset: 0, 0
+  index: -1
+huaban_2
+  rotate: false
+  xy: 2, 1571
+  size: 47, 33
+  orig: 47, 33
+  offset: 0, 0
+  index: -1
+huaban_3
+  rotate: false
+  xy: 90, 2004
+  size: 43, 42
+  orig: 43, 42
+  offset: 0, 0
+  index: -1
+huaban_4
+  rotate: false
+  xy: 2, 1711
+  size: 47, 38
+  orig: 47, 38
+  offset: 0, 0
+  index: -1
+huaban_5
+  rotate: false
+  xy: 2, 1751
+  size: 52, 46
+  orig: 52, 46
+  offset: 0, 0
+  index: -1
+huaban_6
+  rotate: false
+  xy: 2, 1799
+  size: 52, 47
+  orig: 52, 47
+  offset: 0, 0
+  index: -1
+huaban_7
+  rotate: false
+  xy: 2, 1637
+  size: 50, 32
+  orig: 50, 32
+  offset: 0, 0
+  index: -1
+huaban_8
+  rotate: false
+  xy: 2, 1606
+  size: 54, 29
+  orig: 54, 29
+  offset: 0, 0
+  index: -1
+jing_1
+  rotate: false
+  xy: 1178, 1162
+  size: 738, 885
+  orig: 738, 885
+  offset: 0, 0
+  index: -1
+jing_guang_1x
+  rotate: 180
+  xy: 704, 13
+  size: 646, 570
+  orig: 646, 570
+  offset: 0, 0
+  index: -1
+jing_guang_2x
+  rotate: 180
+  xy: 2, 8
+  size: 719, 676
+  orig: 719, 676
+  offset: 0, 0
+  index: -1
+jing_kuang
+  rotate: false
+  xy: 2, 983
+  size: 1251, 1064
+  orig: 1251, 1064
+  offset: 0, 0
+  index: -1
+jing_ren_A
+  rotate: 180
+  xy: 1363, 3
+  size: 606, 753
+  orig: 606, 753
+  offset: 0, 0
+  index: -1
+jing_ren_B
+  rotate: true
+  xy: 1406, 768
+  size: 401, 516
+  orig: 401, 516
+  offset: 0, 0
+  index: -1

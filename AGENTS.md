@@ -33,10 +33,11 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - Default target: `F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test`; override it with the `WE_TARGET_DIR` environment variable.
 - The copy replaces the whole target directory. Do not put hand-written files there; if Wallpaper Engine is using those files, the copy may fail.
 - `base` is `'./'`, so generated asset URLs are relative; `build.target` is `es2015`.
+- `vercel.json` prepares all models and builds `dist` for Vercel. The full static output is about 730 MB and may exceed plan limits; adjust the build command to a subset if needed.
 
 ## Assets and Spine runtime
 
-- `model-library/` is the local source library and is gitignored. `public/spine/models/` is generated from it and is also gitignored; do not edit generated model assets by hand.
+- `model-library/` is the committed source library. `public/spine/models/` is generated from it and is gitignored; do not edit generated model assets by hand.
 - `model-library/models.json` is the raw library manifest. `public/spine/models/manifest.json` is generated per package and lists only the models included in that build.
 - `model-presets.json` (tracked) stores optional per-model `recommendedView` values: `scale`, `positionX`, `positionY`, optional `backgroundColor`. `scripts/prepare-models.mjs` merges it into the package manifest.
 - If a model has no preset, use `scale: 1`, `positionX: 0`, `positionY: 0`, `backgroundColor: '#000000'`. Do not hard-code a global recommended view in the UI.

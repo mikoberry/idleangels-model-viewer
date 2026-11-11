@@ -1,0 +1,48 @@
+
+zhousihunsha.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_kuang
+  rotate: false
+  xy: 968, 871
+  size: 935, 1164
+  orig: 1093, 1164
+  offset: 0, 0
+  index: -1
+bj_tiankong
+  rotate: false
+  xy: 2, 851
+  size: 965, 1184
+  orig: 965, 1184
+  offset: 0, 0
+  index: -1
+bj_youchuang
+  rotate: true
+  xy: 2, 582
+  size: 268, 1295
+  orig: 268, 1295
+  offset: 0, 0
+  index: -1
+bj_yunyou
+  rotate: false
+  xy: 1260, 3
+  size: 479, 458
+  orig: 479, 458
+  offset: 0, 0
+  index: -1
+bj_yunzuo
+  rotate: true
+  xy: 1298, 463
+  size: 406, 570
+  orig: 406, 570
+  offset: 0, 0
+  index: -1
+bj_zuochuang
+  rotate: true
+  xy: 2, 334
+  size: 246, 1256
+  orig: 246, 1256
+  offset: 0, 0
+  index: -1

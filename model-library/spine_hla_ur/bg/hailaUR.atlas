@@ -1,0 +1,153 @@
+
+hailaUR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+f_1
+  rotate: false
+  xy: 41, 1319
+  size: 420, 249
+  orig: 420, 249
+  offset: 0, 0
+  index: -1
+f_10
+  rotate: false
+  xy: 2198, 3812
+  size: 674, 282
+  orig: 674, 282
+  offset: 0, 0
+  index: -1
+f_11
+  rotate: false
+  xy: 1072, 3992
+  size: 412, 103
+  orig: 412, 103
+  offset: 0, 0
+  index: -1
+f_12
+  rotate: false
+  xy: 1965, 664
+  size: 610, 263
+  orig: 610, 263
+  offset: 0, 0
+  index: -1
+f_13
+  rotate: false
+  xy: 3181, 546
+  size: 913, 405
+  orig: 913, 405
+  offset: 0, 0
+  index: -1
+f_14
+  rotate: false
+  xy: 547, 3826
+  size: 630, 268
+  orig: 630, 268
+  offset: 0, 0
+  index: -1
+f_2
+  rotate: false
+  xy: 2363, 2405
+  size: 803, 362
+  orig: 803, 362
+  offset: 0, 0
+  index: -1
+f_3
+  rotate: false
+  xy: 2277, 847
+  size: 940, 535
+  orig: 940, 535
+  offset: 0, 0
+  index: -1
+f_4
+  rotate: false
+  xy: 2, 3624
+  size: 544, 470
+  orig: 544, 470
+  offset: 0, 0
+  index: -1
+f_5
+  rotate: false
+  xy: 2, 769
+  size: 898, 571
+  orig: 898, 571
+  offset: 0, 0
+  index: -1
+f_6
+  rotate: false
+  xy: 2836, 3973
+  size: 229, 121
+  orig: 229, 121
+  offset: 0, 0
+  index: -1
+f_7
+  rotate: false
+  xy: 3828, 3783
+  size: 261, 312
+  orig: 261, 312
+  offset: 0, 0
+  index: -1
+f_8
+  rotate: false
+  xy: 567, 409
+  size: 298, 511
+  orig: 298, 511
+  offset: 0, 0
+  index: -1
+f_9
+  rotate: false
+  xy: 862, 533
+  size: 442, 405
+  orig: 442, 405
+  offset: 0, 0
+  index: -1
+z_chuang
+  rotate: false
+  xy: 2248, 2699
+  size: 1610, 1396
+  orig: 1610, 1396
+  offset: 0, 0
+  index: -1
+z_fazhen_1
+  rotate: false
+  xy: 2, 730
+  size: 2490, 3365
+  orig: 2607, 3365
+  offset: 0, 0
+  index: -1
+z_fazhen_1_gl
+  rotate: false
+  xy: 3211, 1716
+  size: 883, 1182
+  orig: 910, 1182
+  offset: 0, 0
+  index: -1
+z_fazhen_2
+  rotate: false
+  xy: 3332, 1053
+  size: 700, 660
+  orig: 700, 660
+  offset: 0, 0
+  index: -1
+z_lazhu_1
+  rotate: false
+  xy: 2, 1569
+  size: 407, 417
+  orig: 407, 417
+  offset: 0, 0
+  index: -1
+z_lazhu_2
+  rotate: false
+  xy: 2, 426
+  size: 440, 768
+  orig: 512, 768
+  offset: 0, 0
+  index: -1
+z_xingkong
+  rotate: false
+  xy: 2420, 1374
+  size: 910, 1099
+  orig: 910, 1099
+  offset: 0, 0
+  index: -1

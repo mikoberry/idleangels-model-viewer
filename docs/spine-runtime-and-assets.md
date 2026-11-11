@@ -24,7 +24,7 @@
 模型采用“源库 + 按包生成”的结构：
 
 ```text
-model-library/                 # 源模型库，git 忽略
+model-library/                 # 源模型库，跟踪提交
 ├─ models.json                 # 源库清单
 ├─ import-report.json          # 导入/拒绝原因
 └─ spine_*/                    # 从源目录复制进来的合格模型

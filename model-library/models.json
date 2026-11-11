@@ -1,0 +1,4066 @@
+{
+  "version": 1,
+  "source": "F:\\live2d\\IdleAngels\\model-output",
+  "importedAt": "2026-11-11T11:17:55.296Z",
+  "models": [
+    {
+      "id": "spine_abl0",
+      "label": "spine_abl0",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "ssraboluo.skel",
+          "atlas": "ssraboluo.atlas",
+          "texture": "ssraboluo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "ssraboluo.skel",
+          "atlas": "ssraboluo.atlas",
+          "texture": "ssraboluo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_abl_cshs",
+      "label": "spine_abl_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "aboluoMR+.skel",
+          "atlas": "aboluoMR+.atlas",
+          "texture": "aboluoMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "aboluoMR+.skel",
+          "atlas": "aboluoMR+.atlas",
+          "texture": "aboluoMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3973x3973 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_abl_mr",
+      "label": "spine_abl_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "aboluoMR.skel",
+          "atlas": "aboluoMR.atlas",
+          "texture": "aboluoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "aboluoMR.skel",
+          "atlas": "aboluoMR.atlas",
+          "texture": "aboluoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_abl_np",
+      "label": "spine_abl_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "aboluo_nvpu.skel",
+          "atlas": "aboluo_nvpu.atlas",
+          "texture": "aboluo_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "aboluo_nvpu.skel",
+          "atlas": "aboluo_nvpu.atlas",
+          "texture": "aboluo_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4041x4041 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_abl_ur",
+      "label": "spine_abl_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "uraboluo.skel",
+          "atlas": "uraboluo.atlas",
+          "texture": "uraboluo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "uraboluo.skel",
+          "atlas": "uraboluo.atlas",
+          "texture": "uraboluo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_abl_ur_plus",
+      "label": "spine_abl_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "aboluo_UR.skel",
+          "atlas": "aboluo_UR.atlas",
+          "texture": "aboluo_UR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "aboluo_UR.skel",
+          "atlas": "aboluo_UR.atlas",
+          "texture": "aboluo_UR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ars_mr",
+      "label": "spine_ars_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "aruisiMR.skel",
+          "atlas": "aruisiMR.atlas",
+          "texture": "aruisiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "aruisiMR.skel",
+          "atlas": "aruisiMR.atlas",
+          "texture": "aruisiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_axl_hs",
+      "label": "spine_axl_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "axiuluohunsha.skel",
+          "atlas": "axiuluohunsha.atlas",
+          "texture": "axiuluohunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "axiuluohunsha.skel",
+          "atlas": "axiuluohunsha.atlas",
+          "texture": "axiuluohunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_axl_mr",
+      "label": "spine_axl_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "axiuluoMR.skel",
+          "atlas": "axiuluoMR.atlas",
+          "texture": "axiuluoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "axiuluoMR.skel",
+          "atlas": "axiuluoMR.atlas",
+          "texture": "axiuluoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_bmh2",
+      "label": "spine_bmh2",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "beimihu.skel",
+          "atlas": "beimihu.atlas",
+          "texture": "beimihu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "beimihu.skel",
+          "atlas": "beimihu.atlas",
+          "texture": "beimihu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_bmh_cshs",
+      "label": "spine_bmh_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "beimihuMR+.skel",
+          "atlas": "beimihuMR+.atlas",
+          "texture": "beimihuMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "beimihuMR+.skel",
+          "atlas": "beimihuMR+.atlas",
+          "texture": "beimihuMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_bmh_mr",
+      "label": "spine_bmh_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "bimihuMR.skel",
+          "atlas": "bimihuMR.atlas",
+          "texture": "bimihuMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "bimihuMR.skel",
+          "atlas": "bimihuMR.atlas",
+          "texture": "bimihuMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3811x3811 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_byz_cshs",
+      "label": "spine_byz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "byzir.skel",
+          "atlas": "byzir.atlas",
+          "texture": "byzir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "byzir.skel",
+          "atlas": "byzir.atlas",
+          "texture": "byzir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ce_hs",
+      "label": "spine_ce_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "changehunsha.skel",
+          "atlas": "changehunsha.atlas",
+          "texture": "changehunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "changehunsha.skel",
+          "atlas": "changehunsha.atlas",
+          "texture": "changehunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ce_mr",
+      "label": "spine_ce_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "changeMR.skel",
+          "atlas": "changeMR.atlas",
+          "texture": "changeMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "changeMR.skel",
+          "atlas": "changeMR.atlas",
+          "texture": "changeMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ce_np",
+      "label": "spine_ce_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "change_nvpu.skel",
+          "atlas": "change_nvpu.atlas",
+          "texture": "change_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "change_nvpu.skel",
+          "atlas": "change_nvpu.atlas",
+          "texture": "change_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ce_ur",
+      "label": "spine_ce_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "changeUR.skel",
+          "atlas": "changeUR.atlas",
+          "texture": "changeUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "changeUR.skel",
+          "atlas": "changeUR.atlas",
+          "texture": "changeUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 1921x1921 -> PNG 2048x2048",
+        "angel: atlas 4017x4017 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_cnz",
+      "label": "spine_cnz",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "cnz.skel",
+          "atlas": "cnz.atlas",
+          "texture": "cnz.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "cnz.skel",
+          "atlas": "cnz.atlas",
+          "texture": "cnz.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_cnz_cshs",
+      "label": "spine_cnz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "chunvzuoIR.skel",
+          "atlas": "chunvzuoIR.atlas",
+          "texture": "chunvzuoIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "chunvzuoIR.skel",
+          "atlas": "chunvzuoIR.atlas",
+          "texture": "chunvzuoIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_dtslxf",
+      "label": "spine_dtslxf",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "luxifaMR.skel",
+          "atlas": "luxifaMR.atlas",
+          "texture": "luxifaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "luxifaMR.skel",
+          "atlas": "luxifaMR.atlas",
+          "texture": "luxifaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3248x3248 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_dtslxf_cshs",
+      "label": "spine_dtslxf_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "luxifaIR.skel",
+          "atlas": "luxifaIR.atlas",
+          "texture": "luxifaIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "luxifaIR.skel",
+          "atlas": "luxifaIR.atlas",
+          "texture": "luxifaIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_flj0",
+      "label": "spine_flj0",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "afuluodideSSR.skel",
+          "atlas": "afuluodideSSR.atlas",
+          "texture": "afuluodideSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "afuluodideSSR.skel",
+          "atlas": "afuluodideSSR.atlas",
+          "texture": "afuluodideSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_flj_hs",
+      "label": "spine_flj_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "flj.skel",
+          "atlas": "flj.atlas",
+          "texture": "flj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "flj.skel",
+          "atlas": "flj.atlas",
+          "texture": "flj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_flj_ur",
+      "label": "spine_flj_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "afuluodideUR.skel",
+          "atlas": "afuluodideUR.atlas",
+          "texture": "afuluodideUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "afuluodideUR.skel",
+          "atlas": "afuluodideUR.atlas",
+          "texture": "afuluodideUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_flj_ur_plus",
+      "label": "spine_flj_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "afuluodide.skel",
+          "atlas": "afuluodide.atlas",
+          "texture": "afuluodide.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "afuluodide.skel",
+          "atlas": "afuluodide.atlas",
+          "texture": "afuluodide.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_fly_hs",
+      "label": "spine_fly_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuleiyahunsha.skel",
+          "atlas": "fuleiyahunsha.atlas",
+          "texture": "fuleiyahunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuleiyahunsha.skel",
+          "atlas": "fuleiyahunsha.atlas",
+          "texture": "fuleiyahunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_fly_mr",
+      "label": "spine_fly_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuleiyaMR.skel",
+          "atlas": "fuleiyaMR.atlas",
+          "texture": "fuleiyaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuleiyaMR.skel",
+          "atlas": "fuleiyaMR.atlas",
+          "texture": "fuleiyaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_fly_np",
+      "label": "spine_fly_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuleiya_nvpu.skel",
+          "atlas": "fuleiya_nvpu.atlas",
+          "texture": "fuleiya_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuleiya_nvpu.skel",
+          "atlas": "fuleiya_nvpu.atlas",
+          "texture": "fuleiya_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_fly_ur_plus",
+      "label": "spine_fly_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuleiya.skel",
+          "atlas": "fuleiya.atlas",
+          "texture": "fuleiya.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuleiya.skel",
+          "atlas": "fuleiya.atlas",
+          "texture": "fuleiya.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_fly_znq",
+      "label": "spine_fly_znq",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuleiyazhounianqing.skel",
+          "atlas": "fuleiyazhounianqing.atlas",
+          "texture": "fuleiyazhounianqing.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuleiyazhounianqing.skel",
+          "atlas": "fuleiyazhounianqing.atlas",
+          "texture": "fuleiyazhounianqing.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3998x3998 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hhbsd_bdmy",
+      "label": "spine_hhbsd_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "bosaidongqiujin.skel",
+          "atlas": "bosaidongqiujin.atlas",
+          "texture": "bosaidongqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "bosaidongqiujin.skel",
+          "atlas": "bosaidongqiujin.atlas",
+          "texture": "bosaidongqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3835x3835 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hhbsd_cshs",
+      "label": "spine_hhbsd_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "bosaidongIR.skel",
+          "atlas": "bosaidongIR.atlas",
+          "texture": "bosaidongIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "bosaidongIR.skel",
+          "atlas": "bosaidongIR.atlas",
+          "texture": "bosaidongIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hl_cshs",
+      "label": "spine_hl_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "helaMR.skel",
+          "atlas": "helaMR.atlas",
+          "texture": "helaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "helaMR.skel",
+          "atlas": "helaMR.atlas",
+          "texture": "helaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hl_hs",
+      "label": "spine_hl_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hela.skel",
+          "atlas": "hela.atlas",
+          "texture": "hela.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hela.skel",
+          "atlas": "hela.atlas",
+          "texture": "hela.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hl_np",
+      "label": "spine_hl_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hela.skel",
+          "atlas": "hela.atlas",
+          "texture": "hela.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hela.skel",
+          "atlas": "hela.atlas",
+          "texture": "hela.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hl_ur_plus",
+      "label": "spine_hl_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hela_UR.skel",
+          "atlas": "hela_UR.atlas",
+          "texture": "hela_UR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hela_UR.skel",
+          "atlas": "hela_UR.atlas",
+          "texture": "hela_UR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hla_cshs",
+      "label": "spine_hla_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hailaIR.skel",
+          "atlas": "hailaIR.atlas",
+          "texture": "hailaIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hailaIR.skel",
+          "atlas": "hailaIR.atlas",
+          "texture": "hailaIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hla_fhj",
+      "label": "spine_hla_fhj",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "haila.skel",
+          "atlas": "haila.atlas",
+          "texture": "haila.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "haila.skel",
+          "atlas": "haila.atlas",
+          "texture": "haila.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3554x3554 -> PNG 2048x2048",
+        "angel: atlas 4077x4077 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hla_ur",
+      "label": "spine_hla_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hailaUR.skel",
+          "atlas": "hailaUR.atlas",
+          "texture": "hailaUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hailaUR.skel",
+          "atlas": "hailaUR.atlas",
+          "texture": "hailaUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hls_my",
+      "label": "spine_hls_my",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hls_my.skel",
+          "atlas": "hls_my.atlas",
+          "texture": "hls_my.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hls_my.skel",
+          "atlas": "hls_my.atlas",
+          "texture": "hls_my.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4061x4061 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hls_ur_plus",
+      "label": "spine_hls_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "helusiUR.skel",
+          "atlas": "helusiUR.atlas",
+          "texture": "helusiUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "helusiUR.skel",
+          "atlas": "helusiUR.atlas",
+          "texture": "helusiUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hmde_bdmy",
+      "label": "spine_hmde_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "hmderqiujin.skel",
+          "atlas": "hmderqiujin.atlas",
+          "texture": "hmderqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "hmderqiujin.skel",
+          "atlas": "hmderqiujin.atlas",
+          "texture": "hmderqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 3933x3933 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hmde_cshs",
+      "label": "spine_hmde_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "haimudaerMR+.skel",
+          "atlas": "haimudaerMR+.atlas",
+          "texture": "haimudaerMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "haimudaerMR+.skel",
+          "atlas": "haimudaerMR+.atlas",
+          "texture": "haimudaerMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4006x4006 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_hmde_mr",
+      "label": "spine_hmde_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "haimudaerMR.skel",
+          "atlas": "haimudaerMR.atlas",
+          "texture": "haimudaerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "haimudaerMR.skel",
+          "atlas": "haimudaerMR.atlas",
+          "texture": "haimudaerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_jxz_cshs",
+      "label": "spine_jxz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "juxiezuoir.skel",
+          "atlas": "juxiezuoir.atlas",
+          "texture": "juxiezuoir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "juxiezuoir.skel",
+          "atlas": "juxiezuoir.atlas",
+          "texture": "juxiezuoir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_jxz_my",
+      "label": "spine_jxz_my",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "juxiezuomuyu.skel",
+          "atlas": "juxiezuomuyu.atlas",
+          "texture": "juxiezuomuyu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "juxiezuomuyu.skel",
+          "atlas": "juxiezuomuyu.atlas",
+          "texture": "juxiezuomuyu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3402x3402 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_kes_bdmy",
+      "label": "spine_kes_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "kaesi.skel",
+          "atlas": "kaesi.atlas",
+          "texture": "kaesi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "kaesi.skel",
+          "atlas": "kaesi.atlas",
+          "texture": "kaesi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3790x3790 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_kes_cshs",
+      "label": "spine_kes_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "kaesiMR+.skel",
+          "atlas": "kaesiMR+.atlas",
+          "texture": "kaesiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "kaesiMR+.skel",
+          "atlas": "kaesiMR+.atlas",
+          "texture": "kaesiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_kes_ur_plus",
+      "label": "spine_kes_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "kaesi.skel",
+          "atlas": "kaesi.atlas",
+          "texture": "kaesi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "kaesi.skel",
+          "atlas": "kaesi.atlas",
+          "texture": "kaesi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_lb_cshs",
+      "label": "spine_lb_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "binglongIR.skel",
+          "atlas": "binglongIR.atlas",
+          "texture": "binglongIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "binglongIR.skel",
+          "atlas": "binglongIR.atlas",
+          "texture": "binglongIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3898x3898 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_lb_mr",
+      "label": "spine_lb_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "binglongMR.skel",
+          "atlas": "binglongMR.atlas",
+          "texture": "binglongMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "binglongMR.skel",
+          "atlas": "binglongMR.atlas",
+          "texture": "binglongMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_lh_mr",
+      "label": "spine_lh_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "huijinlongnvMR.skel",
+          "atlas": "huijinlongnvMR.atlas",
+          "texture": "huijinlongnvMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "huijinlongnvMR.skel",
+          "atlas": "huijinlongnvMR.atlas",
+          "texture": "huijinlongnvMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3994x3994 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_lh_ur",
+      "label": "spine_lh_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "huolong.skel",
+          "atlas": "huolong.atlas",
+          "texture": "huolong.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "huolong.skel",
+          "atlas": "huolong.atlas",
+          "texture": "huolong.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_lj_mr",
+      "label": "spine_lj_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "luojiMR.skel",
+          "atlas": "luojiMR.atlas",
+          "texture": "luojiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "luojiMR.skel",
+          "atlas": "luojiMR.atlas",
+          "texture": "luojiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ll_cshs",
+      "label": "spine_ll_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fl_ir.skel",
+          "atlas": "fl_ir.atlas",
+          "texture": "fl_ir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fl_ir.skel",
+          "atlas": "fl_ir.atlas",
+          "texture": "fl_ir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ll_mr",
+      "label": "spine_ll_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "leilongMR.skel",
+          "atlas": "leilongMR.atlas",
+          "texture": "leilongMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "leilongMR.skel",
+          "atlas": "leilongMR.atlas",
+          "texture": "leilongMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ll_ur",
+      "label": "spine_ll_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fenglongUR.skel",
+          "atlas": "fenglongUR.atlas",
+          "texture": "fenglongUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fenglongUR.skel",
+          "atlas": "fenglongUR.atlas",
+          "texture": "fenglongUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 2000x2000 -> PNG 2048x2048",
+        "angel: atlas 1969x1969 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_lznmxs_bdmy",
+      "label": "spine_lznmxs_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "niemoxisiIR.skel",
+          "atlas": "niemoxisiIR.atlas",
+          "texture": "niemoxisiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "niemoxisiIR.skel",
+          "atlas": "niemoxisiIR.atlas",
+          "texture": "niemoxisiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_mjz_mr",
+      "label": "spine_mjz_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "mojiezuoMR.skel",
+          "atlas": "mojiezuoMR.atlas",
+          "texture": "mojiezuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "mojiezuoMR.skel",
+          "atlas": "mojiezuoMR.atlas",
+          "texture": "mojiezuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_plmxs_cshs",
+      "label": "spine_plmxs_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "puluomixiusiIR.skel",
+          "atlas": "puluomixiusiIR.atlas",
+          "texture": "puluomixiusiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "puluomixiusiIR.skel",
+          "atlas": "puluomixiusiIR.atlas",
+          "texture": "puluomixiusiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_plmxs_np",
+      "label": "spine_plmxs_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "plmxsnvpu.skel",
+          "atlas": "plmxsnvpu.atlas",
+          "texture": "plmxsnvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "plmxsnvpu.skel",
+          "atlas": "plmxsnvpu.atlas",
+          "texture": "plmxsnvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 2865x2865 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_plmxs_ur",
+      "label": "spine_plmxs_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "puluomixiusiUR.skel",
+          "atlas": "puluomixiusiUR.atlas",
+          "texture": "puluomixiusiUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "puluomixiusiUR.skel",
+          "atlas": "puluomixiusiUR.atlas",
+          "texture": "puluomixiusiUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_qbt_cshs",
+      "label": "spine_qbt_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "qiubiteMR.skel",
+          "atlas": "qiubiteMR.atlas",
+          "texture": "qiubiteMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "qiubiteMR.skel",
+          "atlas": "qiubiteMR.atlas",
+          "texture": "qiubiteMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_qbt_hs",
+      "label": "spine_qbt_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "qiubite.skel",
+          "atlas": "qiubite.atlas",
+          "texture": "qiubite.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "qiubite.skel",
+          "atlas": "qiubite.atlas",
+          "texture": "qiubite.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3598x3598 -> PNG 2048x2048",
+        "angel: atlas 4063x4063 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_r_bdmy",
+      "label": "spine_r_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "la.skel",
+          "atlas": "la.atlas",
+          "texture": "la.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "la.skel",
+          "atlas": "la.atlas",
+          "texture": "la.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3994x3994 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_r_cshs",
+      "label": "spine_r_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "laMR+.skel",
+          "atlas": "laMR+.atlas",
+          "texture": "laMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "laMR+.skel",
+          "atlas": "laMR+.atlas",
+          "texture": "laMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_r_hs",
+      "label": "spine_r_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "la.skel",
+          "atlas": "la.atlas",
+          "texture": "la.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "la.skel",
+          "atlas": "la.atlas",
+          "texture": "la.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 1605x1605 -> PNG 2048x2048",
+        "angel: atlas 3873x3873 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_r_mr",
+      "label": "spine_r_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "laMR.skel",
+          "atlas": "laMR.atlas",
+          "texture": "laMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "laMR.skel",
+          "atlas": "laMR.atlas",
+          "texture": "laMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_r_np",
+      "label": "spine_r_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "la_nvpu.skel",
+          "atlas": "la_nvpu.atlas",
+          "texture": "la_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "la_nvpu.skel",
+          "atlas": "la_nvpu.atlas",
+          "texture": "la_nvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sdns_ur",
+      "label": "spine_sdns_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shengdannvshen.skel",
+          "atlas": "shengdannvshen.atlas",
+          "texture": "shengdannvshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shengdannvshen.skel",
+          "atlas": "shengdannvshen.atlas",
+          "texture": "shengdannvshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 1999x1999 -> PNG 2048x2048",
+        "angel: atlas 4001x4001 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_se0",
+      "label": "spine_se0",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "suoerSSR.skel",
+          "atlas": "suoerSSR.atlas",
+          "texture": "suoerSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "suoerSSR.skel",
+          "atlas": "suoerSSR.atlas",
+          "texture": "suoerSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 1860x1860 -> PNG 2048x2048",
+        "angel: atlas 4048x4048 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_se_cshs",
+      "label": "spine_se_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "suoerMR.skel",
+          "atlas": "suoerMR.atlas",
+          "texture": "suoerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "suoerMR.skel",
+          "atlas": "suoerMR.atlas",
+          "texture": "suoerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_se_mr",
+      "label": "spine_se_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "zhousiMR.skel",
+          "atlas": "zhousiMR.atlas",
+          "texture": "zhousiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "zhousiMR.skel",
+          "atlas": "zhousiMR.atlas",
+          "texture": "zhousiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_se_ur",
+      "label": "spine_se_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "suoerUR.skel",
+          "atlas": "suoerUR.atlas",
+          "texture": "suoerUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "suoerUR.skel",
+          "atlas": "suoerUR.atlas",
+          "texture": "suoerUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 2000x2000 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_smzpdl_np",
+      "label": "spine_smzpdl_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "pdlnvpu.skel",
+          "atlas": "pdlnvpu.atlas",
+          "texture": "pdlnvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "pdlnvpu.skel",
+          "atlas": "pdlnvpu.atlas",
+          "texture": "pdlnvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4014x4014 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sn_ht",
+      "label": "spine_sn_ht",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "tunshizhilang.skel",
+          "atlas": "tunshizhilang.atlas",
+          "texture": "tunshizhilang.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "tunshizhilang.skel",
+          "atlas": "tunshizhilang.atlas",
+          "texture": "tunshizhilang.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_sqe_bdmy",
+      "label": "spine_sqe_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "sqrqj.skel",
+          "atlas": "sqrqj.atlas",
+          "texture": "sqrqj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "sqrqj.skel",
+          "atlas": "sqrqj.atlas",
+          "texture": "sqrqj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sqe_cshs",
+      "label": "spine_sqe_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shenqingerMR+.skel",
+          "atlas": "shenqingerMR+.atlas",
+          "texture": "shenqingerMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shenqingerMR+.skel",
+          "atlas": "shenqingerMR+.atlas",
+          "texture": "shenqingerMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sqe_hs",
+      "label": "spine_sqe_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shenqingerhunsha.skel",
+          "atlas": "shenqingerhunsha.atlas",
+          "texture": "shenqingerhunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shenqingerhunsha.skel",
+          "atlas": "shenqingerhunsha.atlas",
+          "texture": "shenqingerhunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "spine_sqe_mr",
+      "label": "spine_sqe_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shenqingerMR.skel",
+          "atlas": "shenqingerMR.atlas",
+          "texture": "shenqingerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shenqingerMR.skel",
+          "atlas": "shenqingerMR.atlas",
+          "texture": "shenqingerMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sqe_qkjs",
+      "label": "spine_sqe_qkjs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shenqinger.skel",
+          "atlas": "shenqinger.atlas",
+          "texture": "shenqinger.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shenqinger.skel",
+          "atlas": "shenqinger.atlas",
+          "texture": "shenqinger.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4087x4087 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_sqe_ur_plus",
+      "label": "spine_sqe_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "UR+.skel",
+          "atlas": "UR+.atlas",
+          "texture": "UR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "UR+.skel",
+          "atlas": "UR+.atlas",
+          "texture": "UR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ssanbs_bdmy",
+      "label": "spine_ssanbs_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "anbs.skel",
+          "atlas": "anbs.atlas",
+          "texture": "anbs.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "anbs.skel",
+          "atlas": "anbs.atlas",
+          "texture": "anbs.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4045x4045 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ssanbs_cshs",
+      "label": "spine_ssanbs_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "anubisiIR.skel",
+          "atlas": "anubisiIR.atlas",
+          "texture": "anubisiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "anubisiIR.skel",
+          "atlas": "anubisiIR.atlas",
+          "texture": "anubisiIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3688x3688 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_syz_mr",
+      "label": "spine_syz_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shuangyuzuoMR.skel",
+          "atlas": "shuangyuzuoMR.atlas",
+          "texture": "shuangyuzuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shuangyuzuoMR.skel",
+          "atlas": "shuangyuzuoMR.atlas",
+          "texture": "shuangyuzuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_syz_np",
+      "label": "spine_syz_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "syznvpu.skel",
+          "atlas": "syznvpu.atlas",
+          "texture": "syznvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "syznvpu.skel",
+          "atlas": "syznvpu.atlas",
+          "texture": "syznvpu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3315x3315 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_syz_ur_plus",
+      "label": "spine_syz_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shuangyu01.skel",
+          "atlas": "shuangyu01.atlas",
+          "texture": "shuangyu01.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shuangyu01.skel",
+          "atlas": "shuangyu01.atlas",
+          "texture": "shuangyu01.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_szz_cshs",
+      "label": "spine_szz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shizizuoIR.skel",
+          "atlas": "shizizuoIR.atlas",
+          "texture": "shizizuoIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shizizuoIR.skel",
+          "atlas": "shizizuoIR.atlas",
+          "texture": "shizizuoIR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_tdfx_bdmy",
+      "label": "spine_tdfx_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fuxiqiujin.skel",
+          "atlas": "fuxiqiujin.atlas",
+          "texture": "fuxiqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fuxiqiujin.skel",
+          "atlas": "fuxiqiujin.atlas",
+          "texture": "fuxiqiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4018x4018 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_tdfx_cj",
+      "label": "spine_tdfx_cj",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "fxcj.skel",
+          "atlas": "fxcj.atlas",
+          "texture": "fxcj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "fxcj.skel",
+          "atlas": "fxcj.atlas",
+          "texture": "fxcj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4077x4077 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_txz",
+      "label": "spine_txz",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "tianxiezuo.skel",
+          "atlas": "tianxiezuo.atlas",
+          "texture": "tianxiezuo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "tianxiezuo.skel",
+          "atlas": "tianxiezuo.atlas",
+          "texture": "tianxiezuo.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3950x3950 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_txz_cshs",
+      "label": "spine_txz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "txz_IR.skel",
+          "atlas": "txz_IR.atlas",
+          "texture": "txz_IR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "txz_IR.skel",
+          "atlas": "txz_IR.atlas",
+          "texture": "txz_IR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_txz_wytd",
+      "label": "spine_txz_wytd",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "txz_wsj.skel",
+          "atlas": "txz_wsj.atlas",
+          "texture": "txz_wsj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "txz_wsj.skel",
+          "atlas": "txz_wsj.atlas",
+          "texture": "txz_wsj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_user_cj2024",
+      "label": "spine_user_cj2024",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "nvzhu_chunjie25.skel",
+          "atlas": "nvzhu_chunjie25.atlas",
+          "texture": "nvzhu_chunjie25.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "nvzhu_chunjie25.skel",
+          "atlas": "nvzhu_chunjie25.atlas",
+          "texture": "nvzhu_chunjie25.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3933x3933 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_user_gej",
+      "label": "spine_user_gej",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "zhujueganenjiepifi.skel",
+          "atlas": "zhujueganenjiepifi.atlas",
+          "texture": "zhujueganenjiepifi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "zhujueganenjiepifi.skel",
+          "atlas": "zhujueganenjiepifi.atlas",
+          "texture": "zhujueganenjiepifi.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_user_np",
+      "label": "spine_user_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "nvpu_zhujue.skel",
+          "atlas": "nvpu_zhujue.atlas",
+          "texture": "nvpu_zhujue.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "nvpu_zhujue.skel",
+          "atlas": "nvpu_zhujue.atlas",
+          "texture": "nvpu_zhujue.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_user_sdsz",
+      "label": "spine_user_sdsz",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shengdanpifu.skel",
+          "atlas": "shengdanpifu.atlas",
+          "texture": "shengdanpifu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shengdanpifu.skel",
+          "atlas": "shengdanpifu.atlas",
+          "texture": "shengdanpifu.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_user_wsj2024",
+      "label": "spine_user_wsj2024",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "nvzhu_wanshengji.skel",
+          "atlas": "nvzhu_wanshengji.atlas",
+          "texture": "nvzhu_wanshengji.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "nvzhu_wanshengji.skel",
+          "atlas": "nvzhu_wanshengji.atlas",
+          "texture": "nvzhu_wanshengji.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wle_cshs",
+      "label": "spine_wle_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "wulier.skel",
+          "atlas": "wulier.atlas",
+          "texture": "wulier.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "wulier.skel",
+          "atlas": "wulier.atlas",
+          "texture": "wulier.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wle_ur",
+      "label": "spine_wle_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "wulierUR.skel",
+          "atlas": "wulierUR.atlas",
+          "texture": "wulierUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "wulierUR.skel",
+          "atlas": "wulierUR.atlas",
+          "texture": "wulierUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wle_ur_plus",
+      "label": "spine_wle_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "wulierUR+.skel",
+          "atlas": "wulierUR+.atlas",
+          "texture": "wulierUR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "wulierUR+.skel",
+          "atlas": "wulierUR+.atlas",
+          "texture": "wulierUR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wns_cshs",
+      "label": "spine_wns_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "weinasiir.skel",
+          "atlas": "weinasiir.atlas",
+          "texture": "weinasiir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "weinasiir.skel",
+          "atlas": "weinasiir.atlas",
+          "texture": "weinasiir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wns_mr",
+      "label": "spine_wns_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "changeMR.skel",
+          "atlas": "changeMR.atlas",
+          "texture": "changeMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "changeMR.skel",
+          "atlas": "changeMR.atlas",
+          "texture": "changeMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_wns_ur_plus",
+      "label": "spine_wns_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "weinasiUR+.skel",
+          "atlas": "weinasiUR+.atlas",
+          "texture": "weinasiUR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "weinasiUR+.skel",
+          "atlas": "weinasiUR+.atlas",
+          "texture": "weinasiUR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ydn_cshs",
+      "label": "spine_ydn_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yadiannair.skel",
+          "atlas": "yadiannair.atlas",
+          "texture": "yadiannair.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yadiannair.skel",
+          "atlas": "yadiannair.atlas",
+          "texture": "yadiannair.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3733x3733 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ydn_mr",
+      "label": "spine_ydn_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yadiannaMR.skel",
+          "atlas": "yadiannaMR.atlas",
+          "texture": "yadiannaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yadiannaMR.skel",
+          "atlas": "yadiannaMR.atlas",
+          "texture": "yadiannaMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ydn_ur_plus",
+      "label": "spine_ydn_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yadiannaUR.skel",
+          "atlas": "yadiannaUR.atlas",
+          "texture": "yadiannaUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yadiannaUR.skel",
+          "atlas": "yadiannaUR.atlas",
+          "texture": "yadiannaUR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ykls_cshs",
+      "label": "spine_ykls_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yikalusiMR+.skel",
+          "atlas": "yikalusiMR+.atlas",
+          "texture": "yikalusiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yikalusiMR+.skel",
+          "atlas": "yikalusiMR+.atlas",
+          "texture": "yikalusiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ykls_hs",
+      "label": "spine_ykls_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yikaluosihunsha.skel",
+          "atlas": "yikaluosihunsha.atlas",
+          "texture": "yikaluosihunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yikaluosihunsha.skel",
+          "atlas": "yikaluosihunsha.atlas",
+          "texture": "yikaluosihunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 1870x1870 -> PNG 2048x2048",
+        "angel: atlas 3905x3905 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ykls_mr",
+      "label": "spine_ykls_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yikalusiMR.skel",
+          "atlas": "yikalusiMR.atlas",
+          "texture": "yikalusiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yikalusiMR.skel",
+          "atlas": "yikalusiMR.atlas",
+          "texture": "yikalusiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ywj0",
+      "label": "spine_ywj0",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yunwaijingSSR.skel",
+          "atlas": "yunwaijingSSR.atlas",
+          "texture": "yunwaijingSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yunwaijingSSR.skel",
+          "atlas": "yunwaijingSSR.atlas",
+          "texture": "yunwaijingSSR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 2033x2033 -> PNG 2048x2048",
+        "angel: atlas 4049x4049 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ywj_cshs",
+      "label": "spine_ywj_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shuangzizuoMR.skel",
+          "atlas": "shuangzizuoMR.atlas",
+          "texture": "shuangzizuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shuangzizuoMR.skel",
+          "atlas": "shuangzizuoMR.atlas",
+          "texture": "shuangzizuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ywj_hs",
+      "label": "spine_ywj_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shuangzizuohunsha.skel",
+          "atlas": "shuangzizuohunsha.atlas",
+          "texture": "shuangzizuohunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shuangzizuohunsha.skel",
+          "atlas": "shuangzizuohunsha.atlas",
+          "texture": "shuangzizuohunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ywj_mr",
+      "label": "spine_ywj_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "shuangzizuoMR.skel",
+          "atlas": "shuangzizuoMR.atlas",
+          "texture": "shuangzizuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "shuangzizuoMR.skel",
+          "atlas": "shuangzizuoMR.atlas",
+          "texture": "shuangzizuoMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3996x3996 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_yzmnlls",
+      "label": "spine_yzmnlls",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "lilisiMR.skel",
+          "atlas": "lilisiMR.atlas",
+          "texture": "lilisiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "lilisiMR.skel",
+          "atlas": "lilisiMR.atlas",
+          "texture": "lilisiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3926x3926 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_yzmnlls_cshs",
+      "label": "spine_yzmnlls_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "lilisiMR+.skel",
+          "atlas": "lilisiMR+.atlas",
+          "texture": "lilisiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "lilisiMR+.skel",
+          "atlas": "lilisiMR+.atlas",
+          "texture": "lilisiMR+.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 3829x3829 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zfzmds_cshs",
+      "label": "spine_zfzmds_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "mdsir.skel",
+          "atlas": "mdsir.atlas",
+          "texture": "mdsir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "mdsir.skel",
+          "atlas": "mdsir.atlas",
+          "texture": "mdsir.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zfzmds_sd",
+      "label": "spine_zfzmds_sd",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "mdssdj.skel",
+          "atlas": "mdssdj.atlas",
+          "texture": "mdssdj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "mdssdj.skel",
+          "atlas": "mdssdj.atlas",
+          "texture": "mdssdj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_bdmy",
+      "label": "spine_zrnz_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yjs_qiujin.skel",
+          "atlas": "yjs_qiujin.atlas",
+          "texture": "yjs_qiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yjs_qiujin.skel",
+          "atlas": "yjs_qiujin.atlas",
+          "texture": "yjs_qiujin.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_cshs",
+      "label": "spine_zrnz_cshs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_mr",
+      "label": "spine_zrnz_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yuanjieshenMR.skel",
+          "atlas": "yuanjieshenMR.atlas",
+          "texture": "yuanjieshenMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yuanjieshenMR.skel",
+          "atlas": "yuanjieshenMR.atlas",
+          "texture": "yuanjieshenMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_np",
+      "label": "spine_zrnz_np",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_ur",
+      "label": "spine_zrnz_ur",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zrnz_ur_plus",
+      "label": "spine_zrnz_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "yuanjieshen.skel",
+          "atlas": "yuanjieshen.atlas",
+          "texture": "yuanjieshen.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zs_hs",
+      "label": "spine_zs_hs",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "zhousihunsha.skel",
+          "atlas": "zhousihunsha.atlas",
+          "texture": "zhousihunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "zhousihunsha.skel",
+          "atlas": "zhousihunsha.atlas",
+          "texture": "zhousihunsha.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zs_mr",
+      "label": "spine_zs_mr",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "zhousiMR.skel",
+          "atlas": "zhousiMR.atlas",
+          "texture": "zhousiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "zhousiMR.skel",
+          "atlas": "zhousiMR.atlas",
+          "texture": "zhousiMR.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4096x4096 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_zs_ur_plus",
+      "label": "spine_zs_ur_plus",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "zs.skel",
+          "atlas": "zs.atlas",
+          "texture": "zs.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "zs.skel",
+          "atlas": "zs.atlas",
+          "texture": "zs.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    },
+    {
+      "id": "spine_ztslfe_bdmy",
+      "label": "spine_ztslfe_bdmy",
+      "layers": [
+        {
+          "id": "bg",
+          "dir": "bg",
+          "skeleton": "lfeqj.skel",
+          "atlas": "lfeqj.atlas",
+          "texture": "lfeqj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        },
+        {
+          "id": "angel",
+          "dir": "angel",
+          "skeleton": "lfeqj.skel",
+          "atlas": "lfeqj.atlas",
+          "texture": "lfeqj.png",
+          "animations": [
+            "action",
+            "idle"
+          ]
+        }
+      ],
+      "warnings": [
+        "bg: atlas 4058x4058 -> PNG 2048x2048",
+        "angel: atlas 4096x4096 -> PNG 2048x2048"
+      ]
+    }
+  ]
+}

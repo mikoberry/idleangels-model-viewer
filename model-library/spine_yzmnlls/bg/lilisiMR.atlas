@@ -1,0 +1,104 @@
+
+lilisiMR.png
+size: 3926,3926
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_sd
+  rotate: 180
+  xy: 2899, 831
+  size: 1024, 871
+  orig: 1024, 871
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: 180
+  xy: 2, 1737
+  size: 2048, 2188
+  orig: 2048, 2188
+  offset: 0, 0
+  index: -1
+z_chuang_1
+  rotate: 180
+  xy: 1844, 1459
+  size: 2048, 2465
+  orig: 2048, 2465
+  offset: 0, 0
+  index: -1
+z_chuang_2
+  rotate: false
+  xy: 1585, 1237
+  size: 1024, 452
+  orig: 1024, 452
+  offset: 0, 0
+  index: -1
+z_chuang_3
+  rotate: false
+  xy: 2, 3305
+  size: 512, 619
+  orig: 512, 619
+  offset: 0, 0
+  index: -1
+z_chuang_4
+  rotate: 180
+  xy: 2, 1157
+  size: 720, 866
+  orig: 720, 866
+  offset: 0, 0
+  index: -1
+z_chuang_5
+  rotate: true
+  xy: 724, 1223
+  size: 512, 859
+  orig: 512, 859
+  offset: 0, 0
+  index: -1
+z_chuang_6
+  rotate: false
+  xy: 2052, 2862
+  size: 512, 1062
+  orig: 512, 1062
+  offset: 0, 0
+  index: -1
+z_chuang_7
+  rotate: false
+  xy: 2566, 3605
+  size: 256, 319
+  orig: 256, 319
+  offset: 0, 0
+  index: -1
+z_chuang_8
+  rotate: true
+  xy: 1687, 509
+  size: 1024, 1014
+  orig: 1024, 1014
+  offset: 0, 0
+  index: -1
+z_deng_guang
+  rotate: false
+  xy: 3403, 780
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+z_hua_1
+  rotate: false
+  xy: 2, 780
+  size: 512, 375
+  orig: 512, 375
+  offset: 0, 0
+  index: -1
+z_hua_2
+  rotate: false
+  xy: 1964, 2499
+  size: 256, 243
+  orig: 256, 243
+  offset: 0, 0
+  index: -1
+z_hua_3
+  rotate: false
+  xy: 429, 546
+  size: 512, 379
+  orig: 512, 379
+  offset: 0, 0
+  index: -1

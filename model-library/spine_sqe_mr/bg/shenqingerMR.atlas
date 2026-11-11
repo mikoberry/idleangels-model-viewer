@@ -1,0 +1,146 @@
+
+shenqingerMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+m_chuan_1
+  rotate: 270
+  xy: 2624, 633
+  size: 2160, 1118
+  orig: 2160, 1118
+  offset: 0, 0
+  index: -1
+m_chuan_2
+  rotate: false
+  xy: 2471, 590
+  size: 900, 693
+  orig: 900, 693
+  offset: 0, 0
+  index: -1
+m_chuan_3
+  rotate: true
+  xy: 3523, 2697
+  size: 1170, 539
+  orig: 1170, 539
+  offset: 0, 0
+  index: -1
+m_chuan_4
+  rotate: false
+  xy: 972, 314
+  size: 1399, 513
+  orig: 1399, 513
+  offset: 0, 0
+  index: -1
+m_he_1
+  rotate: true
+  xy: 687, 89
+  size: 452, 1111
+  orig: 452, 1111
+  offset: 0, 0
+  index: -1
+m_he_2
+  rotate: true
+  xy: 2, 166
+  size: 144, 618
+  orig: 144, 618
+  offset: 0, 0
+  index: -1
+m_he_3
+  rotate: false
+  xy: 2471, 1285
+  size: 141, 724
+  orig: 141, 724
+  offset: 0, 0
+  index: -1
+m_he_4
+  rotate: false
+  xy: 3721, 2477
+  size: 326, 488
+  orig: 326, 488
+  offset: 0, 0
+  index: -1
+m_he_5
+  rotate: false
+  xy: 2, 2338
+  size: 162, 237
+  orig: 162, 237
+  offset: 0, 0
+  index: -1
+s_bo_1
+  rotate: false
+  xy: 972, 879
+  size: 450, 214
+  orig: 450, 214
+  offset: 0, 0
+  index: -1
+s_bo_2
+  rotate: true
+  xy: 3743, 3512
+  size: 561, 328
+  orig: 561, 328
+  offset: 0, 0
+  index: -1
+s_daoying
+  rotate: true
+  xy: 2860, 2812
+  size: 1260, 661
+  orig: 1260, 661
+  offset: 0, 0
+  index: -1
+s_huaban_1
+  rotate: false
+  xy: 1800, 89
+  size: 320, 277
+  orig: 320, 277
+  offset: 0, 0
+  index: -1
+s_shuibo_c_1
+  rotate: true
+  xy: 3195, 1324
+  size: 1487, 869
+  orig: 1800, 955
+  offset: 0, 86
+  index: -1
+s_yu_1
+  rotate: false
+  xy: 2643, 129
+  size: 282, 469
+  orig: 282, 469
+  offset: 0, 0
+  index: -1
+s_yu_2
+  rotate: false
+  xy: 2373, 213
+  size: 336, 540
+  orig: 356, 556
+  offset: 0, 0
+  index: -1
+z_citang
+  rotate: false
+  xy: 2, 1096
+  size: 1666, 1479
+  orig: 1800, 1613
+  offset: 0, 134
+  index: -1
+z_dashu_1
+  rotate: false
+  xy: 2, 2576
+  size: 2857, 1497
+  orig: 2857, 1497
+  offset: 0, 0
+  index: -1
+z_guangmu_1
+  rotate: false
+  xy: 2, 313
+  size: 968, 820
+  orig: 968, 820
+  offset: 0, 0
+  index: -1
+z_tiankong
+  rotate: true
+  xy: 1669, 774
+  size: 1800, 799
+  orig: 1800, 799
+  offset: 0, 0
+  index: -1

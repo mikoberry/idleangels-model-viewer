@@ -1,0 +1,76 @@
+
+afuluodideSSR.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_cao_a_1
+  rotate: false
+  xy: 2, 1796
+  size: 207, 123
+  orig: 207, 123
+  offset: 0, 0
+  index: -1
+z_cao_a_2
+  rotate: 270
+  xy: 13, 21
+  size: 425, 482
+  orig: 470, 482
+  offset: 45, 0
+  index: -1
+z_cao_a_4
+  rotate: false
+  xy: 2, 1702
+  size: 205, 93
+  orig: 205, 105
+  offset: 0, 12
+  index: -1
+z_cao_a_5
+  rotate: 270
+  xy: 446, 4
+  size: 289, 362
+  orig: 358, 362
+  offset: 0, 0
+  index: -1
+z_cao_b_1
+  rotate: false
+  xy: 2, 373
+  size: 440, 742
+  orig: 440, 742
+  offset: 0, 0
+  index: -1
+z_cao_b_2
+  rotate: false
+  xy: 1504, 1432
+  size: 349, 486
+  orig: 369, 486
+  offset: 0, 0
+  index: -1
+z_cao_b_3
+  rotate: false
+  xy: 1427, 731
+  size: 354, 620
+  orig: 354, 620
+  offset: 0, 0
+  index: -1
+z_cao_c_1
+  rotate: true
+  xy: 1260, 163
+  size: 566, 389
+  orig: 566, 389
+  offset: 0, 0
+  index: -1
+z_cao_c_2
+  rotate: false
+  xy: 1651, 123
+  size: 206, 332
+  orig: 206, 332
+  offset: 0, 0
+  index: -1
+z_men
+  rotate: false
+  xy: 2, 162
+  size: 1584, 1756
+  orig: 1778, 1756
+  offset: 0, 0
+  index: -1

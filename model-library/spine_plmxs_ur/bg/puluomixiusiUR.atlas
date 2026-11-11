@@ -1,0 +1,153 @@
+
+puluomixiusiUR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_sd
+  rotate: 270
+  xy: 2703, 244
+  size: 3834, 1312
+  orig: 3834, 1384
+  offset: 0, 72
+  index: -1
+ef_b_huo_1
+  rotate: false
+  xy: 2148, 786
+  size: 821, 536
+  orig: 1600, 1446
+  offset: 548, 191
+  index: -1
+ef_b_huo_2
+  rotate: false
+  xy: 994, 416
+  size: 800, 494
+  orig: 800, 494
+  offset: 0, 0
+  index: -1
+ef_b_huo_3
+  rotate: true
+  xy: 3806, 3679
+  size: 211, 271
+  orig: 960, 527
+  offset: 714, 153
+  index: -1
+ef_b_huo_4
+  rotate: false
+  xy: 1277, 743
+  size: 990, 593
+  orig: 1120, 730
+  offset: 123, 58
+  index: -1
+ef_b_huo_5
+  rotate: false
+  xy: 2, 526
+  size: 960, 332
+  orig: 960, 332
+  offset: 0, 0
+  index: -1
+ef_b_huo_6
+  rotate: false
+  xy: 67, 893
+  size: 800, 915
+  orig: 800, 915
+  offset: 0, 0
+  index: -1
+ef_b_huo_7
+  rotate: true
+  xy: 1241, 1732
+  size: 800, 457
+  orig: 800, 457
+  offset: 0, 0
+  index: -1
+ef_b_huo_8
+  rotate: 270
+  xy: 2215, 28
+  size: 800, 858
+  orig: 800, 858
+  offset: 0, 0
+  index: -1
+ef_b_huo_9
+  rotate: false
+  xy: 2483, 467
+  size: 480, 318
+  orig: 480, 318
+  offset: 0, 0
+  index: -1
+ef_huo_a_4
+  rotate: false
+  xy: 2, 173
+  size: 925, 352
+  orig: 960, 977
+  offset: 35, 625
+  index: -1
+z_shitai_1
+  rotate: false
+  xy: 2299, 3909
+  size: 139, 168
+  orig: 139, 168
+  offset: 0, 0
+  index: -1
+z_shitai_10
+  rotate: false
+  xy: 2163, 1636
+  size: 558, 537
+  orig: 558, 537
+  offset: 0, 0
+  index: -1
+z_shitai_2
+  rotate: false
+  xy: 2, 3752
+  size: 266, 326
+  orig: 269, 326
+  offset: 0, 0
+  index: -1
+z_shitai_3
+  rotate: false
+  xy: 999, 3986
+  size: 142, 91
+  orig: 142, 91
+  offset: 0, 0
+  index: -1
+z_shitai_4
+  rotate: false
+  xy: 3697, 3796
+  size: 281, 282
+  orig: 356, 298
+  offset: 75, 16
+  index: -1
+z_shitai_5
+  rotate: false
+  xy: 2403, 3667
+  size: 461, 412
+  orig: 465, 413
+  offset: 2, 1
+  index: -1
+z_shitai_6
+  rotate: false
+  xy: 1241, 2535
+  size: 426, 401
+  orig: 426, 401
+  offset: 0, 0
+  index: -1
+z_shitai_7
+  rotate: false
+  xy: 2, 857
+  size: 2800, 3221
+  orig: 2800, 3221
+  offset: 0, 0
+  index: -1
+z_shitai_8
+  rotate: false
+  xy: 264, 3851
+  size: 345, 226
+  orig: 345, 226
+  offset: 0, 0
+  index: -1
+z_shitai_9
+  rotate: false
+  xy: 1930, 3981
+  size: 267, 97
+  orig: 267, 97
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,160 @@
+
+shizizuoIR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_tou_maozi_1b
+  rotate: false
+  xy: 3695, 3754
+  size: 342, 217
+  orig: 343, 226
+  offset: 1, 5
+  index: -1
+fa_b_1
+  rotate: false
+  xy: 1967, 1728
+  size: 506, 334
+  orig: 512, 337
+  offset: 6, 3
+  index: -1
+fa_b_2b
+  rotate: false
+  xy: 3586, 1889
+  size: 508, 345
+  orig: 512, 352
+  offset: 3, 5
+  index: -1
+fa_b_3
+  rotate: 180
+  xy: 2, 1609
+  size: 720, 655
+  orig: 720, 655
+  offset: 0, 0
+  index: -1
+fa_b_4
+  rotate: 180
+  xy: 1640, 2040
+  size: 1500, 942
+  orig: 1500, 966
+  offset: 0, 0
+  index: -1
+fa_b_sp_1b
+  rotate: false
+  xy: 2416, 3965
+  size: 211, 130
+  orig: 223, 136
+  offset: 6, 4
+  index: -1
+fa_b_sp_2b
+  rotate: false
+  xy: 1969, 4031
+  size: 144, 63
+  orig: 144, 63
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 2555
+  size: 1500, 1539
+  orig: 1500, 1539
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: true
+  xy: 2752, 2561
+  size: 1500, 1342
+  orig: 1500, 1342
+  offset: 0, 0
+  index: -1
+z_10
+  rotate: false
+  xy: 1352, 3874
+  size: 300, 220
+  orig: 300, 220
+  offset: 0, 0
+  index: -1
+z_11
+  rotate: 270
+  xy: 251, 1897
+  size: 720, 1246
+  orig: 720, 1246
+  offset: 0, 0
+  index: -1
+z_12
+  rotate: false
+  xy: 2, 3922
+  size: 256, 172
+  orig: 256, 172
+  offset: 0, 0
+  index: -1
+z_14
+  rotate: true
+  xy: 3233, 2128
+  size: 1024, 861
+  orig: 1024, 861
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: true
+  xy: 1504, 2594
+  size: 1500, 1355
+  orig: 1500, 1355
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 2946, 1626
+  size: 555, 637
+  orig: 555, 637
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: false
+  xy: 2, 2280
+  size: 416, 420
+  orig: 416, 420
+  offset: 0, 0
+  index: -1
+z_6
+  rotate: false
+  xy: 2640, 3825
+  size: 162, 269
+  orig: 162, 269
+  offset: 0, 0
+  index: -1
+z_7
+  rotate: 270
+  xy: 1086, 1537
+  size: 720, 882
+  orig: 720, 882
+  offset: 0, 0
+  index: -1
+z_7_yan_1
+  rotate: false
+  xy: 3561, 3973
+  size: 202, 121
+  orig: 202, 121
+  offset: 0, 0
+  index: -1
+z_7_yan_2
+  rotate: false
+  xy: 1095, 4006
+  size: 248, 90
+  orig: 253, 107
+  offset: 0, 7
+  index: -1
+z_7_yan_3
+  rotate: false
+  xy: 2714, 3944
+  size: 359, 151
+  orig: 366, 165
+  offset: 7, 7
+  index: -1
+z_9
+  rotate: false
+  xy: 1654, 3870
+  size: 395, 224
+  orig: 395, 224
+  offset: 0, 0
+  index: -1

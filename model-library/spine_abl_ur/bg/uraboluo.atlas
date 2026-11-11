@@ -1,0 +1,146 @@
+
+uraboluo.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+TXhuan04
+  rotate: false
+  xy: 1606, 245
+  size: 39, 47
+  orig: 39, 47
+  offset: 0, 0
+  index: -1
+TXhuan06
+  rotate: false
+  xy: 1606, 202
+  size: 24, 41
+  orig: 24, 41
+  offset: 0, 0
+  index: -1
+TXhuan16
+  rotate: true
+  xy: 2, 595
+  size: 486, 545
+  orig: 486, 545
+  offset: 0, 0
+  index: -1
+TXhuan17
+  rotate: false
+  xy: 2, 1083
+  size: 1052, 905
+  orig: 1052, 905
+  offset: 0, 0
+  index: -1
+TXhuan18
+  rotate: false
+  xy: 1606, 351
+  size: 62, 132
+  orig: 62, 132
+  offset: 0, 0
+  index: -1
+TXhuan19
+  rotate: false
+  xy: 1160, 1903
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+TXhuan20
+  rotate: false
+  xy: 1632, 215
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1
+TXhuan21
+  rotate: false
+  xy: 1056, 1870
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+TXhuan22
+  rotate: false
+  xy: 1160, 1859
+  size: 168, 42
+  orig: 168, 42
+  offset: 0, 0
+  index: -1
+TXhuan23
+  rotate: false
+  xy: 1056, 1886
+  size: 102, 102
+  orig: 102, 102
+  offset: 0, 0
+  index: -1
+TXhuan24
+  rotate: false
+  xy: 1247, 1964
+  size: 163, 24
+  orig: 163, 24
+  offset: 0, 0
+  index: -1
+TXhuan25
+  rotate: false
+  xy: 1606, 294
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+TXhuan27
+  rotate: false
+  xy: 549, 872
+  size: 1196, 209
+  orig: 1196, 209
+  offset: 0, 0
+  index: -1
+TXhuan28
+  rotate: false
+  xy: 549, 485
+  size: 1191, 186
+  orig: 1191, 186
+  offset: 0, 0
+  index: -1
+TXhuan29
+  rotate: false
+  xy: 2, 331
+  size: 1057, 152
+  orig: 1057, 152
+  offset: 0, 0
+  index: -1
+TXhuan30
+  rotate: false
+  xy: 1061, 196
+  size: 543, 287
+  orig: 543, 287
+  offset: 0, 0
+  index: -1
+TXhuan31
+  rotate: true
+  xy: 1056, 1083
+  size: 772, 766
+  orig: 772, 766
+  offset: 0, 0
+  index: -1
+TXhuan32
+  rotate: false
+  xy: 2, 203
+  size: 1056, 126
+  orig: 1056, 126
+  offset: 0, 0
+  index: -1
+TXhuan33
+  rotate: true
+  xy: 1824, 670
+  size: 1185, 164
+  orig: 1185, 164
+  offset: 0, 0
+  index: -1
+TXhuan34
+  rotate: false
+  xy: 549, 673
+  size: 1186, 197
+  orig: 1186, 197
+  offset: 0, 0
+  index: -1

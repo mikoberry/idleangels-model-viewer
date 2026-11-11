@@ -1,0 +1,139 @@
+
+lfeqj.png
+size: 4058,4058
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_lache_tui_l_2
+  rotate: false
+  xy: 3308, 3251
+  size: 720, 805
+  orig: 720, 805
+  offset: 0, 0
+  index: -1
+c_sidai_1
+  rotate: 270
+  xy: 2135, 2754
+  size: 512, 1319
+  orig: 512, 1319
+  offset: 0, 0
+  index: -1
+c_suolian_a_1
+  rotate: 270
+  xy: 1725, 2238
+  size: 1024, 1184
+  orig: 1024, 1184
+  offset: 0, 0
+  index: -1
+c_suolian_a_2
+  rotate: false
+  xy: 2153, 2507
+  size: 256, 609
+  orig: 256, 609
+  offset: 0, 0
+  index: -1
+c_suolian_a_3
+  rotate: false
+  xy: 2, 2612
+  size: 720, 458
+  orig: 720, 458
+  offset: 0, 0
+  index: -1
+c_suolian_a_3sd
+  rotate: false
+  xy: 544, 2451
+  size: 720, 455
+  orig: 720, 455
+  offset: 0, 0
+  index: -1
+ef_wu_1
+  rotate: false
+  xy: 1028, 3982
+  size: 128, 74
+  orig: 128, 74
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 3072
+  size: 1024, 984
+  orig: 1024, 984
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: 180
+  xy: 645, 2695
+  size: 937, 649
+  orig: 970, 649
+  offset: 15, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 2181, 2487
+  size: 512, 661
+  orig: 512, 661
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: true
+  xy: 1028, 3336
+  size: 720, 1954
+  orig: 720, 1954
+  offset: 0, 0
+  index: -1
+z_3_sidai_1
+  rotate: false
+  xy: 1368, 2406
+  size: 512, 501
+  orig: 512, 501
+  offset: 0, 0
+  index: -1
+z_3_sidai_2
+  rotate: 180
+  xy: 3542, 2896
+  size: 512, 891
+  orig: 512, 891
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: true
+  xy: 2761, 2501
+  size: 720, 1217
+  orig: 720, 1586
+  offset: 0, 369
+  index: -1
+z_5
+  rotate: true
+  xy: 2305, 2935
+  size: 684, 1551
+  orig: 720, 1551
+  offset: 36, 0
+  index: -1
+z_5_sidai
+  rotate: 270
+  xy: 1227, 2909
+  size: 501, 1333
+  orig: 512, 1419
+  offset: 0, 0
+  index: -1
+z_5_suolian
+  rotate: 180
+  xy: 668, 2315
+  size: 684, 592
+  orig: 720, 684
+  offset: 36, 0
+  index: -1
+z_yun_1
+  rotate: false
+  xy: 2837, 3507
+  size: 720, 550
+  orig: 720, 559
+  offset: 0, 9
+  index: -1
+z_yun_2
+  rotate: 180
+  xy: 2980, 3326
+  size: 720, 475
+  orig: 720, 478
+  offset: 0, 3
+  index: -1

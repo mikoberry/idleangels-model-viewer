@@ -1,0 +1,90 @@
+
+fuleiya.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bankuaizhong
+  rotate: false
+  xy: 2, 4
+  size: 343, 330
+  orig: 343, 330
+  offset: 0, 0
+  index: -1
+beijing
+  rotate: false
+  xy: 2, 335
+  size: 1448, 1639
+  orig: 1448, 1639
+  offset: 0, 0
+  index: -1
+bgxingxing
+  rotate: true
+  xy: 1451, 335
+  size: 586, 277
+  orig: 586, 277
+  offset: 0, 0
+  index: -1
+guangxian
+  rotate: true
+  xy: 1480, 5
+  size: 373, 333
+  orig: 520, 333
+  offset: 0, 0
+  index: -1
+huanhou
+  rotate: false
+  xy: 347, 153
+  size: 361, 181
+  orig: 361, 181
+  offset: 0, 0
+  index: -1
+huanping
+  rotate: false
+  xy: 678, 36
+  size: 347, 36
+  orig: 347, 36
+  offset: 0, 0
+  index: -1
+huanxie
+  rotate: false
+  xy: 678, 71
+  size: 364, 193
+  orig: 364, 193
+  offset: 0, 0
+  index: -1
+jinshuhuan
+  rotate: false
+  xy: 1451, 1413
+  size: 496, 561
+  orig: 496, 561
+  offset: 0, 0
+  index: -1
+langanhou
+  rotate: false
+  xy: 347, 8
+  size: 329, 142
+  orig: 329, 142
+  offset: 0, 0
+  index: -1
+tiantiyi001
+  rotate: false
+  xy: 1451, 1073
+  size: 201, 338
+  orig: 201, 338
+  offset: 0, 0
+  index: -1
+tiantiyi002
+  rotate: false
+  xy: 710, 153
+  size: 155, 180
+  orig: 155, 180
+  offset: 0, 0
+  index: -1
+zuobianzhuzi
+  rotate: false
+  xy: 1730, 727
+  size: 179, 684
+  orig: 179, 684
+  offset: 0, 0
+  index: -1

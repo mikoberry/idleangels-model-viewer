@@ -1,0 +1,83 @@
+
+hela_UR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bk_1
+  rotate: false
+  xy: 2, 636
+  size: 2301, 3459
+  orig: 2301, 3459
+  offset: 0, 0
+  index: -1
+bk_2
+  rotate: 180
+  xy: 2874, 2853
+  size: 886, 1241
+  orig: 1088, 1650
+  offset: 202, 0
+  index: -1
+bk_yun_1
+  rotate: 180
+  xy: 2046, 2568
+  size: 1231, 1527
+  orig: 1231, 1527
+  offset: 0, 0
+  index: -1
+bk_yun_2
+  rotate: false
+  xy: 2, 3564
+  size: 326, 530
+  orig: 326, 530
+  offset: 0, 0
+  index: -1
+bk_yun_3
+  rotate: false
+  xy: 2263, 2243
+  size: 909, 456
+  orig: 909, 456
+  offset: 0, 0
+  index: -1
+bk_yun_4
+  rotate: 270
+  xy: 1357, 3
+  size: 1286, 1367
+  orig: 1286, 1367
+  offset: 0, 0
+  index: -1
+bk_yun_4b
+  rotate: false
+  xy: 2229, 377
+  size: 1402, 1786
+  orig: 1525, 1786
+  offset: 123, 0
+  index: -1
+shui_3
+  rotate: false
+  xy: 2, 671
+  size: 467, 506
+  orig: 467, 506
+  offset: 0, 0
+  index: -1
+z_tou_yan_l_bi
+  rotate: false
+  xy: 109, 4000
+  size: 80, 44
+  orig: 80, 47
+  offset: 0, 0
+  index: -1
+z_tou_yan_r_bi
+  rotate: false
+  xy: 86, 4045
+  size: 80, 50
+  orig: 80, 50
+  offset: 0, 0
+  index: -1
+z_xiong_r
+  rotate: false
+  xy: 217, 3804
+  size: 264, 291
+  orig: 264, 291
+  offset: 0, 0
+  index: -1

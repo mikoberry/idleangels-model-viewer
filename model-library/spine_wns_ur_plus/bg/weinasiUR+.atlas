@@ -1,0 +1,55 @@
+
+weinasiUR+.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_deng
+  rotate: false
+  xy: 1304, 1543
+  size: 1163, 1163
+  orig: 1163, 1163
+  offset: 0, 0
+  index: -1
+bj_dengguangs
+  rotate: false
+  xy: 679, 636
+  size: 1409, 905
+  orig: 1409, 905
+  offset: 0, 0
+  index: -1
+bj_dengguangy
+  rotate: false
+  xy: 3101, 2865
+  size: 738, 974
+  orig: 738, 974
+  offset: 0, 0
+  index: -1
+bj_dengguangz
+  rotate: true
+  xy: 2091, 660
+  size: 710, 1074
+  orig: 710, 1074
+  offset: 0, 0
+  index: -1
+bj_shang
+  rotate: true
+  xy: 2468, 1405
+  size: 1300, 1035
+  orig: 1300, 1035
+  offset: 0, 0
+  index: -1
+bj_xi
+  rotate: false
+  xy: 2, 1531
+  size: 1300, 1178
+  orig: 1300, 1178
+  offset: 0, 0
+  index: -1
+yingzi
+  rotate: false
+  xy: 2, 2707
+  size: 3098, 1133
+  orig: 3167, 1161
+  offset: 0, 28
+  index: -1

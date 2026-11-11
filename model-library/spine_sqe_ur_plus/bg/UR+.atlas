@@ -1,0 +1,104 @@
+
+UR+.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+G
+  rotate: false
+  xy: 634, 646
+  size: 726, 379
+  orig: 726, 379
+  offset: 0, 0
+  index: -1
+h
+  rotate: false
+  xy: 2, 739
+  size: 630, 546
+  orig: 630, 546
+  offset: 0, 0
+  index: -1
+heye
+  rotate: false
+  xy: 1362, 393
+  size: 536, 444
+  orig: 536, 444
+  offset: 0, 0
+  index: -1
+heye01
+  rotate: false
+  xy: 739, 1488
+  size: 136, 43
+  orig: 158, 80
+  offset: 22, 37
+  index: -1
+heye03
+  rotate: false
+  xy: 739, 1500
+  size: 273, 107
+  orig: 293, 116
+  offset: 14, 3
+  index: -1
+jianzhu
+  rotate: true
+  xy: 1581, 838
+  size: 630, 425
+  orig: 630, 425
+  offset: 0, 0
+  index: -1
+lianhua01
+  rotate: false
+  xy: 338, 624
+  size: 196, 112
+  orig: 197, 131
+  offset: 1, 0
+  index: -1
+lianhua02
+  rotate: false
+  xy: 742, 522
+  size: 131, 121
+  orig: 134, 121
+  offset: 0, 0
+  index: -1
+shuidi
+  rotate: false
+  xy: 739, 1027
+  size: 840, 455
+  orig: 840, 455
+  offset: 0, 0
+  index: -1
+shuidi02
+  rotate: false
+  xy: 2, 201
+  size: 525, 257
+  orig: 525, 257
+  offset: 0, 0
+  index: -1
+shuimian
+  rotate: false
+  xy: 739, 1470
+  size: 1067, 538
+  orig: 1067, 539
+  offset: 0, 0
+  index: -1
+shuizhongdaoying
+  rotate: true
+  xy: 1114, 163
+  size: 480, 251
+  orig: 480, 251
+  offset: 0, 0
+  index: -1
+sky
+  rotate: false
+  xy: 2, 1286
+  size: 735, 722
+  orig: 735, 722
+  offset: 0, 0
+  index: -1
+yuanjingheye
+  rotate: false
+  xy: 2, 361
+  size: 1111, 375
+  orig: 1253, 705
+  offset: 142, 0
+  index: -1

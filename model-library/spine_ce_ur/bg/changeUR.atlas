@@ -1,0 +1,20 @@
+
+changeUR.png
+size: 1921,1921
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+moon
+  rotate: false
+  xy: 2, 2
+  size: 987, 987
+  orig: 994, 994
+  offset: 3, 3
+  index: -1
+yun
+  rotate: false
+  xy: 2, 991
+  size: 1527, 928
+  orig: 1527, 928
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+yadiannaUR.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bengjng1
+  rotate: false
+  xy: 2, 1270
+  size: 810, 777
+  orig: 810, 777
+  offset: 0, 0
+  index: -1
+bengjng2
+  rotate: 270
+  xy: 797, 703
+  size: 810, 936
+  orig: 810, 936
+  offset: 0, 0
+  index: -1
+bengjng3
+  rotate: true
+  xy: 814, 1277
+  size: 770, 1208
+  orig: 1013, 1291
+  offset: 140, 0
+  index: -1
+bengjng4
+  rotate: false
+  xy: 2, 691
+  size: 810, 446
+  orig: 810, 446
+  offset: 0, 0
+  index: -1
+shitou1
+  rotate: 180
+  xy: 1001, 286
+  size: 1044, 539
+  orig: 1044, 539
+  offset: 0, 0
+  index: -1
+shitou2
+  rotate: false
+  xy: 229, 346
+  size: 374, 434
+  orig: 374, 434
+  offset: 0, 0
+  index: -1
+shitou3
+  rotate: false
+  xy: 814, 1543
+  size: 183, 180
+  orig: 183, 180
+  offset: 0, 0
+  index: -1
+shitou4
+  rotate: false
+  xy: 2, 1223
+  size: 52, 45
+  orig: 52, 45
+  offset: 0, 0
+  index: -1

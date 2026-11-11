@@ -1,0 +1,195 @@
+
+juxiezuoir.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ef_1
+  rotate: true
+  xy: 3556, 3374
+  size: 720, 498
+  orig: 720, 498
+  offset: 0, 0
+  index: -1
+ef_2
+  rotate: false
+  xy: 3034, 1861
+  size: 720, 299
+  orig: 720, 299
+  offset: 0, 0
+  index: -1
+ef_3
+  rotate: false
+  xy: 2430, 1749
+  size: 720, 563
+  orig: 720, 563
+  offset: 0, 0
+  index: -1
+ef_4
+  rotate: 270
+  xy: 962, 1667
+  size: 720, 1335
+  orig: 720, 1335
+  offset: 0, 0
+  index: -1
+ef_5
+  rotate: false
+  xy: 917, 2430
+  size: 512, 241
+  orig: 512, 241
+  offset: 0, 0
+  index: -1
+ef_6
+  rotate: false
+  xy: 2795, 1534
+  size: 720, 374
+  orig: 720, 374
+  offset: 0, 0
+  index: -1
+fa_b_1
+  rotate: 180
+  xy: 2, 1371
+  size: 958, 558
+  orig: 958, 560
+  offset: 0, 1
+  index: -1
+fa_b_2
+  rotate: 270
+  xy: 1396, 1358
+  size: 342, 1076
+  orig: 342, 1076
+  offset: 0, 0
+  index: -1
+fa_b_3
+  rotate: 180
+  xy: 1018, 1355
+  size: 1024, 853
+  orig: 1024, 853
+  offset: 0, 0
+  index: -1
+fa_b_4
+  rotate: 180
+  xy: 2299, 1397
+  size: 720, 421
+  orig: 720, 421
+  offset: 0, 0
+  index: -1
+fa_b_5
+  rotate: false
+  xy: 3756, 1734
+  size: 256, 343
+  orig: 256, 345
+  offset: 0, 0
+  index: -1
+fa_b_6
+  rotate: false
+  xy: 939, 1434
+  size: 342, 376
+  orig: 350, 378
+  offset: 8, 0
+  index: -1
+fa_b_7
+  rotate: false
+  xy: 1109, 1845
+  size: 410, 343
+  orig: 410, 350
+  offset: 0, 5
+  index: -1
+fa_b_8
+  rotate: false
+  xy: 2, 1701
+  size: 1024, 881
+  orig: 1024, 881
+  offset: 0, 0
+  index: -1
+fa_b_9
+  rotate: 180
+  xy: 3072, 1383
+  size: 1022, 503
+  orig: 1024, 504
+  offset: 2, 1
+  index: -1
+tou_hudie_1
+  rotate: false
+  xy: 3817, 2959
+  size: 251, 414
+  orig: 251, 422
+  offset: 0, 8
+  index: -1
+tou_hudie_2
+  rotate: false
+  xy: 1984, 1996
+  size: 463, 285
+  orig: 463, 285
+  offset: 0, 0
+  index: -1
+tou_hudie_3
+  rotate: false
+  xy: 2, 3784
+  size: 154, 310
+  orig: 154, 310
+  offset: 0, 0
+  index: -1
+tou_hudie_4
+  rotate: false
+  xy: 3556, 3117
+  size: 247, 355
+  orig: 251, 355
+  offset: 0, 0
+  index: -1
+tou_hudie_5
+  rotate: false
+  xy: 2875, 2655
+  size: 272, 393
+  orig: 272, 393
+  offset: 0, 0
+  index: -1
+tou_hudie_6
+  rotate: false
+  xy: 2, 2568
+  size: 120, 274
+  orig: 124, 277
+  offset: 0, 3
+  index: -1
+z_0
+  rotate: 180
+  xy: 3070, 2162
+  size: 1024, 994
+  orig: 1024, 1009
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 2478
+  size: 1500, 1616
+  orig: 1500, 1616
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 2530, 3050
+  size: 1024, 1044
+  orig: 1024, 1044
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 2153, 2283
+  size: 720, 720
+  orig: 720, 720
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 1504, 3005
+  size: 1024, 1089
+  orig: 1024, 1089
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: false
+  xy: 1431, 2183
+  size: 720, 820
+  orig: 720, 820
+  offset: 0, 0
+  index: -1

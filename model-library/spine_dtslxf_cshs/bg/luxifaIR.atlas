@@ -1,0 +1,202 @@
+
+luxifaIR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_mofa_a_1
+  rotate: 270
+  xy: 2391, 393
+  size: 624, 838
+  orig: 720, 838
+  offset: 84, 0
+  index: -1
+c_mofa_a_2
+  rotate: false
+  xy: 1198, 3939
+  size: 512, 156
+  orig: 512, 156
+  offset: 0, 0
+  index: -1
+c_mofa_a_3
+  rotate: false
+  xy: 3092, 2404
+  size: 1002, 1117
+  orig: 1024, 1117
+  offset: 22, 0
+  index: -1
+c_mofa_b_1
+  rotate: false
+  xy: 2517, 3010
+  size: 1024, 1085
+  orig: 1024, 1085
+  offset: 0, 0
+  index: -1
+h_l_1
+  rotate: false
+  xy: 137, 798
+  size: 1024, 455
+  orig: 1024, 455
+  offset: 0, 0
+  index: -1
+h_l_2
+  rotate: false
+  xy: 2606, 1907
+  size: 1231, 1092
+  orig: 2048, 1092
+  offset: 0, 0
+  index: -1
+h_l_3
+  rotate: false
+  xy: 3333, 2323
+  size: 256, 470
+  orig: 256, 470
+  offset: 0, 0
+  index: -1
+h_l_4
+  rotate: 270
+  xy: 622, 979
+  size: 1024, 1310
+  orig: 1024, 1311
+  offset: 0, 1
+  index: -1
+h_l_5
+  rotate: false
+  xy: 3581, 1969
+  size: 512, 1020
+  orig: 512, 1020
+  offset: 0, 0
+  index: -1
+h_l_6
+  rotate: 270
+  xy: 2559, 1012
+  size: 512, 715
+  orig: 512, 715
+  offset: 0, 0
+  index: -1
+h_r_1
+  rotate: true
+  xy: 1738, 1085
+  size: 883, 972
+  orig: 1024, 1982
+  offset: 70, 114
+  index: -1
+h_r_2
+  rotate: true
+  xy: 2569, 1441
+  size: 720, 1524
+  orig: 720, 1524
+  offset: 0, 0
+  index: -1
+h_r_3
+  rotate: false
+  xy: 1775, 3396
+  size: 511, 699
+  orig: 512, 706
+  offset: 0, 7
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 1631
+  size: 1991, 2464
+  orig: 2048, 2556
+  offset: 0, 92
+  index: -1
+z_1
+  rotate: false
+  xy: 3543, 3582
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+z_10
+  rotate: false
+  xy: 1974, 491
+  size: 541, 434
+  orig: 541, 434
+  offset: 0, 0
+  index: -1
+z_11
+  rotate: true
+  xy: 2506, 3546
+  size: 385, 630
+  orig: 1024, 1378
+  offset: 375, 669
+  index: -1
+z_12
+  rotate: 180
+  xy: 1884, 1905
+  size: 720, 2189
+  orig: 720, 2189
+  offset: 0, 0
+  index: -1
+z_13
+  rotate: false
+  xy: 1768, 2972
+  size: 256, 217
+  orig: 256, 217
+  offset: 0, 0
+  index: -1
+z_14
+  rotate: false
+  xy: 3483, 2587
+  size: 256, 303
+  orig: 256, 303
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 1533, 755
+  size: 1024, 414
+  orig: 1024, 414
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 2, 1269
+  size: 1024, 360
+  orig: 1024, 360
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 668, 595
+  size: 720, 283
+  orig: 720, 283
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: false
+  xy: 3070, 878
+  size: 1024, 324
+  orig: 1024, 324
+  offset: 0, 0
+  index: -1
+z_6
+  rotate: false
+  xy: 684, 3936
+  size: 512, 158
+  orig: 512, 158
+  offset: 0, 0
+  index: -1
+z_7
+  rotate: false
+  xy: 2668, 3770
+  size: 256, 217
+  orig: 256, 217
+  offset: 0, 0
+  index: -1
+z_8
+  rotate: false
+  xy: 1231, 880
+  size: 720, 601
+  orig: 720, 601
+  offset: 0, 0
+  index: -1
+z_9
+  rotate: false
+  xy: 3374, 537
+  size: 720, 417
+  orig: 720, 417
+  offset: 0, 0
+  index: -1

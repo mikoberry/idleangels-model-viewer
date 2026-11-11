@@ -1,0 +1,167 @@
+
+juxiezuomuyu.png
+size: 3402,3402
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_sd_1
+  rotate: false
+  xy: 212, 3
+  size: 256, 307
+  orig: 256, 330
+  offset: 0, 0
+  index: -1
+c_sd_2
+  rotate: false
+  xy: 2, 3192
+  size: 256, 209
+  orig: 256, 219
+  offset: 0, 10
+  index: -1
+c_sd_3
+  rotate: false
+  xy: 94, 1832
+  size: 128, 197
+  orig: 128, 197
+  offset: 0, 0
+  index: -1
+c_sd_4
+  rotate: false
+  xy: 658, 18
+  size: 128, 171
+  orig: 128, 171
+  offset: 0, 0
+  index: -1
+c_sd_5
+  rotate: false
+  xy: 726, 37
+  size: 128, 176
+  orig: 128, 176
+  offset: 0, 0
+  index: -1
+c_sd_6
+  rotate: false
+  xy: 2, 1789
+  size: 128, 314
+  orig: 128, 314
+  offset: 0, 0
+  index: -1
+c_sd_7
+  rotate: false
+  xy: 1291, 1216
+  size: 123, 188
+  orig: 128, 195
+  offset: 5, 7
+  index: -1
+z_0
+  rotate: 180
+  xy: 2, 1194
+  size: 1024, 643
+  orig: 1024, 643
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: true
+  xy: 1311, 752
+  size: 481, 190
+  orig: 512, 202
+  offset: 31, 12
+  index: -1
+z_2
+  rotate: true
+  xy: 1145, 279
+  size: 471, 340
+  orig: 512, 340
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 2, 1801
+  size: 1500, 1599
+  orig: 1500, 1599
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: 180
+  xy: 588, 922
+  size: 720, 339
+  orig: 720, 339
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: true
+  xy: 660, 604
+  size: 282, 653
+  orig: 300, 653
+  offset: 6, 0
+  index: -1
+z_6
+  rotate: 180
+  xy: 470, 161
+  size: 350, 294
+  orig: 350, 294
+  offset: 0, 0
+  index: -1
+z_7
+  rotate: false
+  xy: 1209, 60
+  size: 248, 232
+  orig: 256, 232
+  offset: 8, 0
+  index: -1
+z_8a
+  rotate: false
+  xy: 856, 39
+  size: 350, 339
+  orig: 350, 339
+  offset: 0, 0
+  index: -1
+z_hua_a_2
+  rotate: false
+  xy: 566, 341
+  size: 600, 271
+  orig: 600, 271
+  offset: 0, 0
+  index: -1
+z_hua_b_1
+  rotate: false
+  xy: 1235, 3216
+  size: 256, 172
+  orig: 256, 172
+  offset: 0, 0
+  index: -1
+z_hua_b_2
+  rotate: true
+  xy: 21, 340
+  size: 350, 514
+  orig: 350, 514
+  offset: 0, 0
+  index: -1
+z_hua_b_3
+  rotate: false
+  xy: 2, 143
+  size: 256, 195
+  orig: 256, 195
+  offset: 0, 0
+  index: -1
+z_hua_c_1
+  rotate: false
+  xy: 2, 598
+  size: 720, 594
+  orig: 720, 594
+  offset: 0, 0
+  index: -1
+z_hua_c_2
+  rotate: true
+  xy: 1028, 1206
+  size: 720, 420
+  orig: 720, 420
+  offset: 0, 0
+  index: -1
+z_hua_c_sd
+  rotate: false
+  xy: 407, 22
+  size: 228, 146
+  orig: 256, 146
+  offset: 28, 0
+  index: -1

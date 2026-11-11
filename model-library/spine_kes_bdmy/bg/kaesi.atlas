@@ -1,0 +1,55 @@
+
+kaesi.png
+size: 3790,3790
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+kaersi_192
+  rotate: false
+  xy: 233, 3
+  size: 720, 346
+  orig: 720, 346
+  offset: 0, 0
+  index: -1
+kaersi_193
+  rotate: false
+  xy: 2, 2383
+  size: 720, 1405
+  orig: 720, 1405
+  offset: 0, 0
+  index: -1
+kaersi_194
+  rotate: true
+  xy: 123, 330
+  size: 512, 769
+  orig: 512, 769
+  offset: 0, 0
+  index: -1
+kaersi_195
+  rotate: true
+  xy: 2, 635
+  size: 720, 911
+  orig: 720, 1455
+  offset: 0, 544
+  index: -1
+kaersi_196
+  rotate: true
+  xy: 782, 347
+  size: 720, 461
+  orig: 720, 461
+  offset: 0, 0
+  index: -1
+kaersi_197
+  rotate: false
+  xy: 724, 2398
+  size: 243, 1390
+  orig: 300, 1390
+  offset: 31, 0
+  index: -1
+kaersi_198
+  rotate: true
+  xy: 2, 1357
+  size: 1024, 973
+  orig: 1024, 973
+  offset: 0, 0
+  index: -1

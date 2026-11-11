@@ -1,0 +1,41 @@
+
+helaMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+d_guanghuan_b
+  rotate: false
+  xy: 1586, 4
+  size: 1600, 772
+  orig: 1600, 878
+  offset: 0, 0
+  index: -1
+d_guanghuan_b2
+  rotate: false
+  xy: 2, 3059
+  size: 196, 196
+  orig: 196, 196
+  offset: 0, 0
+  index: -1
+d_guangpan_1
+  rotate: true
+  xy: 2355, 549
+  size: 1537, 1391
+  orig: 1600, 1738
+  offset: 63, 347
+  index: -1
+d_guangpan_2
+  rotate: false
+  xy: 2364, 2259
+  size: 1103, 996
+  orig: 1600, 996
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 394
+  size: 2420, 2862
+  orig: 2800, 2862
+  offset: 189, 0
+  index: -1

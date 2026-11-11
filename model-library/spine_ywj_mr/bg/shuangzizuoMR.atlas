@@ -1,0 +1,55 @@
+
+shuangzizuoMR.png
+size: 3996,3996
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_bkg
+  rotate: true
+  xy: 2, 322
+  size: 1400, 1432
+  orig: 1400, 1432
+  offset: 0, 0
+  index: -1
+z_jianzhu
+  rotate: false
+  xy: 1436, 598
+  size: 1400, 1125
+  orig: 1400, 1125
+  offset: 0, 0
+  index: -1
+z_yun_1
+  rotate: 270
+  xy: 3067, 2759
+  size: 1236, 747
+  orig: 2011, 1799
+  offset: 444, 1052
+  index: -1
+z_yun_2
+  rotate: false
+  xy: 2, 1724
+  size: 3064, 2270
+  orig: 3064, 2270
+  offset: 0, 0
+  index: -1
+z_yun_3
+  rotate: 270
+  xy: 2838, 750
+  size: 972, 1074
+  orig: 1044, 1271
+  offset: 72, 0
+  index: -1
+z_yun_4
+  rotate: true
+  xy: 1436, 36
+  size: 560, 1756
+  orig: 560, 1756
+  offset: 0, 0
+  index: -1
+z_yun_5
+  rotate: false
+  xy: 3573, 1552
+  size: 420, 1205
+  orig: 420, 1205
+  offset: 0, 0
+  index: -1

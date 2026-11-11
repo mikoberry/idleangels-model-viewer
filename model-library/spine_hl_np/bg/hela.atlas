@@ -1,0 +1,139 @@
+
+hela.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cj_14
+  rotate: false
+  xy: 1279, 2286
+  size: 243, 272
+  orig: 243, 272
+  offset: 0, 0
+  index: -1
+cj_15
+  rotate: false
+  xy: 1819, 2381
+  size: 213, 439
+  orig: 213, 439
+  offset: 0, 0
+  index: -1
+cj_16
+  rotate: false
+  xy: 1579, 2468
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+cj_17
+  rotate: false
+  xy: 2116, 1637
+  size: 179, 297
+  orig: 179, 297
+  offset: 0, 0
+  index: -1
+cj_18
+  rotate: false
+  xy: 1524, 2222
+  size: 393, 157
+  orig: 393, 157
+  offset: 0, 0
+  index: -1
+cj_19
+  rotate: false
+  xy: 1279, 2222
+  size: 33, 63
+  orig: 33, 63
+  offset: 0, 0
+  index: -1
+cj_20
+  rotate: false
+  xy: 1279, 2560
+  size: 539, 260
+  orig: 539, 260
+  offset: 0, 0
+  index: -1
+cj_21
+  rotate: false
+  xy: 1279, 2822
+  size: 784, 1036
+  orig: 784, 1036
+  offset: 0, 0
+  index: -1
+cj_22
+  rotate: false
+  xy: 2, 1291
+  size: 2112, 926
+  orig: 2112, 926
+  offset: 0, 0
+  index: -1
+cj_23
+  rotate: false
+  xy: 2, 280
+  size: 864, 456
+  orig: 864, 456
+  offset: 0, 0
+  index: -1
+cj_24
+  rotate: false
+  xy: 2, 234
+  size: 2166, 1054
+  orig: 2166, 1054
+  offset: 0, 0
+  index: -1
+cj_25
+  rotate: false
+  xy: 2882, 1477
+  size: 1006, 2382
+  orig: 1006, 2382
+  offset: 0, 0
+  index: -1
+cj_26
+  rotate: false
+  xy: 3710, 788
+  size: 365, 1975
+  orig: 365, 1975
+  offset: 0, 0
+  index: -1
+cj_27
+  rotate: false
+  xy: 1524, 2392
+  size: 54, 167
+  orig: 54, 167
+  offset: 0, 0
+  index: -1
+cj_28
+  rotate: false
+  xy: 2, 3
+  size: 2221, 230
+  orig: 2221, 230
+  offset: 0, 0
+  index: -1
+cj_29
+  rotate: false
+  xy: 2091, 235
+  size: 850, 349
+  orig: 850, 349
+  offset: 0, 0
+  index: -1
+cj_30
+  rotate: false
+  xy: 2116, 1935
+  size: 840, 1924
+  orig: 840, 1924
+  offset: 0, 0
+  index: -1
+cj_31
+  rotate: false
+  xy: 2169, 588
+  size: 1275, 658
+  orig: 1275, 658
+  offset: 0, 0
+  index: -1
+cj_32
+  rotate: false
+  xy: 2, 2218
+  size: 1275, 1641
+  orig: 1275, 1641
+  offset: 0, 0
+  index: -1

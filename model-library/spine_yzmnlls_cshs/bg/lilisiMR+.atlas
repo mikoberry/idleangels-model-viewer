@@ -1,0 +1,34 @@
+
+lilisiMR+.png
+size: 3829,3829
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_1
+  rotate: false
+  xy: 2, 1535
+  size: 2048, 2292
+  orig: 2048, 2292
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 1892, 2799
+  size: 1023, 1028
+  orig: 1024, 1028
+  offset: 0, 0
+  index: -1
+z_2b
+  rotate: false
+  xy: 2, 2
+  size: 2048, 1531
+  orig: 2048, 1531
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: true
+  xy: 1639, 439
+  size: 2048, 2141
+  orig: 2048, 2147
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,160 @@
+
+luxifaMR.png
+size: 3248,3248
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_rl_1
+  rotate: false
+  xy: 337, 1385
+  size: 117, 151
+  orig: 256, 529
+  offset: 107, 296
+  index: -1
+c_rl_2
+  rotate: false
+  xy: 586, 1013
+  size: 329, 234
+  orig: 339, 265
+  offset: 0, 0
+  index: -1
+c_rl_3
+  rotate: false
+  xy: 2, 1817
+  size: 118, 228
+  orig: 128, 228
+  offset: 10, 0
+  index: -1
+c_sd_1
+  rotate: false
+  xy: 1326, 3052
+  size: 399, 194
+  orig: 512, 383
+  offset: 0, 189
+  index: -1
+c_sd_2
+  rotate: false
+  xy: 1740, 2501
+  size: 454, 733
+  orig: 512, 761
+  offset: 0, 28
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 854
+  size: 1990, 2392
+  orig: 2048, 2392
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 2
+  size: 2048, 850
+  orig: 2048, 850
+  offset: 0, 0
+  index: -1
+z_10
+  rotate: 180
+  xy: 1609, 854
+  size: 939, 1644
+  orig: 939, 1644
+  offset: 0, 0
+  index: -1
+z_10b
+  rotate: false
+  xy: 2, 1126
+  size: 299, 489
+  orig: 529, 1286
+  offset: 230, 797
+  index: -1
+z_11
+  rotate: false
+  xy: 84, 1626
+  size: 64, 185
+  orig: 64, 185
+  offset: 0, 0
+  index: -1
+z_12
+  rotate: false
+  xy: 355, 3151
+  size: 61, 95
+  orig: 61, 95
+  offset: 0, 0
+  index: -1
+z_13
+  rotate: false
+  xy: 290, 3120
+  size: 63, 126
+  orig: 63, 126
+  offset: 0, 0
+  index: -1
+z_14
+  rotate: false
+  xy: 107, 3016
+  size: 85, 230
+  orig: 85, 230
+  offset: 0, 0
+  index: -1
+z_15
+  rotate: false
+  xy: 2, 3011
+  size: 103, 235
+  orig: 103, 235
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 302, 1466
+  size: 78, 154
+  orig: 78, 154
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: false
+  xy: 194, 3097
+  size: 94, 149
+  orig: 94, 149
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 2, 1657
+  size: 80, 158
+  orig: 80, 158
+  offset: 0, 0
+  index: -1
+z_5
+  rotate: false
+  xy: 2263, 15
+  size: 128, 455
+  orig: 128, 659
+  offset: 0, 204
+  index: -1
+z_6
+  rotate: false
+  xy: 1998, 2901
+  size: 512, 154
+  orig: 512, 154
+  offset: 0, 0
+  index: -1
+z_7
+  rotate: false
+  xy: 2052, 41
+  size: 220, 812
+  orig: 256, 886
+  offset: 0, 0
+  index: -1
+z_8
+  rotate: false
+  xy: 302, 946
+  size: 282, 433
+  orig: 282, 433
+  offset: 0, 0
+  index: -1
+z_9
+  rotate: false
+  xy: 2, 2078
+  size: 46, 108
+  orig: 46, 108
+  offset: 0, 0
+  index: -1

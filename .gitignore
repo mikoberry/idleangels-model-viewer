@@ -7,6 +7,5 @@ dist
 参考/
 正常显示/
 
-# 模型源库与按包生成的模型资源，不随仓库分发
-model-library/
+# 按包生成的模型资源，不随仓库分发
 public/spine/models/

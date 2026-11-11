@@ -1,0 +1,55 @@
+
+shuangzizuohunsha.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+b_diqun
+  rotate: 270
+  xy: 382, 3
+  size: 790, 996
+  orig: 790, 996
+  offset: 0, 0
+  index: -1
+b_landai1
+  rotate: false
+  xy: 2, 589
+  size: 258, 301
+  orig: 258, 301
+  offset: 0, 0
+  index: -1
+b_landai2
+  rotate: false
+  xy: 896, 795
+  size: 474, 108
+  orig: 474, 108
+  offset: 0, 0
+  index: -1
+b_landai3
+  rotate: true
+  xy: 239, 234
+  size: 523, 171
+  orig: 579, 186
+  offset: 56, 3
+  index: -1
+b_shenhouhua
+  rotate: false
+  xy: 2, 1973
+  size: 78, 74
+  orig: 78, 74
+  offset: 0, 0
+  index: -1
+cj_dibu
+  rotate: false
+  xy: 2, 759
+  size: 1390, 1287
+  orig: 1404, 1287
+  offset: 0, 0
+  index: -1
+tx_huaban8
+  rotate: false
+  xy: 2, 1914
+  size: 61, 58
+  orig: 61, 58
+  offset: 0, 0
+  index: -1

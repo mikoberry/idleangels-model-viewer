@@ -1,0 +1,146 @@
+
+wulierUR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+x_bianfu_0
+  rotate: true
+  xy: 2683, 663
+  size: 1466, 1368
+  orig: 1466, 1368
+  offset: 0, 0
+  index: -1
+z_diaoxiang_1
+  rotate: false
+  xy: 2, 563
+  size: 970, 705
+  orig: 970, 705
+  offset: 0, 0
+  index: -1
+z_diaoxiang_2
+  rotate: false
+  xy: 1683, 310
+  size: 584, 590
+  orig: 584, 590
+  offset: 0, 0
+  index: -1
+z_diaoxiang_3
+  rotate: true
+  xy: 589, 308
+  size: 204, 1092
+  orig: 204, 1092
+  offset: 0, 0
+  index: -1
+z_diaoxiang_4
+  rotate: false
+  xy: 3662, 1896
+  size: 410, 797
+  orig: 410, 797
+  offset: 0, 0
+  index: -1
+z_diaoxiang_5
+  rotate: false
+  xy: 162, 246
+  size: 809, 539
+  orig: 865, 684
+  offset: 56, 0
+  index: -1
+z_szj_1
+  rotate: false
+  xy: 2744, 1027
+  size: 929, 1505
+  orig: 929, 1505
+  offset: 0, 0
+  index: -1
+z_szj_2
+  rotate: false
+  xy: 3491, 3318
+  size: 602, 627
+  orig: 602, 627
+  offset: 0, 0
+  index: -1
+z_teng
+  rotate: true
+  xy: 2723, 2154
+  size: 1940, 1023
+  orig: 1940, 1023
+  offset: 0, 0
+  index: -1
+z_weilan_1
+  rotate: true
+  xy: 1567, 2604
+  size: 1491, 1154
+  orig: 1491, 1154
+  offset: 0, 0
+  index: -1
+z_weilan_2
+  rotate: false
+  xy: 2, 1974
+  size: 1563, 2120
+  orig: 1563, 2120
+  offset: 0, 0
+  index: -1
+z_yanwu_1
+  rotate: false
+  xy: 877, 927
+  size: 935, 694
+  orig: 970, 941
+  offset: 35, 18
+  index: -1
+z_yanwu_2
+  rotate: true
+  xy: 1222, 1622
+  size: 981, 1623
+  orig: 981, 1623
+  offset: 0, 0
+  index: -1
+z_yanwu_3
+  rotate: false
+  xy: 2, 1270
+  size: 873, 702
+  orig: 873, 702
+  offset: 0, 0
+  index: -1
+z_zhuta_a1
+  rotate: false
+  xy: 2337, 388
+  size: 410, 629
+  orig: 410, 629
+  offset: 0, 0
+  index: -1
+z_zhuta_a2
+  rotate: false
+  xy: 2, 3704
+  size: 583, 390
+  orig: 583, 390
+  offset: 0, 0
+  index: -1
+z_zhuta_a3
+  rotate: true
+  xy: 3141, 244
+  size: 1025, 953
+  orig: 1025, 953
+  offset: 0, 0
+  index: -1
+z_zhuta_a4
+  rotate: true
+  xy: 974, 439
+  size: 485, 587
+  orig: 485, 587
+  offset: 0, 0
+  index: -1
+z_zhuta_b1
+  rotate: true
+  xy: 1657, 902
+  size: 636, 1085
+  orig: 636, 1085
+  offset: 0, 0
+  index: -1
+z_zhuta_b2
+  rotate: false
+  xy: 3554, 2696
+  size: 485, 620
+  orig: 485, 620
+  offset: 0, 0
+  index: -1

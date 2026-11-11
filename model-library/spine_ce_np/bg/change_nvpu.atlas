@@ -1,0 +1,132 @@
+
+change_nvpu.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_0
+  rotate: false
+  xy: 2, 394
+  size: 2386, 3489
+  orig: 2386, 3591
+  offset: 0, 102
+  index: -1
+z_deng_a_1
+  rotate: false
+  xy: 3406, 3543
+  size: 191, 342
+  orig: 199, 344
+  offset: 4, 2
+  index: -1
+z_h_1
+  rotate: false
+  xy: 3547, 3659
+  size: 151, 225
+  orig: 194, 246
+  offset: 2, 21
+  index: -1
+z_h_2
+  rotate: false
+  xy: 1169, 3750
+  size: 296, 135
+  orig: 349, 138
+  offset: 1, 2
+  index: -1
+z_h_b_1
+  rotate: false
+  xy: 419, 3628
+  size: 328, 256
+  orig: 329, 314
+  offset: 0, 54
+  index: -1
+z_u_1
+  rotate: false
+  xy: 200, 3803
+  size: 99, 81
+  orig: 109, 96
+  offset: 4, 15
+  index: -1
+z_u_2
+  rotate: false
+  xy: 1405, 3689
+  size: 243, 195
+  orig: 279, 217
+  offset: 30, 0
+  index: -1
+z_u_3
+  rotate: false
+  xy: 2, 3782
+  size: 42, 102
+  orig: 47, 109
+  offset: 5, 0
+  index: -1
+z_u_4
+  rotate: false
+  xy: 2211, 3735
+  size: 230, 149
+  orig: 230, 149
+  offset: 0, 0
+  index: -1
+z_v_1
+  rotate: 180
+  xy: 2944, 2285
+  size: 938, 1598
+  orig: 938, 1598
+  offset: 0, 0
+  index: -1
+z_v_2
+  rotate: false
+  xy: 961, 3579
+  size: 206, 305
+  orig: 206, 306
+  offset: 0, 1
+  index: -1
+z_v_3
+  rotate: false
+  xy: 2222, 1255
+  size: 1638, 2629
+  orig: 1638, 2635
+  offset: 0, 3
+  index: -1
+z_x_1
+  rotate: false
+  xy: 2427, 3766
+  size: 150, 118
+  orig: 176, 130
+  offset: 18, 5
+  index: -1
+z_yuanzhuo_1
+  rotate: false
+  xy: 2, 3520
+  size: 422, 364
+  orig: 422, 365
+  offset: 0, 1
+  index: -1
+z_yuanzhuo_2
+  rotate: false
+  xy: 3258, 3580
+  size: 288, 303
+  orig: 288, 303
+  offset: 0, 0
+  index: -1
+z_yuanzhuo_3
+  rotate: false
+  xy: 1649, 3764
+  size: 175, 121
+  orig: 228, 127
+  offset: 3, 3
+  index: -1
+z_yuanzhuo_4
+  rotate: false
+  xy: 314, 3799
+  size: 80, 85
+  orig: 80, 85
+  offset: 0, 0
+  index: -1
+z_yuanzhuo_5
+  rotate: false
+  xy: 747, 3669
+  size: 221, 216
+  orig: 238, 224
+  offset: 0, 6
+  index: -1

@@ -91,10 +91,10 @@ F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-reac
 
 ### 模型准备与打包
 
-模型源库与生成物都不进 Git：
+模型源库提交进 Git，按包生成物忽略：
 
 ```text
-model-library/           # 源库，忽略
+model-library/           # 源库，提交
 public/spine/models/     # 当前包，忽略
 ```
 

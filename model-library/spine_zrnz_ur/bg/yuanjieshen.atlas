@@ -1,0 +1,125 @@
+
+yuanjieshen.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+huaban02
+  rotate: false
+  xy: 1796, 1047
+  size: 226, 169
+  orig: 226, 169
+  offset: 0, 0
+  index: -1
+huaban03
+  rotate: false
+  xy: 1024, 842
+  size: 228, 197
+  orig: 228, 197
+  offset: 0, 0
+  index: -1
+huaban04
+  rotate: false
+  xy: 1024, 1041
+  size: 293, 387
+  orig: 293, 387
+  offset: 0, 0
+  index: -1
+huaban05
+  rotate: true
+  xy: 2, 723
+  size: 436, 442
+  orig: 436, 442
+  offset: 0, 0
+  index: -1
+huaban06
+  rotate: false
+  xy: 1340, 1218
+  size: 610, 563
+  orig: 610, 563
+  offset: 0, 0
+  index: -1
+huaban07
+  rotate: false
+  xy: 575, 1014
+  size: 447, 414
+  orig: 447, 414
+  offset: 0, 0
+  index: -1
+huaban08
+  rotate: false
+  xy: 673, 1686
+  size: 665, 350
+  orig: 665, 350
+  offset: 0, 0
+  index: -1
+huaban11
+  rotate: true
+  xy: 673, 1430
+  size: 254, 605
+  orig: 254, 605
+  offset: 0, 0
+  index: -1
+huaban13
+  rotate: false
+  xy: 2, 1161
+  size: 571, 376
+  orig: 571, 376
+  offset: 0, 0
+  index: -1
+huaban14
+  rotate: false
+  xy: 1319, 1013
+  size: 246, 203
+  orig: 246, 203
+  offset: 0, 0
+  index: -1
+huaban15
+  rotate: false
+  xy: 1976, 1911
+  size: 58, 125
+  orig: 58, 125
+  offset: 0, 0
+  index: -1
+huaban17
+  rotate: false
+  xy: 2, 1539
+  size: 669, 497
+  orig: 669, 497
+  offset: 0, 0
+  index: -1
+huaban18
+  rotate: false
+  xy: 1567, 1080
+  size: 227, 136
+  orig: 227, 136
+  offset: 0, 0
+  index: -1
+huaban19
+  rotate: false
+  xy: 1952, 1625
+  size: 84, 110
+  orig: 84, 110
+  offset: 0, 0
+  index: -1
+huaban22
+  rotate: false
+  xy: 1567, 938
+  size: 146, 140
+  orig: 146, 140
+  offset: 0, 0
+  index: -1
+hudie_01
+  rotate: true
+  xy: 1340, 1783
+  size: 253, 634
+  orig: 262, 637
+  offset: 4, 1
+  index: -1
+hudie_02
+  rotate: false
+  xy: 1976, 1737
+  size: 41, 172
+  orig: 45, 176
+  offset: 3, 4
+  index: -1

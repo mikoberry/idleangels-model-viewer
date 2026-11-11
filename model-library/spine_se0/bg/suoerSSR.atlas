@@ -1,0 +1,62 @@
+
+suoerSSR.png
+size: 1860,1860
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bkg_1
+  rotate: false
+  xy: 2, 568
+  size: 1470, 1290
+  orig: 1470, 1290
+  offset: 0, 0
+  index: -1
+bkg_2
+  rotate: true
+  xy: 1163, 78
+  size: 488, 76
+  orig: 488, 76
+  offset: 0, 0
+  index: -1
+bkg_3
+  rotate: true
+  xy: 1474, 408
+  size: 1450, 384
+  orig: 1450, 384
+  offset: 0, 0
+  index: -1
+chuizi_1
+  rotate: true
+  xy: 469, 153
+  size: 413, 503
+  orig: 413, 503
+  offset: 0, 0
+  index: -1
+chuizi_5
+  rotate: true
+  xy: 974, 204
+  size: 119, 53
+  orig: 119, 53
+  offset: 0, 0
+  index: -1
+eft_6
+  rotate: false
+  xy: 974, 165
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+fa_b_2
+  rotate: false
+  xy: 974, 325
+  size: 187, 241
+  orig: 187, 241
+  offset: 0, 0
+  index: -1
+fa_b_4
+  rotate: false
+  xy: 2, 125
+  size: 465, 441
+  orig: 465, 441
+  offset: 0, 0
+  index: -1

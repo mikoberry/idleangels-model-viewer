@@ -1,0 +1,139 @@
+
+nvzhu_chunjie25.png
+size: 3933,3933
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_1
+  rotate: false
+  xy: 1028, 2873
+  size: 1200, 1058
+  orig: 1200, 1058
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: 180
+  xy: 2520, 1138
+  size: 720, 1218
+  orig: 720, 1218
+  offset: 0, 0
+  index: -1
+z_yh_1
+  rotate: false
+  xy: 1798, 1728
+  size: 720, 640
+  orig: 720, 640
+  offset: 0, 0
+  index: -1
+z_yh_10
+  rotate: false
+  xy: 2, 1071
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+z_yh_11
+  rotate: false
+  xy: 1995, 1208
+  size: 512, 518
+  orig: 512, 518
+  offset: 0, 0
+  index: -1
+z_yh_12
+  rotate: false
+  xy: 2, 2863
+  size: 1024, 1068
+  orig: 1024, 1068
+  offset: 0, 0
+  index: -1
+z_yh_13
+  rotate: false
+  xy: 759, 1561
+  size: 720, 588
+  orig: 720, 588
+  offset: 0, 0
+  index: -1
+z_yh_14
+  rotate: false
+  xy: 2, 1585
+  size: 512, 554
+  orig: 512, 554
+  offset: 0, 0
+  index: -1
+z_yh_15
+  rotate: false
+  xy: 1481, 1172
+  size: 512, 554
+  orig: 512, 554
+  offset: 0, 0
+  index: -1
+z_yh_16
+  rotate: true
+  xy: 2155, 2370
+  size: 720, 780
+  orig: 720, 780
+  offset: 0, 0
+  index: -1
+z_yh_17
+  rotate: true
+  xy: 1028, 2151
+  size: 720, 768
+  orig: 720, 768
+  offset: 0, 0
+  index: -1
+z_yh_2
+  rotate: true
+  xy: 2, 2141
+  size: 720, 755
+  orig: 720, 755
+  offset: 0, 0
+  index: -1
+z_yh_3
+  rotate: false
+  xy: 2230, 3092
+  size: 720, 839
+  orig: 720, 839
+  offset: 0, 0
+  index: -1
+z_yh_4
+  rotate: false
+  xy: 516, 1072
+  size: 512, 487
+  orig: 512, 487
+  offset: 0, 0
+  index: -1
+z_yh_5
+  rotate: false
+  xy: 2952, 3113
+  size: 720, 818
+  orig: 720, 818
+  offset: 0, 0
+  index: -1
+z_yh_6
+  rotate: true
+  xy: 2952, 2391
+  size: 720, 785
+  orig: 720, 785
+  offset: 0, 0
+  index: -1
+z_yh_7
+  rotate: false
+  xy: 2937, 1723
+  size: 720, 666
+  orig: 720, 666
+  offset: 0, 0
+  index: -1
+z_yh_8
+  rotate: false
+  xy: 3674, 3674
+  size: 256, 257
+  orig: 256, 257
+  offset: 0, 0
+  index: -1
+z_yh_9
+  rotate: false
+  xy: 3242, 1205
+  size: 512, 516
+  orig: 512, 516
+  offset: 0, 0
+  index: -1

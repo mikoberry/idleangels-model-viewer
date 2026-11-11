@@ -1,0 +1,118 @@
+
+changeMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_cao_1
+  rotate: false
+  xy: 2, 451
+  size: 1498, 395
+  orig: 1498, 395
+  offset: 0, 0
+  index: -1
+z_cao_2
+  rotate: false
+  xy: 2, 3763
+  size: 829, 332
+  orig: 829, 332
+  offset: 0, 0
+  index: -1
+z_cao_3
+  rotate: false
+  xy: 1311, 3883
+  size: 385, 212
+  orig: 385, 212
+  offset: 0, 0
+  index: -1
+z_cao_4
+  rotate: false
+  xy: 1003, 425
+  size: 1076, 560
+  orig: 1076, 560
+  offset: 0, 0
+  index: -1
+z_cao_5
+  rotate: false
+  xy: 1992, 1096
+  size: 1291, 720
+  orig: 1334, 720
+  offset: 0, 0
+  index: -1
+z_cao_6
+  rotate: false
+  xy: 1486, 1813
+  size: 1331, 946
+  orig: 1372, 946
+  offset: 0, 0
+  index: -1
+z_cao_7
+  rotate: false
+  xy: 2, 2760
+  size: 3320, 1334
+  orig: 3320, 1334
+  offset: 0, 0
+  index: -1
+z_dimian
+  rotate: false
+  xy: 729, 966
+  size: 1279, 1018
+  orig: 1440, 1273
+  offset: 30, 208
+  index: -1
+z_dimian_2
+  rotate: false
+  xy: 833, 3720
+  size: 476, 375
+  orig: 476, 391
+  offset: 0, 0
+  index: -1
+z_dimian_3
+  rotate: false
+  xy: 3324, 3672
+  size: 301, 422
+  orig: 301, 422
+  offset: 0, 0
+  index: -1
+z_dimian_4
+  rotate: false
+  xy: 3627, 3799
+  size: 224, 296
+  orig: 224, 296
+  offset: 0, 0
+  index: -1
+z_dimian_5
+  rotate: false
+  xy: 2630, 1660
+  size: 1463, 1334
+  orig: 1601, 1391
+  offset: 138, 57
+  index: -1
+z_tian_1
+  rotate: false
+  xy: 2, 750
+  size: 1200, 734
+  orig: 1200, 734
+  offset: 0, 0
+  index: -1
+z_tian_2
+  rotate: false
+  xy: 1774, 634
+  size: 1156, 460
+  orig: 1156, 460
+  offset: 0, 0
+  index: -1
+z_tian_3
+  rotate: false
+  xy: 2998, 671
+  size: 1095, 680
+  orig: 1095, 680
+  offset: 0, 0
+  index: -1
+z_tian_4
+  rotate: false
+  xy: 99, 1915
+  size: 1811, 1108
+  orig: 1811, 1108
+  offset: 0, 0
+  index: -1

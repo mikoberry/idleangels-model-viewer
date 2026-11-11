@@ -1,0 +1,181 @@
+
+shuangzizuoMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+AB_sd
+  rotate: false
+  xy: 2988, 2812
+  size: 256, 125
+  orig: 256, 125
+  offset: 0, 0
+  index: -1
+guang_10
+  rotate: false
+  xy: 2433, 3685
+  size: 256, 409
+  orig: 256, 409
+  offset: 0, 0
+  index: -1
+guang_11
+  rotate: false
+  xy: 2026, 3318
+  size: 405, 776
+  orig: 405, 776
+  offset: 0, 0
+  index: -1
+guang_9
+  rotate: false
+  xy: 2026, 2917
+  size: 128, 254
+  orig: 128, 254
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 1381
+  size: 1024, 997
+  orig: 1024, 997
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: 180
+  xy: 2345, 790
+  size: 1024, 626
+  orig: 1024, 626
+  offset: 0, 0
+  index: -1
+z_pian_1
+  rotate: false
+  xy: 2026, 3173
+  size: 256, 143
+  orig: 256, 143
+  offset: 0, 0
+  index: -1
+z_pian_10
+  rotate: true
+  xy: 1619, 938
+  size: 368, 724
+  orig: 368, 724
+  offset: 0, 0
+  index: -1
+z_pian_11
+  rotate: false
+  xy: 3246, 2633
+  size: 735, 1461
+  orig: 735, 1461
+  offset: 0, 0
+  index: -1
+z_pian_12
+  rotate: false
+  xy: 1196, 2897
+  size: 828, 1197
+  orig: 828, 1197
+  offset: 0, 0
+  index: -1
+z_pian_13
+  rotate: false
+  xy: 2, 2380
+  size: 1192, 1714
+  orig: 1192, 1714
+  offset: 0, 0
+  index: -1
+z_pian_2
+  rotate: false
+  xy: 2359, 2155
+  size: 315, 376
+  orig: 315, 376
+  offset: 0, 0
+  index: -1
+z_pian_3
+  rotate: true
+  xy: 1089, 1005
+  size: 297, 528
+  orig: 297, 528
+  offset: 0, 0
+  index: -1
+z_pian_4
+  rotate: true
+  xy: 952, 622
+  size: 314, 794
+  orig: 314, 794
+  offset: 0, 0
+  index: -1
+z_pian_5
+  rotate: false
+  xy: 2433, 3416
+  size: 128, 267
+  orig: 128, 267
+  offset: 0, 0
+  index: -1
+z_pian_6
+  rotate: false
+  xy: 3246, 1304
+  size: 581, 1327
+  orig: 581, 1327
+  offset: 0, 0
+  index: -1
+z_pian_7
+  rotate: true
+  xy: 1028, 1792
+  size: 586, 1230
+  orig: 586, 1230
+  offset: 0, 0
+  index: -1
+z_pian_8
+  rotate: false
+  xy: 2, 769
+  size: 501, 610
+  orig: 501, 610
+  offset: 0, 0
+  index: -1
+z_pian_9
+  rotate: true
+  xy: 1748, 516
+  size: 420, 488
+  orig: 420, 488
+  offset: 0, 0
+  index: -1
+z_st_1
+  rotate: false
+  xy: 2284, 3164
+  size: 128, 152
+  orig: 128, 152
+  offset: 0, 0
+  index: -1
+z_st_2
+  rotate: false
+  xy: 2156, 3028
+  size: 128, 134
+  orig: 128, 134
+  offset: 0, 0
+  index: -1
+z_yan_1
+  rotate: false
+  xy: 1196, 2421
+  size: 2048, 1673
+  orig: 2048, 1673
+  offset: 0, 0
+  index: -1
+z_yan_2
+  rotate: 180
+  xy: 1195, 1309
+  size: 2048, 1500
+  orig: 2048, 1500
+  offset: 0, 0
+  index: -1
+z_yan_3
+  rotate: true
+  xy: 3483, 842
+  size: 1024, 611
+  orig: 1024, 611
+  offset: 0, 0
+  index: -1
+z_yan_4
+  rotate: true
+  xy: 685, 766
+  size: 1024, 920
+  orig: 1024, 920
+  offset: 0, 0
+  index: -1

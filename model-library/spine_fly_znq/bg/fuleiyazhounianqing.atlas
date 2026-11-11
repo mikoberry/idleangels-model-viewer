@@ -1,0 +1,55 @@
+
+fuleiyazhounianqing.png
+size: 3998,3998
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Q_07
+  rotate: false
+  xy: 2, 2
+  size: 1172, 965
+  orig: 1172, 965
+  offset: 0, 0
+  index: -1
+Q_08
+  rotate: true
+  xy: 2052, 2972
+  size: 1024, 495
+  orig: 1024, 495
+  offset: 0, 0
+  index: -1
+Q_09
+  rotate: false
+  xy: 1910, 788
+  size: 512, 573
+  orig: 512, 573
+  offset: 0, 0
+  index: -1
+Q_10
+  rotate: false
+  xy: 2, 969
+  size: 2000, 1374
+  orig: 2000, 1374
+  offset: 0, 0
+  index: -1
+Q_11
+  rotate: false
+  xy: 2, 2345
+  size: 2048, 1651
+  orig: 2048, 1651
+  offset: 0, 0
+  index: -1
+Q_12
+  rotate: true
+  xy: 1176, 23
+  size: 1024, 984
+  orig: 1024, 984
+  offset: 0, 0
+  index: -1
+Q_13
+  rotate: 270
+  xy: 1873, 1678
+  size: 1024, 872
+  orig: 1024, 872
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,76 @@
+
+luojiMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cj_20
+  rotate: false
+  xy: 2, 195
+  size: 159, 167
+  orig: 159, 167
+  offset: 0, 0
+  index: -1
+cj_21
+  rotate: false
+  xy: 2, 52
+  size: 116, 141
+  orig: 116, 141
+  offset: 0, 0
+  index: -1
+cj_22
+  rotate: false
+  xy: 2, 641
+  size: 422, 256
+  orig: 422, 256
+  offset: 0, 0
+  index: -1
+cj_23
+  rotate: false
+  xy: 2, 365
+  size: 280, 274
+  orig: 280, 274
+  offset: 0, 0
+  index: -1
+cj_24
+  rotate: false
+  xy: 2, 2906
+  size: 2764, 1002
+  orig: 2764, 1002
+  offset: 0, 0
+  index: -1
+cj_25
+  rotate: false
+  xy: 1835, 114
+  size: 370, 1626
+  orig: 370, 1626
+  offset: 0, 0
+  index: -1
+cj_26
+  rotate: false
+  xy: 2768, 1362
+  size: 1028, 2546
+  orig: 1028, 2546
+  offset: 0, 0
+  index: -1
+cj_27
+  rotate: false
+  xy: 1153, 3
+  size: 680, 1737
+  orig: 680, 1737
+  offset: 0, 0
+  index: -1
+cj_28
+  rotate: false
+  xy: 2, 898
+  size: 1149, 2006
+  orig: 1149, 2006
+  offset: 0, 0
+  index: -1
+cj_29
+  rotate: false
+  xy: 1153, 1743
+  size: 1400, 1161
+  orig: 1400, 1161
+  offset: 0, 0
+  index: -1

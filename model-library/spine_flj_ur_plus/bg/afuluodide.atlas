@@ -1,0 +1,125 @@
+
+afuluodide.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bj_chuang
+  rotate: 180
+  xy: 895, 1023
+  size: 1079, 505
+  orig: 1080, 505
+  offset: 1, 0
+  index: -1
+bj_chuanglian
+  rotate: false
+  xy: 1061, 751
+  size: 432, 294
+  orig: 432, 300
+  offset: 0, 0
+  index: -1
+bj_deng
+  rotate: false
+  xy: 2, 150
+  size: 373, 374
+  orig: 373, 374
+  offset: 0, 0
+  index: -1
+bj_denghuo
+  rotate: false
+  xy: 1493, 781
+  size: 352, 100
+  orig: 352, 100
+  offset: 0, 0
+  index: -1
+bj_ditan
+  rotate: false
+  xy: 2, 1529
+  size: 1795, 445
+  orig: 1795, 445
+  offset: 0, 0
+  index: -1
+bj_huaban
+  rotate: false
+  xy: 695, 250
+  size: 127, 124
+  orig: 127, 124
+  offset: 0, 0
+  index: -1
+bj_huabanying
+  rotate: false
+  xy: 695, 375
+  size: 118, 162
+  orig: 118, 162
+  offset: 0, 0
+  index: -1
+bj_huaping
+  rotate: true
+  xy: 1637, 204
+  size: 190, 276
+  orig: 216, 289
+  offset: 0, 0
+  index: -1
+bj_qiang
+  rotate: false
+  xy: 2, 721
+  size: 936, 807
+  orig: 936, 807
+  offset: 0, 0
+  index: -1
+bj_zhentou
+  rotate: 180
+  xy: 827, 127
+  size: 809, 419
+  orig: 809, 419
+  offset: 0, 0
+  index: -1
+bj_zhuozihou
+  rotate: false
+  xy: 1495, 893
+  size: 257, 127
+  orig: 257, 127
+  offset: 0, 0
+  index: -1
+bj_zhuoziyou
+  rotate: false
+  xy: 376, 155
+  size: 317, 375
+  orig: 317, 375
+  offset: 0, 0
+  index: -1
+bj_zhuoziyouy
+  rotate: false
+  xy: 859, 725
+  size: 200, 334
+  orig: 200, 334
+  offset: 0, 0
+  index: -1
+bj_zhuzi
+  rotate: 270
+  xy: 2, 462
+  size: 317, 1787
+  orig: 417, 1794
+  offset: 0, 0
+  index: -1
+bj_zuohudie_1
+  rotate: false
+  xy: 1184, 923
+  size: 109, 139
+  orig: 109, 139
+  offset: 0, 0
+  index: -1
+bj_zuohudie_2
+  rotate: false
+  xy: 1912, 130
+  size: 62, 294
+  orig: 62, 294
+  offset: 0, 0
+  index: -1
+bj_zuohudie_3
+  rotate: 270
+  xy: 559, 106
+  size: 69, 419
+  orig: 69, 419
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,104 @@
+
+la_nvpu.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+z_bkg_1
+  rotate: true
+  xy: 2418, 2096
+  size: 1998, 1460
+  orig: 1998, 1460
+  offset: 0, 0
+  index: -1
+z_bkg_2
+  rotate: 180
+  xy: 963, 894
+  size: 2281, 1223
+  orig: 2281, 1223
+  offset: 0, 0
+  index: -1
+z_bkg_3
+  rotate: false
+  xy: 1756, 599
+  size: 963, 501
+  orig: 1000, 501
+  offset: 37, 0
+  index: -1
+z_bkg_4xx
+  rotate: false
+  xy: 2, 2443
+  size: 2415, 1652
+  orig: 2415, 1652
+  offset: 0, 0
+  index: -1
+z_bkg_5
+  rotate: false
+  xy: 3161, 3503
+  size: 701, 592
+  orig: 750, 669
+  offset: 22, 0
+  index: -1
+z_bkg_51
+  rotate: 180
+  xy: 2706, 519
+  size: 1388, 1072
+  orig: 1418, 1072
+  offset: 0, 0
+  index: -1
+z_bkg_6
+  rotate: false
+  xy: 62, 945
+  size: 1769, 655
+  orig: 1769, 817
+  offset: 0, 0
+  index: -1
+z_bkg_7
+  rotate: 180
+  xy: 2, 1551
+  size: 2283, 1004
+  orig: 2283, 1004
+  offset: 0, 0
+  index: -1
+z_hua_a_1
+  rotate: false
+  xy: 998, 3879
+  size: 310, 216
+  orig: 310, 216
+  offset: 0, 0
+  index: -1
+z_hua_a_2
+  rotate: false
+  xy: 1294, 3894
+  size: 280, 200
+  orig: 280, 200
+  offset: 0, 0
+  index: -1
+z_hua_a_3
+  rotate: false
+  xy: 295, 3925
+  size: 289, 170
+  orig: 312, 224
+  offset: 0, 0
+  index: -1
+z_hua_a_4
+  rotate: false
+  xy: 2, 3825
+  size: 297, 270
+  orig: 337, 282
+  offset: 0, 0
+  index: -1
+z_hua_b_1
+  rotate: false
+  xy: 1532, 3975
+  size: 110, 120
+  orig: 196, 163
+  offset: 0, 7
+  index: -1
+z_hua_b_2
+  rotate: false
+  xy: 1644, 3990
+  size: 117, 104
+  orig: 117, 104
+  offset: 0, 0
+  index: -1

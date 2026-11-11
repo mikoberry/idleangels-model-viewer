@@ -1,0 +1,153 @@
+
+puluomixiusiIR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_yizi
+  rotate: true
+  xy: 1866, 3070
+  size: 1024, 1376
+  orig: 1024, 1376
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: true
+  xy: 1028, 3070
+  size: 1024, 846
+  orig: 1024, 846
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2, 3070
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: true
+  xy: 3156, 3070
+  size: 1024, 726
+  orig: 1024, 726
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: 270
+  xy: 2125, 1178
+  size: 387, 1163
+  orig: 387, 1163
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: 180
+  xy: 1911, 2309
+  size: 1024, 850
+  orig: 1024, 850
+  offset: 0, 0
+  index: -1
+z_4_lian_1
+  rotate: 270
+  xy: 3023, 668
+  size: 763, 925
+  orig: 763, 925
+  offset: 0, 0
+  index: -1
+z_4_lian_2
+  rotate: 180
+  xy: 1262, 533
+  size: 1106, 1241
+  orig: 1106, 1241
+  offset: 0, 0
+  index: -1
+z_4_lian_3
+  rotate: 180
+  xy: 2, 1204
+  size: 2231, 1103
+  orig: 2349, 1103
+  offset: 118, 0
+  index: -1
+z_4_lian_4
+  rotate: true
+  xy: 2, 723
+  size: 740, 1093
+  orig: 740, 1093
+  offset: 0, 0
+  index: -1
+z_4_lian_5
+  rotate: true
+  xy: 2908, 907
+  size: 1296, 1154
+  orig: 1298, 1154
+  offset: 0, 0
+  index: -1
+z_4_lian_6
+  rotate: true
+  xy: 2862, 803
+  size: 934, 1231
+  orig: 934, 1231
+  offset: 0, 0
+  index: -1
+z_4_lian_7
+  rotate: 270
+  xy: 2415, 691
+  size: 1600, 1325
+  orig: 1600, 1325
+  offset: 0, 0
+  index: -1
+z_yan_1
+  rotate: false
+  xy: 2, 2447
+  size: 1024, 621
+  orig: 1024, 621
+  offset: 0, 0
+  index: -1
+z_yan_3
+  rotate: false
+  xy: 985, 1404
+  size: 720, 757
+  orig: 720, 757
+  offset: 0, 0
+  index: -1
+z_yan_4
+  rotate: 180
+  xy: 2804, 1671
+  size: 720, 746
+  orig: 720, 746
+  offset: 0, 0
+  index: -1
+z_yan_5
+  rotate: false
+  xy: 2097, 1354
+  size: 720, 788
+  orig: 720, 788
+  offset: 0, 0
+  index: -1
+z_yan_6
+  rotate: 180
+  xy: 20, 1965
+  size: 1023, 612
+  orig: 1024, 612
+  offset: 0, 0
+  index: -1
+z_yan_7
+  rotate: false
+  xy: 1586, 1025
+  size: 1004, 656
+  orig: 1004, 656
+  offset: 0, 0
+  index: -1
+z_yan_8
+  rotate: 270
+  xy: 2848, 2204
+  size: 1024, 1188
+  orig: 1024, 1188
+  offset: 0, 0
+  index: -1
+z_yan_9
+  rotate: true
+  xy: 913, 2073
+  size: 1024, 1040
+  orig: 1024, 1040
+  offset: 0, 0
+  index: -1

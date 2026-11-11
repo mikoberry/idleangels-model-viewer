@@ -1,0 +1,104 @@
+
+qiubite.png
+size: 3598,3598
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beijing1
+  rotate: false
+  xy: 2, 952
+  size: 1970, 2644
+  orig: 1970, 2644
+  offset: 0, 0
+  index: -1
+meiguihua1
+  rotate: false
+  xy: 2826, 316
+  size: 688, 637
+  orig: 688, 637
+  offset: 0, 0
+  index: -1
+meiguihua2
+  rotate: true
+  xy: 3085, 1245
+  size: 298, 306
+  orig: 298, 306
+  offset: 0, 0
+  index: -1
+meiguihua3
+  rotate: true
+  xy: 3085, 955
+  size: 288, 277
+  orig: 288, 277
+  offset: 0, 0
+  index: -1
+meiguihua4
+  rotate: true
+  xy: 2412, 1163
+  size: 380, 367
+  orig: 380, 367
+  offset: 0, 0
+  index: -1
+meiguihua5
+  rotate: true
+  xy: 2781, 1231
+  size: 312, 302
+  orig: 312, 302
+  offset: 0, 0
+  index: -1
+sha16
+  rotate: true
+  xy: 1974, 1545
+  size: 2051, 1506
+  orig: 2051, 1506
+  offset: 0, 0
+  index: -1
+sha17
+  rotate: false
+  xy: 2, 522
+  size: 2822, 428
+  orig: 2822, 428
+  offset: 0, 0
+  index: -1
+xiaohua1
+  rotate: false
+  xy: 2412, 1001
+  size: 246, 160
+  orig: 246, 160
+  offset: 0, 0
+  index: -1
+xiaohua2
+  rotate: true
+  xy: 3482, 2943
+  size: 260, 84
+  orig: 260, 84
+  offset: 0, 0
+  index: -1
+xiedai
+  rotate: false
+  xy: 3482, 3205
+  size: 114, 391
+  orig: 114, 391
+  offset: 0, 0
+  index: -1
+yezi1
+  rotate: false
+  xy: 2660, 955
+  size: 188, 206
+  orig: 188, 206
+  offset: 0, 0
+  index: -1
+yezi2
+  rotate: true
+  xy: 1974, 986
+  size: 557, 436
+  orig: 557, 436
+  offset: 0, 0
+  index: -1
+yezi3
+  rotate: false
+  xy: 2850, 965
+  size: 229, 264
+  orig: 229, 264
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,139 @@
+
+yikalusiMR+.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_chibang_l_b_1
+  rotate: false
+  xy: 2336, 2845
+  size: 818, 923
+  orig: 818, 923
+  offset: 0, 0
+  index: -1
+c_chibang_l_m_1
+  rotate: false
+  xy: 1855, 3186
+  size: 1610, 908
+  orig: 1610, 1006
+  offset: 0, 0
+  index: -1
+c_chibang_l_u_1
+  rotate: true
+  xy: 1515, 2095
+  size: 2000, 2413
+  orig: 2000, 2452
+  offset: 0, 39
+  index: -1
+c_chibang_r_b_1
+  rotate: 270
+  xy: 1350, 417
+  size: 986, 1106
+  orig: 986, 1106
+  offset: 0, 0
+  index: -1
+c_chibang_r_m_1
+  rotate: true
+  xy: 2441, 1116
+  size: 2021, 1653
+  orig: 2021, 1653
+  offset: 0, 0
+  index: -1
+c_huan_b
+  rotate: false
+  xy: 2, 417
+  size: 1280, 511
+  orig: 1280, 511
+  offset: 0, 0
+  index: -1
+g_guangquan_a_b
+  rotate: false
+  xy: 2, 3923
+  size: 480, 171
+  orig: 480, 171
+  offset: 0, 0
+  index: -1
+g_guangquan_b_b
+  rotate: false
+  xy: 1644, 1788
+  size: 720, 238
+  orig: 720, 238
+  offset: 0, 0
+  index: -1
+g_guangquan_c_b
+  rotate: false
+  xy: 2415, 507
+  size: 1280, 439
+  orig: 1280, 439
+  offset: 0, 0
+  index: -1
+z_bkg_1
+  rotate: false
+  xy: 2, 2174
+  size: 1920, 1920
+  orig: 1920, 1920
+  offset: 0, 0
+  index: -1
+z_bkg_2
+  rotate: false
+  xy: 2, 1647
+  size: 1600, 722
+  orig: 1600, 722
+  offset: 0, 0
+  index: -1
+z_niao_1
+  rotate: false
+  xy: 1427, 3620
+  size: 566, 474
+  orig: 566, 474
+  offset: 0, 0
+  index: -1
+z_niao_2
+  rotate: 270
+  xy: 2896, 585
+  size: 960, 1198
+  orig: 960, 1236
+  offset: 0, 0
+  index: -1
+z_niao_3
+  rotate: false
+  xy: 1136, 1179
+  size: 1361, 606
+  orig: 1361, 606
+  offset: 0, 0
+  index: -1
+z_yun_1
+  rotate: false
+  xy: 2, 737
+  size: 1120, 318
+  orig: 1120, 318
+  offset: 0, 0
+  index: -1
+z_yun_2
+  rotate: false
+  xy: 1912, 1799
+  size: 800, 370
+  orig: 800, 370
+  offset: 0, 0
+  index: -1
+z_yun_3
+  rotate: 270
+  xy: 3162, 954
+  size: 1157, 931
+  orig: 1157, 931
+  offset: 0, 0
+  index: -1
+z_yun_4
+  rotate: false
+  xy: 860, 832
+  size: 640, 378
+  orig: 640, 378
+  offset: 0, 0
+  index: -1
+z_yun_5
+  rotate: false
+  xy: 2, 1057
+  size: 950, 588
+  orig: 950, 588
+  offset: 0, 0
+  index: -1

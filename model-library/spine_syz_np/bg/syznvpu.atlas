@@ -1,0 +1,90 @@
+
+syznvpu.png
+size: 3315,3315
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_sd_1
+  rotate: false
+  xy: 3054, 1929
+  size: 256, 326
+  orig: 256, 326
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: false
+  xy: 2, 1226
+  size: 1812, 2087
+  orig: 2048, 2177
+  offset: 236, 0
+  index: -1
+z_1
+  rotate: false
+  xy: 2424, 1455
+  size: 714, 1457
+  orig: 714, 1457
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: false
+  xy: 3056, 2308
+  size: 256, 497
+  orig: 256, 497
+  offset: 0, 0
+  index: -1
+z_3
+  rotate: true
+  xy: 1792, 2801
+  size: 512, 997
+  orig: 512, 997
+  offset: 0, 0
+  index: -1
+z_4
+  rotate: false
+  xy: 1702, 1296
+  size: 720, 1247
+  orig: 720, 1247
+  offset: 0, 0
+  index: -1
+z_hua_a_1
+  rotate: true
+  xy: 1815, 2553
+  size: 246, 543
+  orig: 246, 543
+  offset: 0, 0
+  index: -1
+z_hua_a_2
+  rotate: false
+  xy: 3056, 1529
+  size: 256, 436
+  orig: 256, 436
+  offset: 0, 0
+  index: -1
+z_hua_a_2sd
+  rotate: false
+  xy: 2, 2876
+  size: 128, 218
+  orig: 128, 218
+  offset: 0, 0
+  index: -1
+z_hua_b_1
+  rotate: false
+  xy: 1213, 3080
+  size: 350, 233
+  orig: 350, 233
+  offset: 0, 0
+  index: -1
+z_hua_b_2
+  rotate: 180
+  xy: 2503, 1172
+  size: 590, 446
+  orig: 590, 446
+  offset: 0, 0
+  index: -1
+z_hua_b_3
+  rotate: false
+  xy: 2791, 2914
+  size: 444, 360
+  orig: 444, 360
+  offset: 0, 0
+  index: -1

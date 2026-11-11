@@ -1,0 +1,97 @@
+
+kaesiMR+.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_chibang_l
+  rotate: true
+  xy: 947, 879
+  size: 1200, 2161
+  orig: 1200, 2161
+  offset: 0, 0
+  index: -1
+c_chibang_r
+  rotate: false
+  xy: 2896, 901
+  size: 1200, 781
+  orig: 1200, 781
+  offset: 0, 0
+  index: -1
+c_huan_b1
+  rotate: false
+  xy: 1, 858
+  size: 1479, 646
+  orig: 1500, 663
+  offset: 21, 17
+  index: -1
+c_huan_b2
+  rotate: false
+  xy: 3481, 3291
+  size: 493, 805
+  orig: 500, 805
+  offset: 7, 0
+  index: -1
+c_huan_c
+  rotate: 180
+  xy: 2097, 2778
+  size: 1400, 1319
+  orig: 1400, 1319
+  offset: 0, 0
+  index: -1
+p_15
+  rotate: false
+  xy: 1, 3856
+  size: 378, 240
+  orig: 378, 240
+  offset: 0, 0
+  index: -1
+p_16
+  rotate: false
+  xy: 3728, 2705
+  size: 368, 756
+  orig: 368, 756
+  offset: 0, 0
+  index: -1
+p_4
+  rotate: false
+  xy: 299, 3976
+  size: 307, 121
+  orig: 307, 128
+  offset: 0, 0
+  index: -1
+z_bkg
+  rotate: 180
+  xy: 1, 1845
+  size: 2400, 2253
+  orig: 2400, 2545
+  offset: 0, 21
+  index: -1
+z_yun_1
+  rotate: true
+  xy: 1, 1245
+  size: 1000, 677
+  orig: 1000, 677
+  offset: 0, 0
+  index: -1
+z_yun_2
+  rotate: false
+  xy: 678, 1490
+  size: 1000, 369
+  orig: 1000, 369
+  offset: 0, 0
+  index: -1
+z_yun_3
+  rotate: 270
+  xy: 2238, 1778
+  size: 1000, 1611
+  orig: 1000, 1611
+  offset: 0, 0
+  index: -1
+z_yun_4
+  rotate: false
+  xy: 2338, 1213
+  size: 1000, 705
+  orig: 1000, 705
+  offset: 0, 0
+  index: -1

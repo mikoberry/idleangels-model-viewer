@@ -1,0 +1,202 @@
+
+haimudaerMR+.png
+size: 4006,4006
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_haojiao_1
+  rotate: true
+  xy: 1422, 2205
+  size: 1800, 1521
+  orig: 1800, 1521
+  offset: 0, 0
+  index: -1
+c_huan_b
+  rotate: false
+  xy: 141, 4
+  size: 3600, 971
+  orig: 3600, 971
+  offset: 0, 0
+  index: -1
+c_jin_1
+  rotate: true
+  xy: 2, 1011
+  size: 900, 851
+  orig: 900, 851
+  offset: 0, 0
+  index: -1
+c_jinpan_1
+  rotate: true
+  xy: 2974, 1316
+  size: 630, 628
+  orig: 630, 628
+  offset: 0, 0
+  index: -1
+c_tou_guan_1
+  rotate: false
+  xy: 1372, 1937
+  size: 498, 325
+  orig: 499, 330
+  offset: 1, 0
+  index: -1
+c_tou_guan_2
+  rotate: false
+  xy: 1749, 2601
+  size: 408, 166
+  orig: 408, 173
+  offset: 0, 7
+  index: -1
+s_1
+  rotate: true
+  xy: 2, 1913
+  size: 729, 1085
+  orig: 729, 1085
+  offset: 0, 0
+  index: -1
+s_10
+  rotate: false
+  xy: 532, 592
+  size: 209, 431
+  orig: 209, 431
+  offset: 0, 0
+  index: -1
+s_11
+  rotate: true
+  xy: 1828, 877
+  size: 504, 1145
+  orig: 504, 1145
+  offset: 0, 0
+  index: -1
+s_12
+  rotate: false
+  xy: 2825, 1948
+  size: 720, 1075
+  orig: 720, 1075
+  offset: 0, 0
+  index: -1
+s_13
+  rotate: false
+  xy: 2974, 653
+  size: 446, 662
+  orig: 446, 662
+  offset: 0, 0
+  index: -1
+s_14
+  rotate: false
+  xy: 3519, 950
+  size: 331, 365
+  orig: 331, 365
+  offset: 0, 0
+  index: -1
+s_15
+  rotate: false
+  xy: 2, 2644
+  size: 1468, 1361
+  orig: 1468, 1361
+  offset: 0, 0
+  index: -1
+s_16
+  rotate: false
+  xy: 2556, 2286
+  size: 195, 221
+  orig: 195, 221
+  offset: 0, 0
+  index: -1
+s_17
+  rotate: false
+  xy: 355, 143
+  size: 478, 392
+  orig: 478, 392
+  offset: 0, 0
+  index: -1
+s_18
+  rotate: false
+  xy: 3501, 3478
+  size: 300, 527
+  orig: 300, 527
+  offset: 0, 0
+  index: -1
+s_19
+  rotate: false
+  xy: 1471, 2768
+  size: 816, 1237
+  orig: 816, 1237
+  offset: 0, 0
+  index: -1
+s_2
+  rotate: true
+  xy: 3501, 3024
+  size: 431, 372
+  orig: 431, 372
+  offset: 0, 0
+  index: -1
+s_3
+  rotate: false
+  xy: 3600, 86
+  size: 178, 707
+  orig: 178, 707
+  offset: 0, 0
+  index: -1
+s_4
+  rotate: true
+  xy: 835, 318
+  size: 257, 726
+  orig: 257, 726
+  offset: 0, 0
+  index: -1
+s_5
+  rotate: false
+  xy: 1088, 2008
+  size: 282, 344
+  orig: 282, 344
+  offset: 0, 0
+  index: -1
+s_6
+  rotate: false
+  xy: 2945, 3186
+  size: 554, 818
+  orig: 554, 818
+  offset: 0, 0
+  index: -1
+s_7
+  rotate: true
+  xy: 1676, 508
+  size: 367, 608
+  orig: 367, 608
+  offset: 0, 0
+  index: -1
+s_8
+  rotate: true
+  xy: 1088, 2354
+  size: 289, 729
+  orig: 289, 729
+  offset: 0, 0
+  index: -1
+s_9
+  rotate: false
+  xy: 2, 537
+  size: 528, 473
+  orig: 528, 473
+  offset: 0, 0
+  index: -1
+z_0
+  rotate: 270
+  xy: 868, 1102
+  size: 900, 983
+  orig: 900, 983
+  offset: 0, 0
+  index: -1
+z_1
+  rotate: 270
+  xy: 1840, 1383
+  size: 900, 983
+  orig: 900, 983
+  offset: 0, 0
+  index: -1
+z_2
+  rotate: 180
+  xy: 774, 577
+  size: 900, 758
+  orig: 900, 758
+  offset: 0, 0
+  index: -1

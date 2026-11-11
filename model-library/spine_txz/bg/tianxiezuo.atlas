@@ -1,0 +1,146 @@
+
+tianxiezuo.png
+size: 3950,3950
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+c_daoying_1
+  rotate: false
+  xy: 2, 3
+  size: 1500, 738
+  orig: 1500, 738
+  offset: 0, 0
+  index: -1
+c_daoying_2
+  rotate: 180
+  xy: 2293, 2058
+  size: 256, 385
+  orig: 256, 385
+  offset: 0, 0
+  index: -1
+t_ye_1
+  rotate: false
+  xy: 1867, 429
+  size: 512, 493
+  orig: 512, 493
+  offset: 0, 0
+  index: -1
+t_ye_10
+  rotate: true
+  xy: 2327, 925
+  size: 350, 194
+  orig: 350, 207
+  offset: 0, 0
+  index: -1
+t_ye_11
+  rotate: 180
+  xy: 2230, 283
+  size: 283, 340
+  orig: 300, 340
+  offset: 17, 0
+  index: -1
+t_ye_12
+  rotate: false
+  xy: 142, 2231
+  size: 300, 200
+  orig: 300, 200
+  offset: 0, 0
+  index: -1
+t_ye_13
+  rotate: true
+  xy: 2044, 2128
+  size: 512, 318
+  orig: 512, 318
+  offset: 0, 0
+  index: -1
+t_ye_14
+  rotate: false
+  xy: 1867, 76
+  size: 512, 381
+  orig: 512, 381
+  offset: 0, 0
+  index: -1
+t_ye_15
+  rotate: false
+  xy: 1867, 1042
+  size: 512, 372
+  orig: 512, 372
+  offset: 0, 0
+  index: -1
+t_ye_2
+  rotate: 270
+  xy: 1927, 2748
+  size: 720, 470
+  orig: 720, 503
+  offset: 0, 0
+  index: -1
+t_ye_3
+  rotate: false
+  xy: 2, 2097
+  size: 138, 636
+  orig: 138, 636
+  offset: 0, 0
+  index: -1
+t_ye_4
+  rotate: 180
+  xy: 1155, 1417
+  size: 887, 1225
+  orig: 887, 1225
+  offset: 0, 0
+  index: -1
+t_ye_5
+  rotate: true
+  xy: 1842, 1406
+  size: 720, 544
+  orig: 720, 544
+  offset: 0, 0
+  index: -1
+t_ye_6
+  rotate: true
+  xy: 1504, 3348
+  size: 600, 350
+  orig: 600, 375
+  offset: 0, 0
+  index: -1
+t_ye_7
+  rotate: false
+  xy: 1468, 2644
+  size: 634, 1214
+  orig: 634, 1214
+  offset: 0, 0
+  index: -1
+t_ye_8
+  rotate: false
+  xy: 2355, 3167
+  size: 121, 584
+  orig: 156, 602
+  offset: 35, 18
+  index: -1
+t_ye_9
+  rotate: false
+  xy: 1971, 3532
+  size: 400, 417
+  orig: 400, 457
+  offset: 0, 40
+  index: -1
+z_0
+  rotate: 180
+  xy: 2, 743
+  size: 1500, 1532
+  orig: 1500, 1532
+  offset: 0, 0
+  index: -1
+z_men
+  rotate: false
+  xy: 2, 2277
+  size: 1500, 1672
+  orig: 1500, 1672
+  offset: 0, 0
+  index: -1
+z_men_daoying
+  rotate: true
+  xy: 1439, 130
+  size: 1024, 426
+  orig: 1024, 426
+  offset: 0, 0
+  index: -1

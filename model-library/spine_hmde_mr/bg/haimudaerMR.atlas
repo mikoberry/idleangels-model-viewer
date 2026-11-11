@@ -1,0 +1,223 @@
+
+haimudaerMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bi_shu_1
+  rotate: true
+  xy: 1639, 1681
+  size: 714, 1611
+  orig: 714, 1611
+  offset: 0, 0
+  index: -1
+bi_shu_2
+  rotate: false
+  xy: 3015, 3101
+  size: 877, 993
+  orig: 877, 993
+  offset: 0, 0
+  index: -1
+bi_shu_3
+  rotate: true
+  xy: 127, 1300
+  size: 685, 1405
+  orig: 685, 1405
+  offset: 0, 0
+  index: -1
+bi_shu_4
+  rotate: 270
+  xy: 2325, 2106
+  size: 1020, 1392
+  orig: 1020, 1392
+  offset: 0, 0
+  index: -1
+bi_shu_5
+  rotate: 180
+  xy: 2530, 1000
+  size: 1020, 919
+  orig: 1020, 919
+  offset: 0, 0
+  index: -1
+bi_shu_6
+  rotate: false
+  xy: 788, 1853
+  size: 969, 2242
+  orig: 969, 2242
+  offset: 0, 0
+  index: -1
+bj_shitou_q
+  rotate: false
+  xy: 1759, 2403
+  size: 510, 670
+  orig: 510, 670
+  offset: 0, 0
+  index: -1
+bj_y_pubu
+  rotate: true
+  xy: 725, 921
+  size: 497, 719
+  orig: 510, 719
+  offset: 13, 0
+  index: -1
+bj_y_shitan
+  rotate: true
+  xy: 1318, 3074
+  size: 1020, 1067
+  orig: 1020, 1067
+  offset: 0, 0
+  index: -1
+bj_y_shuiwu
+  rotate: false
+  xy: 2181, 754
+  size: 558, 262
+  orig: 612, 311
+  offset: 28, 49
+  index: -1
+hean_1
+  rotate: false
+  xy: 1699, 3902
+  size: 97, 193
+  orig: 97, 193
+  offset: 0, 0
+  index: -1
+hean_10
+  rotate: false
+  xy: 191, 3949
+  size: 100, 146
+  orig: 100, 146
+  offset: 0, 0
+  index: -1
+hean_11
+  rotate: false
+  xy: 3894, 3717
+  size: 140, 378
+  orig: 140, 378
+  offset: 0, 0
+  index: -1
+hean_12
+  rotate: false
+  xy: 616, 1910
+  size: 362, 371
+  orig: 362, 371
+  offset: 0, 0
+  index: -1
+hean_13
+  rotate: 270
+  xy: 3127, 708
+  size: 597, 966
+  orig: 597, 966
+  offset: 0, 0
+  index: -1
+hean_2
+  rotate: false
+  xy: 2, 3934
+  size: 188, 161
+  orig: 188, 161
+  offset: 0, 0
+  index: -1
+hean_3
+  rotate: false
+  xy: 1446, 953
+  size: 734, 291
+  orig: 734, 291
+  offset: 0, 0
+  index: -1
+hean_4
+  rotate: false
+  xy: 3555, 2271
+  size: 539, 159
+  orig: 539, 159
+  offset: 0, 0
+  index: -1
+hean_5
+  rotate: true
+  xy: 2, 871
+  size: 1008, 399
+  orig: 1008, 399
+  offset: 0, 0
+  index: -1
+hean_6
+  rotate: false
+  xy: 1534, 1247
+  size: 971, 432
+  orig: 971, 432
+  offset: 0, 0
+  index: -1
+hean_7
+  rotate: false
+  xy: 3119, 1268
+  size: 495, 294
+  orig: 495, 294
+  offset: 0, 0
+  index: -1
+hean_8
+  rotate: false
+  xy: 820, 3070
+  size: 224, 410
+  orig: 224, 410
+  offset: 0, 0
+  index: -1
+hean_9
+  rotate: false
+  xy: 687, 3949
+  size: 100, 145
+  orig: 100, 145
+  offset: 0, 0
+  index: -1
+s_hua_3
+  rotate: true
+  xy: 3729, 2741
+  size: 620, 365
+  orig: 620, 365
+  offset: 0, 0
+  index: -1
+shu_tiao_1
+  rotate: false
+  xy: 506, 352
+  size: 108, 836
+  orig: 108, 836
+  offset: 0, 0
+  index: -1
+shu_tiao_2
+  rotate: false
+  xy: 353, 554
+  size: 491, 675
+  orig: 491, 675
+  offset: 0, 0
+  index: -1
+shu_tiao_3
+  rotate: 180
+  xy: 2, 228
+  size: 1411, 785
+  orig: 1411, 785
+  offset: 0, 0
+  index: -1
+shu_tiao_4
+  rotate: false
+  xy: 2780, 409
+  size: 678, 628
+  orig: 694, 628
+  offset: 0, 0
+  index: -1
+shui_shuitang_tx
+  rotate: true
+  xy: 2387, 2564
+  size: 1530, 628
+  orig: 1530, 628
+  offset: 0, 0
+  index: -1
+shui_tan
+  rotate: false
+  xy: 2, 1987
+  size: 816, 2107
+  orig: 816, 2107
+  offset: 0, 0
+  index: -1
+tx_yangguang
+  rotate: false
+  xy: 3380, 1563
+  size: 714, 652
+  orig: 714, 652
+  offset: 0, 0
+  index: -1
