@@ -31,6 +31,10 @@ Vite 在端口被占用时会自动选择下一个可用端口，以终端输出
 | `npm run dev` | 启动 Vite 开发服务器，默认 `5173` |
 | `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制 |
 | `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
+| `npm run models:import` | 扫描源目录，导入合格模型到 `model-library/` |
+| `npm run models:use -- <id>[,<id>...]` | 准备指定模型到 `public/spine/models/` |
+| `npm run package:model -- <id>` | 单模型：准备 + 构建 + 复制到 WE |
+| `npm run package:all` | 全模型：准备 + 构建 + 复制到 WE |
 | `npm run preview` | 预览 `dist/`，默认端口 `4173`；不触发复制 |
 
 ### 构建与部署（重要）
@@ -84,6 +88,30 @@ F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-reac
 - `dist/` 已被 `.gitignore` 忽略。
 - `base: './'`，生成资源 URL 是相对路径。
 
+### 模型准备与打包
+
+模型源库与生成物都不进 Git：
+
+```text
+model-library/           # 源库，忽略
+public/spine/models/     # 当前包，忽略
+```
+
+流程：
+
+```bash
+npm run models:import
+npm run models:use -- spine_hhbsd_bdmy,spine_abl0
+npm run build
+npm run package:model -- spine_hhbsd_bdmy
+npm run package:all
+```
+
+- `models:import` 只导入“有 `action` + `angel` + `bg` + 单套资源”的模型；当前 128 个。
+- `models:use` / `package:*` 会按 PNG 实际尺寸重写 atlas。
+- 模型选择不持久化，刷新后默认清单第一个。
+- `package:all` 约 731 MB，构建和复制都会明显变慢。
+
 ### 构建能检查什么
 
 `npm run build` 能发现：
@@ -108,14 +136,18 @@ F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-reac
 npm run build
 ```
 
-需要在 Wallpaper Engine 中查看效果时，直接执行：
+需要在 Wallpaper Engine 中查看效果时，执行单模型或全模型打包：
 
 ```bash
-npm run build:we
+npm run package:model -- <model-id>
+# 或
+npm run package:all
 ```
 
-它会重新构建并复制；然后手动检查：
+然后手动检查：
 
+- [ ] 抽屉里能搜索模型，默认选中第一个
+- [ ] 切换模型后 canvas 重载，不残留上一个模型的动画/贴图
 - [ ] 两个图层都能显示，顺序为 `bg` 在下、`angel` 在上
 - [ ] 启动后播放 `idle`
 - [ ] 动画下拉框可以选择 `idle` / `action`
@@ -129,7 +161,7 @@ npm run build:we
 - [ ] 眼睛提示首次出现，点击“我知道了”后不再出现
 - [ ] `log` 按钮能展开/收起调试面板
 - [ ] 移动端宽度下抽屉占满宽度
-- [ ] 刷新后播放设置恢复默认值（当前版本不持久化）
+- [ ] 刷新后播放设置恢复默认值，并回到第一个模型（当前版本不持久化）
 - [ ] 浏览器控制台无资源 404、WebGL 错误或未捕获异常
 
 ## 调试
@@ -171,15 +203,15 @@ console.log(canvas.dataset)
 ### 常见检查点
 
 1. 控制台是否有 WebGL 上下文创建失败或资源 404。
-2. `public/spine/spine_hhbsd_bdmy/` 下两个图层的 `.skel`、`.atlas`、`.png` 是否都存在。
-3. atlas 的 `size` 是否与 PNG 实际尺寸一致。
+2. `public/spine/models/` 下的 manifest 和所选模型的 `.skel`、`.atlas`、`.png` 是否都存在。
+3. atlas 的 `size` 是否与 PNG 实际尺寸一致（应由 `models:use` / `package:*` 自动保证）。
 4. `.skel` 是否为 3.8.99 导出。
 5. 两个图层是否都使用 `premultipliedAlpha: true`。
 6. Action 完成后是否按预期回到 `idle`。
 
 ## 排障
 
-### `npm run build` / `npm run build:we` 报 `spawn EPERM`
+### `npm run build` / `build:we` / `package:*` 报 `spawn EPERM`
 
 在受限沙箱中，esbuild 启动子进程可能被禁止使用管道，表现为：
 
@@ -208,13 +240,13 @@ npm run preview -- --port 5174 --strictPort
 
 ### 页面空白 / 资源 404
 
-- 检查 `public/spine/spine_hhbsd_bdmy/{bg,angel}/` 下三个文件是否齐全。
-- 检查 `spineStage.js` 里的 `MODEL_BASE`、`LAYERS`、`SKELETON`、`ATLAS`。
-- 检查部署目录里 `spine/...` 是否被正确复制。
+- 检查 `public/spine/models/manifest.json` 和所选模型的 `angel` / `bg` 文件是否齐全。
+- 检查 manifest 里的 `basePath`、`skeleton`、`atlas` 是否与实际文件一致。
+- 检查部署目录里 `spine/models/...` 是否被正确复制。
 
 ### 贴图错位
 
-几乎都是 atlas 与 PNG 尺寸不一致。当前没有自动同步脚本，需要手动修正 atlas 的页面 `size`，以及区域的 `xy`、`size`、`orig`、`offset` 等元数据。
+几乎都是 atlas 与 PNG 尺寸不一致。当前由 `models:use` / `package:*` 自动按 PNG 尺寸重写 atlas；如果手动改了 `public/spine/models`，重新执行准备命令，不要手改生成物。
 
 ### 高 DPI 画面偏软
 
@@ -232,7 +264,8 @@ npm run preview -- --port 5174 --strictPort
 - 保持 `App` 持有 `startSpineStage`，不要让设置抽屉开关导致 Stage 重建。
 - 不要用 Spine 4.x 运行时替换 vendored `spine-webgl.js`。
 - 不要直接修改 `spine-webgl.js` 的内部实现；它是第三方运行时。
-- `public/spine/...` 当前是资源事实来源；替换时三个文件一起换，并保证 atlas/PNG 一致。
+- `model-library/` 是源库，`public/spine/models/` 是生成物；不要把模型资源提交进 Git。
+- 切换模型会 dispose 旧 Stage；修改 Stage 生命周期时保持资源释放和旧回调失效。
 - 新增设置时，至少同步：
   - `App.jsx` 的初始 `viewSettings`
   - `SettingsDrawer.jsx` 的控件和 `onChange`
@@ -242,12 +275,13 @@ npm run preview -- --port 5174 --strictPort
 - 关闭的设置抽屉应保持 `inert`。
 - 修改动画逻辑时，保留 `actionToken` / pending 集合的旧回调保护。
 - `npm run build` 只构建到 `dist/`；`npm run build:we` 才复制。不要把 `outDir` 直接改回 WE 目录。
-- 改完至少运行 `npm run build`；需要部署时运行 `npm run build:we` 并确认复制成功。
+- 改完至少运行 `npm run build`；部署单模型/全模型时运行 `package:model` / `package:all` 并确认复制成功。
 
 ## 提交前检查清单
 
 - [ ] `npm run build` 通过
-- [ ] 部署时 `npm run build:we` 通过，且 `dist/` 已复制到 WE 目标目录
+- [ ] 部署时 `package:model` / `package:all` 通过，且 `dist/` 已复制到 WE 目标目录
+- [ ] 模型选择器能搜索、切换，刷新后默认第一个
 - [ ] 控制台无资源 404 / WebGL 错误
 - [ ] 两个图层、`idle` / `action` 正常
 - [ ] 点击 Action、抽屉开关、眼睛提示正常

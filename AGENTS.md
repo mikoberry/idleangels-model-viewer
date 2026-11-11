@@ -2,7 +2,7 @@
 
 ## Project
 
-Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). There is no TypeScript, no lint suite, and no test suite. `npm run build` is the Vite production bundle; `npm run build:we` also copies the bundle to the Wallpaper Engine target.
+Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one model or all processed models, and select a model in the UI. There is no TypeScript, no lint suite, and no test suite. `npm run build` is the Vite production bundle; `npm run build:we` also copies the bundle to the Wallpaper Engine target.
 
 ## Execution rules
 
@@ -16,7 +16,11 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). There is no TypeScript,
 
 - `npm run dev` — Vite dev server. Default `http://localhost:5173/`; Vite may choose another port if 5173 is occupied. There is no asset-sync step.
 - `npm run build` — `vite build` only, writes `dist/`. There is no `tsc --noEmit`, no asset sync, and no test step. It must pass.
-- `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying.
+- `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying the current `public/spine/models` content.
+- `npm run models:import` — scans `MODEL_SOURCE_DIR` (default `F:/live2d/IdleAngels/model-output`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
+- `npm run models:use -- <id>[,<id>...]` — prepares one or more selected models into `public/spine/models` for dev/single builds.
+- `npm run package:model -- <id>` — prepares one model, builds, and deploys.
+- `npm run package:all` — prepares every eligible model in `model-library`, builds, and deploys.
 - `npm run preview` — serves `dist/` on Vite's default preview port (`4173`); use `--port` if that port is unavailable.
 
 ## Build and deploy
@@ -30,22 +34,23 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). There is no TypeScript,
 
 ## Assets and Spine runtime
 
-- `public/spine/spine_hhbsd_bdmy/` is the current committed source of truth. There is no `spine-model/` directory and no `sync:assets` script; `scripts/` only contains `copy-to-we.mjs`.
-- Layers are `bg` then `angel`; each contains `bosaidongqiujin.skel`, `bosaidongqiujin.atlas`, and `bosaidongqiujin.png`.
+- `model-library/` is the local source library and is gitignored. `public/spine/models/` is generated from it and is also gitignored; do not edit generated model assets by hand.
+- `model-library/models.json` is the raw library manifest. `public/spine/models/manifest.json` is generated per package and lists only the models included in that build.
+- Current accepted model shape: `angel` + `bg`, exactly one `.skel`/`.atlas`/`.png` per layer, `idle` and `action` present. Models without `action`, without `bg`, NPC-only models, and malformed directories are intentionally skipped.
+- `scripts/import-models.mjs` imports eligible models and rescales atlas metadata in `scripts/prepare-models.mjs` so atlas `size` matches the actual PNG. Do not bypass that step.
+- Layers are `bg` then `angel`; each contains one skeleton, one atlas, and one PNG. File names are model-specific and may contain spaces or `+`; the stage encodes path segments.
 - The `.skel` files are Spine **3.8.99 binary**. Use the vendored [src/spine-webgl.js](src/spine-webgl.js) (3.8 runtime, `export { spine }`); do not replace it with Spine 4.x or the npm runtime.
 - Both layers use `premultipliedAlpha: true`.
 - `Vector3` is `spine.webgl.Vector3`, not `spine.Vector3`.
-- The runtime resolves the atlas page PNG relative to the atlas file. Atlas `size` must match the actual PNG dimensions.
-- If assets are replaced, replace all three files per layer, keep the 3.8.99 export, and verify atlas/PNG sizes. There is currently no script that rescales atlas metadata.
 
 ## Architecture
 
 - `src/main.jsx` mounts `<App />`; React StrictMode is not used.
-- `src/App.jsx` owns `viewSettings`, `currentAnimation`, the drawer/debug UI, and the canvas. Its mount effect calls `startSpineStage(canvas, ...)`, so the stage persists while the drawer opens and closes.
-- `src/spineStage.js` is the imperative WebGL layer: context, renderer, asset managers, skeletons, animation state, camera, resize handling, rAF loop, action state machine, and dispose.
-- `src/SettingsDrawer.jsx` stays mounted; `.is-open` slides it in, and it is `inert` while closed.
+- `src/App.jsx` loads `spine/models/manifest.json`, owns `viewSettings`, the selected model, `currentAnimation`, the drawer/debug UI, and the canvas. The Stage effect depends on the selected model, so switching models disposes and recreates the Stage.
+- `src/spineStage.js` is the imperative WebGL layer: dynamic layer list, context, renderer, asset managers, skeletons, animation state, camera, resize handling, rAF loop, action state machine, and resource disposal.
+- `src/SettingsDrawer.jsx` stays mounted; `.is-open` slides it in, and it is `inert` while closed. It contains the searchable model picker.
 - There is no edit/show mode and no URL state. Clicking the canvas triggers `action` whenever the drawer is closed and `clickToAction` is true.
-- Playback settings are React state only; they are not persisted. Only the eye-hint flag uses `localStorage`, under `spine-viewer:eye-hint:v1`.
+- Playback settings and the selected model are React state only; they are not persisted. The first model in the generated manifest is selected on every load. Only the eye-hint flag uses `localStorage`, under `spine-viewer:eye-hint:v1`.
 - The UI is intentionally chrome-less: full-screen canvas, no header/footer/card borders. Preserve the immersive layout.
 
 ## Non-obvious behavior

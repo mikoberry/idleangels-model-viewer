@@ -7,6 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "build:we": "npm run build && node scripts/copy-to-we.mjs",
+    "models:import": "node scripts/import-models.mjs",
+    "models:use": "node scripts/prepare-models.mjs",
+    "package:model": "node scripts/package-models.mjs",
+    "package:all": "node scripts/package-models.mjs --all",
     "preview": "vite preview"
   },
   "dependencies": {

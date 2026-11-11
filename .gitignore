@@ -6,3 +6,7 @@ dist
 # 本地参考资料：旧版 Wallpaper Engine 4.2 导出与上一版成品，不随仓库分发
 参考/
 正常显示/
+
+# 模型源库与按包生成的模型资源，不随仓库分发
+model-library/
+public/spine/models/

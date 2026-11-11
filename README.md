@@ -1,12 +1,13 @@
 # Spine 3.8 WebGL Viewer
 
-基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，当前场景为 `spine_hhbsd_bdmy`，包含 `bg` 与 `angel` 两个图层。
+基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，支持在多个模型之间切换。当前模型库已导入 **128 个** 同时具备 `angel`、`bg` 和 `action` 动画的模型。
 
-画布常驻全屏，右侧设置抽屉按需打开。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
+画布常驻全屏，右侧设置抽屉按需打开。抽屉里有可搜索的模型选择器；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
 
 ## 功能
 
 - Spine 3.8.99 二进制骨架加载与 WebGL 渲染
+- 多模型选择：按目录名搜索，切换时重载 Stage
 - `idle` / `action` 动画切换；`action` 播放一次后自动回到 `idle`
 - 点击画面触发 `action`（抽屉关闭且开关开启时）
 - 画面缩放（50%–500%，支持滑杆、输入框和 ±1% 步进）
@@ -15,8 +16,9 @@
 - 首次打开的眼睛按钮提示
 - 左上角 `log` 调试信息面板
 - 全屏响应式布局；移动端设置抽屉占满宽度
+- 单模型包 / 全模型包两种打包方式
 
-当前版本**不包含**：播放设置持久化、编辑/展示模式、`?mode=show`、播放速度、暂停、循环 Action、自动播放、动画包围盒显示、全屏加载/错误遮罩。设置只在当前页面会话中有效，刷新后会恢复默认值。
+当前版本**不包含**：播放设置持久化、模型选择持久化、编辑/展示模式、`?mode=show`、播放速度、暂停、循环 Action、自动播放、动画包围盒显示、全屏加载/错误遮罩。设置和当前模型只在当前页面会话中有效，刷新后会恢复默认值并选择第一个模型。
 
 ## 快速开始
 
@@ -42,6 +44,10 @@ http://localhost:5173/
 | `npm run dev` | 启动 Vite 开发服务器，默认 `5173`；不会同步资源 |
 | `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制到 WE 目录 |
 | `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
+| `npm run models:import` | 扫描源模型目录，把合格模型导入 `model-library/` |
+| `npm run models:use -- <id>[,<id>...]` | 把一个或多个模型准备到 `public/spine/models/`，供 dev 使用 |
+| `npm run package:model -- <id>` | 单模型：准备资源 + 构建 + 复制到 WE |
+| `npm run package:all` | 全模型：准备全部合格模型 + 构建 + 复制到 WE |
 | `npm run preview` | 预览 `dist/`，默认端口 `4173`；端口受限时用 `--port` 指定 |
 
 ### 构建与部署
@@ -86,6 +92,39 @@ node scripts/copy-to-we.mjs
 - 如果 Wallpaper Engine 正在占用目标文件，复制可能失败；先关闭/停止该壁纸再执行 `build:we` 或重试复制。
 - `npm run preview` 只读取 `dist/`，不会触发复制。
 
+## 模型库与打包
+
+源目录共有 377 个目录、约 1.27 GB。当前按“**有 `action` + 有 `angel` + 有 `bg` + 单套资源**”筛选，导入了 **128 个模型**。NPC、只有 `angel` 的模型、缺 PNG 的模型和特殊结构目录暂不处理。
+
+```text
+model-library/                 # 源模型库，git 忽略
+public/spine/models/           # 按包生成的模型，git 忽略
+  manifest.json
+```
+
+流程：
+
+```bash
+# 首次或源模型更新后，重新扫描并导入合格模型
+npm run models:import
+
+# 开发时准备一个或多个模型
+npm run models:use -- spine_hhbsd_bdmy,spine_abl0
+
+# 打包单个模型到 WE
+npm run package:model -- spine_hhbsd_bdmy
+
+# 打包全部 128 个模型到 WE
+npm run package:all
+```
+
+说明：
+
+- `model-library/models.json` 是源库清单；`public/spine/models/manifest.json` 是当前包的实际清单。
+- 准备模型时会按 PNG 实际尺寸重写 atlas 元数据，避免贴图错位。
+- 每次刷新默认选择当前包清单里的第一个模型；模型选择不持久化。
+- 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
+
 ## 设置项
 
 设置保存在 `src/App.jsx` 的 `viewSettings` React state 中，**不会持久化**。
@@ -100,9 +139,10 @@ node scripts/copy-to-we.mjs
 
 另外：
 
+- 当前模型由 `manifest.json` 的第一项初始化；切换模型只影响当前会话，刷新后回到第一个。
 - 当前动画是独立 state，初始为 `idle`；可选值来自 Stage 返回的 `animations`。
 - 眼睛提示是否看过保存在 `localStorage` 的 `spine-viewer:eye-hint:v1`，与播放设置无关。
-- 页面没有 URL 状态，刷新后恢复上述默认值。
+- 页面没有 URL 状态，刷新后恢复上述默认值并选择第一个模型。
 
 字段细节见[设置字段参考](docs/settings-reference.md)。
 
@@ -113,17 +153,24 @@ node scripts/copy-to-we.mjs
 ├─ index.html
 ├─ vite.config.js
 ├─ package.json
+├─ model-library/           # 源模型库，git 忽略
+│  ├─ models.json
+│  └─ spine_*/
 ├─ public/
 │  ├─ project.json
-│  └─ spine/spine_hhbsd_bdmy/
-│     ├─ bg/    bosaidongqiujin.{skel,atlas,png}
-│     └─ angel/ bosaidongqiujin.{skel,atlas,png}
+│  └─ spine/models/         # 按包生成，git 忽略
+│     ├─ manifest.json
+│     └─ spine_*/
 ├─ scripts/
-│  └─ copy-to-we.mjs         # 构建后复制 dist 到 WE 项目目录
+│  ├─ import-models.mjs     # 扫描源库并导入合格模型
+│  ├─ prepare-models.mjs    # 重写 atlas 并生成当前包
+│  ├─ package-models.mjs    # 单模型/全模型打包
+│  ├─ copy-to-we.mjs        # 复制 dist 到 WE
+│  └─ model-utils.mjs
 ├─ src/
 │  ├─ main.jsx              # React 入口
-│  ├─ App.jsx               # 状态、canvas、Stage 启动、调试面板
-│  ├─ SettingsDrawer.jsx    # 右侧设置抽屉
+│  ├─ App.jsx               # 状态、canvas、Stage 启动、模型清单
+│  ├─ SettingsDrawer.jsx    # 设置抽屉 + 模型选择
 │  ├─ spineStage.js         # WebGL / 资源 / 动画 / 相机 / 渲染循环
 │  ├─ spine-webgl.js        # vendored Spine 3.8.99 运行时
 │  └─ styles.css
@@ -133,24 +180,26 @@ node scripts/copy-to-we.mjs
 └─ README.md
 ```
 
-没有 `spine-model/`、`src/spine/`、`hooks/`、`components/` 这些目录，也没有 `tsconfig.json`。`scripts/` 目前只有 `copy-to-we.mjs`。
+没有 `src/spine/`、`hooks/`、`components/` 这些目录，也没有 `tsconfig.json`。当前模型格式要求 `angel` + `bg`，每个图层各一套 `.skel` / `.atlas` / `.png`。
 
 ## 数据流
 
 ```text
 main.jsx
   └─ <App />
+       ├─ fetch spine/models/manifest.json
+       ├─ 默认选中 manifest.models[0]，用户可在抽屉里搜索/切换
        ├─ <canvas ref>
-       │    └─ startSpineStage(canvas, { onStatus, onAnimationChange, isCancelled })
+       │    └─ startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })
        │         ├─ spine.webgl.ManagedWebGLRenderingContext + SceneRenderer
-       │         ├─ 两个 AssetManager → public/spine/spine_hhbsd_bdmy/{bg,angel}/
+       │         ├─ 按 model.layers 创建 AssetManager（bg + angel，可选）
        │         ├─ SkeletonBinary + AtlasAttachmentLoader → Skeleton / AnimationState
        │         ├─ fitView() → camera
-       │         └─ requestAnimationFrame → drawSkeleton × 2
+       │         └─ requestAnimationFrame → drawSkeleton × layers
        ├─ viewSettings ── effect ──> stage.setView(scale, x / 100, y / 100)
        ├─ backgroundColor ──> <main style>
        ├─ clickToAction ──> canvas pointerup ──> stage.triggerAction()
-       └─ <SettingsDrawer> ── onChange / play ──> App / Stage
+       └─ <SettingsDrawer> ── 模型选择 / onChange / play ──> App / Stage
 ```
 
 更完整的说明见[架构设计](docs/architecture.md)。
@@ -158,18 +207,20 @@ main.jsx
 ## 关键约束
 
 - `.skel` 是 Spine **3.8.99** 二进制；必须使用 [src/spine-webgl.js](src/spine-webgl.js) 中的 3.8 运行时，不能替换为 Spine 4.x 或 npm 上的运行时。
-- `public/spine/spine_hhbsd_bdmy/` 当前就是资源事实来源；没有 `spine-model/` 源目录，也没有资源同步脚本。
+- `model-library/` 是源库；`public/spine/models/` 是按包生成物。两者都不进 Git，不要手改生成资源。
+- 只处理 `angel` + `bg`、每层一套资源、同时有 `idle` / `action` 的模型；当前 128 个。
 - 两个图层都使用 `premultipliedAlpha: true`。
-- 动画只有 `idle` 和 `action`；`action` 在骨架中排在前面，`idle` 必须在启动时显式播放。
-- `action` 是非循环的；所有拥有 `action` 的图层播放完成后，统一回到 `idle`。如果以后加循环 Action，必须补上 Spine 3.8 的 `complete` 保护。
-- 播放设置只存在于 React state，不写入 `localStorage`，也不写入 URL。
+- `action` 在骨架中排在前面，`idle` 必须在启动时显式播放；`action` 非循环，完成后统一回到 `idle`。如果以后加循环 Action，必须补上 Spine 3.8 的 `complete` 保护。
+- 播放设置和当前模型只存在于 React state，不写入 `localStorage`，也不写入 URL。
 - `npm run build` 只构建到 `dist/`；`npm run build:we` 再通过 `scripts/copy-to-we.mjs` 复制并替换 WE 目标目录。
 
 ## 已知限制
 
+- 当前只导入 128 / 377 个模型；只有 `angel`、没有 `action`、NPC、缺 PNG 或特殊结构的模型暂未处理。
+- 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大，复制时间较长。
+- 模型选择不持久化，刷新后总是第一个模型。
 - 高 DPI 屏幕上 canvas 按 CSS 像素渲染，没有乘 `devicePixelRatio`，画面可能偏软。
 - 资源加载没有超时；网络或文件服务卡住时，页面可能一直停在加载状态。
-- `dispose()` 只取消 rAF 和 resize 监听，没有显式释放 renderer、texture 和 animation state。
 - 加载和错误状态只显示在左上角 `log` 按钮上，没有全屏遮罩。
 - `npm run build` 没有类型检查；逻辑错误不会被构建发现。
 - 复制步骤会清空 WE 目标目录；目标被 Wallpaper Engine 占用时可能失败。
@@ -185,8 +236,9 @@ main.jsx
 ## 验证
 
 ```bash
-npm run build      # 只构建
-npm run build:we   # 构建并部署（需要时执行，会重新构建）
+npm run build                    # 只构建当前 public 内容
+npm run package:model -- <id>     # 单模型构建并部署
+npm run package:all              # 全模型构建并部署
 ```
 
-`npm run build` 必须通过；部署时 `npm run build:we` 的构建和复制都必须成功。之后在 Wallpaper Engine 中手动验证两个图层、动画、点击 Action、缩放/位置/背景色和刷新后的默认值。项目没有自动化测试；不要在未明确要求时引入 Playwright。
+`npm run build` 必须通过；部署时 `package:model` / `package:all` 的构建和复制都必须成功。之后在 Wallpaper Engine 中手动验证模型选择、两个图层、动画、点击 Action、缩放/位置/背景色和刷新后的默认行为。项目没有自动化测试；不要在未明确要求时引入 Playwright。

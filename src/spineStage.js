@@ -1,14 +1,14 @@
 import { spine } from './spine-webgl.js'
 
-const MODEL_BASE = './spine/spine_hhbsd_bdmy/'
-const LAYERS = [
-  { id: 'bg', pathPrefix: `${MODEL_BASE}bg/` },
-  { id: 'angel', pathPrefix: `${MODEL_BASE}angel/` },
-]
-const SKELETON = 'bosaidongqiujin.skel'
-const ATLAS = 'bosaidongqiujin.atlas'
 const DEFAULT_ANIMATION = 'idle'
 const ACTION_ANIMATION = 'action'
+const EMPTY_STAGE = {
+  setView: () => {},
+  triggerAction: () => {},
+  play: () => {},
+  animations: [],
+  dispose: () => {},
+}
 
 function waitForLoad(managers, isCancelled) {
   return new Promise((resolve, reject) => {
@@ -49,9 +49,17 @@ function waitForLoad(managers, isCancelled) {
   })
 }
 
+function assetPrefix(basePath) {
+  return `${basePath.replace(/\/+$/, '')}/`
+}
+
+function encodeAssetPath(file) {
+  return file.split('/').map((part) => encodeURIComponent(part)).join('/')
+}
+
 export async function startSpineStage(
   canvas,
-  { onStatus, isCancelled = () => false, onAnimationChange } = {},
+  { model, onStatus, isCancelled = () => false, onAnimationChange } = {},
 ) {
   const report = (text, isError = false) => {
     if (isCancelled()) return
@@ -62,7 +70,11 @@ export async function startSpineStage(
     throw new Error('缺少 canvas 节点')
   }
 
-  report('React 外壳：正在创建 WebGL 上下文…')
+  if (!model?.layers?.length) {
+    throw new Error('模型缺少图层配置')
+  }
+
+  report(`模型 ${model.id}：正在创建 WebGL 上下文…`)
 
   const context = new spine.webgl.ManagedWebGLRenderingContext(canvas, {
     alpha: true,
@@ -78,54 +90,87 @@ export async function startSpineStage(
   renderer.camera.position.set(0, 0, 0)
   renderer.camera.update()
 
-  report('React 外壳：正在加载 Spine 资源…')
+  report(`模型 ${model.id}：正在加载 Spine 资源…`)
 
-  const managers = LAYERS.map((layer) => {
-    const manager = new spine.webgl.AssetManager(context, layer.pathPrefix)
-    manager.loadBinary(SKELETON)
-    manager.loadTextureAtlas(ATLAS)
+  const managers = model.layers.map((layer) => {
+    const manager = new spine.webgl.AssetManager(context, assetPrefix(layer.basePath))
+    manager.loadBinary(encodeAssetPath(layer.skeleton))
+    manager.loadTextureAtlas(encodeAssetPath(layer.atlas))
     return manager
   })
 
-  await waitForLoad(managers, isCancelled)
-  if (isCancelled()) return { setView: () => {}, triggerAction: () => {}, play: () => {}, animations: [], dispose: () => {} }
+  let disposed = false
+  let frameId = 0
+  let layers = []
 
-  const layers = managers.map((manager, index) => {
-    const binary = manager.get(SKELETON)
-    const atlas = manager.get(ATLAS)
-
-    if (!binary || !atlas) {
-      throw new Error(`图层 ${LAYERS[index].id} 资源缺失`)
+  const disposeResources = () => {
+    for (const manager of managers) {
+      manager.dispose?.()
     }
-
-    const attachmentLoader = new spine.AtlasAttachmentLoader(atlas)
-    const skeletonData = new spine.SkeletonBinary(attachmentLoader).readSkeletonData(binary)
-    const skeleton = new spine.Skeleton(skeletonData)
-    const stateData = new spine.AnimationStateData(skeletonData)
-    const state = new spine.AnimationState(stateData)
-
-    stateData.defaultMix = 0.2
-    if (
-      skeletonData.findAnimation(DEFAULT_ANIMATION) &&
-      skeletonData.findAnimation(ACTION_ANIMATION)
-    ) {
-      stateData.setMix(ACTION_ANIMATION, ACTION_ANIMATION, 0)
-      stateData.setMix(DEFAULT_ANIMATION, ACTION_ANIMATION, 0.1)
-      stateData.setMix(ACTION_ANIMATION, DEFAULT_ANIMATION, 0.2)
+    for (const layer of layers) {
+      layer.state.clearTracks?.()
     }
-    skeleton.setToSetupPose()
-    skeleton.updateWorldTransform()
+    renderer.dispose?.()
+  }
 
-    const animation =
-      skeletonData.findAnimation(DEFAULT_ANIMATION) ?? skeletonData.animations[0]
-    if (animation) state.setAnimation(0, animation.name, true)
+  try {
+    await waitForLoad(managers, isCancelled)
+  } catch (error) {
+    disposed = true
+    disposeResources()
+    throw error
+  }
 
-    state.update(0)
-    state.apply(skeleton)
-    skeleton.updateWorldTransform()
+  if (isCancelled()) {
+    disposed = true
+    if (frameId) window.cancelAnimationFrame(frameId)
+    disposeResources()
+    return EMPTY_STAGE
+  }
 
-    return { id: LAYERS[index].id, skeleton, state }
-  })
+  try {
+    layers = managers.map((manager, index) => {
+      const layer = model.layers[index]
+      const binary = manager.get(encodeAssetPath(layer.skeleton))
+      const atlas = manager.get(encodeAssetPath(layer.atlas))
+
+      if (!binary || !atlas) {
+        throw new Error(`图层 ${layer.id} 资源缺失`)
+      }
+
+      const attachmentLoader = new spine.AtlasAttachmentLoader(atlas)
+      const skeletonData = new spine.SkeletonBinary(attachmentLoader).readSkeletonData(binary)
+      const skeleton = new spine.Skeleton(skeletonData)
+      const stateData = new spine.AnimationStateData(skeletonData)
+      const state = new spine.AnimationState(stateData)
+
+      stateData.defaultMix = 0.2
+      if (
+        skeletonData.findAnimation(DEFAULT_ANIMATION) &&
+        skeletonData.findAnimation(ACTION_ANIMATION)
+      ) {
+        stateData.setMix(ACTION_ANIMATION, ACTION_ANIMATION, 0)
+        stateData.setMix(DEFAULT_ANIMATION, ACTION_ANIMATION, 0.1)
+        stateData.setMix(ACTION_ANIMATION, DEFAULT_ANIMATION, 0.2)
+      }
+      skeleton.setToSetupPose()
+      skeleton.updateWorldTransform()
+
+      const animation =
+        skeletonData.findAnimation(DEFAULT_ANIMATION) ?? skeletonData.animations[0]
+      if (animation) state.setAnimation(0, animation.name, true)
+
+      state.update(0)
+      state.apply(skeleton)
+      skeleton.updateWorldTransform()
+
+      return { id: layer.id, skeleton, state }
+    })
+  } catch (error) {
+    disposed = true
+    disposeResources()
+    throw error
+  }
 
   const sceneAnimations = [DEFAULT_ANIMATION, ACTION_ANIMATION].filter((name) =>
     layers.some((layer) => layer.skeleton.data.findAnimation(name)),
@@ -223,14 +268,12 @@ export async function startSpineStage(
     fitView()
   }
 
-  let disposed = false
-  let frameId = 0
-
   const dispose = () => {
     if (disposed) return
     disposed = true
     if (frameId) window.cancelAnimationFrame(frameId)
     window.removeEventListener('resize', resize)
+    disposeResources()
   }
 
   const setView = (scale, offsetX, offsetY) => {
@@ -315,10 +358,10 @@ export async function startSpineStage(
   resize()
   if (isCancelled()) {
     dispose()
-    return { setView: () => {}, triggerAction: () => {}, play: () => {}, animations: [], dispose: () => {} }
+    return EMPTY_STAGE
   }
 
-  report(`React 外壳 + Spine 核心已加载 · ${layers.map((layer) => layer.id).join(' + ')}`)
+  report(`模型 ${model.id} 已加载 · ${layers.map((layer) => layer.id).join(' + ')}`)
 
   let lastTime = performance.now()
 

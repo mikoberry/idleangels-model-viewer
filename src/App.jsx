@@ -55,6 +55,28 @@ function readWebglInfo(canvas) {
   return `${version} · ${vendor} · ${renderer}`
 }
 
+function loadJson(url) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest()
+    request.open('GET', url, true)
+    request.responseType = 'text'
+    request.onload = () => {
+      if (request.status !== 200 && request.status !== 0) {
+        reject(new Error(`模型清单加载失败：HTTP ${request.status}`))
+        return
+      }
+
+      try {
+        resolve(JSON.parse(request.responseText))
+      } catch (error) {
+        reject(error)
+      }
+    }
+    request.onerror = () => reject(new Error('模型清单加载失败：网络请求错误'))
+    request.send()
+  })
+}
+
 function collectDebugInfo(canvas) {
   const userAgent = navigator.userAgent
   const weApi = window.wallpaperPropertyListener
@@ -103,6 +125,10 @@ export default function App() {
   const [debugInfo, setDebugInfo] = useState([])
   const [animations, setAnimations] = useState([])
   const [currentAnimation, setCurrentAnimation] = useState('idle')
+  const [models, setModels] = useState([])
+  const [selectedModelId, setSelectedModelId] = useState(null)
+  const selectedModel =
+    models.find((model) => model.id === selectedModelId) ?? models[0] ?? null
   const [viewSettings, setViewSettings] = useState({
     scale: 2.4,
     positionX: -30,
@@ -115,13 +141,51 @@ export default function App() {
   viewSettingsRef.current = viewSettings
 
   useEffect(() => {
+    let cancelled = false
+
+    const loadManifest = async () => {
+      setStatus('正在加载模型清单…')
+      setIsError(false)
+
+      try {
+        const manifestUrl = new URL('spine/models/manifest.json', document.baseURI)
+        const data = await loadJson(manifestUrl.href)
+        if (!Array.isArray(data.models) || data.models.length === 0) {
+          throw new Error('模型清单为空')
+        }
+
+        if (cancelled) return
+        setModels(data.models)
+        setSelectedModelId(data.models[0].id)
+        setStatus(`模型清单已加载 · ${data.models.length} 个模型`)
+      } catch (error) {
+        if (cancelled) return
+        console.error(error)
+        setStatus(error instanceof Error ? error.message : String(error))
+        setIsError(true)
+      }
+    }
+
+    loadManifest()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return undefined
+    if (!canvas || !selectedModel) return undefined
 
     let disposed = false
     let disposeStage = () => {}
 
+    setAnimations([])
+    setCurrentAnimation('idle')
+    stageRef.current = null
+
     startSpineStage(canvas, {
+      model: selectedModel,
       onStatus: (text, error = false) => {
         if (disposed) return
         setStatus(text)
@@ -164,7 +228,7 @@ export default function App() {
       disposeStage()
       stageRef.current = null
     }
-  }, [])
+  }, [selectedModel])
 
   useEffect(() => {
     const stage = stageRef.current
@@ -205,6 +269,11 @@ export default function App() {
 
   const handleAnimationChange = (name) => {
     stageRef.current?.play(name)
+  }
+
+  const handleModelChange = (id) => {
+    if (id === selectedModel?.id) return
+    setSelectedModelId(id)
   }
 
   const handleCanvasPointerUp = (event) => {
@@ -309,6 +378,9 @@ export default function App() {
         animations={animations}
         currentAnimation={currentAnimation}
         onAnimationChange={handleAnimationChange}
+        models={models}
+        selectedModelId={selectedModel?.id ?? ''}
+        onModelChange={handleModelChange}
       />
     </main>
   )

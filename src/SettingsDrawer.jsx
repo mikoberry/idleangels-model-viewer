@@ -129,6 +129,103 @@ function StepControl({ label, onStep, canDecrease, canIncrease, children }) {
   )
 }
 
+function ModelSelect({ models, value, onChange, active }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const rootRef = useRef(null)
+  const triggerRef = useRef(null)
+  const selected = models.find((model) => model.id === value)
+
+  useEffect(() => {
+    if (!active) setMenuOpen(false)
+  }, [active])
+
+  useEffect(() => {
+    if (!menuOpen) {
+      setQuery('')
+      return undefined
+    }
+
+    function handlePointerDown(event) {
+      if (!rootRef.current?.contains(event.target)) setMenuOpen(false)
+    }
+
+    function handleKeyDown(event) {
+      if (event.key !== 'Escape') return
+      setMenuOpen(false)
+      triggerRef.current?.focus()
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [menuOpen])
+
+  const normalizedQuery = query.trim().toLowerCase()
+  const filteredModels = normalizedQuery
+    ? models.filter((model) => model.label.toLowerCase().includes(normalizedQuery))
+    : models
+
+  return (
+    <div className={`model-select${menuOpen ? ' is-open' : ''}`} ref={rootRef}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className="model-select__trigger"
+        aria-haspopup="listbox"
+        aria-expanded={menuOpen}
+        aria-label="选择模型"
+        disabled={models.length === 0}
+        onClick={() => setMenuOpen((current) => !current)}
+      >
+        <span className="model-select__label">
+          {selected?.label ?? (models.length > 0 ? '选择模型' : '模型未加载')}
+        </span>
+        <span className="model-select__count">{models.length}</span>
+        <span className="model-select__chevron" aria-hidden="true" />
+      </button>
+
+      {menuOpen && (
+        <div className="model-select__menu">
+          <input
+            className="model-select__search"
+            type="search"
+            value={query}
+            placeholder="搜索模型目录…"
+            aria-label="搜索模型"
+            autoFocus
+            onChange={(event) => setQuery(event.currentTarget.value)}
+          />
+          <div className="model-select__list" role="listbox" aria-label="模型列表">
+            {filteredModels.length === 0 ? (
+              <p className="model-select__empty">没有匹配的模型</p>
+            ) : (
+              filteredModels.map((model) => (
+                <button
+                  key={model.id}
+                  type="button"
+                  role="option"
+                  aria-selected={model.id === selected?.id}
+                  className={`model-select__option${model.id === selected?.id ? ' is-selected' : ''}`}
+                  onClick={() => {
+                    onChange(model.id)
+                    setMenuOpen(false)
+                  }}
+                >
+                  {model.label}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function AnimationSelect({ animations, value, onChange, active }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const rootRef = useRef(null)
@@ -368,6 +465,9 @@ export default function SettingsDrawer({
   animations,
   currentAnimation,
   onAnimationChange,
+  models,
+  selectedModelId,
+  onModelChange,
 }) {
   const [scaleInput, setScaleInput] = useState(() =>
     String(Math.round(settings.scale * 100)),
@@ -475,6 +575,19 @@ export default function SettingsDrawer({
           收起
         </button>
       </header>
+
+      <section className="inspector-section">
+        <span className="inspector-field__label">Spine 模型</span>
+        <ModelSelect
+          models={models}
+          value={selectedModelId}
+          onChange={onModelChange}
+          active={open}
+        />
+        <p className="inspector-hint">
+          当前包内 {models.length} 个模型；刷新后默认第一个。
+        </p>
+      </section>
 
       <section className="inspector-section">
         <span className="inspector-field__label">Spine 动画</span>

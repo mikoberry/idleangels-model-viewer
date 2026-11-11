@@ -14,11 +14,15 @@ const [viewSettings, setViewSettings] = useState({
 })
 ```
 
-当前动画是独立 state：
+当前模型和动画是独立 state：
 
 ```js
+const [models, setModels] = useState([])
+const [selectedModelId, setSelectedModelId] = useState(null)
 const [currentAnimation, setCurrentAnimation] = useState('idle')
 ```
+
+`models` 来自 `public/spine/models/manifest.json`；页面加载后默认选中 `models[0]`。
 
 眼睛提示是否看过使用单独的 `localStorage` key，与播放设置无关：
 
@@ -104,6 +108,16 @@ percent = round(scale × 100)
 - 关闭开关时，`App` 会主动 `play('idle')`
 - 抽屉打开时，backdrop 覆盖 canvas，点击只会关闭抽屉
 
+### 当前模型 `selectedModelId`
+
+- 类型：`string`
+- 初始值：`manifest.models[0].id`
+- 可选值：当前打包清单里的模型 id（目录名）
+- UI：设置抽屉顶部“Spine 模型”搜索选择器
+- 切换行为：dispose 旧 Stage，按新模型重新加载资源；保留缩放、位置、背景色、点击开关
+- 持久化：不持久化；刷新后总是第一个模型
+- 当前全模型包有 128 个可选模型
+
 ### `currentAnimation`
 
 - 类型：`string`
@@ -141,8 +155,8 @@ percent = round(scale × 100)
 
 当前行为：
 
-- `scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction` 只存在于 React state。
-- 刷新页面后全部恢复默认值。
+- `scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction`、`selectedModelId` 只存在于 React state。
+- 刷新页面后播放设置恢复默认值，并重新选中清单第一个模型。
 - 没有 `spine-viewer:playback:v1` 或其他播放设置存储 key。
 - 没有 `sanitizeSettings` / 版本迁移逻辑。
 - 唯一写入 `localStorage` 的是眼睛提示：
@@ -171,6 +185,13 @@ percent = round(scale × 100)
 - 刷新后不保留任何播放设置。
 
 ## 设置如何到达 Stage
+
+```text
+SettingsDrawer 模型选择
+  → App.handleModelChange(id)
+  → App.selectedModelId
+  → Stage effect 清理旧 Stage 并按新 model 重新加载
+```
 
 ```text
 SettingsDrawer.onChange(patch)

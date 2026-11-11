@@ -1,6 +1,6 @@
 # 架构设计
 
-本文档描述当前仓库**实际存在**的实现：React 18 + Vite 5 + JSX，单页全屏 WebGL 查看器。资源细节见[Spine 3.8 与资源](spine-runtime-and-assets.md)，设置字段见[设置字段参考](settings-reference.md)。
+本文档描述当前仓库**实际存在**的实现：React 18 + Vite 5 + JSX，多模型全屏 WebGL 查看器。资源细节见[Spine 3.8 与资源](spine-runtime-and-assets.md)，设置字段见[设置字段参考](settings-reference.md)。
 
 ## 总览
 
@@ -8,9 +8,11 @@
 index.html
   └─ src/main.jsx
        └─ <App />
+            ├─ fetch spine/models/manifest.json
+            ├─ 默认选中 models[0]
             ├─ <canvas ref={canvasRef} />
-            ├─ startSpineStage(canvas, callbacks)   // 只调用一次
-            ├─ <SettingsDrawer />
+            ├─ startSpineStage(canvas, { model, callbacks })
+            ├─ <SettingsDrawer />  // 模型选择 + 播放设置
             ├─ 眼睛按钮 / 提示气泡
             ├─ <main style={{ backgroundColor }} />
             └─ 左上角 log 调试面板
@@ -18,10 +20,10 @@ index.html
 
 核心原则：
 
-- `App` 持有画布、播放设置、当前动画和抽屉状态；Stage 在 `App` 挂载时创建，抽屉开关不会重建它。
-- `spineStage.js` 是不依赖 React 的命令式 WebGL 层。
+- `App` 加载模型清单，持有画布、当前模型、播放设置、当前动画和抽屉状态。Stage 随选中模型创建/重建，抽屉开关不会重建它。
+- `spineStage.js` 是不依赖 React 的命令式 WebGL 层，按 manifest 的 `layers` 动态加载 1~N 个图层。
 - `spine-webgl.js` 是 vendored 的 Spine 3.8.99 运行时，只通过 `export { spine }` 暴露命名空间。
-- 设置只存在于 React state。当前版本没有持久化、没有 URL 状态、没有编辑/展示模式。
+- 设置和当前模型只存在于 React state。当前版本没有持久化、没有 URL 状态、没有编辑/展示模式，刷新后默认选择清单第一个模型。
 
 ## 分层职责
 
@@ -40,8 +42,10 @@ index.html
   - `showEyeHint`
   - `debugOpen` / `debugInfo`
   - `animations` / `currentAnimation`
+  - `models` / `selectedModelId`
   - `viewSettings`
-- 在挂载后的 `useEffect` 中调用 `startSpineStage(canvas, { onStatus, onAnimationChange, isCancelled })`。
+- 挂载后 fetch `spine/models/manifest.json`，默认选中 `models[0]`。
+- 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })`；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用一次初始视图。
 - 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
 - 把 `backgroundColor` 写到 `<main>` 的内联样式。
@@ -51,9 +55,10 @@ index.html
 
 ### `src/SettingsDrawer.jsx`
 
-- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations`，修改通过 `onChange(patch)` / `onAnimationChange(name)` 回传。
+- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
 - 包含：
+  - 可搜索的 Spine 模型选择器
   - Spine 动画下拉框
   - “点击画面触发 action”开关
   - 缩放滑杆、数字输入、±1% 步进
@@ -65,7 +70,7 @@ index.html
 ### `src/spineStage.js`
 
 - 创建 WebGL 上下文和 `SceneRenderer`。
-- 为 `bg` / `angel` 各创建一个 `AssetManager`，加载 `.skel` 和 `.atlas`。
+- 按 `model.layers` 为每层创建一个 `AssetManager`，加载对应的 `.skel` 和 `.atlas`。
 - 读取二进制骨架，创建 `Skeleton`、`AnimationStateData`、`AnimationState`。
 - 显式播放 `idle`。
 - 计算加载时姿态的包围盒，初始化相机。
@@ -91,24 +96,28 @@ index.html
 
 ```text
 React 挂载 <canvas>
-  → App useEffect 调用 startSpineStage
+  → App fetch spine/models/manifest.json
+  → 默认选中 models[0]
+  → startSpineStage(canvas, { model })
   → 创建 ManagedWebGLRenderingContext
   → 创建 SceneRenderer，camera 初始归零
-  → 两个 AssetManager 并行 loadBinary + loadTextureAtlas
+  → 按 model.layers 创建 AssetManager（bg / angel）并加载资源
   → 每 50ms 轮询 isLoadingComplete / hasErrors
   → 用 SkeletonBinary + AtlasAttachmentLoader 读取骨架
   → 创建 Skeleton / AnimationStateData / AnimationState
   → 设置混合时间，显式播放 idle
-  → 计算两图层当前姿态的 union bounds
+  → 计算所有图层当前姿态的 union bounds
   → resize + fitView
   → 启动 requestAnimationFrame
   → 返回 Stage API
   → App 保存 stage、填动画列表、应用初始 view
+  → 用户切换模型时：dispose 旧 Stage → 用新 model 重新执行以上流程
 ```
 
 关键点：
 
-- 两个图层并行加载；任意 manager 报错都会让 `waitForLoad` reject。
+- 每个图层并行加载；任意 manager 报错都会让 `waitForLoad` reject。
+- 模型清单默认选择第一项；模型选择不持久化。
 - 加载轮询没有超时，网络卡住时可能一直等待。
 - 骨架通过 `spine.SkeletonBinary` 读取，不读取 JSON。
 - `idle` 必须显式播放，因为 `action` 在骨架动画列表中排第一。
@@ -122,7 +131,7 @@ React 挂载 <canvas>
 2. 对每个图层执行 `state.update(delta)`、`state.apply(skeleton)`、`skeleton.updateWorldTransform()`。
 3. `gl.clearColor(0, 0, 0, 0)`，清空为透明。
 4. `renderer.begin()`。
-5. 按 `bg`、`angel` 顺序调用 `renderer.drawSkeleton(skeleton, true)`。
+5. 按 manifest 的图层顺序（通常是 `bg`、`angel`）调用 `renderer.drawSkeleton(skeleton, true)`。
 6. `renderer.end()`。
 7. 请求下一帧。
 
@@ -235,7 +244,7 @@ offset/size = skeleton.getBounds()
 
 - `action` 转给 `triggerAction()`。
 - 其他动画：token 递增、清 pending、对拥有该动画的图层设置循环播放。
-- 当前资源只有 `idle` / `action`；`availableAnimations` 会合并两个图层的动画名并去重。
+- 当前筛选的模型都有 `idle` / `action`；`availableAnimations` 会合并所有图层的动画名并去重。
 
 ### 循环 Action 的注意事项
 
@@ -244,6 +253,15 @@ offset/size = skeleton.getBounds()
 如果以后实现循环 Action，必须注意：Spine 3.8 在每次循环回绕时也会触发 `complete`；应在完成回调里先判断循环状态，再决定是否回到 `idle`。
 
 ## 设置与状态流
+
+```text
+SettingsDrawer 模型选择
+  → App.handleModelChange(id)
+  → App.selectedModelId
+  → stage effect cleanup：dispose 旧 Stage
+  → startSpineStage(canvas, { model: 新模型 })
+  → 新 Stage ready 后重新应用 viewSettings
+```
 
 ```text
 SettingsDrawer.onChange(patch)
@@ -310,12 +328,13 @@ localStorage key: spine-viewer:eye-hint:v1
 
 ## 已知限制与取舍
 
-- **无持久化**：播放设置刷新即重置。
+- **无持久化**：播放设置和当前模型刷新即重置；模型默认选清单第一项。
+- **只处理部分模型**：当前只导入 128 / 377 个“有 action + angel + bg”的模型；NPC、单层、缺资源等暂不处理。
+- **全模型包较大**：约 731 MB，构建/复制耗时。
 - **无模式**：没有编辑/展示模式，也没有 URL 状态。
 - **无播放控制**：只有动画切换和点击 Action，没有速度/暂停/循环/自动播放。
 - **无包围盒调试**：没有逐层 bounds 绘制。
 - **高 DPI 偏软**：canvas 未按 DPR 放大。
-- **资源生命周期不完整**：`dispose()` 只取消 rAF 和 resize，没有释放 renderer / texture / animation state；加载中取消时 AssetManager 仍可能继续请求。
 - **加载无超时**：`waitForLoad` 每 50ms 轮询，没有超时。
 - **错误提示弱**：错误只显示在 `log` 按钮的 `title`/颜色里。
 - **构建与部署**：`npm run build` 只写 `dist/`；`npm run build:we` 再调用 `scripts/copy-to-we.mjs` 替换 WE 目标目录；`dist/` 被 git 忽略。
@@ -330,4 +349,7 @@ localStorage key: spine-viewer:eye-hint:v1
 - [src/spine-webgl.js](../src/spine-webgl.js)
 - [src/styles.css](../src/styles.css)
 - [vite.config.js](../vite.config.js)
+- [scripts/import-models.mjs](../scripts/import-models.mjs)
+- [scripts/prepare-models.mjs](../scripts/prepare-models.mjs)
+- [scripts/package-models.mjs](../scripts/package-models.mjs)
 - [scripts/copy-to-we.mjs](../scripts/copy-to-we.mjs)
