@@ -1,263 +1,333 @@
 # 架构设计
 
-本文档说明应用的分层、状态流、Spine 渲染生命周期和几个非直观实现。资源与运行时细节见[Spine 3.8 与资源管线](spine-runtime-and-assets.md)，设置字段见[设置字段参考](settings-reference.md)。
+本文档描述当前仓库**实际存在**的实现：React 18 + Vite 5 + JSX，单页全屏 WebGL 查看器。资源细节见[Spine 3.8 与资源](spine-runtime-and-assets.md)，设置字段见[设置字段参考](settings-reference.md)。
 
 ## 总览
 
 ```text
-main.tsx
-  └─ App
-     ├─ useSpineStage ── SpineStage ── SpineLayer / SceneAnimationController
-     ├─ SpineViewer（全屏 canvas + 加载/错误遮罩）
-     ├─ PlaybackInspector（右侧设置抽屉）
-     ├─ inspector-backdrop（编辑模式点击外部关闭）
-     └─ mode-toggle（右下角眼睛按钮）
+index.html
+  └─ src/main.jsx
+       └─ <App />
+            ├─ <canvas ref={canvasRef} />
+            ├─ startSpineStage(canvas, callbacks)   // 只调用一次
+            ├─ <SettingsDrawer />
+            ├─ 眼睛按钮 / 提示气泡
+            ├─ <main style={{ backgroundColor }} />
+            └─ 左上角 log 调试面板
 ```
 
 核心原则：
 
-- `App` 持有模式、设置和 Stage Hook，因此切换设置抽屉不会销毁 canvas 或重新加载 Spine。
-- `SpineStage` 是纯 TypeScript/WebGL 层，不依赖 React。
-- `useSpineStage` 负责 React 生命周期、事件桥接和 UI 快照。
-- 设置是单一数据源：UI 修改设置，设置 effect 再把结果推给 Stage。
-- 资源只在启动时加载一次；模式切换只改变播放和界面状态。
+- `App` 持有画布、播放设置、当前动画和抽屉状态；Stage 在 `App` 挂载时创建，抽屉开关不会重建它。
+- `spineStage.js` 是不依赖 React 的命令式 WebGL 层。
+- `spine-webgl.js` 是 vendored 的 Spine 3.8.99 运行时，只通过 `export { spine }` 暴露命名空间。
+- 设置只存在于 React state。当前版本没有持久化、没有 URL 状态、没有编辑/展示模式。
 
 ## 分层职责
 
-### `src/App.tsx`
+### `src/main.jsx`
 
-- 持有 `mode`：`edit` / `show`。
-- 持有 `PlaybackSettings`，从 `localStorage` 初始化。
-- 持有 `useSpineStage()`，保证 Stage 与 canvas 在模式切换时保持挂载。
-- 将设置变化同步到 Stage：
-  - `speed` / `loopAction`
-  - `scale` / `positionX` / `positionY`
-  - `showBounds`
-  - 展示模式下的默认动画、自动播放
-- 将 `backgroundColor` 写入根元素 CSS 变量 `--page-bg`。
-- 维护眼睛按钮近距离高亮状态。
-- 管理 `Esc`、抽屉外点击和眼睛按钮的模式切换。
+- 引入 `styles.css`。
+- 创建 React root，渲染 `<App />`。
+- 没有使用 `React.StrictMode`。
 
-### `src/components/SpineViewer.tsx`
+### `src/App.jsx`
 
-- 渲染全屏 `<canvas>`。
-- 展示加载进度遮罩或错误遮罩。
-- 展示模式且开启点击触发时，在画布 `pointerup` 调用 `triggerAction()`。
-- 编辑模式下按需渲染 `DebugOverlay`。
+- 持有：
+  - `canvasRef` / `stageRef`
+  - `status` / `isError`
+  - `isDrawerOpen`
+  - `showEyeHint`
+  - `debugOpen` / `debugInfo`
+  - `animations` / `currentAnimation`
+  - `viewSettings`
+- 在挂载后的 `useEffect` 中调用 `startSpineStage(canvas, { onStatus, onAnimationChange, isCancelled })`。
+- 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用一次初始视图。
+- 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
+- 把 `backgroundColor` 写到 `<main>` 的内联样式。
+- 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
+- 管理眼睛提示和调试面板。
+- 渲染 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
-### `src/components/PlaybackInspector.tsx`
+### `src/SettingsDrawer.jsx`
 
-- 始终挂载，通过 `.is-open` 控制滑入/滑出。
-- 关闭时由 effect 设置 `inert`，防止隐藏面板被键盘或辅助技术访问。
-- 缩放百分比使用本地输入状态，`Enter` 或失焦时提交，范围限制后写回设置。
-- 所有其他设置直接通过 `onChange(patch)` 更新 `App`。
+- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations`，修改通过 `onChange(patch)` / `onAnimationChange(name)` 回传。
+- 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
+- 包含：
+  - Spine 动画下拉框
+  - “点击画面触发 action”开关
+  - 缩放滑杆、数字输入、±1% 步进
+  - 水平/垂直位置滑杆、数字输入、±1% 步进
+  - 两个视图复位按钮
+  - 背景色预设、取色器、十六进制输入
+- 没有速度、暂停、循环、自动播放、包围盒等控件。
 
-### `src/hooks/useSpineStage.ts`
+### `src/spineStage.js`
 
-- 在 canvas 挂载后创建 `SpineStage`。
-- 把 Stage 事件转换为 React 状态：
-  - 加载进度
-  - 加载完成/错误
-  - 当前动画、Action 开始/完成
-  - FPS、zoom、视口尺寸
-  - Spine 事件
-- 暴露稳定 actions：播放、触发 Action、暂停、速度、循环、视图、边界、调试。
-- 卸载时取消异步回调并销毁 Stage。
+- 创建 WebGL 上下文和 `SceneRenderer`。
+- 为 `bg` / `angel` 各创建一个 `AssetManager`，加载 `.skel` 和 `.atlas`。
+- 读取二进制骨架，创建 `Skeleton`、`AnimationStateData`、`AnimationState`。
+- 显式播放 `idle`。
+- 计算加载时姿态的包围盒，初始化相机。
+- 监听 window resize，维护 viewport 和相机。
+- 运行 `requestAnimationFrame` 渲染循环。
+- 实现 `triggerAction()` / `play()` 的状态机。
+- 返回 `{ setView, triggerAction, play, animations, dispose }`。
 
-### `src/spine/`
+### `src/spine-webgl.js`
 
-- `SpineStage.ts`：WebGL 上下文、资源加载、渲染循环、相机、边界和调试绘制。
-- `SpineLayer.ts`：单层骨架、动画状态、包围盒采样与绘制。
-- `SceneAnimationController.ts`：`idle` / `action` 状态机。
-- `assetLoader.ts`：AssetManager、二进制骨架和 atlas 读取。
-- `camera.ts`：适配、屏幕/世界坐标转换。
-- `manifest.ts`：图层配置和动画常量。
-- `runtime/spine-webgl.js`：vendored Spine 3.8 运行时。
+- 总量约 10,840 行、422 KB 的编译产物。
+- 包含 Spine 核心（`SkeletonBinary`、`Skeleton`、`AnimationState` 等）和 WebGL 层（`ManagedWebGLRenderingContext`、`SceneRenderer`、`AssetManager` 等）。
+- 末尾 `export { spine }`。
+- 不包含任何本项目的业务逻辑，也不依赖 React。
+
+### `src/styles.css`
+
+- 全屏布局：`html` / `body` / `#root` / `.viewer` 高度 100%，body 不滚动。
+- 右侧抽屉、透明 backdrop、眼睛按钮、提示气泡、调试面板、移动端断点。
+- 视觉上保持无页头、页脚和卡片边框。
 
 ## 启动与加载流程
 
 ```text
-React 挂载 canvas
-  → useSpineStage 创建 SpineStage
-  → 创建 WebGL 上下文和 SceneRenderer
-  → SpineStage.load()
-  → 为每个 layer 启动 AssetManager
-  → 每 50ms 轮询加载进度
-  → 读取 .skel 二进制 + atlas
-  → 创建 SpineLayer
-  → SceneAnimationController.init() 播放 idle
-  → 采样各层 idle/action 包围盒
-  → 计算场景 union bounds
+React 挂载 <canvas>
+  → App useEffect 调用 startSpineStage
+  → 创建 ManagedWebGLRenderingContext
+  → 创建 SceneRenderer，camera 初始归零
+  → 两个 AssetManager 并行 loadBinary + loadTextureAtlas
+  → 每 50ms 轮询 isLoadingComplete / hasErrors
+  → 用 SkeletonBinary + AtlasAttachmentLoader 读取骨架
+  → 创建 Skeleton / AnimationStateData / AnimationState
+  → 设置混合时间，显式播放 idle
+  → 计算两图层当前姿态的 union bounds
   → resize + fitView
   → 启动 requestAnimationFrame
-  → 触发 onReady
+  → 返回 Stage API
+  → App 保存 stage、填动画列表、应用初始 view
 ```
 
 关键点：
 
-- 两个图层并行加载，进度按所有 manager 的已加载/总数合并。
+- 两个图层并行加载；任意 manager 报错都会让 `waitForLoad` reject。
+- 加载轮询没有超时，网络卡住时可能一直等待。
 - 骨架通过 `spine.SkeletonBinary` 读取，不读取 JSON。
-- 若包围盒采样失败，使用 `[-100, 100]` 的回退范围，避免相机无法初始化。
-- `onReady` 在渲染循环启动后触发。
+- `idle` 必须显式播放，因为 `action` 在骨架动画列表中排第一。
+- 初始包围盒只基于加载时的当前姿态，不做多帧采样。
 
 ## 渲染循环
 
-`SpineStage.frame()` 每帧执行：
+每帧（[src/spineStage.js](../src/spineStage.js)）：
 
-1. 计算时间增量，最大限制为 `0.05s`，避免切后台后动画跳帧。
-2. 若未暂停，按 `delta × speed` 更新所有 layer。
-3. 清空画布为透明。
-4. 依次绘制按 `zIndex` 排序的图层。
-5. 可选绘制每层动画边界。
-6. 可选绘制整体边界和骨架调试信息。
-7. 每 500ms 向 UI 发送一次 FPS、视口和 camera zoom。
+1. `delta = clamp((now - lastTime) / 1000, 0, 0.05)`，避免切后台后跳帧。
+2. 对每个图层执行 `state.update(delta)`、`state.apply(skeleton)`、`skeleton.updateWorldTransform()`。
+3. `gl.clearColor(0, 0, 0, 0)`，清空为透明。
+4. `renderer.begin()`。
+5. 按 `bg`、`angel` 顺序调用 `renderer.drawSkeleton(skeleton, true)`。
+6. `renderer.end()`。
+7. 请求下一帧。
 
-画布使用：
+画布上下文：
 
-```ts
+```js
 {
   alpha: true,
   premultipliedAlpha: true,
-  antialias: true
+  antialias: true,
 }
 ```
 
-因此页面背景色由 CSS 显示，canvas 本身清空为透明。
+因此页面背景色由 `<main>` 的 CSS 背景显示，WebGL 只负责透明图层。
 
 ## 相机与视图变换
 
-`SpineStage.fitView()` 的执行顺序：
-
-1. 使用场景包围盒计算适配 zoom，并保留 6% padding。
-2. 除以用户缩放：`camera.zoom = baseZoom / scale`。
-3. 以场景中心为基准应用位置偏移。
-
-代码中的偏移方向：
+`fitView()` 的逻辑：
 
 ```text
-camera.x = centerX - offsetX × canvasWidth × zoom
-camera.y = centerY + offsetY × canvasHeight × zoom
+padding = 0.06
+worldWidth  = bounds.maxX - bounds.minX
+worldHeight = bounds.maxY - bounds.minY
+availableWidth  = canvas.width  * (1 - padding * 2)
+availableHeight = canvas.height * (1 - padding * 2)
+baseZoom = max(worldWidth / availableWidth, worldHeight / availableHeight)
+zoom = baseZoom / viewScale
+camera.x = centerX - viewOffsetX * canvasWidth * zoom
+camera.y = centerY + viewOffsetY * canvasHeight * zoom
 ```
 
-因此：
+`OrthoCamera` 的投影范围与 `zoom` 成正比，所以 `viewScale` 越大，`camera.zoom` 越小，画面显示越大。
 
-- 水平偏移为正时，画面向右移动。
-- 垂直偏移为正时，画面向下移动。
-- 缩放和偏移会叠加，放大后可能裁切画面。
+方向：
 
-窗口尺寸变化时使用 `ResizeObserver`，按设备像素比重新设置画布尺寸，DPR 上限为 `2`，随后重新适配视图。
+- `positionX` 为正时，画面向右移动。
+- `positionY` 为正时，画面向下移动。
+- 缩放和偏移叠加，放大后可能裁切画面，这是预期行为。
+
+`setView(scale, offsetX, offsetY)` 会在 Stage 侧再次限制：
+
+```text
+scale   ∈ [0.5, 5]
+offsetX ∈ [-1, 1]
+offsetY ∈ [-1, 1]
+```
+
+`App` 传入的是 `positionX / 100`、`positionY / 100`。
+
+### 尺寸与 DPR
+
+- 只监听 `window.resize`，没有 `ResizeObserver`。
+- `canvas.width = round(cssWidth)`，`canvas.height = round(cssHeight)`。
+- 没有乘 `devicePixelRatio`；高 DPI 屏幕上会被浏览器放大，可能偏软。
+- `resize()` 会同步 `gl.viewport`、`camera.setViewport`，然后重新 `fitView()`。
 
 ## 包围盒
 
-加载完成后，每个 layer 会：
+加载完成后：
 
-- 找出自己拥有的 `idle` / `action` 动画。
-- 对每个动画采样 10 个时间点。
-- 求该层所有采样结果的 union bounds。
-- 把所有层的 bounds 再求一次 union，得到场景 bounds。
+```text
+offset/size = skeleton.getBounds()
+→ 对 bg / angel 求并集
+→ 作为 fitView 的世界范围
+```
 
-用途：
+注意：
 
-- 相机初始适配
-- 调试叠层的整体 bounds
-- “显示动画边界”的逐层包围盒
-
-逐层边界使用固定颜色区分 `bg` 和 `angel`；调试模式还会调用 Spine 自带的骨架调试绘制。
+- 只计算加载时姿态（`idle` 第 0 帧），不是 `idle` / `action` 的多帧采样。
+- 没有逐层包围盒绘制，也没有调试包围盒开关。
+- 如果后续替换模型导致动作范围明显大于初始姿态，可能需要重新评估取景。
 
 ## 动画状态机
 
-`SceneAnimationController` 维护：
-
-- 当前动画
-- 是否正在播放 Action
-- 暂停状态
-- 速度
-- 循环 Action 开关
-- 每次触发的 token
-- 等待完成的 layer 集合
-
 ### 初始化
 
-`init()` 显式播放 `idle`，并设置为循环。不能依赖骨架默认动画，因为 `action` 在骨架中可能排在前面。
+- 每个拥有 `idle` 的图层都设置为 `idle` 循环。
+- 混合时间：
+  - `defaultMix = 0.2`
+  - `action → action = 0`
+  - `idle → action = 0.1`
+  - `action → idle = 0.2`
 
 ### 触发 Action
 
 `triggerAction()`：
 
-- 增加 token，使旧的完成回调失效。
-- 对每个拥有 `action` 的 layer 播放 Action。
-- 如果该层当前已经在播放 Action，则混合时间为 0，实现立即重播。
-- 给每个 Action entry 挂接 `complete` 监听。
-- 等待所有相关 layer 完成。
+1. `actionToken += 1`，使旧回调失效。
+2. 清空 `pendingActionLayers`。
+3. 对每个拥有 `action` 的图层：
+   - `state.setAnimation(0, 'action', false)`；
+   - 如果当前已经是 `action`，设置 `entry.mixDuration = 0` 立即重播；
+   - 挂 `complete` 监听；
+   - 把图层 id 加入 pending 集合。
+4. 有图层启动成功时，把当前动画更新为 `action`。
 
-### 完成与循环
+### 完成
 
-Spine 3.8 在每次循环回绕时也会触发 `complete`。因此：
+`complete` 回调：
 
-```ts
-if (this.loopAction) return
-```
+1. token 不匹配就忽略。
+2. 从 pending 集合删除该图层。
+3. pending 为空时调用 `returnToIdle()`：
+   - 对拥有 `idle` 的图层设置 `idle` 循环；
+   - 当前动画更新为 `idle`。
 
-必须在 `handleActionComplete` 中保留。否则循环中的 Action 会在第一次回绕时错误回到 `idle`。
+### 播放其他动画
 
-未开启循环时，所有相关 layer 完成后统一回到 `idle`；开启循环时保持 Action，不触发回到 idle 的完成事件。
+`play(name)`：
+
+- `action` 转给 `triggerAction()`。
+- 其他动画：token 递增、清 pending、对拥有该动画的图层设置循环播放。
+- 当前资源只有 `idle` / `action`；`availableAnimations` 会合并两个图层的动画名并去重。
+
+### 循环 Action 的注意事项
+
+当前 `action` 是 `loop: false`，所以不需要 `loopAction` 保护。
+
+如果以后实现循环 Action，必须注意：Spine 3.8 在每次循环回绕时也会触发 `complete`；应在完成回调里先判断循环状态，再决定是否回到 `idle`。
 
 ## 设置与状态流
 
 ```text
-localStorage
-  → loadPlaybackSettings()
-  → App.settings
-  → savePlaybackSettings()（每次变更）
-  → 设置 effects
-  → SpineStageActions
-  → SpineStage / SceneAnimationController
+SettingsDrawer.onChange(patch)
+  → App.setViewSettings(prev => ({ ...prev, ...patch }))
+  → React 重新渲染
+  → useEffect([scale, positionX, positionY])
+  → stage.setView(scale, positionX / 100, positionY / 100)
+  → fitView()
 ```
-
-模式流：
 
 ```text
-URL ?mode=show
-  → readModeFromLocation()
-  → App.mode
-  → 展示/编辑 UI
-  → writeModeToLocation()（replaceState）
+backgroundColor
+  → <main style={{ backgroundColor }} />
+  → canvas 透明区域显示该颜色
 ```
 
-模式切换 effect 在 Stage ready 后执行：
+```text
+clickToAction
+  → canvas pointerup 处理器
+  → 如果抽屉关闭且开关为 true
+  → stage.triggerAction()
+```
 
-- 进入展示模式：应用速度/循环、播放默认动画、按 `autoplay` 设置暂停。
-- 回到编辑模式：取消暂停。
+```text
+SettingsDrawer 动画选择
+  → App.handleAnimationChange(name)
+  → stage.play(name)
+  → Stage 回调 onAnimationChange(name)
+  → App.currentAnimation
+```
 
-## 页面背景色
+当前**没有**：
 
-`backgroundColor` 不经过 WebGL，而是：
+- `localStorage` 播放设置持久化
+- URL 模式（`?mode=show`）
+- 编辑/展示模式
+- 速度、暂停、循环、自动播放、包围盒设置
 
-1. `App` 把颜色写入 `document.documentElement` 的 `--page-bg`。
-2. `:root`、`body` 使用该 CSS 变量作为背景。
-3. `.spine-viewer` 和 canvas 保持透明。
+眼睛提示单独使用：
 
-这样颜色会出现在 canvas 透明区域、图层透明部分和缩放后的留白处，并且不会给模型叠加色调。
+```text
+localStorage key: spine-viewer:eye-hint:v1
+```
 
 ## 交互与层级
 
-| 层级 | z-index | 说明 |
+| 元素 | z-index | 说明 |
 | --- | --- | --- |
-| canvas / 加载遮罩 | 默认 | 全屏画面 |
-| `inspector-backdrop` | 15 | 编辑模式下透明点击遮罩 |
-| `playback-inspector` | 20 | 右侧设置抽屉 |
-| `mode-toggle` | 30 | 眼睛按钮 |
+| canvas | 默认 | 全屏画面 |
+| `.debug-hud` | 4 | 左上角 `log` 按钮和调试面板 |
+| `.inspector-backdrop` | 15 | 抽屉打开时的透明点击层 |
+| `.playback-inspector` | 20 | 右侧设置抽屉 |
+| `.viewer__settings-button` | 30 | 右下角眼睛按钮 |
+| `.eye-hint` | 31 | 首次提示气泡 |
 
-点击遮罩会把模式切到 `show`，效果与点击眼睛按钮一致。抽屉本身在遮罩之上，所以面板内部点击不会误触。
+行为：
 
-眼睛按钮通过全局 `pointermove` 计算与按钮中心的距离，进入约 `96px` 半径后添加 `is-near`，由 CSS 提升透明度。计算使用 `requestAnimationFrame` 节流，避免每次移动都同步布局。
+- 点击眼睛按钮切换抽屉。
+- 抽屉打开时点击 backdrop 关闭抽屉。
+- 抽屉关闭时点击 canvas 触发 `action`（如果开关开启）。
+- 抽屉打开时 canvas 被 backdrop 覆盖，点击只会关闭抽屉，不会触发 `action`。
+- 没有 `Esc` 快捷键。
+- 调试面板只在 `log` 按钮展开时更新；窗口 resize 时刷新。
 
-## 关键约束与取舍
+## 已知限制与取舍
 
-- **固定 Spine 3.8**：数据和导出格式决定运行时版本，升级 4.x 不是替换文件即可完成。
-- **vendored runtime**：避免 npm 依赖漂移，同时保留 ESM 包装。
-- **资源生成**：`public/spine` 不作为源文件维护，统一由脚本从模型目录生成。
-- **无全局状态库**：当前状态规模小，`App` + Hook + props 足够，避免额外抽象。
-- **无测试/lint 套件**：以严格 TypeScript 构建和 headless 浏览器验证兜底。
+- **无持久化**：播放设置刷新即重置。
+- **无模式**：没有编辑/展示模式，也没有 URL 状态。
+- **无播放控制**：只有动画切换和点击 Action，没有速度/暂停/循环/自动播放。
+- **无包围盒调试**：没有逐层 bounds 绘制。
+- **高 DPI 偏软**：canvas 未按 DPR 放大。
+- **资源生命周期不完整**：`dispose()` 只取消 rAF 和 resize，没有释放 renderer / texture / animation state；加载中取消时 AssetManager 仍可能继续请求。
+- **加载无超时**：`waitForLoad` 每 50ms 轮询，没有超时。
+- **错误提示弱**：错误只显示在 `log` 按钮的 `title`/颜色里。
+- **构建与部署**：`npm run build` 只写 `dist/`；`npm run build:we` 再调用 `scripts/copy-to-we.mjs` 替换 WE 目标目录；`dist/` 被 git 忽略。
+- **无类型检查**：纯 JS，`vite build` 不会做类型检查。
 - **沉浸式 UI**：不引入页头、页脚或卡片边框；设置以抽屉形式按需出现。
-- **命中测试工具未接入 UI**：`hitTest.ts` 和 `SpineStage.hitTestWorld()` 已提供基础能力，当前点击交互直接触发 Action，不做精确命中。
+
+## 相关文件
+
+- [src/App.jsx](../src/App.jsx)
+- [src/SettingsDrawer.jsx](../src/SettingsDrawer.jsx)
+- [src/spineStage.js](../src/spineStage.js)
+- [src/spine-webgl.js](../src/spine-webgl.js)
+- [src/styles.css](../src/styles.css)
+- [vite.config.js](../vite.config.js)
+- [scripts/copy-to-we.mjs](../scripts/copy-to-we.mjs)

@@ -1,184 +1,150 @@
-# Spine 3.8 与资源管线
+# Spine 3.8 与资源
 
-本文档说明为什么固定 Spine 3.8、资源如何生成、如何替换模型，以及容易踩坑的运行时行为。
+本文档说明当前项目实际使用的 Spine 运行时、资源布局、加载方式和替换资源的注意事项。
 
 ## 运行时版本
 
 - `.skel` 文件是 **Spine 3.8.99 二进制**。
-- 运行时位于 `src/spine/runtime/spine-webgl.js`，是 vendored 的 Spine 3.8 WebGL 运行时，带 ESM 包装和对应的 `.d.ts`。
+- 运行时位于 [src/spine-webgl.js](../src/spine-webgl.js)，是 vendored 的 Spine 3.8 WebGL 运行时，文件末尾通过 `export { spine }` 暴露命名空间。
 - 不要替换为 Spine 4.x，也不要改用 npm 上的 Spine runtime；二进制格式和 API 都不兼容。
-- 当前代码中的类型和构造器来自 vendored 运行时，例如 `spine.webgl.Vector3`，不是 `spine.Vector3`。
-
-`参考/` 目录是旧 Wallpaper Engine 4.2 导出，只能作为美术/结构参考，不能用当前 3.8 运行时加载。
+- `spine.webgl.Vector3` 才是 WebGL 层使用的 `Vector3`，不是 `spine.Vector3`。
+- 当前代码只使用运行时的一小部分 API：
+  - `spine.webgl.ManagedWebGLRenderingContext`
+  - `spine.webgl.SceneRenderer`
+  - `spine.webgl.AssetManager`
+  - `spine.SkeletonBinary`
+  - `spine.AtlasAttachmentLoader`
+  - `spine.Skeleton`
+  - `spine.AnimationStateData`
+  - `spine.AnimationState`
+  - `spine.Vector2`
 
 ## 资源目录
 
+当前仓库没有 `spine-model/` 源模型目录，也没有 `scripts/sync-assets.mjs`。**`public/spine/` 是当前提交的资源事实来源。**
+
 ```text
-spine-model/
-└─ spine_hhbsd_bdmy/
-   ├─ angel/
-   │  ├─ bosaidongqiujin.atlas
-   │  ├─ bosaidongqiujin.png
-   │  └─ bosaidongqiujin.skel
-   └─ bg/
-      ├─ bosaidongqiujin.atlas
-      ├─ bosaidongqiujin.png
-      └─ bosaidongqiujin.skel
+public/
+├─ project.json                         # Wallpaper Engine 项目描述
+└─ spine/
+   └─ spine_hhbsd_bdmy/
+      ├─ bg/
+      │  ├─ bosaidongqiujin.skel
+      │  ├─ bosaidongqiujin.atlas
+      │  └─ bosaidongqiujin.png
+      └─ angel/
+         ├─ bosaidongqiujin.skel
+         ├─ bosaidongqiujin.atlas
+         └─ bosaidongqiujin.png
 ```
 
-- `spine-model/` 是资源事实来源。
-- `public/spine/spine_hhbsd_bdmy/` 由脚本生成。
-- `dist/spine/...` 是构建产物。
-- `public/spine` 和 `dist/spine` 都不要手工编辑，否则下次 `dev` / `build` 会被覆盖。
+图层配置在 `src/spineStage.js` 中：
 
-图层配置在 `src/spine/manifest.ts`：
-
-| 图层 | zIndex | 说明 |
+| 图层 | 顺序 | 说明 |
 | --- | --- | --- |
-| `bg` | 0 | 背景层 |
-| `angel` | 1 | 前景角色层 |
+| `bg` | 先绘制 | 背景层 |
+| `angel` | 后绘制 | 前景角色层 |
 
-两个图层都配置了 `premultipliedAlpha: true`，绘制时会传给 `renderer.drawSkeleton()`。
+两个图层都使用 `premultipliedAlpha: true`，绘制时传给 `renderer.drawSkeleton(skeleton, true)`。
 
-## 自动资源同步
+## 当前资源核对结果
 
-`npm run dev` 和 `npm run build` 会通过 `predev` / `prebuild` 自动执行：
+- 两个 `.skel` 的版本字符串都是 `3.8.99`。
+- 动画只有 `action` 和 `idle`，其中 `action` 排在前面。
+- `idle` 时长约 8 秒，`action` 时长约 3.33 秒。
+- 两个 atlas 的 `size` 都是 `2048,2048`，对应 PNG 实际尺寸也是 `2048x2048`。
+- atlas 使用 `rotate: true` / `rotate: false`，并在少数 **MeshAttachment** 区域使用 `180` / `270` 角度。当前 3.8 运行时的 mesh UV 分支支持 90/180/270；RegionAttachment 仍按 `rotate: true` / `false` 处理，当前资源没有对 RegionAttachment 使用数字角度。
+- 如果替换后的资源把 `180` / `270` 用在 RegionAttachment 上，3.8 运行时会按未旋转处理，可能贴图错位；需要改成 `true` / `false` 或调整导出。
+- 骨架中的图片路径字段可能包含旧导出环境的绝对路径，但实际纹理加载走 atlas 页面名 + 相对路径，不依赖该字段。
 
-```bash
-npm run sync:assets
-```
+## 加载流程
 
-也可以手动执行。
+`src/spineStage.js` 的加载顺序：
 
-脚本位置：`scripts/sync-assets.mjs`。
+1. 创建 `ManagedWebGLRenderingContext`：
+   ```js
+   {
+     alpha: true,
+     premultipliedAlpha: true,
+     antialias: true,
+   }
+   ```
+2. 创建 `SceneRenderer`。
+3. 为每个图层创建 `AssetManager`，路径前缀为：
+   ```text
+   ./spine/spine_hhbsd_bdmy/bg/
+   ./spine/spine_hhbsd_bdmy/angel/
+   ```
+4. 并行调用：
+   ```js
+   manager.loadBinary('bosaidongqiujin.skel')
+   manager.loadTextureAtlas('bosaidongqiujin.atlas')
+   ```
+5. 每 50ms 轮询 `isLoadingComplete()` 和 `hasErrors()`；有错误就 reject，全部完成才继续。
+6. 用 `AtlasAttachmentLoader` + `SkeletonBinary` 读取 `.skel`。
+7. 创建 `Skeleton` / `AnimationStateData` / `AnimationState`。
+8. 显式播放 `idle`，执行一次 `update(0)` / `apply` / `updateWorldTransform`。
+9. 计算包围盒并初始化相机。
 
-### 脚本做了什么
+atlas 的页面名（例如 `bosaidongqiujin.png`）会相对于 atlas 文件所在目录解析。因此三个文件必须放在同一图层目录下。
 
-1. 删除 `public/spine/spine_hhbsd_bdmy/`。
-2. 从 `spine-model/spine_hhbsd_bdmy/` 完整复制。
-3. 对 `angel` 和 `bg` 分别执行 atlas 修正：
-   - 读取 atlas 中声明的 `size`。
-   - 读取 PNG 文件头中的真实宽高。
-   - 计算 `sx = 实际宽度 / 声明宽度`、`sy = 实际高度 / 声明高度`。
-   - 重写 atlas 页面头部的 `size`。
-   - 按比例缩放并取整所有 `xy`、`size`、`orig`、`offset` 元组。
-4. 输出每个图层的缩放日志。
+## 为什么 atlas 与 PNG 必须一致
 
-当前资源在构建时会出现类似日志：
-
-```text
-[sync-assets] angel: atlas 4096x4096 -> 2048x2048 (sx=0.5000, sy=0.5000)
-[sync-assets] bg: atlas 3835x3835 -> 2048x2048 (sx=0.5340, sy=0.5340)
-```
-
-### 为什么必须修正 atlas
-
-Skeleton 中的 UV 和尺寸信息依赖 atlas 声明的页面尺寸。如果 PNG 被缩小，但 atlas 仍写着 `4096x4096`，纹理采样和区域计算就会错位，表现为：
+`.skel` 中的 UV、区域尺寸和偏移依赖 atlas 声明的页面尺寸。如果 PNG 被缩放，但 atlas 仍写着旧尺寸，会出现：
 
 - 贴图错位、拉伸、闪烁
 - 角色显示不完整
 - 同一张图的不同区域采样到错误内容
 
-因此不要手动改 PNG 尺寸后直接运行，必须走 `sync:assets`。
+当前项目没有自动缩放 atlas 的脚本。替换 PNG 时，必须同时保证 atlas 的 `size` 与 PNG 实际尺寸一致，并按相同比例处理区域元数据。
 
-### 当前脚本假设
+## 替换模型
 
-- 模型目录名固定为 `spine_hhbsd_bdmy`。
-- 图层目录固定为 `angel`、`bg`。
-- 文件名固定为 `bosaidongqiujin.skel`、`.atlas`、`.png`。
-- 当前两个 atlas 都是单页，脚本按这套结构处理。
+当前没有 `spine-model/` 和 `sync:assets`，替换资源需要手动完成：
 
-如果新模型使用不同目录、文件名或多页 atlas，除了替换资源，还需要同步修改：
-
-- `scripts/sync-assets.mjs`
-- `src/spine/manifest.ts`
-
-## 加载流程
-
-`SpineStage.load()`：
-
-1. 为每个图层创建 `spine.webgl.AssetManager`。
-2. 加载 `.skel` 二进制和 `.atlas`。
-3. 每 50ms 轮询加载进度和错误。
-4. 用 `spine.SkeletonBinary` + `AtlasAttachmentLoader` 读取骨架。
-5. 创建 `SpineLayer`。
-6. 创建 `SceneAnimationController` 并显式播放 `idle`。
-7. 采样 `idle` / `action` 的包围盒。
-8. 启动渲染循环并发送 ready 事件。
-
-资源路径基于 Vite 的 `import.meta.env.BASE_URL`，因此部署到子路径时仍从 `public/spine/...` 对应的静态路径加载。
-
-## 动画约束
-
-当前项目围绕两个动画名构建：
-
-```text
-idle
-action
-```
-
-对应常量在 `src/spine/manifest.ts`：
-
-- `SCENE_ANIMATIONS = ['idle', 'action']`
-- `DEFAULT_ANIMATION = 'idle'`
-- `ACTION_ANIMATION = 'action'`
-
-注意：
-
-- `action` 在骨架中可能排在 `idle` 前面，因此不能依赖“默认动画”。
-- 启动时必须显式播放 `idle`。
-- UI 的动画标签目前只映射 `idle` 和 `action`。
-- 如果新模型改动画名，需要同步修改常量、UI 标签、Action 触发逻辑和默认设置。
-
-### 循环 Action 的 `complete` 陷阱
-
-Spine 3.8 在 Action 每次循环回到开头时也会触发 `complete`。`SceneAnimationController.handleActionComplete` 在 `loopAction` 为 true 时直接返回：
-
-```ts
-if (this.loopAction) return
-```
-
-这段保护不能删除，否则循环 Action 会在第一次循环结束时错误回到 `idle`。
-
-## 替换模型检查清单
-
-1. 用 Spine 3.8.99 导出替换 `spine-model/spine_hhbsd_bdmy/` 下的资源。
-2. 如果目录或文件名变化，更新 `scripts/sync-assets.mjs` 和 `src/spine/manifest.ts`。
-3. 如果动画名变化，更新 `SCENE_ANIMATIONS`、`DEFAULT_ANIMATION`、`ACTION_ANIMATION` 和 `PlaybackInspector` 中的标签。
-4. 确认两个图层的 `premultipliedAlpha` 配置符合导出设置。
-5. 执行：
-
-   ```bash
-   npm run sync:assets
-   npm run build
+1. 用 Spine **3.8.99** 导出新的二进制骨架和 atlas。
+2. 保持目录和文件名：
+   ```text
+   public/spine/spine_hhbsd_bdmy/bg/bosaidongqiujin.{skel,atlas,png}
+   public/spine/spine_hhbsd_bdmy/angel/bosaidongqiujin.{skel,atlas,png}
    ```
-
-6. 运行 `npm run dev`，检查：
+3. 每个图层同时替换 `.skel`、`.atlas`、`.png`，不要混用不同版本。
+4. 确认 atlas 的 `size` 与 PNG 实际宽高一致。
+5. 如果动画名变化，同步修改 `src/spineStage.js` 中的：
+   - `DEFAULT_ANIMATION`
+   - `ACTION_ANIMATION`
+   - 混合时间设置
+   - UI 标签（`src/SettingsDrawer.jsx` 的 `ANIMATION_LABELS`）
+6. 如果目录、图层名或文件名变化，同步修改 `src/spineStage.js` 中的 `MODEL_BASE`、`LAYERS`、`SKELETON`、`ATLAS`。
+7. 运行：
+   ```bash
+   npm run build:we
+   ```
+   如果只需要检查构建，可先运行 `npm run build`，再单独执行 `node scripts/copy-to-we.mjs`。
+8. 在 Wallpaper Engine 中手动检查：
    - 图层顺序
-   - 动画是否正常
+   - `idle` / `action`
+   - 点击 Action 后是否回到 `idle`
    - 缩放/位置/背景色
-   - 包围盒和调试叠层
-7. 若替换的是多页 atlas 或不同 atlas 文件名，先确认 `sync-assets.mjs` 是否仍适用。
+   - 高倍缩放下的纹理边缘
 
 ## 常见问题
 
 | 现象 | 可能原因 | 处理 |
 | --- | --- | --- |
-| 贴图错位、拉伸 | PNG 尺寸与 atlas 声明不一致 | 执行 `npm run sync:assets`，检查日志中的 `sx/sy` |
-| 骨架版本错误 | 用了 Spine 4.x 导出或错误 runtime | 使用 3.8.99 导出和 vendored runtime |
-| 页面空白、资源 404 | `public/spine/...` 缺失或路径错误 | 执行 `npm run sync:assets`，检查网络请求 |
+| 贴图错位、拉伸 | PNG 尺寸与 atlas 声明不一致 | 修正 atlas `size` 和区域元数据，或换回匹配的资源 |
+| 骨架版本错误 | 用了 Spine 4.x 导出或错误 runtime | 使用 3.8.99 导出和 `src/spine-webgl.js` |
+| 页面空白、资源 404 | 路径错误或 `public/spine/...` 缺失 | 检查两个图层目录和三个文件是否存在 |
 | 角色边缘发黑/发亮 | premultiplied alpha 不匹配 | 确认导出设置与 `premultipliedAlpha: true` 一致 |
-| 循环 Action 自动回 idle | 删除了 `loopAction` 保护，或循环未开启 | 保留 `handleActionComplete` 中的 guard |
-| 手动改了 `public/spine` 又失效 | 生成目录被 predev/prebuild 覆盖 | 只改 `spine-model/`，然后同步 |
-| `参考/` 资源无法加载 | 旧 Wallpaper Engine 4.2 导出 | 不要用 3.8 runtime 加载，重新导出 |
-| WebGL 不可用 | 浏览器/驱动/headless 未启用软件渲染 | 使用支持 WebGL 的浏览器；headless 见开发文档 |
+| Action 播完回 idle | 当前实现预期行为 | `action` 是非循环的；需要循环时再实现 loop 逻辑 |
+| 改成循环 Action 后第一次循环就回 idle | 缺少 Spine 3.8 `complete` 保护 | 在完成回调里判断 `loopAction`，循环时直接返回 |
+| 构建通过但页面资源加载失败 | 构建不检查资源内容 | 检查 `public/spine/...`，不要只看构建退出码 |
+| 高倍缩放画面偏软 | canvas 未按 devicePixelRatio 放大 | 当前已知限制；需要时再实现 DPR 适配 |
 
 ## 相关文件
 
-- `scripts/sync-assets.mjs`
-- `src/spine/manifest.ts`
-- `src/spine/assetLoader.ts`
-- `src/spine/SpineLayer.ts`
-- `src/spine/SceneAnimationController.ts`
-- `src/spine/runtime/spine-webgl.js`
-- `src/spine/runtime/spine-webgl.d.ts`
+- [src/spineStage.js](../src/spineStage.js)
+- [src/spine-webgl.js](../src/spine-webgl.js)
+- [src/SettingsDrawer.jsx](../src/SettingsDrawer.jsx)
+- [public/spine/spine_hhbsd_bdmy/](../public/spine/spine_hhbsd_bdmy/)
+- [vite.config.js](../vite.config.js)

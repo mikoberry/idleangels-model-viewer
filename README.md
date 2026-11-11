@@ -1,111 +1,192 @@
 # Spine 3.8 WebGL Viewer
 
-基于 Vite + React 18 + TypeScript 的 Spine 3.8 全屏 WebGL 查看器，当前场景为 `spine_hhbsd_bdmy`，包含 `bg` 与 `angel` 两个图层。
+基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，当前场景为 `spine_hhbsd_bdmy`，包含 `bg` 与 `angel` 两个图层。
 
-项目采用沉浸式全屏布局：画布常驻，右侧设置抽屉按需打开；展示模式可关闭所有界面元素并支持点击画面触发 Action。
+画布常驻全屏，右侧设置抽屉按需打开。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
 
 ## 功能
 
 - Spine 3.8.99 二进制骨架加载与 WebGL 渲染
-- `idle` / `action` 动画播放、暂停、速度调节与循环 Action
-- 展示模式（`?mode=show`）、编辑模式、点击画面触发 Action
-- 画面缩放（50%–500%，支持手动输入）、水平/垂直位置偏移
-- 页面背景色设置
-- 动画包围盒显示与调试叠层
-- 设置自动保存到浏览器 `localStorage`
-- 全屏响应式布局，移动端设置面板占满宽度
+- `idle` / `action` 动画切换；`action` 播放一次后自动回到 `idle`
+- 点击画面触发 `action`（抽屉关闭且开关开启时）
+- 画面缩放（50%–500%，支持滑杆、输入框和 ±1% 步进）
+- 水平/垂直位置偏移（-100%–100%）
+- 页面背景色（预设色、取色器、`#RRGGBB` 输入）
+- 首次打开的眼睛按钮提示
+- 左上角 `log` 调试信息面板
+- 全屏响应式布局；移动端设置抽屉占满宽度
+
+当前版本**不包含**：播放设置持久化、编辑/展示模式、`?mode=show`、播放速度、暂停、循环 Action、自动播放、动画包围盒显示、全屏加载/错误遮罩。设置只在当前页面会话中有效，刷新后会恢复默认值。
 
 ## 快速开始
 
-要求：Node.js 18+（建议使用 Node.js 20 LTS；当前项目在 Node.js 20.18.1 下验证）。
+要求：Node.js 18+。当前在 Node.js 20.18.1、npm 10.8.2 下验证。
 
 ```bash
 npm install
 npm run dev
 ```
 
-打开 `http://localhost:5173/`。
-
-展示模式：
+默认打开：
 
 ```text
-http://localhost:5173/?mode=show
+http://localhost:5173/
 ```
+
+如果 5173 被占用，Vite 会自动选择下一个可用端口，以终端输出为准。
 
 ## 常用命令
 
 | 命令 | 说明 |
 | --- | --- |
-| `npm run dev` | 先同步资源，然后启动 Vite 开发服务器，默认端口 `5173` |
-| `npm run build` | 同步资源 + `tsc --noEmit` + 生产构建，输出到 `dist/` |
-| `npm run preview` | 预览已构建的 `dist/`，需先执行 `npm run build`；默认端口 `4173` |
-| `npm run sync:assets` | 从 `spine-model/spine_hhbsd_bdmy/` 重新生成 `public/spine/spine_hhbsd_bdmy/` |
+| `npm run dev` | 启动 Vite 开发服务器，默认 `5173`；不会同步资源 |
+| `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制到 WE 目录 |
+| `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
+| `npm run preview` | 预览 `dist/`，默认端口 `4173`；端口受限时用 `--port` 指定 |
 
-当前 Windows 验证环境中 `4173` 不可用，预览时请改用 `5173`：
+### 构建与部署
+
+只构建：
 
 ```bash
-npm run preview -- --port 5173 --strictPort
+npm run build
 ```
 
-`npm run dev` 与 `npm run build` 会通过 `predev` / `prebuild` 自动执行资源配置。
+构建并部署到 WE：
 
-项目目前没有测试或 lint 套件，`npm run build` 是类型检查和生产构建的唯一入口。
+```bash
+npm run build:we
+```
+
+`build:we` 的顺序：
+
+1. `vite build` 把产物写入仓库内的 `dist/`。
+2. `node scripts/copy-to-we.mjs` 把 `dist/` 的内容复制到：
+
+```text
+F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test
+```
+
+复制脚本会先在 staging 目录准备新产物，然后删除旧目标目录并整体替换，保证不残留上一版文件。目标目录是生成目录，不要在里面放手工文件。
+
+如果只想重试复制（例如刚才 WE 占用了文件，但 `dist/` 已经构建好），执行：
+
+```bash
+node scripts/copy-to-we.mjs
+```
+
+- `dist/` 已在 `.gitignore` 中忽略。
+- 目标路径可以用环境变量 `WE_TARGET_DIR` 覆盖。例如在 PowerShell 中：
+
+  ```powershell
+  $env:WE_TARGET_DIR = 'F:/path/to/another-we-project'
+  npm run build:we
+  ```
+
+- 如果 Wallpaper Engine 正在占用目标文件，复制可能失败；先关闭/停止该壁纸再执行 `build:we` 或重试复制。
+- `npm run preview` 只读取 `dist/`，不会触发复制。
+
+## 设置项
+
+设置保存在 `src/App.jsx` 的 `viewSettings` React state 中，**不会持久化**。
+
+| 设置 | 默认值 | 范围 / 说明 |
+| --- | --- | --- |
+| `scale` | `2.4`（240%） | `0.5`–`5`，即 50%–500% |
+| `positionX` | `-30` | `-100`–`100`，单位是视口宽度的百分比 |
+| `positionY` | `-27` | `-100`–`100`，单位是视口高度的百分比 |
+| `backgroundColor` | `#06070d` | `#RRGGBB`，只影响页面 CSS 背景 |
+| `clickToAction` | `true` | 抽屉关闭时点击 canvas 是否触发 `action` |
+
+另外：
+
+- 当前动画是独立 state，初始为 `idle`；可选值来自 Stage 返回的 `animations`。
+- 眼睛提示是否看过保存在 `localStorage` 的 `spine-viewer:eye-hint:v1`，与播放设置无关。
+- 页面没有 URL 状态，刷新后恢复上述默认值。
+
+字段细节见[设置字段参考](docs/settings-reference.md)。
 
 ## 项目结构
 
 ```text
 .
 ├─ index.html
-├─ scripts/
-│  └─ sync-assets.mjs              # 复制并修正 Spine atlas 元数据
-├─ spine-model/
-│  └─ spine_hhbsd_bdmy/            # Spine 源资源（唯一事实来源）
+├─ vite.config.js
+├─ package.json
 ├─ public/
-│  └─ spine/spine_hhbsd_bdmy/      # 生成资源，不要手改
+│  ├─ project.json
+│  └─ spine/spine_hhbsd_bdmy/
+│     ├─ bg/    bosaidongqiujin.{skel,atlas,png}
+│     └─ angel/ bosaidongqiujin.{skel,atlas,png}
+├─ scripts/
+│  └─ copy-to-we.mjs         # 构建后复制 dist 到 WE 项目目录
 ├─ src/
-│  ├─ App.tsx                      # 模式、设置、页面组合
-│  ├─ settings.ts                  # 设置模型、校验与 localStorage
-│  ├─ components/
-│  │  ├─ SpineViewer.tsx           # 全屏 canvas、加载/错误遮罩
-│  │  ├─ PlaybackInspector.tsx     # 右侧设置抽屉
-│  │  └─ DebugOverlay.tsx          # 调试信息
-│  ├─ hooks/
-│  │  └─ useSpineStage.ts          # Stage 生命周期与 UI 状态桥接
-│  ├─ spine/
-│  │  ├─ SpineStage.ts             # 渲染循环、相机、边界、调试
-│  │  ├─ SpineLayer.ts             # 单层骨架、动画状态、绘制
-│  │  ├─ SceneAnimationController.ts
-│  │  ├─ assetLoader.ts
-│  │  ├─ camera.ts
-│  │  ├─ manifest.ts
-│  │  ├─ types.ts
-│  │  └─ runtime/                  # vendored Spine 3.8 WebGL 运行时
+│  ├─ main.jsx              # React 入口
+│  ├─ App.jsx               # 状态、canvas、Stage 启动、调试面板
+│  ├─ SettingsDrawer.jsx    # 右侧设置抽屉
+│  ├─ spineStage.js         # WebGL / 资源 / 动画 / 相机 / 渲染循环
+│  ├─ spine-webgl.js        # vendored Spine 3.8.99 运行时
 │  └─ styles.css
-├─ 参考/                            # 旧 Wallpaper Engine 4.2 导出，仅供对照
-└─ AGENTS.md                       # 代理/维护者执行约束
+├─ dist/                    # 构建产物，git 忽略
+├─ docs/
+├─ AGENTS.md
+└─ README.md
 ```
+
+没有 `spine-model/`、`src/spine/`、`hooks/`、`components/` 这些目录，也没有 `tsconfig.json`。`scripts/` 目前只有 `copy-to-we.mjs`。
+
+## 数据流
+
+```text
+main.jsx
+  └─ <App />
+       ├─ <canvas ref>
+       │    └─ startSpineStage(canvas, { onStatus, onAnimationChange, isCancelled })
+       │         ├─ spine.webgl.ManagedWebGLRenderingContext + SceneRenderer
+       │         ├─ 两个 AssetManager → public/spine/spine_hhbsd_bdmy/{bg,angel}/
+       │         ├─ SkeletonBinary + AtlasAttachmentLoader → Skeleton / AnimationState
+       │         ├─ fitView() → camera
+       │         └─ requestAnimationFrame → drawSkeleton × 2
+       ├─ viewSettings ── effect ──> stage.setView(scale, x / 100, y / 100)
+       ├─ backgroundColor ──> <main style>
+       ├─ clickToAction ──> canvas pointerup ──> stage.triggerAction()
+       └─ <SettingsDrawer> ── onChange / play ──> App / Stage
+```
+
+更完整的说明见[架构设计](docs/architecture.md)。
 
 ## 关键约束
 
-- `.skel` 是 Spine **3.8.99 二进制**，必须使用 `src/spine/runtime/spine-webgl.js` 中的 3.8 运行时，不能替换为 Spine 4.x 或 npm 上的运行时。
-- `spine-model/spine_hhbsd_bdmy/` 是资源事实来源；`public/spine/...`、`dist/spine/...` 均为生成产物，不要手动编辑。
-- 资源配置会按 PNG 实际尺寸重写 atlas 元数据，替换模型后必须重新执行 `npm run sync:assets` 或重新构建。
-- 两个图层均使用 `premultipliedAlpha: true`。
-- 动画只有 `idle` 和 `action`；`idle` 必须在启动时显式播放。
-- Spine 3.8 每次循环结束都会触发 `complete`，循环 Action 依赖控制器中的 `loopAction` 保护逻辑。
+- `.skel` 是 Spine **3.8.99** 二进制；必须使用 [src/spine-webgl.js](src/spine-webgl.js) 中的 3.8 运行时，不能替换为 Spine 4.x 或 npm 上的运行时。
+- `public/spine/spine_hhbsd_bdmy/` 当前就是资源事实来源；没有 `spine-model/` 源目录，也没有资源同步脚本。
+- 两个图层都使用 `premultipliedAlpha: true`。
+- 动画只有 `idle` 和 `action`；`action` 在骨架中排在前面，`idle` 必须在启动时显式播放。
+- `action` 是非循环的；所有拥有 `action` 的图层播放完成后，统一回到 `idle`。如果以后加循环 Action，必须补上 Spine 3.8 的 `complete` 保护。
+- 播放设置只存在于 React state，不写入 `localStorage`，也不写入 URL。
+- `npm run build` 只构建到 `dist/`；`npm run build:we` 再通过 `scripts/copy-to-we.mjs` 复制并替换 WE 目标目录。
+
+## 已知限制
+
+- 高 DPI 屏幕上 canvas 按 CSS 像素渲染，没有乘 `devicePixelRatio`，画面可能偏软。
+- 资源加载没有超时；网络或文件服务卡住时，页面可能一直停在加载状态。
+- `dispose()` 只取消 rAF 和 resize 监听，没有显式释放 renderer、texture 和 animation state。
+- 加载和错误状态只显示在左上角 `log` 按钮上，没有全屏遮罩。
+- `npm run build` 没有类型检查；逻辑错误不会被构建发现。
+- 复制步骤会清空 WE 目标目录；目标被 Wallpaper Engine 占用时可能失败。
 
 ## 文档
 
 - [使用指南](docs/user-guide.md)
 - [架构设计](docs/architecture.md)
-- [Spine 3.8 与资源管线](docs/spine-runtime-and-assets.md)
+- [Spine 3.8 与资源](docs/spine-runtime-and-assets.md)
 - [开发与验证](docs/development.md)
 - [设置字段参考](docs/settings-reference.md)
 
 ## 验证
 
 ```bash
-npm run build
+npm run build      # 只构建
+npm run build:we   # 构建并部署（需要时执行，会重新构建）
 ```
 
-构建必须通过。无测试套件；WebGL 相关的 headless 验证方式见[开发与验证](docs/development.md)。
+`npm run build` 必须通过；部署时 `npm run build:we` 的构建和复制都必须成功。之后在 Wallpaper Engine 中手动验证两个图层、动画、点击 Action、缩放/位置/背景色和刷新后的默认值。项目没有自动化测试；不要在未明确要求时引入 Playwright。

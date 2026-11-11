@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:we": "npm run build && node scripts/copy-to-we.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

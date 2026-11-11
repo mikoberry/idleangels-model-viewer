@@ -6,7 +6,7 @@ export default defineConfig({
   base: './',
   build: {
     target: 'es2015',
-    outDir: 'F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test',
+    outDir: 'dist',
     emptyOutDir: true,
   },
 })

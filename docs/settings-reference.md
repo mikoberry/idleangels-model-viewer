@@ -1,231 +1,213 @@
 # 设置字段参考
 
-设置模型位于 `src/settings.ts`，通过 `spine-viewer:playback:v1` 持久化。本文档是字段、默认值、校验和扩展流程的参考；面向使用的说明见[使用指南](user-guide.md)。
+当前设置模型位于 [src/App.jsx](../src/App.jsx) 的 `viewSettings` React state 中，**没有持久化**。本文档列出当前实际字段、默认值、范围、生效路径和扩展方式。
 
 ## 数据结构
 
-```ts
-interface PlaybackSettings {
-  defaultAnimation: string
-  speed: number
-  loopAction: boolean
-  autoplay: boolean
-  clickToAction: boolean
-  scale: number
-  positionX: number
-  positionY: number
-  showBounds: boolean
-  backgroundColor: string
-}
+```js
+const [viewSettings, setViewSettings] = useState({
+  scale: 2.4,
+  positionX: -30,
+  positionY: -27,
+  backgroundColor: '#06070d',
+  clickToAction: true,
+})
+```
+
+当前动画是独立 state：
+
+```js
+const [currentAnimation, setCurrentAnimation] = useState('idle')
+```
+
+眼睛提示是否看过使用单独的 `localStorage` key，与播放设置无关：
+
+```text
+spine-viewer:eye-hint:v1
 ```
 
 ## 字段
 
-### `defaultAnimation`
-
-- 类型：`string`
-- 默认：`DEFAULT_ANIMATION`，当前为 `"idle"`
-- 有效值：当前骨架中存在的动画名；UI 提供 `idle`、`action`
-- 存储校验：非空字符串
-- 用途：进入展示模式时播放的动画
-
-如果保存的动画在当前骨架中不存在，加载完成后会自动选择第一个可用动画。切换该设置会立即播放对应动画。
-
-### `speed`
-
-- 类型：`number`
-- 默认：`1`
-- UI 范围：`0.25`–`2`
-- UI 步进：`0.25`
-- 存储校验：有限数字，限制到 `0.25`–`2`
-- Runtime 保护：`SceneAnimationController` 接受 `0.1`–`3`
-
-正常 UI 不会产生范围外的值；runtime 的较宽范围只作为内部保护。
-
-### `loopAction`
-
-- 类型：`boolean`
-- 默认：`false`
-- 存储校验：必须是布尔值
-- 用途：Action 播放结束后是否保持循环
-
-开启时，`action` 在每次循环回绕后继续播放，不回到 `idle`。该值会同步到当前 Action entry 的 `loop` 属性。
-
-### `autoplay`
-
-- 类型：`boolean`
-- 默认：`true`
-- 存储校验：必须是布尔值
-- 用途：进入展示模式时是否自动播放
-
-进入展示模式时：
-
-```text
-autoplay = true  → setPaused(false)
-autoplay = false → setPaused(true)
-```
-
-编辑模式会恢复为非暂停状态。
-
-### `clickToAction`
-
-- 类型：`boolean`
-- 默认：`true`
-- 存储校验：必须是布尔值
-- 用途：展示模式下点击画布是否触发 `action`
-
-关闭后，画布点击不会触发 Action；眼睛按钮和 `Esc` 仍可切换模式。
-
 ### `scale`
 
 - 类型：`number`
-- 默认：`1`
-- 范围：`0.5`–`5`
-- 对应百分比：`50%`–`500%`
-- 滑杆步进：`0.01`，即 1%
-- 手动输入：整数百分比，提交时限制到 `50`–`500`
-- 存储校验：有限数字，限制到 `0.5`–`5`
+- 默认：`2.4`，即 240%
+- 范围：`0.5`–`5`，即 50%–500%
+- UI：
+  - 滑杆步进 `0.01`
+  - 数字输入按整数百分比提交
+  - ± 按钮每次 1%
+- Stage 保护：`setView` 会再次限制到 `[0.5, 5]`
+- 相机映射：
 
-换算关系：
+  ```text
+  camera.zoom = baseZoom / scale
+  ```
+
+  因此 `scale` 越大，画面显示越大。
+
+百分比换算：
 
 ```text
 scale = percent / 100
 percent = round(scale × 100)
 ```
 
-相机 zoom 使用：
-
-```text
-camera.zoom = baseZoom / scale
-```
-
 ### `positionX`
 
 - 类型：`number`
-- 默认：`0`
+- 默认：`-30`
 - 范围：`-100`–`100`
 - 单位：视口宽度的百分比
-- 存储校验：有限数字，限制到 `-100`–`100`
+- App 传给 Stage 时除以 100：`positionX / 100`
+- Stage 保护：`[-1, 1]`
 - 方向：正值画面向右移动
+- 相机公式：
+
+  ```text
+  camera.x = centerX - offsetX × canvasWidth × zoom
+  ```
 
 ### `positionY`
 
 - 类型：`number`
-- 默认：`0`
+- 默认：`-27`
 - 范围：`-100`–`100`
 - 单位：视口高度的百分比
-- 存储校验：有限数字，限制到 `-100`–`100`
+- App 传给 Stage 时除以 100：`positionY / 100`
+- Stage 保护：`[-1, 1]`
 - 方向：正值画面向下移动
+- 相机公式：
 
-### `showBounds`
-
-- 类型：`boolean`
-- 默认：`false`
-- 存储校验：必须是布尔值
-- 用途：显示 `bg` / `angel` 的逐层动画包围盒
-
-包围盒基于 `idle` 和 `action` 的采样结果，不随当前帧变化。
+  ```text
+  camera.y = centerY + offsetY × canvasHeight × zoom
+  ```
 
 ### `backgroundColor`
 
 - 类型：`string`
 - 默认：`"#06070d"`
-- 格式：`#RRGGBB`
-- 存储校验：`/^#[0-9a-f]{6}$/i`，保存为小写
-- 用途：页面背景色
+- 格式：`#RRGGBB`（大小写不敏感，提交后转小写）
+- 校验：`/^#[0-9a-f]{6}$/i`
+- 用途：写到 `<main>` 的内联 `backgroundColor`
+- 不参与 WebGL：canvas 清空为透明，颜色显示在透明区域和留白处
+- 无效输入：失焦时恢复为当前 `value`
 
-该颜色应用为根元素 CSS 变量 `--page-bg`，不参与 WebGL 渲染，也不改变模型纹理。
+### `clickToAction`
 
-## 默认值
+- 类型：`boolean`
+- 默认：`true`
+- 用途：抽屉关闭时，点击 canvas 是否触发 `action`
+- 生效条件：
+  - 抽屉必须是关闭状态
+  - 鼠标事件必须是左键；触摸/触控笔不受按键限制
+- 关闭开关时，`App` 会主动 `play('idle')`
+- 抽屉打开时，backdrop 覆盖 canvas，点击只会关闭抽屉
 
-```ts
-const DEFAULT_PLAYBACK_SETTINGS = {
-  defaultAnimation: 'idle',
-  speed: 1,
-  loopAction: false,
-  autoplay: true,
-  clickToAction: true,
-  scale: 1,
-  positionX: 0,
-  positionY: 0,
-  showBounds: false,
+### `currentAnimation`
+
+- 类型：`string`
+- 初始值：`"idle"`
+- 可选值：Stage 返回的 `animations`；当前资源为 `idle`、`action`
+- 选择 `idle`：循环播放
+- 选择 `action`：调用 `triggerAction()`，播放一次后回到 `idle`
+- UI 标签：
+  - `idle` → “待机 · idle”
+  - `action` → “动作 · action”
+  - 其他动画名直接显示原名
+
+## 默认值汇总
+
+```js
+{
+  scale: 2.4,
+  positionX: -30,
+  positionY: -27,
   backgroundColor: '#06070d',
+  clickToAction: true,
 }
 ```
 
-“恢复默认”会把这些值整体写回设置，并触发持久化；当前模式不变。
+当前没有“恢复所有默认值”按钮。抽屉里只有两个**视图**复位按钮：
+
+| 按钮 | 效果 |
+| --- | --- |
+| 初始 100 / 0 / 0 | `scale = 1`、`positionX = 0`、`positionY = 0` |
+| 推荐 240 / -30 / -27 | `scale = 2.4`、`positionX = -30`、`positionY = -27` |
+
+这两个按钮不会修改背景色或 `clickToAction`。
 
 ## 持久化
 
-- Key：`spine-viewer:playback:v1`
-- 写入：每次设置变化后由 `App` 的 effect 调用 `savePlaybackSettings`
-- 读取：应用启动时同步调用 `loadPlaybackSettings`
-- 环境：访问 `localStorage` 和 `window` 前均有可用性判断
-- 异常：读取、解析或写入失败时静默回退/忽略，不阻塞应用
+当前行为：
 
-### 读取规则
+- `scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction` 只存在于 React state。
+- 刷新页面后全部恢复默认值。
+- 没有 `spine-viewer:playback:v1` 或其他播放设置存储 key。
+- 没有 `sanitizeSettings` / 版本迁移逻辑。
+- 唯一写入 `localStorage` 的是眼睛提示：
 
-```text
-无存储
-  → 默认值
+  ```text
+  spine-viewer:eye-hint:v1
+  ```
 
-JSON 解析失败
-  → 默认值
+  读取/写入都包在 `try/catch` 中，失败时静默忽略。
 
-解析成功
-  → 默认值 + sanitize 后的字段
-```
+如果后续要加持久化，建议：
 
-`sanitizeSettings` 只接受类型正确且通过范围限制的字段。缺失或非法的字段保留默认值。
-
-### 版本策略
-
-当前没有迁移逻辑，key 直接使用 `v1`。如果字段结构发生不兼容变化：
-
-- 提升 key 版本，例如 `spine-viewer:playback:v2`；或
-- 在读取时显式迁移旧数据
-
-不要在不处理旧数据的情况下改变字段含义。
+1. 新增一个明确的 key，例如 `spine-viewer:playback:v1`。
+2. 读取时只接受类型正确、范围合法的字段，其他字段回退默认值。
+3. 写入时处理 `localStorage` 不可用或配额异常。
+4. 如果字段语义发生不兼容变化，提升 key 版本或显式迁移。
+5. 同步更新本文档和[使用指南](user-guide.md)。
 
 ## URL 状态
 
-模式是唯一写入 URL 的状态：
+当前版本没有 URL 状态：
 
-```text
-?mode=show  → 展示模式
-无该参数    → 编辑模式
-```
-
-`writeModeToLocation` 使用 `history.replaceState`，不会新增浏览历史记录。
-
-设置不写入 URL。分享链接不会携带缩放、位置或背景色。
+- 没有 `?mode=show`。
+- 没有编辑/展示模式。
+- 设置不写入 URL。
+- 刷新后不保留任何播放设置。
 
 ## 设置如何到达 Stage
 
 ```text
-PlaybackInspector.onChange(patch)
-  → App.setSettings
-  → 保存到 localStorage
-  → effect 同步 speed / loop / view / bounds
-  → Stage actions
+SettingsDrawer.onChange(patch)
+  → App.setViewSettings(prev => ({ ...prev, ...patch }))
+  → React 重新渲染
+  → useEffect([scale, positionX, positionY])
+  → stage.setView(scale, positionX / 100, positionY / 100)
+  → fitView()
 ```
 
-具体 effect：
+```text
+SettingsDrawer 动画选择
+  → App.handleAnimationChange(name)
+  → stage.play(name)
+  → Stage onAnimationChange(name)
+  → App.setCurrentAnimation(name)
+```
 
-- `speed` → `actions.setSpeed`
-- `loopAction` → `actions.setLoopAction`
-- `scale` / `positionX` / `positionY` → `actions.setView`
-- `showBounds` → `actions.setShowBounds`
-- `backgroundColor` → `--page-bg`
-- `mode` → 播放默认动画、应用 autoplay、切换暂停状态
+```text
+backgroundColor
+  → <main style={{ backgroundColor }} />
+```
+
+```text
+clickToAction
+  → canvas pointerup 处理器
+  → 抽屉关闭且开关为 true 时 stage.triggerAction()
+```
 
 ## 新增设置检查清单
 
-1. 在 `PlaybackSettings` 中添加字段。
-2. 在 `DEFAULT_PLAYBACK_SETTINGS` 中添加默认值。
-3. 在 `sanitizeSettings` 中校验类型和范围。
-4. 在 `PlaybackInspector` 中添加控件，并保证 `onChange` patch 正确。
-5. 在 `App` 中添加同步到 Stage 或 CSS 的 effect。
-6. 如需持久化之外的 URL 行为，明确是否需要更新 URL 策略。
-7. 更新使用指南和本参考文档。
-8. 运行 `npm run build`。
+1. 在 `App.jsx` 的 `viewSettings` 初始值中加入字段。
+2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传。
+3. 如果是 Stage 相关设置：
+   - 在 `App.jsx` 中加同步 `useEffect`，或
+   - 扩展 `spineStage.js` 返回的 API。
+4. 做范围/类型校验；当前没有统一的 `sanitizeSettings`，需要手动保证。
+5. 如果要做持久化，按上面的持久化建议实现，不要只写不读。
+6. 更新本文件、[使用指南](user-guide.md) 和必要的架构说明。
+7. 运行 `npm run build` 验证；需要部署到 WE 时直接运行 `npm run build:we`（它会重新构建并复制），然后在 Wallpaper Engine 中手动验证。
