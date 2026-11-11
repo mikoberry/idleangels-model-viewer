@@ -19,7 +19,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - `npm run dev:all` — prepares all models (skips copying if the current package matches `model-library/models.json` and `model-presets.json`) and starts Vite. Extra arguments are passed to Vite.
 - `npm run build` — `vite build` only, writes `dist/`. There is no `tsc --noEmit`, no asset sync, and no test step. It must pass.
 - `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying the current `public/spine/models` content.
-- `npm run models:import` — scans `MODEL_SOURCE_DIR` (default `F:/live2d/IdleAngels/model-output`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
+- `npm run models:import` — scans `modelSourceDir` from `local.config.json` (or `MODEL_SOURCE_DIR`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
 - `npm run models:use -- <id>[,<id>...]` — prepares one or more selected models into `public/spine/models` for dev/single builds.
 - `node scripts/prepare-models.mjs --file deploy-models.json` — prepares the deployment subset (currently 51 models) without starting Vite.
 - `npm run package:model -- <id>` — prepares one model, builds, and deploys.
@@ -31,7 +31,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - [vite.config.js](vite.config.js) sets `build.outDir: 'dist'` and `emptyOutDir: true`; `dist/` is gitignored.
 - [scripts/copy-to-we.mjs](scripts/copy-to-we.mjs) creates a staging copy of `dist/`, removes the target directory, and renames the staging copy into place.
 - `npm run build:we` runs the build and copy in one command. To retry only the copy after a build, run `node scripts/copy-to-we.mjs`.
-- Default target: `F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test`; override it with the `WE_TARGET_DIR` environment variable.
+- The Wallpaper Engine target comes from `weTargetDir` in the ignored `local.config.json` or from `WE_TARGET_DIR`; there is no built-in local default. `local.config.example.json` is the tracked template.
 - The copy replaces the whole target directory. Do not put hand-written files there; if Wallpaper Engine is using those files, the copy may fail.
 - `base` is `'./'`, so generated asset URLs are relative; `build.target` is `es2015`.
 - `deploy-models.json` is the deployment subset (currently 51 models, one per name, priority `bdmy > np > cshs > mr`, about 294 MB). `vercel.json` and `.github/workflows/deploy-pages.yml` prepare that file with `prepare-models --file` before building `dist`; do not switch deployments to all 128 models unless the platform supports a ~730 MB output.

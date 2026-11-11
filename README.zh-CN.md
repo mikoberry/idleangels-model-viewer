@@ -93,20 +93,34 @@ http://localhost:5173/
 npm run build
 ```
 
-构建并部署到 WE：
+构建并部署到 WE 前，把本机路径写入仓库根目录的 `local.config.json`：
 
-```bash
+```json
+{
+  "modelSourceDir": "<模型源目录>",
+  "weTargetDir": "<WE 项目目录>"
+}
+```
+
+`local.config.json` 已被 `.gitignore` 忽略，不会提交。也可以复制 [local.config.example.json](local.config.example.json) 后修改。
+
+然后执行：
+
+```powershell
+npm run build:we
+```
+
+也可以临时用环境变量覆盖配置：
+
+```powershell
+$env:WE_TARGET_DIR = '<你的 WE 项目目录>'
 npm run build:we
 ```
 
 `build:we` 的顺序：
 
 1. `vite build` 把产物写入仓库内的 `dist/`。
-2. `node scripts/copy-to-we.mjs` 把 `dist/` 的内容复制到：
-
-```text
-F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test
-```
+2. `node scripts/copy-to-we.mjs` 把 `dist/` 的内容复制到 `weTargetDir` 或 `WE_TARGET_DIR` 指定的目录。
 
 复制脚本会先在 staging 目录准备新产物，然后删除旧目标目录并整体替换，保证不残留上一版文件。目标目录是生成目录，不要在里面放手工文件。
 
@@ -117,13 +131,6 @@ node scripts/copy-to-we.mjs
 ```
 
 - `dist/` 已在 `.gitignore` 中忽略。
-- 目标路径可以用环境变量 `WE_TARGET_DIR` 覆盖。例如在 PowerShell 中：
-
-  ```powershell
-  $env:WE_TARGET_DIR = 'F:/path/to/another-we-project'
-  npm run build:we
-  ```
-
 - 如果 Wallpaper Engine 正在占用目标文件，复制可能失败；先关闭/停止该壁纸再执行 `build:we` 或重试复制。
 - `npm run preview` 只读取 `dist/`，不会触发复制。
 
@@ -134,6 +141,8 @@ node scripts/copy-to-we.mjs
 ```text
 model-library/                 # 源模型库，跟踪提交
 model-presets.json             # 每个模型的推荐缩放/位置/背景，跟踪提交
+local.config.example.json      # 本机路径配置模板，跟踪提交
+local.config.json              # 实际本机路径，git 忽略
 public/spine/models/           # 按包生成的模型，git 忽略
   manifest.json
 deploy-models.json             # GitHub Pages / Vercel 部署子集
@@ -145,6 +154,7 @@ vercel.json                    # Vercel 构建配置
 
 ```bash
 # 首次或源模型更新后，重新扫描并导入合格模型
+# 源目录读取 local.config.json 的 modelSourceDir；也可用 MODEL_SOURCE_DIR 覆盖
 npm run models:import
 
 # 开发时准备一个或多个模型

@@ -89,6 +89,8 @@ npm run dev:all
 | `npm run package:all` | Prepare every eligible model, build, and deploy to Wallpaper Engine |
 | `npm run preview` | Preview `dist/` on Vite's preview port |
 
+Copy `local.config.example.json` to `local.config.json` and fill in `modelSourceDir` and `weTargetDir`. The file is ignored by Git. Environment variables `MODEL_SOURCE_DIR` and `WE_TARGET_DIR` override it.
+
 Prepare the deployment subset without building:
 
 ```bash
@@ -122,6 +124,8 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 .
 ├─ model-library/                 # Committed source model library
 ├─ model-presets.json             # Per-model recommended views
+├─ local.config.example.json      # Local path template
+├─ local.config.json              # Local paths, ignored by Git
 ├─ deploy-models.json             # GitHub Pages / Vercel deployment subset
 ├─ public/
 │  ├─ project.json

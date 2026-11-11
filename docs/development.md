@@ -68,22 +68,16 @@ npm run build:we
 2. `node scripts/copy-to-we.mjs` 把 `dist/` 复制到 staging 目录。
 3. 删除旧的目标目录，把 staging 目录重命名为目标目录。
 
-默认目标：
+目标目录读取 `local.config.json` 的 `weTargetDir`；也可以用 `WE_TARGET_DIR` 临时覆盖：
 
-```text
-F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test
+```powershell
+$env:WE_TARGET_DIR = '<你的 WE 项目目录>'
+npm run build:we
 ```
 
 注意：
 
 - 目标目录会被整体替换；不要在里面放手工文件。
-- 目标路径可以用 `WE_TARGET_DIR` 覆盖，例如 PowerShell：
-
-  ```powershell
-  $env:WE_TARGET_DIR = 'F:/path/to/another-we-project'
-  npm run build:we
-  ```
-
 - 如果 Wallpaper Engine 正在占用目标文件，复制可能失败；先关闭/停止壁纸。
 - 如果 `dist/` 已构建好，只想重试复制，执行 `node scripts/copy-to-we.mjs`。
 - `dist/` 已被 `.gitignore` 忽略。
@@ -101,7 +95,10 @@ public/spine/models/     # 当前包，忽略
 流程：
 
 ```bash
+# 源目录读取 local.config.json 的 modelSourceDir
+# 也可以用 MODEL_SOURCE_DIR 临时覆盖
 npm run models:import
+
 npm run models:use -- spine_hhbsd_bdmy,spine_abl0
 npm run dev:all       # 准备全部模型并启动 dev
 node scripts/prepare-models.mjs --file deploy-models.json   # 准备部署子集

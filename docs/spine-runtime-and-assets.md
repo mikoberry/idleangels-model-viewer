@@ -34,10 +34,11 @@ public/spine/models/           # 按包生成，git 忽略
 └─ spine_*/
 ```
 
-源目录默认是：
+源目录读取 `local.config.json` 的 `modelSourceDir`；也可以用 `MODEL_SOURCE_DIR` 临时覆盖：
 
-```text
-F:/live2d/IdleAngels/model-output
+```powershell
+$env:MODEL_SOURCE_DIR = '<模型源目录>'
+npm run models:import
 ```
 
 当前筛选条件：
@@ -119,7 +120,7 @@ atlas 的页面名会相对于 atlas 文件所在目录解析。因此 `.skel`�
    ```bash
    npm run models:import
    ```
-   源目录可用 `MODEL_SOURCE_DIR` 覆盖；默认是 `F:/live2d/IdleAngels/model-output`。
+   导入前在 `local.config.json` 设置 `modelSourceDir`，或用 `MODEL_SOURCE_DIR` 覆盖。
 4. 准备模型：
    ```bash
    npm run models:use -- <model-id>[,<model-id>...]

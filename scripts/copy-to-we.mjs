@@ -1,16 +1,21 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { LOCAL_CONFIG_PATH, resolveConfiguredPath } from './local-config.mjs'
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = path.join(rootDir, 'dist')
-const defaultTargetDir =
-  'F:/SteamLibrary/steamapps/common/wallpaper_engine/projects/myprojects/spine-react-test'
-const targetDir = path.resolve(process.env.WE_TARGET_DIR ?? defaultTargetDir)
 
 function fail(message) {
   console.error(`[copy-to-we] ${message}`)
   process.exit(1)
+}
+
+const targetDir = resolveConfiguredPath('WE_TARGET_DIR', 'weTargetDir')
+if (!targetDir) {
+  fail(
+    `WE_TARGET_DIR is not set and weTargetDir is missing in ${LOCAL_CONFIG_PATH}`,
+  )
 }
 
 function copyDirectoryContents(source, destination) {

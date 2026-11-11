@@ -2,7 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { spine } from '../src/spine-webgl.js'
 import {
-  defaultSourceDir,
   formatBytes,
   libraryDir,
   libraryManifestPath,
@@ -10,8 +9,15 @@ import {
   readPngSize,
   writeJson,
 } from './model-utils.mjs'
+import { LOCAL_CONFIG_PATH, resolveConfiguredPath } from './local-config.mjs'
 
-const sourceDir = path.resolve(process.env.MODEL_SOURCE_DIR ?? defaultSourceDir)
+const sourceDir = resolveConfiguredPath('MODEL_SOURCE_DIR', 'modelSourceDir')
+if (!sourceDir) {
+  throw new Error(
+    `MODEL_SOURCE_DIR is not set and modelSourceDir is missing in ${LOCAL_CONFIG_PATH}`,
+  )
+}
+
 const sourceInfo = fs.statSync(sourceDir, { throwIfNoEntry: false })
 
 if (!sourceInfo?.isDirectory()) {
@@ -202,13 +208,11 @@ for (const id of modelIds) {
 
 writeJson(libraryManifestPath, {
   version: 1,
-  source: sourceDir,
   importedAt: new Date().toISOString(),
   models,
 })
 
 writeJson(path.join(libraryDir, 'import-report.json'), {
-  source: sourceDir,
   totalDirectories: modelIds.length,
   imported: models.length,
   rejected,
@@ -235,7 +239,7 @@ for (const item of rejected) {
   reasonCounts.set(reason, (reasonCounts.get(reason) ?? 0) + 1)
 }
 
-console.log(`[models:import] source: ${sourceDir}`)
+console.log('[models:import] source directory loaded')
 console.log(`[models:import] eligible: ${models.length}`)
 console.log(`[models:import] rejected: ${rejected.length}`)
 console.log(`[models:import] imported size: ${formatBytes(totalBytes)}`)

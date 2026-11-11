@@ -8,8 +8,6 @@ export const libraryManifestPath = path.join(libraryDir, 'models.json')
 export const presetsPath = path.join(rootDir, 'model-presets.json')
 export const publicModelsDir = path.join(rootDir, 'public', 'spine', 'models')
 export const publicManifestPath = path.join(publicModelsDir, 'manifest.json')
-export const defaultSourceDir =
-  'F:/live2d/IdleAngels/model-output'
 
 export function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'))

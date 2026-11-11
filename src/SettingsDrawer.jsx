@@ -688,6 +688,16 @@ export default function SettingsDrawer({
             {t('drawer.modelHint', { count: models.length })}
           </p>
           <p className="inspector-hint">
+            {t('drawer.heroNamesHint')}{' '}
+            <a
+              href="https://github.com/mikoberry/idleangels-model-viewer/blob/main/heroes_multilang.csv"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('drawer.heroNamesSource')}
+            </a>
+          </p>
+          <p className="inspector-hint">
             {t('drawer.modelDeployHint')}{' '}
             <a
               href="https://github.com/mikoberry/anime-model-viewer"
