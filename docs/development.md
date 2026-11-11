@@ -276,9 +276,11 @@ npm run preview -- --port 5174 --strictPort
 - 切换模型会 dispose 旧 Stage；修改 Stage 生命周期时保持资源释放和旧回调失效。
 - 新增设置时，至少同步：
   - `App.jsx` 的初始 `viewSettings`
-  - `SettingsDrawer.jsx` 的控件和 `onChange`
+  - `src/components/SettingsDrawer.jsx` 的控件和 `onChange`
   - 如涉及 Stage，补 `spineStage.js` 的 API / effect
   - 相关文档
+- React 组件放在 `src/components/`；`src/` 根目录只保留入口、应用状态、i18n、纯函数工具（如 `clock.js`）、WebGL 层、运行时和样式。新增组件不要再放到 `src/` 根目录。
+- 纯函数（格式化、计算等）独立成模块放在 `src/` 根目录，不要塞进组件文件，便于在不引入 React 的情况下验证。
 - 保持沉浸式全屏布局，不引入页头、页脚或明显卡片边框。
 - 关闭的设置抽屉应保持 `inert`。
 - 修改动画逻辑时，保留 `actionToken` / pending 集合的旧回调保护。

@@ -53,7 +53,7 @@ index.html
 - 管理眼睛提示和调试面板。
 - 渲染 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
-### `src/SettingsDrawer.jsx`
+### `src/components/SettingsDrawer.jsx`
 
 - 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传；文案通过 `t` 获取。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
@@ -67,6 +67,54 @@ index.html
   - 初始、推荐、记录当前视图、复制全部视图按钮
   - 背景色预设、取色器、十六进制输入
 - 没有速度、暂停、循环、自动播放、包围盒等控件。
+
+### `src/components/Clock.jsx`
+
+- 显示当前时间与日期的浮层组件，`visible` 为 `false` 时不渲染。
+- 每秒刷新一次；`visible` 关闭时不创建定时器。
+- 监听 `visibilitychange` 和可选的 `wallpaperPropertyListener.setPaused`，壁纸或标签页恢复可见时立即刷新。
+- 位置和字号由 `offsetX` / `offsetY` / `size` 控制，默认左边 10%、垂直居中；两种版式：`card`（竖排）与 `bar`（横排）。
+- 三层结构：`.clock-anchor` 只管定位（`left` / `bottom` 百分比），`.clock-tilt` 只管 3D 变换，`.clock-card` / `.clock-bar` 只管排版；三者互不覆盖。
+- 字号通过内联 CSS 变量 `--clock-scale`（`size / 100`）缩放 `--clock-time-size` 等基础字号。
+- 视觉上无背景、无边框、无卡片阴影，只有 `text-shadow` 保证可读性。
+- **倾斜分两步**：`window` 的 `pointermove` 只更新目标角（`computeClockTilt()` 按**视口**尺寸归一化）；一个 rAF 循环用 `smoothStep()` 把渲染值指数缓动到目标，每帧只在角度实际变化时才 `setState`。
+- 不使用 CSS `transition`：目标值在指针移动时持续变化，CSS 过渡会被反复重启而产生卡顿，所以缓动完全由 rAF 接管。
+- 按视口而非卡片尺寸归一化是关键：按卡片尺寸时，指针一离开卡片就撞上 `clamp` 上限，表现为"过临界点瞬间跳到极限"。
+- 指针离开窗口（`pointerleave`）时目标归零；`prefers-reduced-motion: reduce` 下强制平放。
+- 浮层设置 `pointer-events: none`，不拦截画布点击，所以开着时钟也能触发 `action`。
+- **音频律动**：`reactToBeat` 打开时，同一个 rAF 循环读取音频低频并叠加 `scale` 与 `--clock-beat-glow` 变量；不额外起定时器。
+
+### `src/components/Spectrum.jsx`
+
+- 128 根柱子的音频频谱浮层，贴在屏幕底边或顶边，高度由 `height`（vh 百分比）控制。
+- 用 **Canvas 2D** 绘制而不是 128 个 DOM 节点：`requestAnimationFrame` 中一次 `fillRect` 循环完成整帧。
+- 每帧顺序：读音频目标 → `smoothAudioLevel()` 缓动实际高度 → 绘制带渐变的柱子。没有峰值标记。
+- 画布 backing store 用 CSS 像素（与 WebGL canvas 一致，不乘 `devicePixelRatio`）。
+- `pointer-events: none`，不拦截画布点击；`aria-hidden`，对辅助技术隐藏。
+- `position: 'top'` 通过 `transform: scaleY(-1)` 翻转，避免再写一套绘制逻辑。
+
+### `src/wallpaperAudio.js`
+
+- 在 `index.html` 的 `<head>` 中由内联经典脚本注册（早于 Vite 的 module 脚本），把 128 长度数组和到达时间戳写到 `window.__weAudioFrame` / `window.__weAudioAt`。
+- `src/wallpaperAudio.js` 只读取这两个全局值，无副作用，导出 `isWallpaperAudioAvailable()` 与 `getWallpaperAudioFrame(staleMs = 1500)`；超过 1.5 秒未更新的帧视为过期并返回 `null`，让消费端回到静止而不是冻结在最后一帧。
+- 官方文档明确：**不能**在 `window.onload` 或类似事件里注册，否则会漏事件。
+- `public/project.json` 的 `general.supportsaudioprocessing` 必须嵌在 `general` 内，写在顶层会被引擎忽略。
+
+### `src/audio.js`
+
+- 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` 常量。
+- `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.02` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
+- `syntheticSpectrum(t)` 生成确定性的模拟频谱，供浏览器预览；负时间返回全 0。
+- `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
+
+### `src/clock.js`
+
+- 纯函数模块，不依赖 React：`formatClockTime`、`formatClockDateParts`、`formatClockZone`、`computeClockTilt`、`smoothStep`、`weekdayKey`。
+- 同时导出时钟布局范围常量 `CLOCK_OFFSET_X_LIMIT`、`CLOCK_OFFSET_Y_MIN`、`CLOCK_OFFSET_Y_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，由 `App.jsx` 和 `SettingsDrawer.jsx` 共用，避免控件范围与校验范围不一致。
+- `formatClockDateParts` 始终返回**具体年月日**（如 `2026年11月12日`）和周几 key；不返回"今天/昨天/明天"这类相对词，否则会把真实日期隐藏掉。
+- 时间固定 24 小时制；日期顺序按界面语言通过 `Intl.DateTimeFormat` 格式化。
+- `computeClockTilt(point, bounds, { maxTilt })` 把指针相对 **`bounds` 中心**（传入视口）的偏移归一化到 `[-1, 1]`，再乘 `maxTilt`（默认 14°）。指针在视口内时角度随位置线性变化；参数缺失或尺寸为 0 时返回 `{ rotateX: 0, rotateY: 0 }`。
+- `smoothStep(current, target, deltaSeconds, speed = 8)` 用 `1 - e^(-speed·dt)` 做帧率无关的指数缓动；差值小于 `0.01` 时直接吸附到目标。`deltaSeconds` 非正或 `current` 非有限值时返回安全值。
 
 ### `src/i18n.js`
 
@@ -352,7 +400,9 @@ localStorage key: spine-viewer:eye-hint:v1
 ## 相关文件
 
 - [src/App.jsx](../src/App.jsx)
-- [src/SettingsDrawer.jsx](../src/SettingsDrawer.jsx)
+- [src/components/SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx)
+- [src/components/Clock.jsx](../src/components/Clock.jsx)
+- [src/clock.js](../src/clock.js)
 - [src/spineStage.js](../src/spineStage.js)
 - [src/spine-webgl.js](../src/spine-webgl.js)
 - [src/styles.css](../src/styles.css)

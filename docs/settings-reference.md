@@ -128,6 +128,98 @@ percent = round(scale × 100)
 - 持久化：写入 `localStorage` 的 `spine-viewer:language:v1`
 - 切换后立即更新界面文案、状态信息和 `<html lang>`
 
+### 时钟显示 `clock`（独立 state）
+
+时间与日期显示不是 `viewSettings` 的字段，而是 `src/App.jsx` 中独立的 `clock` state：
+
+```js
+const DEFAULT_CLOCK = {
+  show: false,
+  placement: 'card',
+  offsetX: 10,
+  offsetY: 50,
+  size: 100,
+  reactToBeat: false,
+}
+```
+
+| 字段 | 类型 | 默认值 | 范围 | 说明 |
+| --- | --- | --- | --- | --- |
+| `show` | `boolean` | `false` | — | 是否显示当前时间与日期 |
+| `placement` | `'card' \| 'bar'` | `'card'` | — | `card` 为竖排大卡片，`bar` 为横排条 |
+| `offsetX` | `number` | `10` | `-90`–`90` | 水平位置，窗口宽度的百分比，正值向右 |
+| `offsetY` | `number` | `50` | `-10`–`90` | 垂直位置，窗口高度的百分比，正值向上 |
+| `size` | `number` | `100` | `40`–`200` | 字号百分比，`100` 为默认大小 |
+| `reactToBeat` | `boolean` | `false` | — | 是否随音频低频律动（缩放 + 光晕） |
+
+默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
+
+- 位置以**左下角**为原点；`offsetY` 下限故意收窄到 `-10`，因为卡片挂在底边，更大的负值会把时钟推到屏幕外且无法拖回。
+- 范围常量定义在 [src/clock.js](../src/clock.js)：`CLOCK_OFFSET_X_LIMIT`、`CLOCK_OFFSET_Y_MIN`、`CLOCK_OFFSET_Y_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
+- 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
+- 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这五个字段）。
+- 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
+- 时间每秒刷新一次；秒数不变时不触发 React 重渲染。
+- 时钟**没有背景**：无边框、无底色、无卡片阴影，只有文字和一层柔和投影保证在亮色画面上可读。
+- 时钟浮层设置了 `pointer-events: none`，不会拦截画布的点击触发 `action`。
+- **跟随鼠标摆动**：浮层按鼠标相对**视口中心**的位置做 3D 倾斜（`perspective(900px) rotateX/rotateY`，最大 14°）。鼠标指向右上角区域时，右上角向观察者翘起、左下角向屏幕内侧下沉；指向其它方向同理。
+  - 角度按视口尺寸归一化，所以鼠标在整个屏幕上移动时倾斜**线性变化**，不会一出卡片就跳到极限。
+  - 倾斜值用 rAF 循环 + 指数缓动（`smoothStep`）追随目标，帧率无关且平滑，收尾时自动吸附。
+  - 指针移出窗口后回到平放。
+  - 计算逻辑是 `computeClockTilt()` 与 `smoothStep()`。
+  - 组件不再使用 CSS `transition`，避免每次指针移动都重启过渡造成卡顿。
+- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时，倾斜与过渡都关闭。
+- Wallpaper Engine 中壁纸被暂停/恢复时，通过 `wallpaperPropertyListener.setPaused` 或 `visibilitychange` 立即刷新显示。
+- 时间格式固定为 24 小时制；日期与周几跟随界面语言（中文/英文/日文/韩文）。
+
+## 音频频谱 `spectrum`（独立 state）
+
+频谱柱状图有自己的 state，与时钟的 `reactToBeat` 相互独立：
+
+```js
+const DEFAULT_SPECTRUM = {
+  show: false,
+  position: 'bottom',
+  height: 22,
+}
+```
+
+| 字段 | 类型 | 默认值 | 范围 | 说明 |
+| --- | --- | --- | --- | --- |
+| `show` | `boolean` | `false` | — | 是否显示频谱 |
+| `position` | `'bottom' \| 'top'` | `'bottom'` | — | 贴屏幕哪一边 |
+| `height` | `number` | `22` | `8`–`60` | 占用屏幕高度的百分比 |
+
+- 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
+- 共 **128 根柱子**，与 Wallpaper Engine 的 128 个频段一一对应：左声道占 0–63，右声道镜像占 64–127，低频在两端。
+- 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制。
+- 只绘制柱子，没有峰值标记。
+- 浮层 `pointer-events: none`，不拦截画布点击。
+- 数据来源与时钟律动相同，见下节 `reactToBeat`。
+
+## 音频响应 `reactToBeat`
+
+- 打开后时钟随音频**低频（bass）**律动：最大放大 12%，并叠加一层随强度增长的光晕。
+- 数据来源分两种：
+  - **Wallpaper Engine**：`window.wallpaperRegisterAudioListener` 推送的 128 长度数组（`0–63` 左声道、`64–127` 右声道，低索引为低频）。监听在 [src/wallpaperAudio.js](../src/wallpaperAudio.js) 中于**模块顶层**注册，`src/main.jsx` 在 `createRoot` 之前调用，不能放进 `useEffect` 或 `window.onload`。
+  - **浏览器**：无法读取系统音频，使用 `syntheticAudioLevel()` 生成的确定性模拟节拍。
+- 数据来源分两种，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
+  - **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时柱状图为**静音**，绝不回退到模拟数据。
+  - **浏览器中**（API 不存在）：无法读取系统音频，使用 `syntheticSpectrum()` 生成的确定性模拟频谱。
+- 静音阈值 `NOISE_FLOOR = 0.02`：低于该值的采样视为静音并归零，避免引擎残留底噪让 128 根柱子持续微颤。高于阈值的值会重新缩放，不产生可见跳变。
+- 帧超过 **1.5 秒**没有更新视为过期（`getWallpaperAudioFrame(staleMs)`），柱状图回到静止，而不是冻结在最后一次响亮的画面上。
+- 调试面板的「音频数据」一行只显示三态：`非 WE 环境` / `已注册，等待音频数据` / `接收中`。
+- 数值处理在 [src/audio.js](../src/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动，attack 约 50ms 冲到 95%，release 约 500ms 衰减到 5%。
+- 律动与倾斜共用同一个 rAF 循环，只写 CSS 变量和 transform，不额外触发重排。
+- `public/project.json` 的音频开关必须写在 **`general` 对象内部**，不是顶层：
+
+  ```json
+  { "general": { "supportsaudioprocessing": true } }
+  ```
+
+  Wallpaper Engine 的原生结构还包含 `general.properties.schemecolor`，`type` 是 `"Web"`（大写）。写在顶层（`"supportsaudioprocessing": true` 平级于 `file`）会被引擎忽略——表现为注册成功但回调恒为 0 次。
+- 若音频仍不工作，先在 WE 设置 → General → Media 中确认 **audio recording device** 选对，并确认 WE 在 Windows 音量合成器中没有被静音——引擎在录不到声音时不会推送任何音频帧。
+
 ### `currentAnimation`
 
 - 类型：`string`

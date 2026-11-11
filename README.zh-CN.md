@@ -257,8 +257,11 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 ├─ src/
 │  ├─ main.jsx              # React 入口
 │  ├─ App.jsx               # 状态、canvas、Stage 启动、模型清单
-│  ├─ SettingsDrawer.jsx    # 设置抽屉 + 模型选择
+│  ├─ components/
+│  │  ├─ SettingsDrawer.jsx # 设置抽屉 + 模型选择
+│  │  └─ Clock.jsx          # 时间与日期浮层
 │  ├─ i18n.js               # 中文 / 英文 / 日文 / 韩文文案
+│  ├─ clock.js              # 时钟格式化工具（纯函数）
 │  ├─ spineStage.js         # WebGL / 资源 / 动画 / 相机 / 渲染循环
 │  ├─ spine-webgl.js        # vendored Spine 3.8.99 运行时
 │  └─ styles.css
@@ -268,7 +271,7 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 └─ README.md
 ```
 
-没有 `src/spine/`、`hooks/`、`components/` 这些目录，也没有 `tsconfig.json`。当前模型格式要求 `angel` + `bg`，每个图层各一套 `.skel` / `.atlas` / `.png`。
+React 组件放在 `src/components/`；`src/` 根目录保留入口、应用状态、纯函数模块（如 `clock.js`）、Spine 运行时与样式。没有 `hooks/` 目录，也没有 `tsconfig.json`。当前模型格式要求 `angel` + `bg`，每个图层各一套 `.skel` / `.atlas` / `.png`。
 
 ## 数据流
 

@@ -1,10 +1,111 @@
 import { useEffect, useRef, useState } from 'react'
-import SettingsDrawer from './SettingsDrawer.jsx'
+import SettingsDrawer from './components/SettingsDrawer.jsx'
+import Clock from './components/Clock.jsx'
+import Spectrum from './components/Spectrum.jsx'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
+import { CLOCK_OFFSET_X_LIMIT, CLOCK_OFFSET_Y_MAX, CLOCK_OFFSET_Y_MIN, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './clock.js'
+import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
 
 const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
 const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
+const CLOCK_KEY = 'spine-viewer:clock:v1'
+const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
+const CLOCK_PLACEMENTS = ['card', 'bar']
+// Clock position is stored as a percentage of the viewport, measured from the
+// bottom-left anchor corner, so a saved offset keeps its intent across
+// resolutions. Limits live in clock.js and are shared with the drawer.
+const DEFAULT_CLOCK = {
+  show: false,
+  placement: 'card',
+  offsetX: 10,
+  offsetY: 50,
+  size: 100,
+  reactToBeat: false,
+}
+
+function clampNumber(value, fallback, min, max) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) return fallback
+  return Math.min(Math.max(number, min), max)
+}
+
+// Single place that turns any clock object into a valid one. Applied on load
+// from localStorage and on every update, so no out-of-range value can reach the
+// overlay, the drawer or storage.
+function normalizeClock(value, fallback = DEFAULT_CLOCK) {
+  const source = value && typeof value === 'object' && !Array.isArray(value) ? value : {}
+  return {
+    show: typeof source.show === 'boolean' ? source.show : fallback.show,
+    placement: CLOCK_PLACEMENTS.includes(source.placement)
+      ? source.placement
+      : fallback.placement,
+    offsetX: clampNumber(
+      source.offsetX,
+      fallback.offsetX,
+      -CLOCK_OFFSET_X_LIMIT,
+      CLOCK_OFFSET_X_LIMIT,
+    ),
+    offsetY: clampNumber(
+      source.offsetY,
+      fallback.offsetY,
+      CLOCK_OFFSET_Y_MIN,
+      CLOCK_OFFSET_Y_MAX,
+    ),
+    size: clampNumber(source.size, fallback.size, CLOCK_SIZE_MIN, CLOCK_SIZE_MAX),
+    reactToBeat:
+      typeof source.reactToBeat === 'boolean' ? source.reactToBeat : fallback.reactToBeat,
+  }
+}
+
+function loadClockSettings() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(CLOCK_KEY) ?? 'null')
+    return normalizeClock(value)
+  } catch {
+    return DEFAULT_CLOCK
+  }
+}
+
+function saveClockSettings(clock) {
+  try {
+    window.localStorage.setItem(CLOCK_KEY, JSON.stringify(clock))
+  } catch {
+    return
+  }
+}
+
+// The spectrum keeps its own preferences so enabling audio visualisation does
+// not depend on the clock being shown.
+const DEFAULT_SPECTRUM = {
+  show: false,
+  position: 'bottom',
+  height: 22,
+}
+
+function loadSpectrumSettings() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(SPECTRUM_KEY) ?? 'null')
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_SPECTRUM
+    return {
+      show: value.show === true,
+      position: ['bottom', 'top'].includes(value.position)
+        ? value.position
+        : DEFAULT_SPECTRUM.position,
+      height: clampNumber(value.height, DEFAULT_SPECTRUM.height, 8, 60),
+    }
+  } catch {
+    return DEFAULT_SPECTRUM
+  }
+}
+
+function saveSpectrumSettings(spectrum) {
+  try {
+    window.localStorage.setItem(SPECTRUM_KEY, JSON.stringify(spectrum))
+  } catch {
+    return
+  }
+}
 
 function hasSeenEyeHint() {
   try {
@@ -155,8 +256,15 @@ function loadJson(url, t) {
   })
 }
 
-function collectDebugInfo(canvas, t) {
-  const userAgent = navigator.userAgent
+// Surfaces whether Wallpaper Engine audio is actually flowing. Without this the
+// spectrum silently falls back to synthetic data and looks alive with no music.
+function describeAudioFrame(t) {
+  if (!isWallpaperAudioAvailable()) return t('debug.audioUnavailable')
+  if (!getWallpaperAudioFrame()) return t('debug.audioWaiting')
+  return t('debug.audioActive')
+}
+
+function collectDebugInfo(canvas, t) {  const userAgent = navigator.userAgent
   const weApi = window.wallpaperPropertyListener
     ? 'wallpaperPropertyListener'
     : typeof window.wallpaperRegisterAudioListener === 'function'
@@ -198,6 +306,7 @@ function collectDebugInfo(canvas, t) {
     { label: t('debug.language'), value: navigator.language || t('common.unknown') },
     { label: t('debug.webgl'), value: readWebglInfo(canvas, t) },
     { label: t('debug.weApi'), value: weApi },
+    { label: t('debug.audio'), value: describeAudioFrame(t) },
     { label: t('debug.page'), value: window.location.href },
     { label: t('debug.userAgent'), value: userAgent },
   ]
@@ -229,6 +338,17 @@ export default function App() {
   }))
   const [recordedViews, setRecordedViews] = useState(loadModelViews)
   const modelViewsRef = useRef(recordedViews)
+  const [clock, setClock] = useState(loadClockSettings)
+
+  useEffect(() => {
+    saveClockSettings(clock)
+  }, [clock])
+
+  const [spectrum, setSpectrum] = useState(loadSpectrumSettings)
+
+  useEffect(() => {
+    saveSpectrumSettings(spectrum)
+  }, [spectrum])
 
   useEffect(() => {
     saveLanguage(language)
@@ -425,6 +545,22 @@ export default function App() {
     stageRef.current?.triggerAction()
   }
 
+  // Numeric clock fields are clamped on every write as well as on load, so an
+  // out-of-range value can never reach the overlay or localStorage.
+  const updateClock = (patch) => {
+    setClock((previous) => normalizeClock({ ...previous, ...patch }, previous))
+  }
+
+  const updateSpectrum = (patch) => {
+    setSpectrum((previous) => {
+      const next = { ...previous, ...patch }
+      return {
+        ...next,
+        height: clampNumber(next.height, previous.height, 8, 60),
+      }
+    })
+  }
+
   return (
     <main
       className="viewer"
@@ -434,6 +570,17 @@ export default function App() {
         ref={canvasRef}
         className="viewer__canvas"
         onPointerUp={handleCanvasPointerUp}
+      />
+      <Spectrum visible={spectrum.show} position={spectrum.position} height={spectrum.height} />
+      <Clock
+        visible={clock.show}
+        placement={clock.placement}
+        offsetX={clock.offsetX}
+        offsetY={clock.offsetY}
+        size={clock.size}
+        reactToBeat={clock.reactToBeat}
+        language={language}
+        t={t}
       />
       {debugOpen && (
         <div className="debug-hud">
@@ -522,6 +669,10 @@ export default function App() {
         onModelChange={handleModelChange}
         debugOpen={debugOpen}
         onDebugChange={setDebugOpen}
+        clock={clock}
+        onClockChange={updateClock}
+        spectrum={spectrum}
+        onSpectrumChange={updateSpectrum}
         status={status}
         isError={isError}
         modelId={selectedModel?.id ?? ''}

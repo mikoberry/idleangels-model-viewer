@@ -39,6 +39,11 @@
   --debug-label-width: clamp(86px, 7vw, 120px);
   --debug-panel-max-height: min(70vh, 640px);
   --toggle-size: clamp(16px, 1.4vh, 22px);
+  /* Clock overlay type sizes: deliberately larger than the drawer's base scale
+     so the time reads from across the room, as it does on a wallpaper. */
+  --clock-time-size: clamp(38px, 5.2vh, 84px);
+  --clock-date-size: clamp(14px, 1.5vh, 24px);
+  --clock-zone-size: clamp(11px, 0.95vh, 16px);
   --radius-sm: clamp(8px, 0.7vh, 12px);
   --radius-md: clamp(10px, 0.9vh, 16px);
   --radius-lg: clamp(12px, 1.1vh, 20px);
@@ -101,6 +106,10 @@ button {
   max-width: min(640px, calc(100% - var(--ui-gutter-2)));
   pointer-events: none;
 }
+
+/* The clock sits in the bottom-left corner and the debug panel in the top-left,
+   so they no longer share a slot; the offset variable stays available for the
+   top-centre bar variant on narrow screens. */
 
 .debug-panel {
   width: min(var(--debug-panel-width), calc(100vw - var(--ui-gutter-2)));
@@ -1010,9 +1019,163 @@ button {
 .model-select__search:focus-visible,
 .model-select__option:focus-visible,
 .color-swatch:focus-visible,
+.clock-placement__option:focus-visible,
 .color-value:focus-visible {
   outline: 2px solid rgba(143, 168, 255, 0.55);
   outline-offset: 3px;
+}
+
+.clock-placement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.clock-placement__label {
+  color: rgba(226, 232, 247, 0.56);
+  font-size: var(--text-sm);
+}
+
+.clock-placement__options {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.clock-placement__option {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(143, 168, 255, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(238, 242, 252, 0.78);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.clock-placement__option:hover {
+  background: rgba(143, 168, 255, 0.14);
+}
+
+.clock-placement__option.is-active {
+  border-color: rgba(143, 168, 255, 0.55);
+  background: rgba(143, 168, 255, 0.2);
+  color: #f2f5ff;
+}
+
+/* Clock overlay: sits above the canvas but never intercepts clicks, so the
+   click-to-action gesture still works wherever the clock is displayed.
+
+   The clock is deliberately chrome-less: no background, border or card shadow.
+   Text floats directly over the wallpaper, with a soft shadow only to keep it
+   legible over bright artwork. */
+.clock-anchor {
+  position: absolute;
+  bottom: var(--ui-gutter);
+  left: var(--ui-gutter);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.clock-tilt {
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  /* No transition: Clock.jsx eases the angles itself in a rAF loop. Adding a
+     CSS transition here would restart on every pointer move and stutter. */
+  pointer-events: none;
+  will-change: transform;
+}
+
+.clock-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12em;
+  color: #f4f7ff;
+  /* --clock-beat-glow is 0 when audio reactivity is off, so the shadow falls
+     back to the plain readability layer. */
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.72),
+    0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
+  user-select: none;
+}
+
+.clock-card__date {
+  font-size: calc(var(--clock-date-size) * var(--clock-scale, 1));
+  letter-spacing: 0.06em;
+  color: rgba(238, 242, 252, 0.82);
+}
+
+.clock-card__time {
+  font-size: calc(var(--clock-time-size) * var(--clock-scale, 1));
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.clock-card__zone {
+  font-size: calc(var(--clock-zone-size) * var(--clock-scale, 1));
+  letter-spacing: 0.14em;
+  color: rgba(238, 242, 252, 0.62);
+}
+
+.clock-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  color: #f4f7ff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.72),
+    0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
+  user-select: none;
+}
+
+.clock-bar__time {
+  font-size: calc(var(--clock-time-size) * 0.62 * var(--clock-scale, 1));
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.clock-bar__separator,
+.clock-bar__date {
+  font-size: calc(var(--clock-date-size) * var(--clock-scale, 1));
+  color: rgba(238, 242, 252, 0.82);
+}
+
+.clock-bar__zone {
+  font-size: calc(var(--clock-zone-size) * var(--clock-scale, 1));
+  letter-spacing: 0.14em;
+  color: rgba(238, 242, 252, 0.62);
+}
+
+/* Audio spectrum: a full-width bar equaliser along an edge of the screen.
+   Like the clock it never intercepts pointer events, so click-to-action keeps
+   working over it. */
+.spectrum {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  height: var(--spectrum-height, 22vh);
+  pointer-events: none;
+}
+
+.spectrum--bottom {
+  bottom: 0;
+}
+
+.spectrum--top {
+  top: 0;
+  transform: scaleY(-1);
+}
+
+.spectrum__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 640px) {
@@ -1023,6 +1186,11 @@ button {
 
   .viewer__settings-button {
     right: var(--space-5);
+    bottom: var(--space-5);
+  }
+
+  .clock-anchor {
+    left: var(--space-5);
     bottom: var(--space-5);
   }
 }

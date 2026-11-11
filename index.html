@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:," />
     <title>IdleAngels 模型查看器</title>
+
+    <!--
+      Wallpaper Engine audio listener, registered by inline classic script.
+
+      It lives here, before Vite's module script, so registration happens during
+      HTML parsing rather than after the deferred module runs. The handler only
+      stores the latest frame on window; the React app reads it through
+      src/wallpaperAudio.js.
+
+      `general.supportsaudioprocessing` in project.json must stay nested under
+      "general" - see AGENTS.md.
+    -->
+    <script>
+      window.__weAudioFrame = null;
+      window.__weAudioAt = 0;
+
+      if (typeof window.wallpaperRegisterAudioListener === 'function') {
+        window.wallpaperRegisterAudioListener(function (audioArray) {
+          if (!audioArray || typeof audioArray.length !== 'number' || audioArray.length < 128) {
+            return;
+          }
+          // Copy once so the engine can reuse its own buffer.
+          window.__weAudioFrame = Float32Array.from(audioArray);
+          window.__weAudioAt = Date.now();
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

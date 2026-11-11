@@ -161,7 +161,7 @@ atlas 的页面名会相对于 atlas 文件所在目录解析。因此 `.skel`�
 
 - [src/spineStage.js](../src/spineStage.js)
 - [src/spine-webgl.js](../src/spine-webgl.js)
-- [src/SettingsDrawer.jsx](../src/SettingsDrawer.jsx)
+- [src/components/SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx)
 - [scripts/import-models.mjs](../scripts/import-models.mjs)
 - [scripts/prepare-models.mjs](../scripts/prepare-models.mjs)
 - [scripts/package-models.mjs](../scripts/package-models.mjs)

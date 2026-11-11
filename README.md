@@ -139,8 +139,11 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 ├─ src/
 │  ├─ main.jsx
 │  ├─ App.jsx
-│  ├─ SettingsDrawer.jsx
+│  ├─ components/
+│  │  ├─ SettingsDrawer.jsx
+│  │  └─ Clock.jsx
 │  ├─ i18n.js
+│  ├─ clock.js
 │  ├─ spineStage.js
 │  ├─ spine-webgl.js
 │  └─ styles.css
