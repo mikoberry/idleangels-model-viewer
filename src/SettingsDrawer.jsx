@@ -660,18 +660,23 @@ export default function SettingsDrawer({
 
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.language')}</span>
-        <select
-          className="language-select"
-          value={language}
+        <div
+          className="language-options"
+          role="group"
           aria-label={t('drawer.language')}
-          onChange={(event) => onLanguageChange(event.currentTarget.value)}
         >
           {LANGUAGES.map((item) => (
-            <option key={item.id} value={item.id}>
+            <button
+              key={item.id}
+              type="button"
+              className={`language-option${language === item.id ? ' is-selected' : ''}`}
+              aria-pressed={language === item.id}
+              onClick={() => onLanguageChange(item.id)}
+            >
               {item.label}
-            </option>
+            </button>
           ))}
-        </select>
+        </div>
       </section>
 
       <section className="inspector-section">
