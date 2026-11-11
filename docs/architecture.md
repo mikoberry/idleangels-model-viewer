@@ -37,15 +37,15 @@ index.html
 
 - 持有：
   - `canvasRef` / `stageRef`
-  - `status` / `isError`
+  - `statusState` / `status` / `isError`
   - `isDrawerOpen`
   - `showEyeHint`
   - `debugOpen` / `debugInfo`
   - `animations` / `currentAnimation`
   - `models` / `selectedModelId`
   - `viewSettings`
-- 挂载后 fetch `spine/models/manifest.json`，默认选中 `models[0]`。
-- 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })`；切换模型会先 dispose 旧 Stage。
+- 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
+- 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
 - 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
 - 把 `backgroundColor` 写到 `<main>` 的内联样式。
@@ -55,17 +55,25 @@ index.html
 
 ### `src/SettingsDrawer.jsx`
 
-- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传。
+- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传；文案通过 `t` 获取。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
 - 包含：
+  - 中文 / English / 日本語 / 한국어 语言按钮
   - 可搜索的 Spine 模型选择器
   - Spine 动画下拉框
   - “点击画面触发 action”开关
   - 缩放滑杆、数字输入、±1% 步进
   - 水平/垂直位置滑杆、数字输入、±1% 步进
-  - 两个视图复位按钮
+  - 初始、推荐、记录当前视图、复制全部视图按钮
   - 背景色预设、取色器、十六进制输入
 - 没有速度、暂停、循环、自动播放、包围盒等控件。
+
+### `src/i18n.js`
+
+- 提供 `zh` / `en` / `ja` / `ko` 四套扁平 key 文案。
+- `detectLanguage()` 优先读取 `spine-viewer:language:v1`，否则按浏览器语言回退英文。
+- `getTranslator(language)` 返回 `t(key, vars)`，负责插值；App 把 `t` 传给抽屉和 Stage。
+- 页面 `<html lang>` 和 `document.title` 由 App 在语言变化时更新。
 
 ### `src/spineStage.js`
 

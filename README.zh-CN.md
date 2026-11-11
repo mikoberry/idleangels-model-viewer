@@ -1,6 +1,6 @@
 [English](README.md) | **简体中文**
 
-# Spine 3.8 WebGL Viewer
+# IdleAngels 模型查看器
 
 > 在线体验：<https://mikoberry.github.io/idleangels-model-viewer/>
 
@@ -39,7 +39,7 @@ https://mikoberry.github.io/idleangels-model-viewer/
 ## 功能
 
 - Spine 3.8.99 二进制骨架加载与 WebGL 渲染
-- 多模型选择：按目录名搜索，切换时重载 Stage
+- 多模型选择：按目录名、拼音首字母、全拼或模型文件名搜索，切换时重载 Stage
 - `idle` / `action` 动画切换；`action` 播放一次后自动回到 `idle`
 - 点击画面触发 `action`（抽屉关闭且开关开启时）
 - 画面缩放（50%–500%，支持滑杆、输入框和 ±1% 步进）
@@ -204,14 +204,16 @@ Settings → Pages → Build and deployment → Source
 站点地址：
 
 ```text
-https://mikoberry.github.io/anime-model-viewer/
+https://mikoberry.github.io/idleangels-model-viewer/
 ```
 
-GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署超过 10 分钟会超时。当前部署子集约 296 MB，低于 1 GB。
+GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署超过 10 分钟会超时。当前部署子集约 294 MB，低于 1 GB。
+
+线上版包含 Cloudflare Web Analytics，仅统计页面加载的聚合访问量，不写 Cookie；模型切换不会被当作新的页面浏览。
 
 ## 设置项
 
-设置保存在 `src/App.jsx` 的 `viewSettings` React state 中，**不会持久化**。
+设置保存在 `src/App.jsx` 的 `viewSettings` React state 中；全局设置不会自动持久化，点击“记录当前视图”后会按模型写入 `localStorage`。
 
 | 设置 | 默认值 | 范围 / 说明 |
 | --- | --- | --- |

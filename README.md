@@ -1,6 +1,6 @@
 **English** | [简体中文](README.zh-CN.md)
 
-# Spine 3.8 WebGL Viewer
+# IdleAngels Model Viewer
 
 > Live demo: <https://mikoberry.github.io/idleangels-model-viewer/>
 
@@ -165,6 +165,8 @@ Settings → Pages → Build and deployment → Source → GitHub Actions
 ```
 
 GitHub Pages limits the published site to 1 GB and has a soft bandwidth limit of 100 GB/month. The current deployment subset is about 294 MB.
+
+The deployed page includes Cloudflare Web Analytics for aggregate page-load traffic. It is cookieless and does not create a new page view when switching models.
 
 ## Documentation
 
