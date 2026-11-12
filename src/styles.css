@@ -1282,7 +1282,10 @@ button {
    Clock Themes & Styles
    ========================================================================== */
 
-.clock--theme-light {
+/* Text-colour palettes. The class name matches the user-facing theme: the
+   "light" theme renders light text on the wallpaper, the "dark" theme renders
+   dark text. Layouts that opt out define their own palette (cyberpunk, infobar). */
+.clock--theme-dark {
   color: #1a1e28;
   text-shadow:
     0 1px 4px rgba(255, 255, 255, 0.85),
@@ -1291,11 +1294,15 @@ button {
 
 /* 1. 极简数字时钟（Minimal Digital） */
 .clock-minimal-digital {
+  /* Light text on wallpaper (the default). */
+  --clock-fg: #f4f7ff;
+  --clock-fg-dim: rgba(238, 242, 252, 0.82);
+  --clock-fg-faint: rgba(238, 242, 252, 0.62);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #f4f7ff;
+  color: var(--clock-fg);
   user-select: none;
   cursor: pointer;
   text-shadow:
@@ -1303,14 +1310,22 @@ button {
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
 }
 
-.clock-minimal-digital.clock--theme-light {
-  color: #1a1e28;
+/* Dark text: swap the palette and the halo so it reads on bright artwork. */
+.clock-minimal-digital.clock--theme-dark {
+  --clock-fg: #1a1e28;
+  --clock-fg-dim: rgba(26, 30, 40, 0.82);
+  --clock-fg-faint: rgba(26, 30, 40, 0.62);
+  color: var(--clock-fg);
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-minimal-digital__time {
   display: flex;
   align-items: baseline;
   justify-content: center;
+  color: var(--clock-fg);
   font-family: "Inter", "SF Pro", system-ui, sans-serif;
   font-size: calc(var(--clock-time-size) * 1.3 * var(--clock-scale, 1));
   font-weight: 300;
@@ -1339,6 +1354,7 @@ button {
 
 .clock-minimal-digital__date {
   margin-top: 0.25em;
+  color: var(--clock-fg-dim);
   font-size: calc(var(--clock-date-size) * 1.05 * var(--clock-scale, 1));
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -1347,6 +1363,7 @@ button {
 
 .clock-minimal-digital__zone {
   margin-top: 0.15em;
+  color: var(--clock-fg-faint);
   font-size: calc(var(--clock-zone-size) * 0.95 * var(--clock-scale, 1));
   font-weight: 300;
   letter-spacing: 0.08em;
@@ -1354,30 +1371,43 @@ button {
 }
 
 /* 2. 赛博朋克霓虹时钟（Cyberpunk Neon） */
+/* This layout paints its own card, so the theme follows the card background:
+   the light theme is a pale card with dark text, the dark theme is the neon card
+   with bright text. The accent colours track the background to stay legible. */
 .clock-cyberpunk {
+  /* Neon accents for the pale card: the same hues, darkened. */
+  --cyber-accent: #007a8a;
+  --cyber-sec: #c4006a;
+  --cyber-ampm: #8a7900;
+  --cyber-footer: #2c354f;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
   padding: calc(14px * var(--clock-scale, 1)) calc(20px * var(--clock-scale, 1));
-  background: rgba(6, 10, 20, 0.82);
-  border: 1px solid #00f0ff;
+  background: rgba(240, 245, 255, 0.9);
+  border: 1px solid #ff007f;
   border-radius: calc(8px * var(--clock-scale, 1));
-  box-shadow:
-    0 0 15px rgba(0, 240, 255, 0.35),
-    inset 0 0 15px rgba(0, 240, 255, 0.15);
-  color: #00f0ff;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+  color: var(--cyber-accent);
   font-family: "JetBrains Mono", "Fira Code", monospace, sans-serif;
   user-select: none;
   cursor: pointer;
   overflow: hidden;
 }
 
-.clock-cyberpunk.clock--theme-light {
-  background: rgba(240, 245, 255, 0.9);
-  border-color: #ff007f;
-  color: #0a0e1c;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+/* Dark theme: the neon card with bright glowing accents. */
+.clock-cyberpunk.clock--theme-dark {
+  --cyber-accent: #00f0ff;
+  --cyber-sec: #ff2d95;
+  --cyber-ampm: #fffa65;
+  --cyber-footer: #e2f8ff;
+  background: rgba(6, 10, 20, 0.82);
+  border-color: #00f0ff;
+  box-shadow:
+    0 0 15px rgba(0, 240, 255, 0.35),
+    inset 0 0 15px rgba(0, 240, 255, 0.15);
+  color: var(--cyber-accent);
 }
 
 .clock-cyberpunk__scanline {
@@ -1386,10 +1416,15 @@ button {
   left: 0;
   right: 0;
   height: 2px;
-  background: rgba(0, 240, 255, 0.65);
-  box-shadow: 0 0 8px #00f0ff;
+  background: rgba(255, 0, 127, 0.5);
+  box-shadow: none;
   animation: cyberpunk-scan 3.5s linear infinite;
   pointer-events: none;
+}
+
+.clock-cyberpunk.clock--theme-dark .clock-cyberpunk__scanline {
+  background: rgba(0, 240, 255, 0.65);
+  box-shadow: 0 0 8px #00f0ff;
 }
 
 @keyframes cyberpunk-scan {
@@ -1402,21 +1437,25 @@ button {
 .clock-cyberpunk__time {
   display: flex;
   align-items: baseline;
+  color: var(--cyber-accent);
   font-size: calc(var(--clock-time-size) * 1.15 * var(--clock-scale, 1));
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
+}
+
+/* Glow belongs to the dark neon card; the pale card keeps the text crisp. */
+.clock-cyberpunk.clock--theme-dark .clock-cyberpunk__time {
   text-shadow:
     0 0 10px rgba(0, 240, 255, 0.8),
     0 0 24px rgba(0, 240, 255, 0.45);
 }
 
-.clock-cyberpunk.clock--theme-light .clock-cyberpunk__time {
-  text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+.clock-cyberpunk__sec {
+  color: var(--cyber-sec);
 }
 
-.clock-cyberpunk__sec {
-  color: #ff2d95;
+.clock-cyberpunk.clock--theme-dark .clock-cyberpunk__sec {
   text-shadow:
     0 0 10px rgba(255, 45, 149, 0.8),
     0 0 20px rgba(255, 45, 149, 0.45);
@@ -1425,13 +1464,17 @@ button {
 .clock-cyberpunk__ampm {
   font-size: 0.35em;
   margin-left: 0.5em;
-  color: #fffa65;
+  color: var(--cyber-ampm);
 }
 
 .clock-cyberpunk__divider {
   height: 1px;
-  background: linear-gradient(90deg, #00f0ff, #ff2d95, transparent);
+  background: linear-gradient(90deg, #c4006a, #ff007f, transparent);
   margin: 0.2em 0;
+}
+
+.clock-cyberpunk.clock--theme-dark .clock-cyberpunk__divider {
+  background: linear-gradient(90deg, #00f0ff, #ff2d95, transparent);
 }
 
 .clock-cyberpunk__footer {
@@ -1440,43 +1483,45 @@ button {
   gap: 0.7em;
   font-size: calc(var(--clock-date-size) * 0.82 * var(--clock-scale, 1));
   letter-spacing: 0.05em;
-  color: #e2f8ff;
+  color: var(--cyber-footer);
+}
+
+.clock-cyberpunk.clock--theme-dark .clock-cyberpunk__footer {
   text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
 }
 
-.clock-cyberpunk.clock--theme-light .clock-cyberpunk__footer {
-  color: #2c354f;
-  text-shadow: none;
-}
-
 .clock-cyberpunk__weekday {
-  color: #ff2d95;
+  color: var(--cyber-sec);
   font-weight: 700;
 }
 
 /* 3. 横向信息条时钟（Horizontal Info Bar） */
+/* Like the cyberpunk card this layout paints its own pill, so the theme follows
+   the pill background: light theme = pale pill with dark text, dark theme =
+   dark pill with bright text. */
 .clock-infobar {
   display: inline-flex;
   align-items: center;
   gap: calc(14px * var(--clock-scale, 1));
   padding: calc(8px * var(--clock-scale, 1)) calc(18px * var(--clock-scale, 1));
-  background: rgba(14, 18, 28, 0.62);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  color: #f4f7ff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  color: #1a1e28;
   user-select: none;
   cursor: pointer;
   font-family: "JetBrains Mono", "SF Pro", system-ui, monospace;
 }
 
-.clock-infobar.clock--theme-light {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  color: #1a1e28;
+/* Dark theme: dark pill with bright text. */
+.clock-infobar.clock--theme-dark {
+  background: rgba(14, 18, 28, 0.62);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  color: #f4f7ff;
 }
 
 .clock-infobar__sep {
@@ -1502,10 +1547,14 @@ button {
 
 /* Classical Layouts (Card & Bar) */
 .clock-card {
+  /* Light text on wallpaper (the default). */
+  --clock-fg: #f4f7ff;
+  --clock-fg-dim: rgba(238, 242, 252, 0.82);
+  --clock-fg-faint: rgba(238, 242, 252, 0.62);
   display: flex;
   flex-direction: column;
   gap: 0.12em;
-  color: #f4f7ff;
+  color: var(--clock-fg);
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.72),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
@@ -1513,8 +1562,12 @@ button {
   cursor: pointer;
 }
 
-.clock-card.clock--theme-light {
-  color: #1a1e28;
+/* Dark text: swap the palette and the halo so it reads on bright artwork. */
+.clock-card.clock--theme-dark {
+  --clock-fg: #1a1e28;
+  --clock-fg-dim: rgba(26, 30, 40, 0.82);
+  --clock-fg-faint: rgba(26, 30, 40, 0.62);
+  color: var(--clock-fg);
   text-shadow:
     0 1px 4px rgba(255, 255, 255, 0.85),
     0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
@@ -1523,14 +1576,11 @@ button {
 .clock-card__date {
   font-size: calc(var(--clock-date-size) * var(--clock-scale, 1));
   letter-spacing: 0.06em;
-  color: rgba(238, 242, 252, 0.82);
-}
-
-.clock-card.clock--theme-light .clock-card__date {
-  color: rgba(26, 30, 40, 0.82);
+  color: var(--clock-fg-dim);
 }
 
 .clock-card__time {
+  color: var(--clock-fg);
   font-size: calc(var(--clock-time-size) * var(--clock-scale, 1));
   font-variant-numeric: tabular-nums;
   font-weight: 600;
@@ -1541,18 +1591,18 @@ button {
 .clock-card__zone {
   font-size: calc(var(--clock-zone-size) * var(--clock-scale, 1));
   letter-spacing: 0.14em;
-  color: rgba(238, 242, 252, 0.62);
-}
-
-.clock-card.clock--theme-light .clock-card__zone {
-  color: rgba(26, 30, 40, 0.62);
+  color: var(--clock-fg-faint);
 }
 
 .clock-bar {
+  /* Light text on wallpaper (the default). */
+  --clock-fg: #f4f7ff;
+  --clock-fg-dim: rgba(238, 242, 252, 0.82);
+  --clock-fg-faint: rgba(238, 242, 252, 0.62);
   display: flex;
   align-items: baseline;
   gap: 0.5em;
-  color: #f4f7ff;
+  color: var(--clock-fg);
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.72),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
@@ -1560,14 +1610,19 @@ button {
   cursor: pointer;
 }
 
-.clock-bar.clock--theme-light {
-  color: #1a1e28;
+/* Dark text: swap the palette and the halo so it reads on bright artwork. */
+.clock-bar.clock--theme-dark {
+  --clock-fg: #1a1e28;
+  --clock-fg-dim: rgba(26, 30, 40, 0.82);
+  --clock-fg-faint: rgba(26, 30, 40, 0.62);
+  color: var(--clock-fg);
   text-shadow:
     0 1px 4px rgba(255, 255, 255, 0.85),
     0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-bar__time {
+  color: var(--clock-fg);
   font-size: calc(var(--clock-time-size) * 0.62 * var(--clock-scale, 1));
   font-variant-numeric: tabular-nums;
   font-weight: 600;
@@ -1577,34 +1632,42 @@ button {
 .clock-bar__separator,
 .clock-bar__date {
   font-size: calc(var(--clock-date-size) * var(--clock-scale, 1));
-  color: rgba(238, 242, 252, 0.82);
-}
-
-.clock-bar.clock--theme-light .clock-bar__separator,
-.clock-bar.clock--theme-light .clock-bar__date {
-  color: rgba(26, 30, 40, 0.82);
+  color: var(--clock-fg-dim);
 }
 
 .clock-bar__zone {
   font-size: calc(var(--clock-zone-size) * var(--clock-scale, 1));
   letter-spacing: 0.14em;
-  color: rgba(238, 242, 252, 0.62);
-}
-
-.clock-bar.clock--theme-light .clock-bar__zone {
-  color: rgba(26, 30, 40, 0.62);
+  color: var(--clock-fg-faint);
 }
 
 /* Split layout: elegant dual-tier with date pill header */
 .clock-split {
+  /* Light text on wallpaper (the default). */
+  --clock-fg: #f4f7ff;
+  --clock-fg-dim: rgba(240, 244, 255, 0.9);
+  --clock-fg-faint: rgba(240, 244, 255, 0.6);
+  --clock-badge-fg: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
-  color: #f4f7ff;
+  color: var(--clock-fg);
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.72),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
   user-select: none;
+}
+
+/* Dark text: swap the palette and the halo so it reads on bright artwork. */
+.clock-split.clock--theme-dark {
+  --clock-fg: #1a1e28;
+  --clock-fg-dim: rgba(26, 30, 40, 0.9);
+  --clock-fg-faint: rgba(26, 30, 40, 0.6);
+  --clock-badge-fg: #1a1e28;
+  color: var(--clock-fg);
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-split__header {
@@ -1623,21 +1686,22 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.25);
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: #ffffff;
+  color: var(--clock-badge-fg);
 }
 
 .clock-split__date {
   letter-spacing: 0.06em;
-  color: rgba(240, 244, 255, 0.9);
+  color: var(--clock-fg-dim);
 }
 
 .clock-split__zone {
   font-size: calc(var(--clock-zone-size) * 0.9 * var(--clock-scale, 1));
-  color: rgba(240, 244, 255, 0.6);
+  color: var(--clock-fg-faint);
   letter-spacing: 0.1em;
 }
 
 .clock-split__time {
+  color: var(--clock-fg);
   font-size: calc(var(--clock-time-size) * var(--clock-scale, 1));
   font-variant-numeric: tabular-nums;
   font-weight: 700;
@@ -1647,14 +1711,31 @@ button {
 
 /* Poster layout: bold headline hours/minutes with offset seconds */
 .clock-poster {
+  /* Light text on wallpaper (the default). */
+  --clock-fg: #f4f7ff;
+  --clock-fg-dim: rgba(235, 240, 255, 0.82);
+  --clock-fg-faint: rgba(235, 240, 255, 0.55);
+  --clock-sec-fg: rgba(180, 205, 255, 0.9);
   display: flex;
   flex-direction: column;
   gap: 0.15em;
-  color: #f4f7ff;
+  color: var(--clock-fg);
   text-shadow:
     0 2px 12px rgba(0, 0, 0, 0.78),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
   user-select: none;
+}
+
+/* Dark text: swap the palette and the halo so it reads on bright artwork. */
+.clock-poster.clock--theme-dark {
+  --clock-fg: #1a1e28;
+  --clock-fg-dim: rgba(26, 30, 40, 0.82);
+  --clock-fg-faint: rgba(26, 30, 40, 0.55);
+  --clock-sec-fg: rgba(40, 70, 120, 0.9);
+  color: var(--clock-fg);
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-poster__main {
@@ -1664,6 +1745,7 @@ button {
 }
 
 .clock-poster__hm {
+  color: var(--clock-fg);
   font-size: calc(var(--clock-time-size) * 1.35 * var(--clock-scale, 1));
   font-variant-numeric: tabular-nums;
   font-weight: 800;
@@ -1675,7 +1757,7 @@ button {
   font-size: calc(var(--clock-time-size) * 0.5 * var(--clock-scale, 1));
   font-variant-numeric: tabular-nums;
   font-weight: 600;
-  color: rgba(180, 205, 255, 0.9);
+  color: var(--clock-sec-fg);
   letter-spacing: 0.02em;
 }
 
@@ -1684,18 +1766,18 @@ button {
   align-items: baseline;
   gap: 0.6em;
   font-size: calc(var(--clock-date-size) * 0.92 * var(--clock-scale, 1));
-  color: rgba(235, 240, 255, 0.82);
+  color: var(--clock-fg-dim);
   letter-spacing: 0.08em;
 }
 
 .clock-poster__weekday {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--clock-fg);
 }
 
 .clock-poster__zone {
   font-size: calc(var(--clock-zone-size) * 0.9 * var(--clock-scale, 1));
-  color: rgba(235, 240, 255, 0.55);
+  color: var(--clock-fg-faint);
 }
 
 /* Audio spectrum: a full-width bar equaliser along an edge of the screen.

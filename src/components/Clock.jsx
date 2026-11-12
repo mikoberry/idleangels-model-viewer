@@ -249,6 +249,8 @@ export default function Clock({
     '--clock-beat-glow': (beat * BEAT_GLOW * intensity).toFixed(3),
   }
 
+  // The user-facing theme picks the text colour: "light" renders light text on
+  // the wallpaper, "dark" renders dark text.
   const themeClass = theme === 'light' ? 'clock--theme-light' : 'clock--theme-dark'
 
   let content = null
