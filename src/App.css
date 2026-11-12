@@ -1,0 +1,226 @@
+/* App shell overlays: the debug HUD, the settings (eye) button and its hint.
+   The viewer canvas itself and the global tokens live in src/base.css. */
+
+.debug-hud {
+  position: absolute;
+  top: var(--ui-gutter);
+  left: var(--ui-gutter);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: min(640px, calc(100% - var(--ui-gutter-2)));
+  pointer-events: none;
+}
+
+/* The clock sits in the bottom-left corner and the debug panel in the top-left,
+   so they no longer share a slot; the offset variable stays available for the
+   top-centre bar variant on narrow screens. */
+
+.debug-panel {
+  width: min(var(--debug-panel-width), calc(100vw - var(--ui-gutter-2)));
+  max-height: var(--debug-panel-max-height);
+  overflow-y: auto;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(143, 168, 255, 0.18);
+  border-radius: var(--radius-lg);
+  background: rgba(8, 10, 18, 0.96);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+}
+
+.debug-panel__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.debug-panel__title {
+  color: #eef1fb;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.debug-panel__hint {
+  color: rgba(226, 232, 247, 0.48);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.debug-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+}
+
+.debug-panel__row {
+  display: grid;
+  grid-template-columns: var(--debug-label-width) minmax(0, 1fr);
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.debug-panel__row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.debug-panel__row dt {
+  color: rgba(226, 232, 247, 0.5);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.debug-panel__row dd {
+  margin: 0;
+  color: rgba(238, 242, 252, 0.86);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.debug-panel__row.is-error dd {
+  color: #ffb4c8;
+}
+
+.viewer__settings-button {
+  position: absolute;
+  /* Below the drawer (20): while the drawer is open the eye button must be
+     covered by the panel rather than floating on top of it. */
+  z-index: 12;
+  right: var(--ui-gutter);
+  bottom: var(--ui-gutter);
+  display: grid;
+  width: var(--eye-size);
+  height: var(--eye-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  appearance: none;
+  background: transparent;
+  color: rgba(238, 242, 252, 0.92);
+  opacity: 0.18;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease,
+    transform 0.12s ease;
+}
+
+.viewer__settings-button svg {
+  display: block;
+  width: var(--eye-icon);
+  height: var(--eye-icon);
+  margin: auto;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+}
+
+.viewer__settings-button:hover,
+.viewer__settings-button:focus-visible {
+  opacity: 0.92;
+  color: #eef1fb;
+}
+
+.viewer__settings-button:active {
+  transform: scale(0.94);
+}
+
+.viewer__settings-button.is-open {
+  opacity: 1;
+  color: #eef1fb;
+}
+
+.viewer__settings-button:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.viewer__settings-button.is-hinting {
+  opacity: 0.92;
+  color: #eef1fb;
+}
+
+.eye-hint {
+  position: absolute;
+  right: var(--ui-gutter);
+  bottom: calc(var(--eye-size) + var(--space-3));
+  z-index: 31;
+  width: clamp(196px, 16vw, 260px);
+  max-width: calc(100vw - var(--ui-gutter-2));
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(143, 168, 255, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(8, 10, 18, 0.96);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+  animation: eye-hint-float 2.6s ease-in-out infinite;
+}
+
+.eye-hint__text {
+  margin: 0;
+  color: rgba(238, 242, 252, 0.9);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.eye-hint__button {
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: rgba(143, 168, 255, 0.16);
+  color: #e6ebff;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.eye-hint__button:hover {
+  background: rgba(143, 168, 255, 0.26);
+}
+
+.eye-hint__button:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.eye-hint__arrow {
+  position: absolute;
+  right: var(--space-3);
+  bottom: calc(0px - var(--space-1));
+  width: clamp(10px, 0.9vh, 14px);
+  height: clamp(10px, 0.9vh, 14px);
+  border-right: 1px solid rgba(143, 168, 255, 0.22);
+  border-bottom: 1px solid rgba(143, 168, 255, 0.22);
+  background: rgba(8, 10, 18, 0.96);
+  transform: rotate(45deg);
+}
+
+@keyframes eye-hint-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eye-hint {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .viewer__settings-button {
+    right: var(--space-5);
+    bottom: var(--space-5);
+  }
+}

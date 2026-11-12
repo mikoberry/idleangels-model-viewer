@@ -1,0 +1,996 @@
+/* Settings drawer: the sliding panel, its tab menu, the scrollable pane, and the
+   form controls rendered inside it. */
+
+.inspector-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: transparent;
+}
+
+.playback-inspector {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: min(var(--drawer-width), 100%);
+  /* No padding at all: the title, the tab menu and the divider between the
+     menu and the pane are all meant to sit flush against the drawer edges.
+     The pane carries its own inset instead. */
+  padding: 0;
+  /* The drawer itself does not scroll: the header stays put and only the
+     active pane scrolls. Splitting settings into tabs keeps each pane short,
+     which matters because scrolling is unreliable inside Wallpaper Engine. */
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: #070911;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  /* Slide the drawer in from the right edge. The transform starts fully off
+     screen, so the panel appears to arrive from outside the window. */
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+  will-change: transform;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.playback-inspector.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.playback-inspector::-webkit-scrollbar {
+  width: 4px;
+}
+
+.playback-inspector::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.inspector-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  /* Flush with the drawer edge like the tab menu: the title gets the same left
+     marker the active tab uses, so the two share one visual rule. */
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
+}
+
+.inspector-title {
+  position: relative;
+  margin: 0;
+  padding-left: var(--space-2);
+  font-size: var(--text-section);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #f2f5ff;
+}
+
+/* The block sits in the same gutter as the active tab's left rule, so the
+   heading and the menu line up on one vertical axis. */
+.inspector-title::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 3px;
+  height: 1em;
+  background: rgba(143, 168, 255, 0.9);
+  transform: translateY(-50%);
+}
+
+/* Body of the drawer: a vertical tab menu on the left, the active pane on the
+   right. Only the pane scrolls, so the menu and header stay reachable. */
+.inspector-body {
+  display: flex;
+  flex: 1 1 auto;
+  /* No gap: the pane's own border-left is the divider, so it touches both the
+     menu and the content with no detached line floating between them. */
+  gap: 0;
+  min-height: 0;
+}
+
+.inspector-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  gap: var(--space-1);
+  width: var(--drawer-nav-width);
+  /* Flush against the drawer edge; the text keeps a small inset so the active
+     left rule sits on the very edge. The bottom padding gives the collapse
+     control breathing room instead of touching the drawer's bottom edge. */
+  padding: var(--space-1) 0 var(--space-3) var(--space-2);
+}
+
+.inspector-nav__item {
+  /* Flat menu text: no rounded box. The active state is a left rule that sits
+     flush on the drawer edge, plus a faint tint so it reads clearly without
+     turning into a button. */
+  margin-left: calc(var(--space-2) * -1);
+  padding: 0 0 0 var(--space-2);
+  border: 0;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.78);
+  font-size: var(--text-md);
+  line-height: 2.4;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.inspector-nav__item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(238, 242, 252, 0.94);
+}
+
+.inspector-nav__item.is-active {
+  border-left-color: rgba(143, 168, 255, 0.9);
+  background: rgba(143, 168, 255, 0.08);
+  color: #f2f5ff;
+  font-weight: 600;
+}
+
+/* Pushes the language row and the collapse control to the foot of the menu
+   column without pinning them in place. */
+.inspector-nav__spacer {
+  flex: 1 1 auto;
+  min-height: var(--space-4);
+}
+
+/* Language switcher: flat text like the tabs, no button chrome. A 2x2 grid
+   keeps all four languages inside the narrow column. */
+.inspector-nav__languages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  /* The nav already contributes --space-2 on the left, so one more --space-2
+     lines the language labels up with the tab labels. */
+  padding-top: var(--space-2);
+  padding-left: var(--space-2);
+  margin-top: var(--space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.inspector-nav__lang {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.6);
+  font-size: var(--text-xs);
+  line-height: 2;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+
+.inspector-nav__lang:hover {
+  color: rgba(238, 242, 252, 0.92);
+}
+
+.inspector-nav__lang.is-active {
+  color: #f2f5ff;
+  font-weight: 600;
+}
+
+/* Collapse control at the very bottom of the menu column. Its inset matches the
+   language labels so all footer rows share one left axis. */
+.inspector-nav__close {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-1) 0 var(--space-1) var(--space-2);
+  border: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.6);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+
+.inspector-nav__close svg {
+  flex: 0 0 auto;
+  display: block;
+  width: var(--text-sm);
+  height: var(--text-sm);
+}
+
+.inspector-nav__close:hover {
+  color: #f2f5ff;
+}
+
+.inspector-nav__close:focus-visible,
+.inspector-nav__lang:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.inspector-pane {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 0;
+  /* The divider lives here so it spans the full height of the pane and touches
+     the menu on one side and the content inset on the other. */
+  padding: var(--space-2) var(--space-3) var(--drawer-pad-bottom) var(--space-3);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.inspector-pane>.inspector-section+.inspector-section {
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.inspector-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.inspector-section+.inspector-section {
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.inspector-section__title {
+  margin-bottom: var(--space-1);
+  /* Same scale as the tab menu: section titles are peers of the menu, not a
+     second nearly-large heading competing with the drawer title. */
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: #f2f5ff;
+}
+
+.inspector-field__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 247, 0.58);
+}
+
+.inspector-note {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: rgba(143, 168, 255, 0.08);
+  color: rgba(226, 232, 247, 0.78);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.inspector-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.inspector-field--split {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.step-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-size);
+  height: var(--control-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  color: #dce3ff;
+  font-size: var(--text-step);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.step-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.step-button:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.reset-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+}
+
+.reset-button {
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.055);
+  color: rgba(238, 242, 252, 0.82);
+  font-size: var(--text-sm);
+  line-height: 1.3;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.reset-button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #eef1fb;
+}
+
+.copy-view-button {
+  width: 100%;
+  padding: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: rgba(143, 168, 255, 0.12);
+  color: #dce3ff;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.copy-view-button:hover:not(:disabled) {
+  background: rgba(143, 168, 255, 0.2);
+  color: #f2f5ff;
+}
+
+.copy-view-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.copy-view-button.is-error {
+  color: #ffb4c8;
+}
+
+.record-view-button {
+  background: rgba(143, 168, 255, 0.18);
+  color: #eef1fb;
+}
+
+.record-view-button:hover:not(:disabled) {
+  background: rgba(143, 168, 255, 0.28);
+}
+
+.scale-input {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-md);
+  color: #c3cdff;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewer-number {
+  width: clamp(54px, 3.4vw, 72px);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  outline: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef1fb;
+  font: inherit;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewer-number::-webkit-outer-spin-button,
+.viewer-number::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.animation-select {
+  position: relative;
+}
+
+.animation-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.055);
+  color: #eef1fb;
+  font-size: var(--text-md);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.animation-select__trigger:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.animation-select__trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.animation-select__chevron {
+  width: clamp(7px, 0.55vh, 10px);
+  height: clamp(7px, 0.55vh, 10px);
+  border-right: 1.5px solid rgba(220, 228, 255, 0.6);
+  border-bottom: 1.5px solid rgba(220, 228, 255, 0.6);
+  transform: translateY(-0.16em) rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.animation-select.is-open .animation-select__chevron {
+  transform: translateY(0.16em) rotate(-135deg);
+}
+
+.animation-select__menu {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  left: 0;
+  z-index: 5;
+  max-height: clamp(180px, 26vh, 320px);
+  padding: var(--space-1);
+  overflow-y: auto;
+  border: 1px solid rgba(143, 168, 255, 0.16);
+  border-radius: var(--radius-lg);
+  background: #141a2b;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.animation-select__option {
+  display: block;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: rgba(238, 242, 252, 0.78);
+  font-size: var(--text-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.animation-select__option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef1fb;
+}
+
+.animation-select__option.is-selected {
+  background: rgba(143, 168, 255, 0.16);
+  color: #f2f5ff;
+}
+
+.language-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.language-option {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.055);
+  color: rgba(238, 242, 252, 0.78);
+  font-size: var(--text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.language-option:hover {
+  background: rgba(255, 255, 255, 0.085);
+  color: #eef1fb;
+}
+
+.language-option.is-selected {
+  border-color: rgba(143, 168, 255, 0.42);
+  background: rgba(143, 168, 255, 0.16);
+  color: #f2f5ff;
+}
+
+.model-select {
+  position: relative;
+}
+
+.model-select__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.055);
+  color: #eef1fb;
+  font-size: var(--text-md);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.model-select__trigger:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.model-select__trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.model-select__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.model-select__count {
+  flex: 0 0 auto;
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(226, 232, 247, 0.68);
+  font-size: var(--text-xs);
+  line-height: 1.8;
+}
+
+.model-select__chevron {
+  flex: 0 0 auto;
+  width: clamp(7px, 0.55vh, 10px);
+  height: clamp(7px, 0.55vh, 10px);
+  border-right: 1.5px solid rgba(220, 228, 255, 0.6);
+  border-bottom: 1.5px solid rgba(220, 228, 255, 0.6);
+  transform: translateY(-0.16em) rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.model-select.is-open .model-select__chevron {
+  transform: translateY(0.16em) rotate(-135deg);
+}
+
+.model-select__menu {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  right: 0;
+  left: 0;
+  z-index: 7;
+  padding: var(--space-1);
+  border: 1px solid rgba(143, 168, 255, 0.16);
+  border-radius: var(--radius-lg);
+  background: #141a2b;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.model-select__search {
+  width: 100%;
+  margin: 0 0 var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef1fb;
+  font-size: var(--text-sm);
+}
+
+.model-select__search::placeholder {
+  color: rgba(226, 232, 247, 0.45);
+}
+
+.model-select__list {
+  max-height: min(340px, 45vh);
+  overflow-y: auto;
+}
+
+.model-select__option {
+  display: block;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: rgba(238, 242, 252, 0.78);
+  font-size: var(--text-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.model-select__option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #eef1fb;
+}
+
+.model-select__option.is-selected {
+  background: rgba(143, 168, 255, 0.16);
+  color: #f2f5ff;
+}
+
+.model-select__empty {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  color: rgba(226, 232, 247, 0.6);
+  font-size: var(--text-sm);
+}
+
+.color-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.color-swatch {
+  width: var(--swatch-size);
+  height: var(--swatch-size);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.color-swatch.is-active {
+  box-shadow:
+    0 0 0 2px #06070d,
+    0 0 0 4px rgba(143, 168, 255, 0.75);
+}
+
+.color-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.color-picker__area {
+  position: relative;
+  height: var(--color-area-height);
+  border-radius: var(--radius-md);
+  background-image:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, transparent);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.color-picker__thumb {
+  position: absolute;
+  width: var(--color-thumb);
+  height: var(--color-thumb);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.color-picker__hue {
+  position: relative;
+  height: clamp(12px, 1vh, 18px);
+  border-radius: 999px;
+  background: linear-gradient(to right,
+      #f00 0%,
+      #ff0 16.66%,
+      #0f0 33.33%,
+      #0ff 50%,
+      #00f 66.66%,
+      #f0f 83.33%,
+      #f00 100%);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.color-picker__hue-thumb {
+  position: absolute;
+  top: 50%;
+  width: var(--color-thumb);
+  height: var(--color-thumb);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.color-preview {
+  flex: 0 0 auto;
+  width: var(--swatch-size);
+  height: var(--swatch-size);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-sm);
+}
+
+.color-value {
+  width: clamp(112px, 8vw, 150px);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  outline: none;
+  background: rgba(255, 255, 255, 0.055);
+  color: #eef1fb;
+  font-size: var(--text-md);
+  letter-spacing: 0.04em;
+}
+
+.viewer-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--slider-height);
+  margin: 0;
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.viewer-slider__track {
+  position: relative;
+  flex-grow: 1;
+  height: var(--slider-track);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.viewer-slider__range {
+  position: absolute;
+  height: 100%;
+  border-radius: 999px;
+  background: #8fa8ff;
+}
+
+.viewer-slider__thumb {
+  display: block;
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border-radius: 50%;
+  outline: none;
+  background: #f4f6ff;
+  box-shadow: 0 0 0 clamp(5px, 0.45vh, 8px) rgba(143, 168, 255, 0.16);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.viewer-slider__thumb:hover {
+  box-shadow: 0 0 0 clamp(7px, 0.6vh, 10px) rgba(143, 168, 255, 0.24);
+}
+
+.viewer-slider__thumb:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 3px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-md);
+  color: rgba(238, 242, 252, 0.82);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-row input {
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  margin: 0;
+  accent-color: #8fa8ff;
+  cursor: pointer;
+}
+
+.inspector-hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: rgba(226, 232, 247, 0.68);
+}
+
+.inspector-hint.is-error {
+  color: #ffb4c8;
+}
+
+.inspector-model-hints {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.inspector-hint a {
+  color: #a9bbff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.viewer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #e9edfb;
+  font-size: var(--text-md);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.viewer-button--ghost {
+  padding: var(--space-1) 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.84);
+  font-size: var(--text-sm);
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.viewer-button:focus-visible,
+.viewer-number:focus-visible,
+.step-button:focus-visible,
+.reset-button:focus-visible,
+.copy-view-button:focus-visible,
+.toggle-row input:focus-visible,
+.animation-select__trigger:focus-visible,
+.animation-select__option:focus-visible,
+.language-option:focus-visible,
+.model-select__trigger:focus-visible,
+.model-select__search:focus-visible,
+.model-select__option:focus-visible,
+.color-swatch:focus-visible,
+.clock-placement__option:focus-visible,
+.color-value:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 3px;
+}
+
+/* Segmented option pills used for the clock layout/theme/format and the
+   spectrum/album-art placement groups. */
+.clock-placement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.clock-placement__label {
+  color: rgba(226, 232, 247, 0.56);
+  font-size: var(--text-sm);
+}
+
+.clock-placement__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.clock-placement__option {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgba(143, 168, 255, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(238, 242, 252, 0.78);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.clock-placement__option:hover {
+  background: rgba(143, 168, 255, 0.14);
+}
+
+.clock-placement__option.is-active {
+  border-color: rgba(143, 168, 255, 0.55);
+  background: rgba(143, 168, 255, 0.2);
+  color: #f2f5ff;
+}
+
+@media (max-width: 640px) {
+  .playback-inspector {
+    width: 100%;
+  }
+
+  /* Narrow screens: stack the tab menu above the pane, since a side menu would
+     squeeze the controls too far. The divider moves to the top of the pane. */
+  .inspector-body {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .inspector-nav {
+    flex-direction: row;
+    width: auto;
+    padding: var(--space-1) 0 var(--space-2) 0;
+  }
+
+  .inspector-nav__item {
+    flex: 1 1 0;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    text-align: center;
+  }
+
+  .inspector-nav__item.is-active {
+    border-left-color: transparent;
+    border-bottom-color: rgba(143, 168, 255, 0.9);
+  }
+
+  .inspector-nav__spacer {
+    display: none;
+  }
+
+  .inspector-nav__languages {
+    padding-left: var(--space-2);
+  }
+
+  .inspector-nav__close {
+    padding-left: var(--space-2);
+  }
+
+  .inspector-pane {
+    padding: var(--space-3) var(--space-4) var(--drawer-pad-bottom) var(--space-4);
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}

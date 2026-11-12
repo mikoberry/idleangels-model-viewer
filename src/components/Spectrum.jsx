@@ -9,6 +9,7 @@ import {
 } from '../utils/audio.js'
 import { getWallpaperAudioFrame } from '../utils/wallpaperAudio.js'
 import { isWallpaperPaused } from '../utils/wallpaperPause.js'
+import './Spectrum.css'
 
 // Canvas 2D is used instead of 128 DOM nodes: a bar chart that redraws at
 // 60fps needs a single paint call, not 128 style invalidations.

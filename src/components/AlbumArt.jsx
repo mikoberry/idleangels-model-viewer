@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getWallpaperMedia, isWallpaperMediaAvailable } from '../utils/wallpaperMedia.js'
 import MiniSpectrum from './MiniSpectrum.jsx'
+import './AlbumArt.css'
 
 // How often to re-read the bridge. The engine pushes updates rather than
 // emitting events the app can subscribe to, so a cheap poll keeps the card in

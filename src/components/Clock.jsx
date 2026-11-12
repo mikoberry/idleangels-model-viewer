@@ -11,6 +11,7 @@ import {
 import { smoothAudioLevel, summarizeWallpaperAudio, syntheticAudioLevel } from '../utils/audio.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from '../utils/wallpaperAudio.js'
 import { onWallpaperPauseChange } from '../utils/wallpaperPause.js'
+import './Clock.css'
 
 // Idle tilt eases back to flat when the pointer leaves the window.
 const FLAT = { rotateX: 0, rotateY: 0 }

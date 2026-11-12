@@ -9,6 +9,7 @@ import {
 } from '../utils/audio.js'
 import { getWallpaperAudioFrame } from '../utils/wallpaperAudio.js'
 import { isWallpaperPaused } from '../utils/wallpaperPause.js'
+import './MiniSpectrum.css'
 
 // Inline, size-agnostic spectrum. The full-screen Spectrum component is pinned
 // to a screen edge and owns its own position; this one simply fills whatever

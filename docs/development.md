@@ -307,7 +307,7 @@ npm run preview -- --port 5174 --strictPort
   - `src/i18n.js` 四套语言文案
   - 如涉及 Stage，补 `spineStage.js` 的 API / effect
   - 相关文档
-- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口（`main.jsx`）、应用状态（`App.jsx`）、i18n、WebGL 层（`spineStage.js`）、vendored 运行时（`spine-webgl.js`）和样式（`styles.css`）。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
+- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口（`main.jsx`）、应用状态（`App.jsx` 及其 `App.css`）、i18n、WebGL 层（`spineStage.js`）、vendored 运行时（`spine-webgl.js`）和全局样式（`base.css`）。样式按组件拆分：每个组件在自己文件里引入同目录的 CSS（如 `src/components/Clock.jsx` 引入 `Clock.css`）。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
 - 纯函数（格式化、计算等）独立成模块，放在 `src/utils/` 下（例如 `clock.js`、`audio.js`），不要塞进组件文件，便于在不引入 React 的情况下验证。
 - 保持沉浸式全屏布局，不引入页头、页脚或明显卡片边框。
 - 关闭的设置抽屉应保持 `inert`。

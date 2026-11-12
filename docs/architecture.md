@@ -30,7 +30,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 ### `src/main.jsx`
 
-- 引入 `styles.css`。
+- 引入 `base.css`（设计变量与 reset）。组件样式由各组件自己引入同目录下的 CSS。
 - 创建 React root，渲染 `<App />`。
 - 没有使用 `React.StrictMode`。
 
@@ -190,11 +190,17 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 末尾 `export { spine }`。
 - 不包含任何本项目的业务逻辑，也不依赖 React。
 
-### `src/styles.css`
+### 样式文件
 
-- 全屏布局：`html` / `body` / `#root` / `.viewer` 高度 100%，body 不滚动。
-- 右侧抽屉、透明 backdrop、眼睛按钮、提示气泡、调试面板、移动端断点。
-- 视觉上保持无页头、页脚和卡片边框。
+样式按组件拆分，每个组件在自己文件里引入同目录的 CSS：
+
+- `src/base.css`：设计变量（字号、间距、颜色、圆角）、reset、`.viewer` 外壳与全屏 canvas。
+- `src/App.css`：调试面板、眼睛按钮、提示气泡。
+- `src/components/Clock.css`：时钟浮层，含锚点、七个布局与主题配色。
+- `src/components/SettingsDrawer.css`：右侧抽屉、标签菜单、表单控件与窄屏断点。
+- `src/components/Spectrum.css`、`MiniSpectrum.css`、`AlbumArt.css`：音频频谱与专辑封面卡片。
+
+全屏布局：`html` / `body` / `#root` / `.viewer` 高度 100%，body 不滚动。视觉上保持无页头、页脚和卡片边框。
 
 ## 启动与加载流程
 
@@ -481,7 +487,13 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 - [index.html](../index.html)
 - [src/spineStage.js](../src/spineStage.js)
 - [src/spine-webgl.js](../src/spine-webgl.js)
-- [src/styles.css](../src/styles.css)
+- [src/base.css](../src/base.css)
+- [src/App.css](../src/App.css)
+- [src/components/Clock.css](../src/components/Clock.css)
+- [src/components/SettingsDrawer.css](../src/components/SettingsDrawer.css)
+- [src/components/Spectrum.css](../src/components/Spectrum.css)
+- [src/components/MiniSpectrum.css](../src/components/MiniSpectrum.css)
+- [src/components/AlbumArt.css](../src/components/AlbumArt.css)
 - [vite.config.js](../vite.config.js)
 - [scripts/import-models.mjs](../scripts/import-models.mjs)
 - [scripts/prepare-models.mjs](../scripts/prepare-models.mjs)

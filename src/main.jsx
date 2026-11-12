@@ -1,7 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { detectLanguage, getTranslator } from './i18n.js'
-import './styles.css'
+// Global tokens and reset. Component styles are imported by their components.
+import './base.css'
 
 // The Wallpaper Engine audio listener is registered by an inline script in
 // index.html, which runs before this deferred module. See src/wallpaperAudio.js.

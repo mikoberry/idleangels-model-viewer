@@ -15,6 +15,7 @@ import {
 import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
+import './App.css'
 
 const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
 const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'

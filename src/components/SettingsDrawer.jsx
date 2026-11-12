@@ -9,6 +9,7 @@ import {
   CLOCK_SIZE_MAX,
   CLOCK_SIZE_MIN,
 } from '../utils/clock.js'
+import './SettingsDrawer.css'
 
 const MIN_SCALE = 0.5
 

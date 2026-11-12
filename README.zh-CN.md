@@ -275,12 +275,19 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 ├─ src/
 │  ├─ main.jsx               # React 入口
 │  ├─ App.jsx                # 状态、canvas、Stage 启动、模型清单
+│  ├─ App.css                # 调试面板、眼睛按钮、提示气泡
+│  ├─ base.css               # 设计变量、reset、viewer 外壳
 │  ├─ components/
 │  │  ├─ SettingsDrawer.jsx  # 四标签设置抽屉 + 模型选择
+│  │  ├─ SettingsDrawer.css
 │  │  ├─ Clock.jsx           # 时间与日期浮层
+│  │  ├─ Clock.css
 │  │  ├─ Spectrum.jsx        # 贴边音频频谱
+│  │  ├─ Spectrum.css
 │  │  ├─ MiniSpectrum.jsx    # 封面卡片内嵌的小频谱
-│  │  └─ AlbumArt.jsx        # 专辑封面卡片
+│  │  ├─ MiniSpectrum.css
+│  │  ├─ AlbumArt.jsx        # 专辑封面卡片
+│  │  └─ AlbumArt.css
 │  ├─ utils/                 # 非 React 模块（纯函数 / WE 桥接）
 │  │  ├─ audio.js            # 音频帧解析、频谱提取、合成数据
 │  │  ├─ clock.js            # 时钟格式化与倾斜计算
@@ -289,8 +296,7 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 │  │  └─ wallpaperPause.js   # WE 暂停状态
 │  ├─ i18n.js                # 中文 / 英文 / 日文 / 韩文文案
 │  ├─ spineStage.js          # WebGL / 资源 / 动画 / 相机 / 渲染循环
-│  ├─ spine-webgl.js         # vendored Spine 3.8.99 运行时
-│  └─ styles.css
+│  └─ spine-webgl.js         # vendored Spine 3.8.99 运行时
 ├─ dist/                     # 构建产物，git 忽略
 ├─ docs/
 ├─ AGENTS.md

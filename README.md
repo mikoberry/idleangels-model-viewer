@@ -147,12 +147,19 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 ├─ src/
 │  ├─ main.jsx
 │  ├─ App.jsx
+│  ├─ App.css
+│  ├─ base.css
 │  ├─ components/
 │  │  ├─ SettingsDrawer.jsx
+│  │  ├─ SettingsDrawer.css
 │  │  ├─ Clock.jsx
+│  │  ├─ Clock.css
 │  │  ├─ Spectrum.jsx
+│  │  ├─ Spectrum.css
 │  │  ├─ MiniSpectrum.jsx
-│  │  └─ AlbumArt.jsx
+│  │  ├─ MiniSpectrum.css
+│  │  ├─ AlbumArt.jsx
+│  │  └─ AlbumArt.css
 │  ├─ utils/
 │  │  ├─ audio.js
 │  │  ├─ clock.js
@@ -161,8 +168,7 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 │  │  └─ wallpaperPause.js
 │  ├─ i18n.js
 │  ├─ spineStage.js
-│  ├─ spine-webgl.js
-│  └─ styles.css
+│  └─ spine-webgl.js
 ├─ .github/workflows/deploy-pages.yml
 ├─ vercel.json
 └─ docs/

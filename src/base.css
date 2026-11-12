@@ -1,0 +1,108 @@
+/* Global foundation: design tokens, reset and the viewer shell.
+   Component styles live next to their components:
+   - App.css             debug panel, settings button, eye hint
+   - components/Clock.css
+   - components/SettingsDrawer.css
+   - components/Spectrum.css
+   - components/MiniSpectrum.css
+   - components/AlbumArt.css */
+
+:root {
+  color-scheme: dark;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+
+  /* Type scale: driven by viewport height so 16:9 and ultrawide stay consistent. */
+  --text-xs: clamp(11px, 0.85vh, 15px);
+  --text-sm: clamp(12px, 1vh, 17px);
+  --text-md: clamp(13px, 1.15vh, 19px);
+  --text-title: clamp(21px, 1.75vh, 31px);
+  --text-section: clamp(16px, 1.3vh, 21px);
+  --text-step: clamp(15px, 1.15vh, 20px);
+
+  /* Spacing scale. */
+  --space-1: clamp(5px, 0.45vh, 8px);
+  --space-2: clamp(8px, 0.7vh, 12px);
+  --space-3: clamp(10px, 0.9vh, 16px);
+  --space-4: clamp(14px, 1.2vh, 22px);
+  --space-5: clamp(20px, 1.7vh, 30px);
+  --space-6: clamp(26px, 2.1vh, 38px);
+
+  /* Layout and controls. */
+  --ui-gutter: clamp(14px, 1.2vh, 22px);
+  --ui-gutter-2: clamp(28px, 2.4vh, 44px);
+  --drawer-width: clamp(480px, 24vw, 620px);
+  /* The menu column only holds two-character labels ("显示"), so it can stay
+     narrow and leave more width to the settings pane. */
+  --drawer-nav-width: clamp(68px, 5vw, 88px);
+  --drawer-pad-y: clamp(26px, 2.1vh, 38px);
+  --drawer-pad-x: clamp(24px, 1.8vh, 32px);
+  --drawer-pad-bottom: clamp(96px, 8vh, 120px);
+  --eye-size: clamp(48px, 4.4vh, 68px);
+  --eye-icon: clamp(22px, 1.9vh, 30px);
+  --control-size: clamp(28px, 2.4vh, 40px);
+  --swatch-size: clamp(28px, 2.1vh, 40px);
+  --slider-height: clamp(24px, 2.2vh, 36px);
+  --slider-track: clamp(4px, 0.38vh, 6px);
+  --slider-thumb: clamp(16px, 1.5vh, 24px);
+  --color-thumb: clamp(16px, 1.4vh, 22px);
+  --color-area-height: clamp(112px, 10vh, 160px);
+  --debug-panel-width: clamp(440px, 22vw, 560px);
+  --debug-label-width: clamp(86px, 7vw, 120px);
+  --debug-panel-max-height: min(70vh, 640px);
+  --toggle-size: clamp(16px, 1.4vh, 22px);
+  /* Clock overlay type sizes: deliberately larger than the drawer's base scale
+     so the time reads from across the room, as it does on a wallpaper. */
+  --clock-time-size: clamp(38px, 5.2vh, 84px);
+  --clock-date-size: clamp(14px, 1.5vh, 24px);
+  --clock-zone-size: clamp(11px, 0.95vh, 16px);
+  --radius-sm: clamp(8px, 0.7vh, 12px);
+  --radius-md: clamp(10px, 0.9vh, 16px);
+  --radius-lg: clamp(12px, 1.1vh, 20px);
+
+  background: #06070d;
+  color: #e8ecf8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow: hidden;
+  background: #06070d;
+  font-size: var(--text-md);
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+/* The viewer shell: a full-screen canvas with every overlay positioned over it. */
+.viewer {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.viewer__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
