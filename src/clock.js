@@ -7,15 +7,14 @@
 const WEEKDAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 // Clock layout limits, shared by the overlay and the settings drawer so the
-// controls and the clamping logic can never disagree.
+// Controls and the clamping logic can never disagree.
 //
-// Horizontal spans symmetric since the card is anchored at the left edge.
-// Vertical is asymmetric on purpose: the card hangs from the bottom edge, so a
-// large negative value would push it entirely off-screen with no way to drag it
-// back. -10 still allows a slight downward nudge.
-export const CLOCK_OFFSET_X_LIMIT = 90
-export const CLOCK_OFFSET_Y_MIN = -10
-export const CLOCK_OFFSET_Y_MAX = 90
+// Widgets use one uniform position range on both axes so the same numbers mean
+// the same thing everywhere: 0% sits on the anchor edge and 100% sits on the
+// opposite edge, which keeps every widget inside the screen. The model view
+// (positions on the Spine layer) uses its own -100..100 range and is unrelated.
+export const CLOCK_OFFSET_MIN = 0
+export const CLOCK_OFFSET_MAX = 100
 export const CLOCK_SIZE_MIN = 40
 export const CLOCK_SIZE_MAX = 200
 

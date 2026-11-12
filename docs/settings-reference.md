@@ -115,7 +115,7 @@ percent = round(scale × 100)
 - 类型：`string`
 - 初始值：`manifest.models[0].id`
 - 可选值：当前打包清单里的模型 id（目录名）
-- UI：设置抽屉语言按钮下方的“Spine 模型”搜索选择器
+- UI：设置抽屉语言按钮下方的“Spine 模型”搜索选择器（**仅在浏览器中显示，Wallpaper Engine 中整个模型区块被隐藏**）
 - 切换行为：dispose 旧 Stage，按新模型重新加载资源；优先应用该模型已记录的视图，没有记录时使用推荐缩放/位置/背景色，再没有则回到 `100 / 0 / 0` + 黑色
 - 持久化：模型选择本身不持久化；刷新后总是第一个模型
 - 本地全模型包有 128 个可选模型，线上部署子集为 51 个
@@ -147,15 +147,15 @@ const DEFAULT_CLOCK = {
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示当前时间与日期 |
 | `placement` | `'card' \| 'bar'` | `'card'` | — | `card` 为竖排大卡片，`bar` 为横排条 |
-| `offsetX` | `number` | `10` | `-90`–`90` | 水平位置，窗口宽度的百分比，正值向右 |
-| `offsetY` | `number` | `50` | `-10`–`90` | 垂直位置，窗口高度的百分比，正值向上 |
+| `offsetX` | `number` | `10` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
+| `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，正值向上 |
 | `size` | `number` | `100` | `40`–`200` | 字号百分比，`100` 为默认大小 |
 | `reactToBeat` | `boolean` | `false` | — | 是否随音频低频律动（缩放 + 光晕） |
 
 默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
 
-- 位置以**左下角**为原点；`offsetY` 下限故意收窄到 `-10`，因为卡片挂在底边，更大的负值会把时钟推到屏幕外且无法拖回。
-- 范围常量定义在 [src/clock.js](../src/clock.js)：`CLOCK_OFFSET_X_LIMIT`、`CLOCK_OFFSET_Y_MIN`、`CLOCK_OFFSET_Y_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
+- 位置以**左下角**为原点。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 贴对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
+- 范围常量定义在 [src/clock.js](../src/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
 - 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
 - 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这五个字段）。
 - 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
@@ -189,6 +189,8 @@ const DEFAULT_SPECTRUM = {
 | `show` | `boolean` | `false` | — | 是否显示频谱 |
 | `position` | `'bottom' \| 'top'` | `'bottom'` | — | 贴屏幕哪一边 |
 | `height` | `number` | `22` | `8`–`60` | 占用屏幕高度的百分比 |
+| `offsetX` | `number` | `0` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
+| `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色；由 `spectrumGradientStops()` 生成上下两道渐变 |
 
 - 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
 - 共 **128 根柱子**，与 Wallpaper Engine 的 128 个频段一一对应：左声道占 0–63，右声道镜像占 64–127，低频在两端。

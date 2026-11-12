@@ -57,9 +57,16 @@ index.html
 
 - 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传；文案通过 `t` 获取。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
+- **左侧竖向标签分区**：`.inspector-body` 内含 `.inspector-nav`（标签菜单）与 `.inspector-pane`（当前标签内容）。三个标签：
+  - `display` 显示：时间与日期、音频频谱
+  - `model` 模型：模型选择、Spine 动画、画面变换、背景
+  - `other` 其它：语言、调试
+- 标签选择持久化在 `localStorage` 的 `spine-viewer:drawer-tab:v1`。
+- **抽屉本身不滚动**（`overflow: hidden`），只有 `.inspector-pane` 滚动。分标签是为让每个标签内容更短，避免依赖在 Wallpaper Engine 中不可靠的滚动操作。
+- 窄屏（`max-width: 640px`）时标签菜单改为顶部横向排列。
 - 包含：
   - 中文 / English / 日本語 / 한국어 语言按钮
-  - 可搜索的 Spine 模型选择器
+  - 可搜索的 Spine 模型选择器（`inWallpaperEngine` 为 true 时整块不渲染）
   - Spine 动画下拉框
   - “点击画面触发 action”开关
   - 缩放滑杆、数字输入、±1% 步进
@@ -102,7 +109,8 @@ index.html
 
 ### `src/audio.js`
 
-- 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` 常量。
+- 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`、`spectrumGradientStops`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` / `DEFAULT_SPECTRUM_COLOR` 常量。
+- `spectrumGradientStops(hex)` 把 `#rrggbb` 转成柱子的两个渐变端点（顶部 0.95、底部 0.45 透明度）；输入不合法时返回 `null`，调用方回退到默认色，避免画不出柱子。
 - `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.02` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
 - `syntheticSpectrum(t)` 生成确定性的模拟频谱，供浏览器预览；负时间返回全 0。
 - `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
@@ -110,7 +118,7 @@ index.html
 ### `src/clock.js`
 
 - 纯函数模块，不依赖 React：`formatClockTime`、`formatClockDateParts`、`formatClockZone`、`computeClockTilt`、`smoothStep`、`weekdayKey`。
-- 同时导出时钟布局范围常量 `CLOCK_OFFSET_X_LIMIT`、`CLOCK_OFFSET_Y_MIN`、`CLOCK_OFFSET_Y_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，由 `App.jsx` 和 `SettingsDrawer.jsx` 共用，避免控件范围与校验范围不一致。
+- 同时导出时钟布局范围常量 `CLOCK_OFFSET_MIN`（`0`）、`CLOCK_OFFSET_MAX`（`100`）、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，由 `App.jsx` 和 `SettingsDrawer.jsx` 共用，避免控件范围与校验范围不一致。这两个位置常量同样用于频谱的水平位置，使所有小组件的位置范围统一。
 - `formatClockDateParts` 始终返回**具体年月日**（如 `2026年11月12日`）和周几 key；不返回"今天/昨天/明天"这类相对词，否则会把真实日期隐藏掉。
 - 时间固定 24 小时制；日期顺序按界面语言通过 `Intl.DateTimeFormat` 格式化。
 - `computeClockTilt(point, bounds, { maxTilt })` 把指针相对 **`bounds` 中心**（传入视口）的偏移归一化到 `[-1, 1]`，再乘 `maxTilt`（默认 14°）。指针在视口内时角度随位置线性变化；参数缺失或尺寸为 0 时返回 `{ rotateX: 0, rotateY: 0 }`。

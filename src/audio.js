@@ -19,6 +19,29 @@ export const AUDIO_BANDS = 64
 // the same renderer works for both sources.
 export const SPECTRUM_BARS = AUDIO_BANDS * 2
 
+// Default bar colour. The picker starts here and the value is stored as a
+// plain #rrggbb string, the same format the background colour uses.
+export const DEFAULT_SPECTRUM_COLOR = '#a8c4ff'
+
+// Converts #rrggbb into the two gradient stops the bars are drawn with: a solid
+// top and a slightly transparent bottom. Returns null for invalid input so the
+// caller can fall back to the default instead of painting nothing.
+export function spectrumGradientStops(hex) {
+  if (typeof hex !== 'string') return null
+  const match = /^#([0-9a-f]{6})$/i.exec(hex.trim())
+  if (!match) return null
+
+  const value = parseInt(match[1], 16)
+  const r = (value >> 16) & 255
+  const g = (value >> 8) & 255
+  const b = value & 255
+
+  return {
+    top: `rgba(${r}, ${g}, ${b}, 0.95)`,
+    bottom: `rgba(${r}, ${g}, ${b}, 0.45)`,
+  }
+}
+
 // Bass covers the lowest bands; kick drums and bass lines live here, which is
 // what makes an element feel like it is reacting to the beat.
 const BASS_BANDS = 8

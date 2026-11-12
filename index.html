@@ -32,6 +32,64 @@
         });
       }
     </script>
+
+    <!--
+      Wallpaper Engine media integration: album art and track metadata.
+
+      Registered inline for the same reason as the audio listener. Every field is
+      written onto one global object; src/wallpaperMedia.js only reads it.
+    -->
+    <script>
+      window.__weMedia = {
+        thumbnail: '',
+        title: '',
+        artist: '',
+        albumTitle: '',
+        primaryColor: '',
+        textColor: '',
+        playback: null,
+        enabled: null,
+        updatedAt: 0,
+      };
+
+      var media = window.__weMedia;
+
+      if (typeof window.wallpaperRegisterMediaStatusListener === 'function') {
+        window.wallpaperRegisterMediaStatusListener(function (event) {
+          media.enabled = event ? event.enabled === true : null;
+        });
+      }
+
+      if (typeof window.wallpaperRegisterMediaThumbnailListener === 'function') {
+        window.wallpaperRegisterMediaThumbnailListener(function (event) {
+          if (!event) return;
+          media.thumbnail = event.thumbnail || '';
+          media.primaryColor = event.primaryColor || '';
+          media.textColor = event.textColor || '';
+          media.updatedAt = Date.now();
+        });
+      }
+
+      if (typeof window.wallpaperRegisterMediaPropertiesListener === 'function') {
+        window.wallpaperRegisterMediaPropertiesListener(function (event) {
+          if (!event) return;
+          media.title = event.title || '';
+          media.artist = event.artist || '';
+          media.albumTitle = event.albumTitle || '';
+          media.updatedAt = Date.now();
+        });
+      }
+
+      if (typeof window.wallpaperRegisterMediaPlaybackListener === 'function') {
+        window.wallpaperRegisterMediaPlaybackListener(function (event) {
+          if (!event) return;
+          var constants = window.wallpaperMediaIntegration || {};
+          if (event.state === constants.PLAYBACK_PLAYING) media.playback = 'playing';
+          else if (event.state === constants.PLAYBACK_PAUSED) media.playback = 'paused';
+          else media.playback = 'stopped';
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

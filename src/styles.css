@@ -22,7 +22,10 @@
   /* Layout and controls. */
   --ui-gutter: clamp(14px, 1.2vh, 22px);
   --ui-gutter-2: clamp(28px, 2.4vh, 44px);
-  --drawer-width: clamp(380px, 19vw, 500px);
+  --drawer-width: clamp(480px, 24vw, 620px);
+  /* The menu column only holds two-character labels ("显示"), so it can stay
+     narrow and leave more width to the settings pane. */
+  --drawer-nav-width: clamp(68px, 5vw, 88px);
   --drawer-pad-y: clamp(26px, 2.1vh, 38px);
   --drawer-pad-x: clamp(24px, 1.8vh, 32px);
   --drawer-pad-bottom: clamp(96px, 8vh, 120px);
@@ -183,7 +186,9 @@ button {
 
 .viewer__settings-button {
   position: absolute;
-  z-index: 30;
+  /* Below the drawer (20): while the drawer is open the eye button must be
+     covered by the panel rather than floating on top of it. */
+  z-index: 12;
   right: var(--ui-gutter);
   bottom: var(--ui-gutter);
   display: grid;
@@ -323,15 +328,27 @@ button {
   bottom: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 0;
   width: min(var(--drawer-width), 100%);
-  padding: var(--drawer-pad-y) var(--drawer-pad-x) var(--drawer-pad-bottom);
-  overflow-y: auto;
+  /* No padding at all: the title, the tab menu and the divider between the
+     menu and the pane are all meant to sit flush against the drawer edges.
+     The pane carries its own inset instead. */
+  padding: 0;
+  /* The drawer itself does not scroll: the header stays put and only the
+     active pane scrolls. Splitting settings into tabs keeps each pane short,
+     which matters because scrolling is unreliable inside Wallpaper Engine. */
+  overflow: hidden;
   overscroll-behavior: contain;
   background: #070911;
   transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
+  /* Slide the drawer in from the right edge. The transform starts fully off
+     screen, so the panel appears to arrive from outside the window. */
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+  will-change: transform;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
@@ -353,24 +370,195 @@ button {
 
 .inspector-header {
   display: flex;
-  align-items: flex-start;
+  flex: 0 0 auto;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.inspector-eyebrow {
-  margin: 0 0 var(--space-1);
-  font-size: var(--text-xs);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(232, 237, 250, 0.7);
+  gap: var(--space-3);
+  /* Flush with the drawer edge like the tab menu: the title gets the same left
+     marker the active tab uses, so the two share one visual rule. */
+  padding: var(--space-3) var(--space-3) var(--space-3) 0;
 }
 
 .inspector-title {
+  position: relative;
   margin: 0;
-  font-size: var(--text-title);
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  padding-left: var(--space-2);
+  font-size: var(--text-section);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #f2f5ff;
+}
+
+/* The block sits in the same gutter as the active tab's left rule, so the
+   heading and the menu line up on one vertical axis. */
+.inspector-title::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 3px;
+  height: 1em;
+  background: rgba(143, 168, 255, 0.9);
+  transform: translateY(-50%);
+}
+
+/* Body of the drawer: a vertical tab menu on the left, the active pane on the
+   right. Only the pane scrolls, so the menu and header stay reachable. */
+.inspector-body {
+  display: flex;
+  flex: 1 1 auto;
+  /* No gap: the pane's own border-left is the divider, so it touches both the
+     menu and the content with no detached line floating between them. */
+  gap: 0;
+  min-height: 0;
+}
+
+.inspector-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  gap: var(--space-1);
+  width: var(--drawer-nav-width);
+  /* Flush against the drawer edge; the text keeps a small inset so the active
+     left rule sits on the very edge. The bottom padding gives the collapse
+     control breathing room instead of touching the drawer's bottom edge. */
+  padding: var(--space-1) 0 var(--space-3) var(--space-2);
+}
+
+.inspector-nav__item {
+  /* Flat menu text: no rounded box. The active state is a left rule that sits
+     flush on the drawer edge, plus a faint tint so it reads clearly without
+     turning into a button. */
+  margin-left: calc(var(--space-2) * -1);
+  padding: 0 0 0 var(--space-2);
+  border: 0;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.78);
+  font-size: var(--text-md);
+  line-height: 2.4;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.inspector-nav__item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(238, 242, 252, 0.94);
+}
+
+.inspector-nav__item.is-active {
+  border-left-color: rgba(143, 168, 255, 0.9);
+  background: rgba(143, 168, 255, 0.08);
+  color: #f2f5ff;
+  font-weight: 600;
+}
+
+/* Pushes the language row and the collapse control to the foot of the menu
+   column without pinning them in place. */
+.inspector-nav__spacer {
+  flex: 1 1 auto;
+  min-height: var(--space-4);
+}
+
+/* Language switcher: flat text like the tabs, no button chrome. A 2x2 grid
+   keeps all four languages inside the narrow column. */
+.inspector-nav__languages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  /* The nav already contributes --space-2 on the left, so one more --space-2
+     lines the language labels up with the tab labels. */
+  padding-top: var(--space-2);
+  padding-left: var(--space-2);
+  margin-top: var(--space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.inspector-nav__lang {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.6);
+  font-size: var(--text-xs);
+  line-height: 2;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+
+.inspector-nav__lang:hover {
+  color: rgba(238, 242, 252, 0.92);
+}
+
+.inspector-nav__lang.is-active {
+  color: #f2f5ff;
+  font-weight: 600;
+}
+
+/* Collapse control at the very bottom of the menu column. Its inset matches the
+   language labels so all footer rows share one left axis. */
+.inspector-nav__close {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-1) 0 var(--space-1) var(--space-2);
+  border: 0;
+  background: transparent;
+  color: rgba(230, 236, 250, 0.6);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+
+.inspector-nav__close svg {
+  flex: 0 0 auto;
+  display: block;
+  width: var(--text-sm);
+  height: var(--text-sm);
+}
+
+.inspector-nav__close:hover {
+  color: #f2f5ff;
+}
+
+.inspector-nav__close:focus-visible,
+.inspector-nav__lang:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.inspector-pane {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  min-height: 0;
+  /* The divider lives here so it spans the full height of the pane and touches
+     the menu on one side and the content inset on the other. */
+  padding: var(--space-2) var(--space-3) var(--drawer-pad-bottom) var(--space-3);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.inspector-pane > .inspector-section + .inspector-section {
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .inspector-section {
@@ -386,7 +574,9 @@ button {
 
 .inspector-section__title {
   margin-bottom: var(--space-1);
-  font-size: var(--text-section);
+  /* Same scale as the tab menu: section titles are peers of the menu, not a
+     second nearly-large heading competing with the drawer title. */
+  font-size: var(--text-md);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: 0.04em;
@@ -1160,6 +1350,9 @@ button {
   right: 0;
   z-index: 3;
   height: var(--spectrum-height, 22vh);
+  /* Horizontal nudge in viewport-percentage units, shared with the clock's
+     position controls (0% to 100%). */
+  transform: translateX(var(--spectrum-offset-x, 0%));
   pointer-events: none;
 }
 
@@ -1169,7 +1362,8 @@ button {
 
 .spectrum--top {
   top: 0;
-  transform: scaleY(-1);
+  /* Keep the flip and the offset in one transform so they compose. */
+  transform: translateX(var(--spectrum-offset-x, 0%)) scaleY(-1);
 }
 
 .spectrum__canvas {
@@ -1178,10 +1372,154 @@ button {
   height: 100%;
 }
 
+/* Album art card: cover plus current track metadata from the engine's media
+   session. Same visual language as the clock overlay - no panel background, a
+   soft shadow for legibility over the artwork. */
+.album-art {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: min(46vw, 560px);
+  color: #f4f7ff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Corner anchors. The Y offset uses the widget position range (0..100%),
+   measured inward from the chosen corner. */
+.album-art--bottom-right {
+  right: var(--ui-gutter);
+  bottom: calc(var(--ui-gutter) + var(--album-offset-y, 0%));
+  margin-right: var(--album-offset-x, 0%);
+}
+
+.album-art--bottom-left {
+  left: var(--ui-gutter);
+  bottom: calc(var(--ui-gutter) + var(--album-offset-y, 0%));
+  margin-left: var(--album-offset-x, 0%);
+}
+
+.album-art--top-right {
+  right: var(--ui-gutter);
+  top: calc(var(--ui-gutter) + var(--album-offset-y, 0%));
+  margin-right: var(--album-offset-x, 0%);
+}
+
+.album-art--top-left {
+  left: var(--ui-gutter);
+  top: calc(var(--ui-gutter) + var(--album-offset-y, 0%));
+  margin-left: var(--album-offset-x, 0%);
+}
+
+.album-art__cover {
+  flex: 0 0 auto;
+  display: block;
+  width: var(--album-size, 18vh);
+  height: var(--album-size, 18vh);
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.album-art.is-paused .album-art__cover {
+  opacity: 0.72;
+}
+
+.album-art__placeholder {
+  flex: 0 0 auto;
+  width: var(--album-size, 18vh);
+  height: var(--album-size, 18vh);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.album-art__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  min-width: 0;
+}
+
+.album-art__title {
+  margin: 0;
+  font-size: var(--text-section);
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-art__artist {
+  margin: 0;
+  font-size: var(--text-md);
+  color: rgba(238, 242, 252, 0.82);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-art__album {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: rgba(238, 242, 252, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 640px) {
   .playback-inspector {
     width: 100%;
-    padding: var(--space-5) var(--space-5) var(--drawer-pad-bottom);
+  }
+
+  /* Narrow screens: stack the tab menu above the pane, since a side menu would
+     squeeze the controls too far. The divider moves to the top of the pane. */
+  .inspector-body {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .inspector-nav {
+    flex-direction: row;
+    width: auto;
+    padding: var(--space-1) 0 var(--space-2) 0;
+  }
+
+  .inspector-nav__item {
+    flex: 1 1 0;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    text-align: center;
+  }
+
+  .inspector-nav__item.is-active {
+    border-left-color: transparent;
+    border-bottom-color: rgba(143, 168, 255, 0.9);
+  }
+
+  .inspector-nav__spacer {
+    display: none;
+  }
+
+  .inspector-nav__languages {
+    padding-left: var(--space-2);
+  }
+
+  .inspector-nav__close {
+    padding-left: var(--space-2);
+  }
+
+  .inspector-pane {
+    padding: var(--space-3) var(--space-4) var(--drawer-pad-bottom) var(--space-4);
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .viewer__settings-button {
@@ -1192,5 +1530,13 @@ button {
   .clock-anchor {
     left: var(--space-5);
     bottom: var(--space-5);
+  }
+
+  .album-art {
+    max-width: calc(100vw - var(--ui-gutter) * 2);
+  }
+
+  .album-art__title {
+    font-size: var(--text-md);
   }
 }

@@ -1,14 +1,16 @@
 import { useEffect, useRef } from 'react'
-import { extractSpectrumBars, syntheticSpectrum, smoothAudioLevel, SPECTRUM_BARS } from '../audio.js'
+import {
+  DEFAULT_SPECTRUM_COLOR,
+  extractSpectrumBars,
+  smoothAudioLevel,
+  spectrumGradientStops,
+  SPECTRUM_BARS,
+  syntheticSpectrum,
+} from '../audio.js'
 import { getWallpaperAudioFrame } from '../wallpaperAudio.js'
 
 // Canvas 2D is used instead of 128 DOM nodes: a bar chart that redraws at
 // 60fps needs a single paint call, not 128 style invalidations.
-
-const COLORS = {
-  barTop: 'rgba(168, 196, 255, 0.95)',
-  barBottom: 'rgba(96, 128, 220, 0.55)',
-}
 
 // Wallpaper Engine sends real system audio. Anywhere the engine is absent the
 // synthetic data stands in, because browsers cannot tap system output.
@@ -37,8 +39,21 @@ function readBars(timeSeconds, out) {
   return syntheticSpectrum(timeSeconds, out)
 }
 
-export default function Spectrum({ visible, position = 'bottom', height = 22 }) {
+export default function Spectrum({
+  visible,
+  position = 'bottom',
+  height = 22,
+  offsetX = 0,
+  color = DEFAULT_SPECTRUM_COLOR,
+}) {
   const canvasRef = useRef(null)
+  // The draw loop is created once; a ref lets a colour change reach it without
+  // tearing down and rebuilding the animation.
+  const colorRef = useRef(color)
+
+  useEffect(() => {
+    colorRef.current = color
+  }, [color])
 
   useEffect(() => {
     if (!visible) return undefined
@@ -71,6 +86,12 @@ export default function Spectrum({ visible, position = 'bottom', height = 22 }) 
 
       context.clearRect(0, 0, width, height)
 
+      // Rebuild the stops each frame so a colour change applies immediately;
+      // the lookup is cheap and avoids caching stale gradient objects.
+      const stops =
+        spectrumGradientStops(colorRef.current) ??
+        spectrumGradientStops(DEFAULT_SPECTRUM_COLOR)
+
       const gap = Math.max(1, Math.round(width / SPECTRUM_BARS / 4))
       const barWidth = width / SPECTRUM_BARS
 
@@ -82,8 +103,8 @@ export default function Spectrum({ visible, position = 'bottom', height = 22 }) 
         const w = Math.max(1, barWidth - gap)
 
         const gradient = context.createLinearGradient(0, height, 0, height - barHeight)
-        gradient.addColorStop(0, COLORS.barBottom)
-        gradient.addColorStop(1, COLORS.barTop)
+        gradient.addColorStop(0, stops.bottom)
+        gradient.addColorStop(1, stops.top)
         context.fillStyle = gradient
         context.fillRect(x, height - barHeight, w, barHeight)
       }
@@ -114,7 +135,11 @@ export default function Spectrum({ visible, position = 'bottom', height = 22 }) 
   return (
     <div
       className={`spectrum spectrum--${position}`}
-      style={{ '--spectrum-height': `${height}vh` }}
+      style={{
+        '--spectrum-height': `${height}vh`,
+        // Same -100..200 percentage range as every other widget position.
+        '--spectrum-offset-x': `${offsetX}%`,
+      }}
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="spectrum__canvas" />

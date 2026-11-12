@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import SettingsDrawer from './components/SettingsDrawer.jsx'
 import Clock from './components/Clock.jsx'
 import Spectrum from './components/Spectrum.jsx'
+import AlbumArt from './components/AlbumArt.jsx'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
-import { CLOCK_OFFSET_X_LIMIT, CLOCK_OFFSET_Y_MAX, CLOCK_OFFSET_Y_MIN, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './clock.js'
+import { CLOCK_OFFSET_MIN, CLOCK_OFFSET_MAX, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './clock.js'
+import { DEFAULT_SPECTRUM_COLOR } from './audio.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
 
@@ -11,6 +13,7 @@ const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
 const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 const CLOCK_KEY = 'spine-viewer:clock:v1'
 const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
+const ALBUM_ART_KEY = 'spine-viewer:album-art:v1'
 const CLOCK_PLACEMENTS = ['card', 'bar']
 // Clock position is stored as a percentage of the viewport, measured from the
 // bottom-left anchor corner, so a saved offset keeps its intent across
@@ -43,14 +46,14 @@ function normalizeClock(value, fallback = DEFAULT_CLOCK) {
     offsetX: clampNumber(
       source.offsetX,
       fallback.offsetX,
-      -CLOCK_OFFSET_X_LIMIT,
-      CLOCK_OFFSET_X_LIMIT,
+      CLOCK_OFFSET_MIN,
+      CLOCK_OFFSET_MAX,
     ),
     offsetY: clampNumber(
       source.offsetY,
       fallback.offsetY,
-      CLOCK_OFFSET_Y_MIN,
-      CLOCK_OFFSET_Y_MAX,
+      CLOCK_OFFSET_MIN,
+      CLOCK_OFFSET_MAX,
     ),
     size: clampNumber(source.size, fallback.size, CLOCK_SIZE_MIN, CLOCK_SIZE_MAX),
     reactToBeat:
@@ -81,8 +84,19 @@ const DEFAULT_SPECTRUM = {
   show: false,
   position: 'bottom',
   height: 22,
+  // Horizontal nudge, same 0..100 range every widget position uses.
+  offsetX: 0,
+  // Bar colour; the same #rrggbb form the background colour uses.
+  color: DEFAULT_SPECTRUM_COLOR,
 }
 
+// Shared guard for the colour fields so every entry point validates the same
+// way: only a real #rrggbb string is accepted, anything else falls back.
+function normalizeHexColor(value, fallback) {
+  return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)
+    ? value.toLowerCase()
+    : fallback
+}
 function loadSpectrumSettings() {
   try {
     const value = JSON.parse(window.localStorage.getItem(SPECTRUM_KEY) ?? 'null')
@@ -93,6 +107,13 @@ function loadSpectrumSettings() {
         ? value.position
         : DEFAULT_SPECTRUM.position,
       height: clampNumber(value.height, DEFAULT_SPECTRUM.height, 8, 60),
+      offsetX: clampNumber(
+        value.offsetX,
+        DEFAULT_SPECTRUM.offsetX,
+        CLOCK_OFFSET_MIN,
+        CLOCK_OFFSET_MAX,
+      ),
+      color: normalizeHexColor(value.color, DEFAULT_SPECTRUM.color),
     }
   } catch {
     return DEFAULT_SPECTRUM
@@ -102,6 +123,51 @@ function loadSpectrumSettings() {
 function saveSpectrumSettings(spectrum) {
   try {
     window.localStorage.setItem(SPECTRUM_KEY, JSON.stringify(spectrum))
+  } catch {
+    return
+  }
+}
+
+// Album art card: cover plus track metadata from the engine's media session.
+const DEFAULT_ALBUM_ART = {
+  show: false,
+  corner: 'bottom-right',
+  size: 18,
+  offsetX: 0,
+  offsetY: 0,
+}
+
+function loadAlbumArtSettings() {
+  try {
+    const value = JSON.parse(window.localStorage.getItem(ALBUM_ART_KEY) ?? 'null')
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_ALBUM_ART
+    return {
+      show: value.show === true,
+      corner: ['bottom-right', 'bottom-left', 'top-right', 'top-left'].includes(value.corner)
+        ? value.corner
+        : DEFAULT_ALBUM_ART.corner,
+      size: clampNumber(value.size, DEFAULT_ALBUM_ART.size, 10, 40),
+      offsetX: clampNumber(
+        value.offsetX,
+        DEFAULT_ALBUM_ART.offsetX,
+        CLOCK_OFFSET_MIN,
+        CLOCK_OFFSET_MAX,
+      ),
+      offsetY: clampNumber(
+        value.offsetY,
+        DEFAULT_ALBUM_ART.offsetY,
+        CLOCK_OFFSET_MIN,
+        CLOCK_OFFSET_MAX,
+      ),
+    }
+  } catch {
+    return DEFAULT_ALBUM_ART
+  }
+}
+
+function saveAlbumArtSettings(albumArt) {
+  try {
+    window.localStorage.setItem(ALBUM_ART_KEY, JSON.stringify(albumArt))
   } catch {
     return
   }
@@ -350,6 +416,12 @@ export default function App() {
     saveSpectrumSettings(spectrum)
   }, [spectrum])
 
+  const [albumArt, setAlbumArt] = useState(loadAlbumArtSettings)
+
+  useEffect(() => {
+    saveAlbumArtSettings(albumArt)
+  }, [albumArt])
+
   useEffect(() => {
     saveLanguage(language)
     document.documentElement.lang =
@@ -557,6 +629,35 @@ export default function App() {
       return {
         ...next,
         height: clampNumber(next.height, previous.height, 8, 60),
+        offsetX: clampNumber(
+          next.offsetX,
+          previous.offsetX,
+          CLOCK_OFFSET_MIN,
+          CLOCK_OFFSET_MAX,
+        ),
+        color: normalizeHexColor(next.color, previous.color),
+      }
+    })
+  }
+
+  const updateAlbumArt = (patch) => {
+    setAlbumArt((previous) => {
+      const next = { ...previous, ...patch }
+      return {
+        ...next,
+        size: clampNumber(next.size, previous.size, 10, 40),
+        offsetX: clampNumber(
+          next.offsetX,
+          previous.offsetX,
+          CLOCK_OFFSET_MIN,
+          CLOCK_OFFSET_MAX,
+        ),
+        offsetY: clampNumber(
+          next.offsetY,
+          previous.offsetY,
+          CLOCK_OFFSET_MIN,
+          CLOCK_OFFSET_MAX,
+        ),
       }
     })
   }
@@ -571,7 +672,22 @@ export default function App() {
         className="viewer__canvas"
         onPointerUp={handleCanvasPointerUp}
       />
-      <Spectrum visible={spectrum.show} position={spectrum.position} height={spectrum.height} />
+      <Spectrum
+        visible={spectrum.show}
+        position={spectrum.position}
+        height={spectrum.height}
+        offsetX={spectrum.offsetX}
+        color={spectrum.color}
+      />
+      <AlbumArt
+        visible={albumArt.show}
+        corner={albumArt.corner}
+        size={albumArt.size}
+        offsetX={albumArt.offsetX}
+        offsetY={albumArt.offsetY}
+        language={language}
+        t={t}
+      />
       <Clock
         visible={clock.show}
         placement={clock.placement}
@@ -673,6 +789,9 @@ export default function App() {
         onClockChange={updateClock}
         spectrum={spectrum}
         onSpectrumChange={updateSpectrum}
+        albumArt={albumArt}
+        onAlbumArtChange={updateAlbumArt}
+        inWallpaperEngine={inWallpaperEngine}
         status={status}
         isError={isError}
         modelId={selectedModel?.id ?? ''}
