@@ -3,10 +3,23 @@ import {
   DEFAULT_SPECTRUM_COLOR,
   extractSpectrumBars,
   smoothAudioLevel,
-  spectrumGradientStops,
-  SPECTRUM_BARS,
+  summarizeWallpaperAudio,
+  syntheticAudioLevel,
   syntheticSpectrum,
+  SPECTRUM_BARS,
 } from '../utils/audio.js'
+import {
+  createRendererState,
+  drawAurora,
+  drawBars,
+  drawCurve,
+  drawDots,
+  drawMirror,
+  drawRing,
+  drawRingWave,
+  drawRipples,
+  SPECTRUM_STYLES,
+} from '../utils/spectrum.js'
 import { getWallpaperAudioFrame } from '../utils/wallpaperAudio.js'
 import { isWallpaperPaused } from '../utils/wallpaperPause.js'
 import './MiniSpectrum.css'
@@ -17,7 +30,9 @@ import './MiniSpectrum.css'
 //
 // It shares the same data path: real engine frames inside Wallpaper Engine,
 // synthetic data in a browser, and silence (never fake bars) once the engine is
-// detected but sends nothing.
+// detected but sends nothing. It also shares the renderer set in
+// src/utils/spectrum.js, so every style the full-screen widget offers is
+// available inside the card too.
 
 function useRealAudio() {
   return (
@@ -42,10 +57,20 @@ function readBars(timeSeconds, out) {
   return syntheticSpectrum(timeSeconds, out)
 }
 
+function readBass(timeSeconds) {
+  if (useRealAudio()) {
+    const frame = getWallpaperAudioFrame()
+    if (!frame) return 0
+    return summarizeWallpaperAudio(frame)?.bass ?? 0
+  }
+  return syntheticAudioLevel(timeSeconds).bass
+}
+
 // A dense 128-bar spectrum is unreadable at card size: the bars end up a couple
 // of pixels wide with visible gaps between them, so the strip reads as mostly
 // empty. Grouping bands into fewer, wider bars keeps the same overall energy
-// while looking filled.
+// while looking filled. The renderers that fold their own bands (dots, aurora)
+// simply receive the folded array.
 const MINI_BARS = 32
 
 // Raw band values sit well below 1 for most music, so plotting them directly
@@ -55,13 +80,34 @@ const MINI_BARS = 32
 const VISIBLE_FLOOR = 0.05
 const VISIBLE_CEIL = 0.78
 
-export default function MiniSpectrum({ active = true, color = DEFAULT_SPECTRUM_COLOR }) {
+const RENDERERS = {
+  bars: (ctx, levels, w, h, color) => drawBars(ctx, levels, w, h, color),
+  mirror: (ctx, levels, w, h, color) => drawMirror(ctx, levels, w, h, color),
+  curve: (ctx, levels, w, h, color) => drawCurve(ctx, levels, w, h, color),
+  ring: (ctx, levels, w, h, color, state, meta) => drawRing(ctx, levels, w, h, color, meta),
+  ringwave: (ctx, levels, w, h, color, state, meta) =>
+    drawRingWave(ctx, levels, w, h, color, meta),
+  dots: (ctx, levels, w, h, color) => drawDots(ctx, levels, w, h, color),
+  ripples: (ctx, levels, w, h, color, state, meta) =>
+    drawRipples(ctx, levels, w, h, color, state, meta),
+  aurora: (ctx, levels, w, h, color, state, meta) =>
+    drawAurora(ctx, levels, w, h, color, state, meta),
+}
+
+
+export default function MiniSpectrum({
+  active = true,
+  style = 'bars',
+  color = DEFAULT_SPECTRUM_COLOR,
+}) {
   const canvasRef = useRef(null)
   const colorRef = useRef(color)
 
   useEffect(() => {
     colorRef.current = color
   }, [color])
+
+  const variant = SPECTRUM_STYLES.includes(style) ? style : 'bars'
 
   useEffect(() => {
     if (!active) return undefined
@@ -74,9 +120,14 @@ export default function MiniSpectrum({ active = true, color = DEFAULT_SPECTRUM_C
 
     const targets = new Float32Array(SPECTRUM_BARS)
     const levels = new Float32Array(MINI_BARS)
+    const state = createRendererState(variant)
+    const render = RENDERERS[variant] ?? RENDERERS.bars
 
     let frameId = 0
     let lastTime = performance.now()
+    // Animation clock in seconds, advanced only while drawing so a paused
+    // wallpaper freezes the ring rotation instead of jumping it ahead.
+    let elapsed = 0
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
@@ -105,43 +156,24 @@ export default function MiniSpectrum({ active = true, color = DEFAULT_SPECTRUM_C
 
     const folded = new Float32Array(MINI_BARS)
 
-    const draw = (delta) => {
-      const width = canvas.width
-      const height = canvas.height
-
-      context.clearRect(0, 0, width, height)
-      foldBars(folded)
-
-      const stops =
-        spectrumGradientStops(colorRef.current) ??
-        spectrumGradientStops(DEFAULT_SPECTRUM_COLOR)
-
-      const slot = width / MINI_BARS
-      // A small gap sets the bars apart without making the strip look sparse.
-      const gap = Math.max(1, Math.round(slot * 0.28))
-      const barWidth = Math.max(1, slot - gap)
-
-      for (let i = 0; i < MINI_BARS; i += 1) {
-        levels[i] = smoothAudioLevel(levels[i], folded[i], delta)
-
-        const barHeight = Math.max(1, levels[i] * height)
-        const x = i * slot
-
-        const gradient = context.createLinearGradient(0, height, 0, height - barHeight)
-        gradient.addColorStop(0, stops.bottom)
-        gradient.addColorStop(1, stops.top)
-        context.fillStyle = gradient
-        context.fillRect(x, height - barHeight, barWidth, barHeight)
-      }
-    }
-
     const tick = (now) => {
       const delta = Math.min(Math.max((now - lastTime) / 1000, 0), 0.05)
       lastTime = now
 
       if (!isWallpaperPaused()) {
-        readBars(now / 1000, targets)
-        draw(delta)
+        elapsed += delta
+        const timeSeconds = elapsed
+        readBars(timeSeconds, targets)
+        foldBars(folded)
+        for (let i = 0; i < MINI_BARS; i += 1) {
+          levels[i] = smoothAudioLevel(levels[i], folded[i], delta)
+        }
+
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        render(context, levels, canvas.width, canvas.height, colorRef.current, state, {
+          time: timeSeconds,
+          bass: readBass(timeSeconds),
+        })
       }
 
       frameId = window.requestAnimationFrame(tick)
@@ -155,7 +187,7 @@ export default function MiniSpectrum({ active = true, color = DEFAULT_SPECTRUM_C
       window.cancelAnimationFrame(frameId)
       window.removeEventListener('resize', resize)
     }
-  }, [active])
+  }, [active, variant])
 
   if (!active) return null
 

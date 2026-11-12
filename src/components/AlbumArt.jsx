@@ -12,6 +12,25 @@ const POLL_MS = 1000
 // arranges the cover, the metadata and the inline spectrum.
 const STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
 
+// The spectrum style each card layout is built around. The card picks its own
+// visual so it stays coherent regardless of what the full-screen spectrum is
+// set to; the choice follows the shape of the space the graph has to fill.
+//
+//   classic  tall column behind the text      bars
+//   glass    same tall column, softer panel    curve
+//   minimal  tall column under the type        bars
+//   bar      wide, short strip                 curve
+//   wall     small palette tile                dots
+//
+// `vinyl` is deliberately absent: that layout is a clean record with no graph.
+const SPECTRUM_STYLE_BY_CARD = {
+  classic: 'bars',
+  glass: 'curve',
+  minimal: 'bars',
+  bar: 'curve',
+  wall: 'dots',
+}
+
 function AlbumCover({ media, t, variant }) {
   if (!media?.thumbnail) {
     return <div className={`album-art__placeholder album-art__placeholder--${variant}`} aria-hidden="true" />
@@ -127,8 +146,10 @@ export default function AlbumArt({
     />
   )
 
+  // Each card layout owns its spectrum style (see SPECTRUM_STYLE_BY_CARD), so
+  // the card stays coherent even when the full-screen spectrum is changed.
   const spectrum = available && media ? (
-    <MiniSpectrum active={!paused} color={spectrumColor} />
+    <MiniSpectrum active={!paused} style={SPECTRUM_STYLE_BY_CARD[variant]} color={spectrumColor} />
   ) : null
 
   // Each layout body. Keeping them together makes the shared props obvious and
@@ -136,8 +157,9 @@ export default function AlbumArt({
   let body
   switch (variant) {
     case 'vinyl':
-      // One big record. The sleeve notes and spectrum live on the label, so the
-      // whole widget is a single circle that spins as one piece.
+      // One big record. The sleeve notes sit on the centre label and the whole
+      // widget turns as a single piece; this layout carries no spectrum so it
+      // stays a clean disc.
       body = (
         <div className="album-art__vinyl">
           <div className="album-art__vinyl-cover">
@@ -145,7 +167,6 @@ export default function AlbumArt({
           </div>
           <div className="album-art__vinyl-label">
             <div className="album-art__meta">{meta}</div>
-            <div className="album-art__vinyl-spectrum">{spectrum}</div>
           </div>
         </div>
       )

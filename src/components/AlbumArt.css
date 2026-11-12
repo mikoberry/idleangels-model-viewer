@@ -322,8 +322,8 @@
   opacity: 0.55;
 }
 
-/* The centre label: a tinted plate carrying the track notes and the spectrum.
-   It counter-rotates so the text never spins. */
+/* The centre label: a tinted plate carrying the track notes. It counter-rotates
+   so the text never spins. */
 .album-art--style-vinyl .album-art__vinyl-label {
   position: relative;
   z-index: 1;
@@ -365,12 +365,12 @@
   pointer-events: none;
 }
 
-/* Text block sits above centre so the taller spectrum keeps a clear band at the
-   bottom of the label; the spindle hole falls in the gap above it. */
+/* The label carries only text, so the notes are centred with a small lift
+   clear of the spindle hole. */
 .album-art--style-vinyl .album-art__meta {
   align-items: center;
   padding-bottom: 0;
-  margin-bottom: calc(var(--album-size, 18vh) * 0.085);
+  margin-bottom: calc(var(--album-size, 18vh) * 0.06);
 }
 
 .album-art--style-vinyl .album-art__title {
@@ -389,22 +389,6 @@
 /* The album line does not fit on the label; keep the two essential fields. */
 .album-art--style-vinyl .album-art__album {
   display: none;
-}
-
-/* The spectrum runs along the bottom of the label. It is taller and wider than
-   the text block needs, so the bars stay the dominant element on the label. */
-.album-art--style-vinyl .album-art__vinyl-spectrum {
-  position: absolute;
-  left: 13%;
-  right: 13%;
-  bottom: calc(var(--album-size, 18vh) * 0.028);
-  height: calc(var(--album-size, 18vh) * 0.15);
-  opacity: 0.9;
-}
-
-.album-art--style-vinyl .album-art__vinyl-spectrum .mini-spectrum {
-  position: absolute;
-  inset: 0;
 }
 
 @keyframes album-art-spin-reverse {

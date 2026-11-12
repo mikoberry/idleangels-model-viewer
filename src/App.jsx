@@ -13,6 +13,7 @@ import {
   CLOCK_SIZE_MIN,
 } from './utils/clock.js'
 import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
+import { SPECTRUM_STYLES } from './utils/spectrum.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
 import './App.css'
@@ -100,8 +101,11 @@ function saveClockSettings(clock) {
 
 // The spectrum keeps its own preferences so enabling audio visualisation does
 // not depend on the clock being shown.
+// `style` picks the renderer in src/utils/spectrum.js; every style shares the
+// same position, height, offset and colour controls.
 const DEFAULT_SPECTRUM = {
   show: false,
+  style: 'bars',
   position: 'bottom',
   height: 22,
   // Horizontal nudge, same 0..100 range every widget position uses.
@@ -123,6 +127,7 @@ function loadSpectrumSettings() {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_SPECTRUM
     return {
       show: value.show === true,
+      style: SPECTRUM_STYLES.includes(value.style) ? value.style : DEFAULT_SPECTRUM.style,
       position: ['bottom', 'top'].includes(value.position)
         ? value.position
         : DEFAULT_SPECTRUM.position,
@@ -655,6 +660,7 @@ export default function App() {
       const next = { ...previous, ...patch }
       return {
         ...next,
+        style: SPECTRUM_STYLES.includes(next.style) ? next.style : previous.style,
         height: clampNumber(next.height, previous.height, 8, 60),
         offsetX: clampNumber(
           next.offsetX,
@@ -702,6 +708,7 @@ export default function App() {
       />
       <Spectrum
         visible={spectrum.show}
+        style={spectrum.style}
         position={spectrum.position}
         height={spectrum.height}
         offsetX={spectrum.offsetX}

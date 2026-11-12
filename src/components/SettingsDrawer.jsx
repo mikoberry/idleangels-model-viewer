@@ -1302,6 +1302,32 @@ export default function SettingsDrawer({
         </label>
         {spectrum.show && (
           <>
+            <div className="clock-placement" role="group" aria-label={t('spectrum.style')}>
+              <span className="clock-placement__label">{t('spectrum.style')}</span>
+              <div className="clock-placement__options">
+                {[
+                  ['bars', 'Bars'],
+                  ['mirror', 'Mirror'],
+                  ['curve', 'Curve'],
+                  ['ring', 'Ring'],
+                  ['ringwave', 'Ringwave'],
+                  ['dots', 'Dots'],
+                  ['ripples', 'Ripples'],
+                  ['aurora', 'Aurora'],
+                ].map(([value, key]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={`clock-placement__option${(spectrum.style ?? 'bars') === value ? ' is-active' : ''}`}
+                    aria-pressed={(spectrum.style ?? 'bars') === value}
+                    onClick={() => onSpectrumChange({ style: value })}
+                  >
+                    {t(`spectrum.style${key}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="clock-placement" role="group" aria-label={t('spectrum.position')}>
               <span className="clock-placement__label">{t('spectrum.position')}</span>
               <div className="clock-placement__options">

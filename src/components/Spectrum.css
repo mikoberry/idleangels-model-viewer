@@ -24,6 +24,46 @@
   transform: translateX(var(--spectrum-offset-x, 0%)) scaleY(-1);
 }
 
+/* The bar-like styles grow from the edge they are pinned to, so flipping the
+   whole surface for the top edge is exactly right. The centred styles (ring
+   spectra, ripples, aurora) are radial or symmetric and must not be mirrored,
+   so they opt out and draw upright on both edges. */
+.spectrum--top.spectrum--style-ring,
+.spectrum--top.spectrum--style-ringwave,
+.spectrum--top.spectrum--style-ripples,
+.spectrum--top.spectrum--style-aurora {
+  transform: translateX(var(--spectrum-offset-x, 0%));
+}
+
+/* Radial styles need a square box: the ring spectra are circles, and the ripple
+   field is a set of concentric circles whose reach is bounded by the shorter
+   side. In the wide edge strip the height was the limiting side, so ripples
+   collapsed into a small disc. The size control drives the diameter and the
+   widget is centred on the chosen edge. */
+.spectrum--style-ring,
+.spectrum--style-ringwave,
+.spectrum--style-ripples {
+  left: 50%;
+  right: auto;
+  width: var(--spectrum-height, 22vh);
+  height: var(--spectrum-height, 22vh);
+  margin-left: calc(var(--spectrum-height, 22vh) / -2);
+}
+
+/* Anchored at the chosen edge; because the box is square the circle sits fully
+   inside the viewport instead of being cropped by the edge. */
+.spectrum--style-ring.spectrum--bottom,
+.spectrum--style-ringwave.spectrum--bottom,
+.spectrum--style-ripples.spectrum--bottom {
+  bottom: 0;
+}
+
+.spectrum--style-ring.spectrum--top,
+.spectrum--style-ringwave.spectrum--top,
+.spectrum--style-ripples.spectrum--top {
+  top: 0;
+}
+
 .spectrum__canvas {
   display: block;
   width: 100%;
