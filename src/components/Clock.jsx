@@ -64,6 +64,9 @@ export default function Clock({
   size = 100,
   reactToBeat = false,
   beatIntensity = 100,
+  use24Hour = true,
+  theme = 'dark',
+  onToggleHourFormat,
   t,
 }) {
   const [now, setNow] = useState(() => new Date())
@@ -210,7 +213,7 @@ export default function Clock({
 
   if (!visible) return null
 
-  const time = formatClockTime(now)
+  const time = formatClockTime(now, { use24Hour })
   const parts = formatClockDateParts(now, language)
   const weekday = t(`weekday.${parts.weekday}`)
   // Always show the real calendar date; "today"/"yesterday" only annotates it
@@ -219,35 +222,112 @@ export default function Clock({
     date: parts.absolute,
     weekday,
   })
-  const zone = formatClockZone(now)
+  const zoneInfo = formatClockZone(now)
+  const zone = zoneInfo.display || zoneInfo.short || zoneInfo.iana
 
-  // The outer element owns placement only. The tilt wrapper owns the 3D
-  // transform, so positioning and rotation never overwrite each other.
+  // Deconstruct components for specialized layouts
+  const timeClean = time.replace(/\s*[AP]M$/i, '')
+  const ampm = time.match(/[AP]M$/i)?.[0] || ''
+  const timeChunks = timeClean.split(':')
+  const hoursStr = timeChunks[0] || '00'
+  const minutesStr = timeChunks[1] || '00'
+  const secondsStr = timeChunks[2] || '00'
+
+  // Outer placement anchor style
   const anchorStyle = {
     left: `${offsetX}%`,
     bottom: `${offsetY}%`,
   }
 
-  // The user's intensity slider scales both the scale bump and the glow. 0%
-  // means the clock still follows the audio internally but visibly does
-  // nothing; CLOCK_BEAT_INTENSITY_MAX is the strongest response the slider
-  // allows. The clamp lives here as well so a stale stored value can never
-  // overshoot the control range.
+  // Audio beat intensity
   const intensity =
     Math.min(Math.max(beatIntensity, CLOCK_BEAT_INTENSITY_MIN), CLOCK_BEAT_INTENSITY_MAX) / 100
 
   const tiltStyle = {
-    // No CSS transition here: the rAF loop already eases the values, and a
-    // transition on top would add lag and stutter.
     transform: `perspective(900px) rotateX(${tilt.rotateX.toFixed(3)}deg) rotateY(${tilt.rotateY.toFixed(3)}deg) scale(${(1 + beat * BEAT_SCALE * intensity).toFixed(3)})`,
     '--clock-scale': size / 100,
-    // A soft glow that grows with the beat; 0 when the feature is off.
     '--clock-beat-glow': (beat * BEAT_GLOW * intensity).toFixed(3),
   }
 
-  const content =
-    placement === 'bar' ? (
-      <div className="clock-bar" role="timer" aria-label={t('clock.label')}>
+  const themeClass = theme === 'light' ? 'clock--theme-light' : 'clock--theme-dark'
+
+  let content = null
+
+  if (placement === 'minimal') {
+    // 1. 极简数字时钟（Minimal Digital）
+    content = (
+      <div
+        className={`clock-minimal-digital ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
+        <div className="clock-minimal-digital__time">
+          <span className="clock-minimal-digital__hm">{hoursStr}:{minutesStr}</span>
+          <span className="clock-minimal-digital__colon">:</span>
+          <span className="clock-minimal-digital__sec">{secondsStr}</span>
+          {ampm && <span className="clock-minimal-digital__ampm">{ampm}</span>}
+        </div>
+        <div className="clock-minimal-digital__date">
+          {parts.absolute} {weekday}
+        </div>
+        <div className="clock-minimal-digital__zone">
+          {zoneInfo.iana ? `${zoneInfo.iana} · ${zoneInfo.short}` : zone}
+        </div>
+      </div>
+    )
+  } else if (placement === 'cyberpunk') {
+    // 2. 赛博朋克霓虹时钟（Cyberpunk Neon）
+    content = (
+      <div
+        className={`clock-cyberpunk ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
+        <div className="clock-cyberpunk__scanline" aria-hidden="true" />
+        <div className="clock-cyberpunk__time">
+          <span className="clock-cyberpunk__hm">{hoursStr}:{minutesStr}</span>
+          <span className="clock-cyberpunk__colon">:</span>
+          <span className="clock-cyberpunk__sec">{secondsStr}</span>
+          {ampm && <span className="clock-cyberpunk__ampm">{ampm}</span>}
+        </div>
+        <div className="clock-cyberpunk__divider" />
+        <div className="clock-cyberpunk__footer">
+          <span className="clock-cyberpunk__date">{parts.absolute}</span>
+          <span className="clock-cyberpunk__weekday">{weekday}</span>
+          <span className="clock-cyberpunk__zone">{zoneInfo.short || zoneInfo.iana || zone}</span>
+        </div>
+      </div>
+    )
+  } else if (placement === 'infobar') {
+    // 3. 横向信息条时钟（Horizontal Info Bar）
+    content = (
+      <div
+        className={`clock-infobar ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
+        <span className="clock-infobar__zone">{zoneInfo.iana || zone}</span>
+        <span className="clock-infobar__sep">|</span>
+        <span className="clock-infobar__date">{weekday} {parts.absolute}</span>
+        <span className="clock-infobar__sep">|</span>
+        <span className="clock-infobar__time">{time}</span>
+      </div>
+    )
+  } else if (placement === 'bar') {
+    content = (
+      <div
+        className={`clock-bar ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
         <span className="clock-bar__time">{time}</span>
         <span className="clock-bar__separator" aria-hidden="true">
           ·
@@ -255,13 +335,60 @@ export default function Clock({
         <span className="clock-bar__date">{dateLabel}</span>
         <span className="clock-bar__zone">{zone}</span>
       </div>
-    ) : (
-      <div className="clock-card" role="timer" aria-label={t('clock.label')}>
+    )
+  } else if (placement === 'split') {
+    content = (
+      <div
+        className={`clock-split ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
+        <div className="clock-split__header">
+          <span className="clock-split__badge">{weekday}</span>
+          <span className="clock-split__date">{parts.absolute}</span>
+          {zone && <span className="clock-split__zone">{zone}</span>}
+        </div>
+        <div className="clock-split__time">{time}</div>
+      </div>
+    )
+  } else if (placement === 'poster') {
+    content = (
+      <div
+        className={`clock-poster ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
+        <div className="clock-poster__main">
+          <span className="clock-poster__hm">{hoursStr}:{minutesStr}</span>
+          <span className="clock-poster__sec">{secondsStr}</span>
+        </div>
+        <div className="clock-poster__footer">
+          <span className="clock-poster__date">{parts.absolute}</span>
+          <span className="clock-poster__weekday">{weekday}</span>
+          {zone && <span className="clock-poster__zone">{zone}</span>}
+        </div>
+      </div>
+    )
+  } else {
+    // Default 'card'
+    content = (
+      <div
+        className={`clock-card ${themeClass}`}
+        role="timer"
+        aria-label={t('clock.label')}
+        onClick={onToggleHourFormat}
+        title={zoneInfo.iana || zone}
+      >
         <span className="clock-card__date">{dateLabel}</span>
         <span className="clock-card__time">{time}</span>
         <span className="clock-card__zone">{zone}</span>
       </div>
     )
+  }
 
   return (
     <div className="clock-anchor" style={anchorStyle}>

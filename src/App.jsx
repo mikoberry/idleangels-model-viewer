@@ -21,19 +21,21 @@ const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 const CLOCK_KEY = 'spine-viewer:clock:v1'
 const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
 const ALBUM_ART_KEY = 'spine-viewer:album-art:v1'
-const CLOCK_PLACEMENTS = ['card', 'bar']
+const CLOCK_PLACEMENTS = ['card', 'bar', 'minimal', 'cyberpunk', 'infobar', 'split', 'poster']
 // Clock position is stored as a percentage of the viewport, measured from the
 // bottom-left anchor corner, so a saved offset keeps its intent across
 // resolutions. Limits live in clock.js and are shared with the drawer.
 const DEFAULT_CLOCK = {
   show: false,
-  placement: 'card',
+  placement: 'minimal',
   offsetX: 10,
   offsetY: 50,
   size: 100,
   reactToBeat: false,
   // How strongly the clock reacts, as a percentage of the built-in animation.
   beatIntensity: 100,
+  use24Hour: true,
+  theme: 'dark', // 'dark' | 'light'
 }
 
 function clampNumber(value, fallback, min, max) {
@@ -73,6 +75,8 @@ function normalizeClock(value, fallback = DEFAULT_CLOCK) {
       CLOCK_BEAT_INTENSITY_MIN,
       CLOCK_BEAT_INTENSITY_MAX,
     ),
+    use24Hour: typeof source.use24Hour === 'boolean' ? source.use24Hour : fallback.use24Hour,
+    theme: source.theme === 'light' ? 'light' : 'dark',
   }
 }
 
@@ -712,6 +716,9 @@ export default function App() {
         size={clock.size}
         reactToBeat={clock.reactToBeat}
         beatIntensity={clock.beatIntensity}
+        use24Hour={clock.use24Hour}
+        theme={clock.theme}
+        onToggleHourFormat={() => setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))}
         language={language}
         t={t}
       />

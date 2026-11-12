@@ -297,6 +297,7 @@ button {
 }
 
 @keyframes eye-hint-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -556,7 +557,7 @@ button {
   scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 
-.inspector-pane > .inspector-section + .inspector-section {
+.inspector-pane>.inspector-section+.inspector-section {
   padding-top: var(--space-3);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -567,7 +568,7 @@ button {
   gap: var(--space-2);
 }
 
-.inspector-section + .inspector-section {
+.inspector-section+.inspector-section {
   padding-top: var(--space-3);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -1030,16 +1031,14 @@ button {
   position: relative;
   height: clamp(12px, 1vh, 18px);
   border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    #f00 0%,
-    #ff0 16.66%,
-    #0f0 33.33%,
-    #0ff 50%,
-    #00f 66.66%,
-    #f0f 83.33%,
-    #f00 100%
-  );
+  background: linear-gradient(to right,
+      #f00 0%,
+      #ff0 16.66%,
+      #0f0 33.33%,
+      #0ff 50%,
+      #00f 66.66%,
+      #f0f 83.33%,
+      #f00 100%);
   cursor: pointer;
   touch-action: none;
 }
@@ -1228,6 +1227,7 @@ button {
 
 .clock-placement__options {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2);
 }
 
@@ -1278,23 +1278,256 @@ button {
   will-change: transform;
 }
 
+/* ==========================================================================
+   Clock Themes & Styles
+   ========================================================================== */
+
+.clock--theme-light {
+  color: #1a1e28;
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
+}
+
+/* 1. 极简数字时钟（Minimal Digital） */
+.clock-minimal-digital {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #f4f7ff;
+  user-select: none;
+  cursor: pointer;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.72),
+    0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
+}
+
+.clock-minimal-digital.clock--theme-light {
+  color: #1a1e28;
+}
+
+.clock-minimal-digital__time {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: "Inter", "SF Pro", system-ui, sans-serif;
+  font-size: calc(var(--clock-time-size) * 1.3 * var(--clock-scale, 1));
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+}
+
+.clock-minimal-digital__sec {
+  opacity: 0.65;
+  font-size: 0.65em;
+  font-weight: 300;
+}
+
+.clock-minimal-digital__colon {
+  opacity: 0.85;
+}
+
+.clock-minimal-digital__ampm {
+  font-size: 0.28em;
+  margin-left: 0.35em;
+  font-weight: 500;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.clock-minimal-digital__date {
+  margin-top: 0.25em;
+  font-size: calc(var(--clock-date-size) * 1.05 * var(--clock-scale, 1));
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.clock-minimal-digital__zone {
+  margin-top: 0.15em;
+  font-size: calc(var(--clock-zone-size) * 0.95 * var(--clock-scale, 1));
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+/* 2. 赛博朋克霓虹时钟（Cyberpunk Neon） */
+.clock-cyberpunk {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: calc(14px * var(--clock-scale, 1)) calc(20px * var(--clock-scale, 1));
+  background: rgba(6, 10, 20, 0.82);
+  border: 1px solid #00f0ff;
+  border-radius: calc(8px * var(--clock-scale, 1));
+  box-shadow:
+    0 0 15px rgba(0, 240, 255, 0.35),
+    inset 0 0 15px rgba(0, 240, 255, 0.15);
+  color: #00f0ff;
+  font-family: "JetBrains Mono", "Fira Code", monospace, sans-serif;
+  user-select: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.clock-cyberpunk.clock--theme-light {
+  background: rgba(240, 245, 255, 0.9);
+  border-color: #ff007f;
+  color: #0a0e1c;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+}
+
+.clock-cyberpunk__scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0, 240, 255, 0.65);
+  box-shadow: 0 0 8px #00f0ff;
+  animation: cyberpunk-scan 3.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes cyberpunk-scan {
+  0% { transform: translateY(-10px); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(160px); opacity: 0; }
+}
+
+.clock-cyberpunk__time {
+  display: flex;
+  align-items: baseline;
+  font-size: calc(var(--clock-time-size) * 1.15 * var(--clock-scale, 1));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow:
+    0 0 10px rgba(0, 240, 255, 0.8),
+    0 0 24px rgba(0, 240, 255, 0.45);
+}
+
+.clock-cyberpunk.clock--theme-light .clock-cyberpunk__time {
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+}
+
+.clock-cyberpunk__sec {
+  color: #ff2d95;
+  text-shadow:
+    0 0 10px rgba(255, 45, 149, 0.8),
+    0 0 20px rgba(255, 45, 149, 0.45);
+}
+
+.clock-cyberpunk__ampm {
+  font-size: 0.35em;
+  margin-left: 0.5em;
+  color: #fffa65;
+}
+
+.clock-cyberpunk__divider {
+  height: 1px;
+  background: linear-gradient(90deg, #00f0ff, #ff2d95, transparent);
+  margin: 0.2em 0;
+}
+
+.clock-cyberpunk__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: calc(var(--clock-date-size) * 0.82 * var(--clock-scale, 1));
+  letter-spacing: 0.05em;
+  color: #e2f8ff;
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+}
+
+.clock-cyberpunk.clock--theme-light .clock-cyberpunk__footer {
+  color: #2c354f;
+  text-shadow: none;
+}
+
+.clock-cyberpunk__weekday {
+  color: #ff2d95;
+  font-weight: 700;
+}
+
+/* 3. 横向信息条时钟（Horizontal Info Bar） */
+.clock-infobar {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(14px * var(--clock-scale, 1));
+  padding: calc(8px * var(--clock-scale, 1)) calc(18px * var(--clock-scale, 1));
+  background: rgba(14, 18, 28, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  color: #f4f7ff;
+  user-select: none;
+  cursor: pointer;
+  font-family: "JetBrains Mono", "SF Pro", system-ui, monospace;
+}
+
+.clock-infobar.clock--theme-light {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  color: #1a1e28;
+}
+
+.clock-infobar__sep {
+  opacity: 0.35;
+}
+
+.clock-infobar__zone {
+  font-size: calc(var(--clock-zone-size) * 0.95 * var(--clock-scale, 1));
+  opacity: 0.75;
+}
+
+.clock-infobar__date {
+  font-size: calc(var(--clock-date-size) * 0.88 * var(--clock-scale, 1));
+  opacity: 0.9;
+}
+
+.clock-infobar__time {
+  font-size: calc(var(--clock-date-size) * 1.05 * var(--clock-scale, 1));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+/* Classical Layouts (Card & Bar) */
 .clock-card {
   display: flex;
   flex-direction: column;
   gap: 0.12em;
   color: #f4f7ff;
-  /* --clock-beat-glow is 0 when audio reactivity is off, so the shadow falls
-     back to the plain readability layer. */
   text-shadow:
     0 2px 10px rgba(0, 0, 0, 0.72),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
   user-select: none;
+  cursor: pointer;
+}
+
+.clock-card.clock--theme-light {
+  color: #1a1e28;
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-card__date {
   font-size: calc(var(--clock-date-size) * var(--clock-scale, 1));
   letter-spacing: 0.06em;
   color: rgba(238, 242, 252, 0.82);
+}
+
+.clock-card.clock--theme-light .clock-card__date {
+  color: rgba(26, 30, 40, 0.82);
 }
 
 .clock-card__time {
@@ -1311,6 +1544,10 @@ button {
   color: rgba(238, 242, 252, 0.62);
 }
 
+.clock-card.clock--theme-light .clock-card__zone {
+  color: rgba(26, 30, 40, 0.62);
+}
+
 .clock-bar {
   display: flex;
   align-items: baseline;
@@ -1320,6 +1557,14 @@ button {
     0 2px 10px rgba(0, 0, 0, 0.72),
     0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
   user-select: none;
+  cursor: pointer;
+}
+
+.clock-bar.clock--theme-light {
+  color: #1a1e28;
+  text-shadow:
+    0 1px 4px rgba(255, 255, 255, 0.85),
+    0 0 calc(var(--clock-beat-glow, 0) * 20px) rgba(90, 130, 220, calc(var(--clock-beat-glow, 0) * 0.7));
 }
 
 .clock-bar__time {
@@ -1335,10 +1580,122 @@ button {
   color: rgba(238, 242, 252, 0.82);
 }
 
+.clock-bar.clock--theme-light .clock-bar__separator,
+.clock-bar.clock--theme-light .clock-bar__date {
+  color: rgba(26, 30, 40, 0.82);
+}
+
 .clock-bar__zone {
   font-size: calc(var(--clock-zone-size) * var(--clock-scale, 1));
   letter-spacing: 0.14em;
   color: rgba(238, 242, 252, 0.62);
+}
+
+.clock-bar.clock--theme-light .clock-bar__zone {
+  color: rgba(26, 30, 40, 0.62);
+}
+
+/* Split layout: elegant dual-tier with date pill header */
+.clock-split {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  color: #f4f7ff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.72),
+    0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
+  user-select: none;
+}
+
+.clock-split__header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: calc(var(--clock-date-size) * 0.88 * var(--clock-scale, 1));
+}
+
+.clock-split__badge {
+  display: inline-block;
+  padding: 0.12em 0.55em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.clock-split__date {
+  letter-spacing: 0.06em;
+  color: rgba(240, 244, 255, 0.9);
+}
+
+.clock-split__zone {
+  font-size: calc(var(--clock-zone-size) * 0.9 * var(--clock-scale, 1));
+  color: rgba(240, 244, 255, 0.6);
+  letter-spacing: 0.1em;
+}
+
+.clock-split__time {
+  font-size: calc(var(--clock-time-size) * var(--clock-scale, 1));
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* Poster layout: bold headline hours/minutes with offset seconds */
+.clock-poster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  color: #f4f7ff;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.78),
+    0 0 calc(var(--clock-beat-glow, 0) * 26px) rgba(168, 196, 255, calc(var(--clock-beat-glow, 0) * 0.85));
+  user-select: none;
+}
+
+.clock-poster__main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2em;
+}
+
+.clock-poster__hm {
+  font-size: calc(var(--clock-time-size) * 1.35 * var(--clock-scale, 1));
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+.clock-poster__sec {
+  font-size: calc(var(--clock-time-size) * 0.5 * var(--clock-scale, 1));
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: rgba(180, 205, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+.clock-poster__footer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  font-size: calc(var(--clock-date-size) * 0.92 * var(--clock-scale, 1));
+  color: rgba(235, 240, 255, 0.82);
+  letter-spacing: 0.08em;
+}
+
+.clock-poster__weekday {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.clock-poster__zone {
+  font-size: calc(var(--clock-zone-size) * 0.9 * var(--clock-scale, 1));
+  color: rgba(235, 240, 255, 0.55);
 }
 
 /* Audio spectrum: a full-width bar equaliser along an edge of the screen.
@@ -1453,6 +1810,7 @@ button {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

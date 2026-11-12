@@ -35,29 +35,34 @@ function localeFor(language) {
   return 'en-GB'
 }
 
-// 24-hour clock everywhere; it is the common choice for this small viewer and
-// keeps the layout width stable across languages.
-export function formatClockTime(date) {
+// Format time with configurable 12/24-hour mode.
+// Returns { timeStr, hours, minutes, seconds, isAmPm } or string
+export function formatClockTime(date, { use24Hour = true } = {}) {
   try {
     return new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: false,
+      hour12: !use24Hour,
     }).format(date)
   } catch {
     const pad = (value) => String(value).padStart(2, '0')
-    return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+    if (use24Hour) {
+      return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
+    }
+    const h = date.getHours() % 12 || 12
+    const ampm = date.getHours() >= 12 ? 'PM' : 'AM'
+    return `${pad(h)}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${ampm}`
   }
 }
 
 // Returns the calendar date plus the weekday key so callers can render both.
-//
-// `absolute` is always a real date ("2026年11月12日"): a clock overlay is
-// expected to show the date itself, so a relative word like "today" must never
-// replace it.
+// Also provides decomposed parts (year, month, day) for calendar styles.
 export function formatClockDateParts(date, language) {
   const weekday = weekdayKey(date)
+  const year = date.getFullYear()
+  const monthNum = date.getMonth() + 1
+  const day = date.getDate()
 
   try {
     const formatter = new Intl.DateTimeFormat(localeFor(language), {
@@ -65,20 +70,47 @@ export function formatClockDateParts(date, language) {
       month: 'long',
       day: 'numeric',
     })
-    return { absolute: formatter.format(date), weekday }
+    const monthFormatter = new Intl.DateTimeFormat(localeFor(language), {
+      month: 'short',
+    })
+    return {
+      absolute: formatter.format(date),
+      weekday,
+      year,
+      month: monthFormatter.format(date),
+      monthNum,
+      day,
+    }
   } catch {
-    return { absolute: date.toDateString(), weekday }
+    return {
+      absolute: date.toDateString(),
+      weekday,
+      year,
+      month: String(monthNum),
+      monthNum,
+      day,
+    }
   }
 }
 
 export function formatClockZone(date) {
   try {
+    const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone || ''
     const parts = new Intl.DateTimeFormat(undefined, {
       timeZoneName: 'short',
     }).formatToParts(date)
-    return parts.find((part) => part.type === 'timeZoneName')?.value ?? ''
+    const shortZone = parts.find((part) => part.type === 'timeZoneName')?.value ?? ''
+    return {
+      iana: timeZoneName,
+      short: shortZone,
+      display: timeZoneName && shortZone ? `${timeZoneName} · ${shortZone}` : (timeZoneName || shortZone),
+    }
   } catch {
-    return ''
+    return {
+      iana: '',
+      short: '',
+      display: '',
+    }
   }
 }
 

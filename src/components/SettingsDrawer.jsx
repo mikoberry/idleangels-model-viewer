@@ -1059,7 +1059,15 @@ export default function SettingsDrawer({
             <div className="clock-placement" role="group" aria-label={t('clock.placement')}>
               <span className="clock-placement__label">{t('clock.placement')}</span>
               <div className="clock-placement__options">
-                {['card', 'bar'].map((placement) => (
+                {[
+                  'minimal',
+                  'cyberpunk',
+                  'infobar',
+                  'split',
+                  'poster',
+                  'card',
+                  'bar',
+                ].map((placement) => (
                   <button
                     key={placement}
                     type="button"
@@ -1067,7 +1075,41 @@ export default function SettingsDrawer({
                     aria-pressed={clock.placement === placement}
                     onClick={() => onClockChange({ placement })}
                   >
-                    {t(`clock.placement${placement === 'card' ? 'Card' : 'Bar'}`)}
+                    {t(`clock.placement${placement.charAt(0).toUpperCase() + placement.slice(1)}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="clock-placement" role="group" aria-label={t('clock.theme')}>
+              <span className="clock-placement__label">{t('clock.theme')}</span>
+              <div className="clock-placement__options">
+                {['dark', 'light'].map((theme) => (
+                  <button
+                    key={theme}
+                    type="button"
+                    className={`clock-placement__option${clock.theme === theme ? ' is-active' : ''}`}
+                    aria-pressed={clock.theme === theme}
+                    onClick={() => onClockChange({ theme })}
+                  >
+                    {t(`clock.theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="clock-placement" role="group" aria-label={t('clock.hourFormat')}>
+              <span className="clock-placement__label">{t('clock.hourFormat')}</span>
+              <div className="clock-placement__options">
+                {[true, false].map((is24) => (
+                  <button
+                    key={String(is24)}
+                    type="button"
+                    className={`clock-placement__option${(clock.use24Hour !== false) === is24 ? ' is-active' : ''}`}
+                    aria-pressed={(clock.use24Hour !== false) === is24}
+                    onClick={() => onClockChange({ use24Hour: is24 })}
+                  >
+                    {is24 ? t('clock.hour24') : t('clock.hour12')}
                   </button>
                 ))}
               </div>

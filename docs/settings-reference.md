@@ -147,7 +147,9 @@ const DEFAULT_CLOCK = {
 | 字段 | 类型 | 默认值 | 范围 | 说明 |
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示当前时间与日期 |
-| `placement` | `'card' \| 'bar'` | `'card'` | — | `card` 为竖排大卡片，`bar` 为横排条 |
+| `placement` | `'minimal' \| 'cyberpunk' \| 'infobar' \| 'split' \| 'poster' \| 'card' \| 'bar'` | `'minimal'` | — | 时钟布局风格：极简数字、赛博朋克霓虹、横向信息条、双行分层、大字海报、经典竖排、经典横排 |
+| `theme` | `'dark' \| 'light'` | `'dark'` | — | 时钟色彩模式（深色 / 浅色） |
+| `use24Hour` | `boolean` | `true` | — | 是否启用 24 小时制（为 `false` 时显示 12 小时制 AM/PM） |
 | `offsetX` | `number` | `10` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
 | `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，正值向上 |
 | `size` | `number` | `100` | `40`–`200` | 字号百分比，`100` 为默认大小 |
