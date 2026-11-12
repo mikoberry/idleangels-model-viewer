@@ -149,8 +149,12 @@ function saveSpectrumSettings(spectrum) {
 }
 
 // Album art card: cover plus track metadata from the engine's media session.
+// `style` picks the visual treatment; every layout shares the same corner,
+// size and offset controls, so switching it never moves the widget.
+const ALBUM_ART_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
 const DEFAULT_ALBUM_ART = {
   show: false,
+  style: 'classic',
   corner: 'bottom-right',
   size: 18,
   offsetX: 0,
@@ -163,6 +167,9 @@ function loadAlbumArtSettings() {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_ALBUM_ART
     return {
       show: value.show === true,
+      style: ALBUM_ART_STYLES.includes(value.style)
+        ? value.style
+        : DEFAULT_ALBUM_ART.style,
       corner: ['bottom-right', 'bottom-left', 'top-right', 'top-left'].includes(value.corner)
         ? value.corner
         : DEFAULT_ALBUM_ART.corner,
@@ -665,6 +672,7 @@ export default function App() {
       const next = { ...previous, ...patch }
       return {
         ...next,
+        style: ALBUM_ART_STYLES.includes(next.style) ? next.style : previous.style,
         size: clampNumber(next.size, previous.size, 10, 40),
         offsetX: clampNumber(
           next.offsetX,
@@ -701,6 +709,7 @@ export default function App() {
       />
       <AlbumArt
         visible={albumArt.show}
+        style={albumArt.style}
         corner={albumArt.corner}
         size={albumArt.size}
         offsetX={albumArt.offsetX}

@@ -1423,6 +1423,30 @@ export default function SettingsDrawer({
         </label>
         {albumArt.show && (
           <>
+            <div className="clock-placement" role="group" aria-label={t('albumArt.style')}>
+              <span className="clock-placement__label">{t('albumArt.style')}</span>
+              <div className="clock-placement__options">
+                {[
+                  ['classic', 'Classic'],
+                  ['glass', 'Glass'],
+                  ['vinyl', 'Vinyl'],
+                  ['minimal', 'Minimal'],
+                  ['bar', 'Bar'],
+                  ['wall', 'Wall'],
+                ].map(([value, key]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    className={`clock-placement__option${(albumArt.style ?? 'classic') === value ? ' is-active' : ''}`}
+                    aria-pressed={(albumArt.style ?? 'classic') === value}
+                    onClick={() => onAlbumArtChange({ style: value })}
+                  >
+                    {t(`albumArt.style${key}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="clock-placement" role="group" aria-label={t('albumArt.corner')}>
               <span className="clock-placement__label">{t('albumArt.corner')}</span>
               <div className="clock-placement__options">

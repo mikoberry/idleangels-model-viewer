@@ -1,9 +1,8 @@
-/* Album art card: cover disc, track metadata and its inline MiniSpectrum. */
+/* Album art widget. One root (`.album-art`) handles corner anchoring and the
+   size/offset variables; `--style-*` modifiers pick the layout:
+   classic (the original chrome-less card, default), glass, vinyl, minimal,
+   disc, bar, wall. */
 
-/* Album art card: a rectangular panel with the cover on the left and a column
-   on the right holding the track metadata above a small spectrum. Same visual
-   language as the clock overlay - no background, a soft shadow for legibility
-   over the artwork. */
 .album-art {
   position: absolute;
   z-index: 5;
@@ -11,10 +10,8 @@
   align-items: stretch;
   gap: var(--space-3);
   /* Every dimension derives from --album-size, which the size slider drives, so
-     the whole card scales together instead of being capped by a fixed width.
-     The aspect ratio keeps the card rectangular: cover height plus a body 2.6x
-     the cover wide. The viewport clamp stops a large setting from running off
-     the screen on narrow displays. */
+     the whole widget scales together instead of being capped by a fixed width.
+     The viewport clamp stops a large setting from running off the screen. */
   width: calc(var(--album-size, 18vh) * 3.6);
   height: var(--album-size, 18vh);
   max-width: calc(100vw - var(--ui-gutter) * 2);
@@ -51,67 +48,15 @@
   margin-left: var(--album-offset-x, 0%);
 }
 
-/* The cover sits in a circular mask so it reads as a record. The wrapper owns
-   the shape and the rotation; the image keeps its square crop inside it. */
-.album-art__disc {
-  flex: 0 0 auto;
-  position: relative;
-  display: block;
-  width: var(--album-size, 18vh);
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-  /* One revolution per 24s: slow enough to read as a spinning record without
-     pulling attention away from the artwork. */
-  animation: album-art-spin 24s linear infinite;
-}
-
-/* Paused playback halts the disc in place. */
-.album-art.is-paused .album-art__disc {
-  animation-play-state: paused;
-}
-
-.album-art.is-paused .album-art__cover {
-  opacity: 0.72;
-}
-
-@keyframes album-art-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .album-art__disc {
-    animation: none;
-  }
-}
+/* ==========================================================================
+   Shared pieces
+   ========================================================================== */
 
 .album-art__cover {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-/* A centre hole sells the record illusion without covering the artwork. */
-.album-art__disc::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(var(--album-size, 18vh) * 0.06);
-  height: calc(var(--album-size, 18vh) * 0.06);
-  border-radius: 50%;
-  background: rgba(6, 8, 14, 0.72);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
-  transform: translate(-50%, -50%);
 }
 
 .album-art__placeholder {
@@ -142,8 +87,7 @@
 
 /* The text layer floats above the spectrum and only takes the space it needs,
    so the graph underneath keeps the full card height. Readability comes from
-   the inherited text-shadow, not a background wash: a tinted block drew a visible
-   gradient across the top of the card. */
+   the inherited text-shadow, not a background wash. */
 .album-art__meta {
   position: relative;
   z-index: 1;
@@ -156,9 +100,8 @@
 
 .album-art__title {
   margin: 0;
-  /* Scaled from the card height so the type shrinks with the card. The text
-     overlays the spectrum rather than sharing space with it, so it can stay
-     comfortably large. */
+  /* Scaled from the widget height so the type shrinks with it. The text
+     overlays the spectrum rather than sharing space with it. */
   font-size: calc(var(--album-size, 18vh) * 0.2);
   font-weight: 600;
   line-height: 1.15;
@@ -185,6 +128,518 @@
   white-space: nowrap;
 }
 
+/* Small square thumbnail shared by the minimal and bar layouts. */
+.album-art__thumb {
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   1. Classic card (default) and glass card
+   --------------------------------------------------------------------------
+   `classic` is the original chrome-less widget: no panel, no border, no
+   rounding. The cover, text and spectrum float on the wallpaper and only a
+   soft text shadow keeps them legible. `glass` shares the exact same
+   arrangement and adds a frosted panel with the cover's tint.
+   ========================================================================== */
+
+/* The cover sits in a circular mask so it reads as a record. Shared by both
+   card styles. */
+.album-art--style-classic .album-art__disc,
+.album-art--style-glass .album-art__disc {
+  flex: 0 0 auto;
+  position: relative;
+  display: block;
+  width: var(--album-size, 18vh);
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  /* One revolution per 24s: slow enough to read as a spinning record without
+     pulling attention away from the artwork. */
+  animation: album-art-spin 24s linear infinite;
+}
+
+/* Glass adds the panel on top of the shared arrangement. */
+.album-art--style-glass {
+  padding: calc(var(--album-size, 18vh) * 0.06);
+  border-radius: var(--radius-lg);
+  background: rgba(14, 18, 30, 0.42);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.45),
+    0 0 calc(var(--album-size, 18vh) * 0.4) -20% var(--album-tint, rgba(90, 130, 220, 0.55));
+}
+
+/* A tinted wash pulled from the cover's dominant colour. The plain gradient is
+   the fallback for engines without `color-mix` (an older Wallpaper Engine
+   Chromium), where the whole declaration would otherwise be dropped. */
+.album-art--style-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(90, 130, 220, 0.22),
+    transparent 62%
+  );
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--album-tint, #5a82dc) 26%, transparent),
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+.album-art--style-classic.is-paused .album-art__disc,
+.album-art--style-glass.is-paused .album-art__disc {
+  animation-play-state: paused;
+}
+
+.album-art.is-paused .album-art__cover {
+  opacity: 0.72;
+}
+
+@keyframes album-art-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album-art--style-classic .album-art__disc,
+  .album-art--style-glass .album-art__disc,
+  .album-art--style-vinyl .album-art__vinyl,
+  .album-art--style-vinyl .album-art__vinyl-label {
+    animation: none;
+  }
+}
+
+/* A centre hole sells the record illusion without covering the artwork. */
+.album-art--style-classic .album-art__disc::after,
+.album-art--style-glass .album-art__disc::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--album-size, 18vh) * 0.06);
+  height: calc(var(--album-size, 18vh) * 0.06);
+  border-radius: 50%;
+  background: rgba(6, 8, 14, 0.72);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+/* ==========================================================================
+   2. Vinyl record
+   --------------------------------------------------------------------------
+   The whole widget is one circle. The disc spins as a single piece while the
+   label text counter-rotates at the same rate, so the record turns but the
+   sleeve notes stay upright and readable.
+   ========================================================================== */
+
+.album-art--style-vinyl {
+  width: var(--album-size, 18vh);
+  height: var(--album-size, 18vh);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  background: none;
+}
+
+/* The record: solid black disc with grooves, sheen and a rim. */
+.album-art--style-vinyl .album-art__vinyl {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #06070b;
+  animation: album-art-spin 24s linear infinite;
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.62),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+}
+
+.album-art.is-paused.album-art--style-vinyl .album-art__vinyl {
+  animation-play-state: paused;
+}
+
+/* Grooves, rim and a fixed light sheen across the plastic. */
+.album-art--style-vinyl .album-art__vinyl::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.045) 0 1px,
+      rgba(0, 0, 0, 0.18) 1px 3px
+    ),
+    conic-gradient(
+      from 210deg,
+      rgba(255, 255, 255, 0.14),
+      transparent 24%,
+      transparent 52%,
+      rgba(255, 255, 255, 0.1) 64%,
+      transparent 80%
+    );
+  pointer-events: none;
+}
+
+/* Concentric rim shading so the edge reads as a physical disc. */
+.album-art--style-vinyl .album-art__vinyl::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 calc(var(--album-size, 18vh) * 0.012) rgba(255, 255, 255, 0.05),
+    inset 0 0 0 calc(var(--album-size, 18vh) * 0.16) rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* The cover artwork fills the disc; the label sits on top of it. */
+.album-art--style-vinyl .album-art__vinyl-cover {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.55;
+}
+
+/* The centre label: a tinted plate carrying the track notes and the spectrum.
+   It counter-rotates so the text never spins. */
+.album-art--style-vinyl .album-art__vinyl-label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--album-size, 18vh) * 0.012);
+  width: 62%;
+  height: 62%;
+  padding: calc(var(--album-size, 18vh) * 0.04);
+  border-radius: 50%;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 42%, #1d2230 0%, #101420 68%, #0a0d16 100%);
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.1),
+    0 6px 18px rgba(0, 0, 0, 0.55);
+  /* Undo the disc's rotation in the opposite direction at the same speed. */
+  animation: album-art-spin-reverse 24s linear infinite;
+}
+
+.album-art.is-paused.album-art--style-vinyl .album-art__vinyl-label {
+  animation-play-state: paused;
+}
+
+/* Spindle hole punched through the centre of the label. */
+.album-art--style-vinyl .album-art__vinyl-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--album-size, 18vh) * 0.03);
+  height: calc(var(--album-size, 18vh) * 0.03);
+  border-radius: 50%;
+  background: #06070b;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Text block sits above centre so the taller spectrum keeps a clear band at the
+   bottom of the label; the spindle hole falls in the gap above it. */
+.album-art--style-vinyl .album-art__meta {
+  align-items: center;
+  padding-bottom: 0;
+  margin-bottom: calc(var(--album-size, 18vh) * 0.085);
+}
+
+.album-art--style-vinyl .album-art__title {
+  max-width: 100%;
+  font-size: calc(var(--album-size, 18vh) * 0.075);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.album-art--style-vinyl .album-art__artist {
+  max-width: 100%;
+  font-size: calc(var(--album-size, 18vh) * 0.055);
+  color: rgba(238, 242, 252, 0.78);
+}
+
+/* The album line does not fit on the label; keep the two essential fields. */
+.album-art--style-vinyl .album-art__album {
+  display: none;
+}
+
+/* The spectrum runs along the bottom of the label. It is taller and wider than
+   the text block needs, so the bars stay the dominant element on the label. */
+.album-art--style-vinyl .album-art__vinyl-spectrum {
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  bottom: calc(var(--album-size, 18vh) * 0.028);
+  height: calc(var(--album-size, 18vh) * 0.15);
+  opacity: 0.9;
+}
+
+.album-art--style-vinyl .album-art__vinyl-spectrum .mini-spectrum {
+  position: absolute;
+  inset: 0;
+}
+
+@keyframes album-art-spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* ==========================================================================
+   3. Minimal text
+   ========================================================================== */
+
+.album-art--style-minimal {
+  width: calc(var(--album-size, 18vh) * 3);
+  flex-direction: column;
+  gap: calc(var(--album-size, 18vh) * 0.06);
+}
+
+.album-art--style-minimal .album-art__body--minimal {
+  gap: calc(var(--album-size, 18vh) * 0.05);
+  padding-bottom: 0;
+}
+
+.album-art--style-minimal .album-art__thumb {
+  width: calc(var(--album-size, 18vh) * 0.34);
+  height: calc(var(--album-size, 18vh) * 0.34);
+}
+
+/* Serif headline to match the clock's typographic voice. */
+.album-art--style-minimal .album-art__title {
+  font-family:
+    "Cormorant Garamond", "EB Garamond", Georgia, "Palatino Linotype", Palatino,
+    "Times New Roman", "Songti SC", "SimSun", serif;
+  font-size: calc(var(--album-size, 18vh) * 0.3);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.album-art--style-minimal .album-art__artist {
+  font-size: calc(var(--album-size, 18vh) * 0.105);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 252, 0.7);
+}
+
+/* ==========================================================================
+   5. Info bar
+   ========================================================================== */
+
+.album-art--style-bar {
+  flex: 0 0 auto;
+  width: calc(var(--album-size, 18vh) * 5.2);
+  height: calc(var(--album-size, 18vh) * 0.62);
+  min-height: 64px;
+}
+
+/* Solid pill, not glass: an opaque dark capsule with a hairline edge so it stays
+   crisp over any wallpaper. */
+.album-art--style-bar .album-art__body--bar {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  height: 100%;
+  padding: 0 var(--space-4) 0 var(--space-2);
+  border-radius: 999px;
+  background: #0d1018;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.album-art--style-bar .album-art__thumb {
+  width: calc(var(--album-size, 18vh) * 0.5);
+  height: calc(var(--album-size, 18vh) * 0.5);
+  border-radius: 50%;
+}
+
+.album-art--style-bar .album-art__meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+  padding-bottom: 0;
+}
+
+.album-art--style-bar .album-art__title {
+  font-size: calc(var(--album-size, 18vh) * 0.19);
+  line-height: 1.2;
+}
+
+.album-art--style-bar .album-art__artist {
+  font-size: calc(var(--album-size, 18vh) * 0.115);
+}
+
+/* The wide spectrum fills the tail of the bar. */
+.album-art--style-bar .album-art__bar-spectrum {
+  position: relative;
+  flex: 0 0 38%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.album-art--style-bar .album-art__bar-spectrum .mini-spectrum {
+  position: absolute;
+  inset: 0;
+}
+
+/* ==========================================================================
+   6. Cover wall
+   ========================================================================== */
+
+/* A physical record shelf: solid dark board with a wood-like grain and a lit
+   front lip, so the covers sit on it instead of floating on glass. */
+.album-art--style-wall {
+  width: calc(var(--album-size, 18vh) * 4.4);
+  height: calc(var(--album-size, 18vh) * 1.15);
+  align-items: flex-end;
+  gap: calc(var(--album-size, 18vh) * 0.06);
+  padding: calc(var(--album-size, 18vh) * 0.07);
+  padding-bottom: calc(var(--album-size, 18vh) * 0.1);
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(
+      92deg,
+      rgba(255, 255, 255, 0.014) 0 2px,
+      rgba(0, 0, 0, 0.05) 2px 6px
+    ),
+    linear-gradient(180deg, #171310 0%, #221a14 62%, #120f0c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 22px 44px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 220, 180, 0.1);
+}
+
+/* The front lip of the shelf, where the sleeves rest. */
+.album-art--style-wall::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--album-size, 18vh) * 0.055);
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(180deg, #3a2c21, #241a13);
+  box-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.16);
+  pointer-events: none;
+}
+
+.album-art--style-wall .album-art__wall {
+  display: flex;
+  align-items: flex-end;
+  gap: calc(var(--album-size, 18vh) * 0.06);
+  width: 100%;
+  height: 100%;
+}
+
+/* Inactive cards are blank cardboard sleeves standing on the shelf; the current
+   one grows, lifts and takes the cover's tint on its edge. */
+.album-art--style-wall .album-art__wall-card {
+  flex: 0 0 auto;
+  width: calc(var(--album-size, 18vh) * 0.62);
+  height: 42%;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #2c241d, #1c1611);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.5),
+    inset 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.album-art--style-wall .album-art__wall-card.is-current {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--album-size, 18vh) * 0.04);
+  width: calc(var(--album-size, 18vh) * 1.25);
+  height: 100%;
+  padding: calc(var(--album-size, 18vh) * 0.04);
+  border-radius: 2px;
+  background: #221a14;
+  border-color: color-mix(in srgb, var(--album-tint, #8fa8ff) 55%, rgba(255, 255, 255, 0.2));
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--album-tint, #8fa8ff) 35%, transparent);
+  overflow: hidden;
+}
+
+/* The spectrum sits behind the sleeve text, filling the current card. */
+.album-art--style-wall .album-art__wall-spectrum {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+.album-art--style-wall .album-art__wall-spectrum .mini-spectrum {
+  position: absolute;
+  inset: 0;
+}
+
+.album-art--style-wall .album-art__wall-art,
+.album-art--style-wall .album-art__meta {
+  position: relative;
+  z-index: 1;
+}
+
+.album-art--style-wall .album-art__wall-art {
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: calc(var(--radius-sm) - 2px);
+}
+
+.album-art--style-wall .album-art__meta {
+  padding-bottom: 0;
+}
+
+.album-art--style-wall .album-art__title {
+  font-size: calc(var(--album-size, 18vh) * 0.115);
+}
+
+.album-art--style-wall .album-art__artist {
+  font-size: calc(var(--album-size, 18vh) * 0.085);
+}
+
+/* ==========================================================================
+   Narrow screens
+   ========================================================================== */
+
 @media (max-width: 640px) {
   .album-art {
     max-width: calc(100vw - var(--ui-gutter) * 2);
@@ -192,5 +647,11 @@
 
   .album-art__title {
     font-size: var(--text-md);
+  }
+
+  /* The horizontal layouts shrink their fixed width so they stay on screen. */
+  .album-art--style-bar,
+  .album-art--style-wall {
+    width: calc(100vw - var(--ui-gutter) * 2);
   }
 }
