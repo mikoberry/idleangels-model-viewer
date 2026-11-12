@@ -13,7 +13,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
             ├─ <canvas ref={canvasRef} />
             ├─ startSpineStage(canvas, { model, callbacks })
             ├─ <Spectrum /> / <AlbumArt /> / <Clock />  // 全屏浮层
-            ├─ <SettingsDrawer />  // 四个标签：时间 / 频谱 / 模型 / 其它
+            ├─ <SettingsDrawer />  // 标签：WE 中为时间 / 频谱 / 模型 / 其它，浏览器中只有模型 / 其它
             ├─ 眼睛按钮
             ├─ <main style={{ backgroundColor }} />
             └─ 左上角调试面板（由抽屉开关控制）
@@ -46,7 +46,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   - `viewSettings`
   - `language` / `t`
   - `clock` / `spectrum` / `albumArt`（三个独立的持久化偏好 state）
-  - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染；抽屉在两种环境下都默认收起）
+  - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染、浮层是否挂载和抽屉默认状态：浏览器默认打开，WE 默认收起）
 - 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
@@ -55,13 +55,13 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
 - 管理调试面板；调试面板在打开时收集环境、尺寸、WebGL、音频状态等 16 行信息。
 - 为 `clock` / `spectrum` / `albumArt` 各自定义 `normalize*` 或夹取逻辑，并在 `useEffect` 中把每次变化写回各自的 `localStorage` key；`recordModelView` 只在用户点击“记录当前视图”时写 `model-views`。
-- 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层，以及 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
+- 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层（**仅 Wallpaper Engine 中挂载**：浏览器里整段用 `inWallpaperEngine &&` 跳过，所以模型预设里的 `clock.show` / `spectrum.show` / `albumArt.show` 在浏览器中也不会让它们出现），以及 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
 ### `src/components/SettingsDrawer.jsx`
 
 - 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models` / `clock` / `spectrum` / `albumArt`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` / `onClockChange` / `onSpectrumChange` / `onAlbumArtChange` / `onLanguageChange` / `onDebugChange` 回传；文案通过 `t` 获取。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
-- **左侧竖向标签分区**：`.inspector-body` 内含 `.inspector-nav`（标签菜单）与 `.inspector-pane`（当前标签内容）。四个标签：
+- **左侧竖向标签分区**：`.inspector-body` 内含 `.inspector-nav`（标签菜单）与 `.inspector-pane`（当前标签内容）。四个标签（`clock` 和 `spectrum` 仅在 Wallpaper Engine 中可用）：
   - `clock` 时间：时间与日期的显示开关、版式、大小、位置、随音频律动
   - `spectrum` 频谱：音频频谱与专辑封面（两者都是音频可视化，放在同一标签）
   - `model` 模型：模型选择、Spine 动画、画面变换、背景

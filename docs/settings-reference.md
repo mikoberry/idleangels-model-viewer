@@ -399,7 +399,7 @@ clock / spectrum / albumArt
 ## 新增设置检查清单
 
 1. 在 `App.jsx` 的 `viewSettings` 初始值中加入字段；如果是独立的显示偏好，按 `clock` / `spectrum` / `albumArt` 的模式新增一个 state + `load*` / `save*` + 夹取函数。
-2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传；控件放到对应的标签（`clock` / `spectrum` / `model` / `other`）里。
+2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传；控件放到对应的标签（`clock` / `spectrum` / `model` / `other`）里。注意 `clock` 和 `spectrum` 只在 Wallpaper Engine 中渲染（`availableTabs()` 与 `inWallpaperEngine &&` 双重判断），放在这两个标签里的控件浏览器中看不到。
 3. 如果需要 i18n 文案，在 `src/i18n.js` 的四套语言表里同时加 key。
 4. 如果是 Stage 相关设置：
    - 在 `App.jsx` 中加同步 `useEffect`，或

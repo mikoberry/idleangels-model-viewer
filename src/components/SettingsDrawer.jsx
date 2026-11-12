@@ -15,22 +15,39 @@ const MIN_SCALE = 0.5
 
 // Tabs of the settings drawer, rendered as a vertical menu on its left edge.
 const DRAWER_TABS = ['clock', 'spectrum', 'model', 'other']
+// The clock and spectrum tabs only exist inside Wallpaper Engine: browsers
+// cannot read system audio, so the spectrum and its album card would only ever
+// show synthetic data, and the wallpaper's date/time belongs to the engine
+// build. In the browser the drawer therefore exposes just "model" and "other".
+const ENGINE_ONLY_TABS = ['clock', 'spectrum']
 const DRAWER_TAB_KEY = 'spine-viewer:drawer-tab:v1'
+
+// The tabs available for the current environment, in menu order.
+function availableTabs(inWallpaperEngine) {
+  return inWallpaperEngine
+    ? DRAWER_TABS
+    : DRAWER_TABS.filter((tab) => !ENGINE_ONLY_TABS.includes(tab))
+}
 
 // `display` was the single tab that used to hold both the clock and the
 // spectrum; it now maps to the clock tab so an existing preference still opens
 // a sensible pane after the split.
 const LEGACY_TAB_ALIASES = { display: 'clock' }
 
-function loadDrawerTab() {
+function loadDrawerTab(inWallpaperEngine) {
+  const tabs = availableTabs(inWallpaperEngine)
   try {
     const saved = window.localStorage.getItem(DRAWER_TAB_KEY)
-    if (DRAWER_TABS.includes(saved)) return saved
-    if (saved && LEGACY_TAB_ALIASES[saved]) return LEGACY_TAB_ALIASES[saved]
+    if (tabs.includes(saved)) return saved
+    // A stored engine-only tab (or the legacy alias for one) must not be
+    // restored in the browser: it has no pane and would leave the drawer blank.
+    if (saved && LEGACY_TAB_ALIASES[saved] && tabs.includes(LEGACY_TAB_ALIASES[saved])) {
+      return LEGACY_TAB_ALIASES[saved]
+    }
   } catch {
     // Storage unavailable: fall back to the default tab.
   }
-  return DRAWER_TABS[0]
+  return tabs[0]
 }
 
 function saveDrawerTab(tab) {
@@ -595,7 +612,11 @@ export default function SettingsDrawer({
   // The drawer is split into tabs shown as a vertical menu on the left. This
   // keeps each pane short enough to avoid relying on scrolling, which is
   // unreliable inside Wallpaper Engine.
-  const [activeTab, setActiveTab] = useState(() => loadDrawerTab())
+  const tabs = availableTabs(inWallpaperEngine)
+  // `availableTabs` returns a fresh array each render; key the reset effect on
+  // the joined names so it only reacts to the environment actually changing.
+  const tabKey = tabs.join('|')
+  const [activeTab, setActiveTab] = useState(() => loadDrawerTab(inWallpaperEngine))
   const [recordState, setRecordState] = useState('idle')
   const [presetCopyState, setPresetCopyState] = useState('idle')
   const [scaleInput, setScaleInput] = useState(() =>
@@ -607,6 +628,13 @@ export default function SettingsDrawer({
   const [positionYInput, setPositionYInput] = useState(() =>
     String(Math.round(settings.positionY)),
   )
+
+  // Keep the active tab valid for this environment. Normally the initial state
+  // already picks an available tab, but a stale engine-only value (from storage
+  // or an environment flip) would render an empty pane, so fall back here too.
+  useEffect(() => {
+    if (!tabs.includes(activeTab)) setActiveTab(tabs[0])
+  }, [activeTab, tabKey])
 
   useEffect(() => {
     saveDrawerTab(activeTab)
@@ -716,7 +744,7 @@ export default function SettingsDrawer({
 
       <div className="inspector-body">
         <nav className="inspector-nav" aria-label={t('drawer.tabsAria')}>
-          {DRAWER_TABS.map((tab) => (
+          {tabs.map((tab) => (
             <button
               key={tab}
               type="button"
@@ -1093,7 +1121,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {activeTab === 'clock' && (
+      {inWallpaperEngine && activeTab === 'clock' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.clock')}</span>
         <label className="toggle-row">
@@ -1338,7 +1366,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {activeTab === 'spectrum' && (
+      {inWallpaperEngine && activeTab === 'spectrum' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.spectrum')}</span>
         <label className="toggle-row">
@@ -1485,7 +1513,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {activeTab === 'spectrum' && (
+      {inWallpaperEngine && activeTab === 'spectrum' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.albumArt')}</span>
         <label className="toggle-row">

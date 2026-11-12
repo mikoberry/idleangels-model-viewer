@@ -414,10 +414,11 @@ export default function App() {
   const status = t(statusState.key, statusState.params)
   const [isError, setIsError] = useState(false)
   const inWallpaperEngine = isWallpaperEngineEnvironment()
-  // The drawer starts closed in the browser and inside Wallpaper Engine alike,
-  // so the canvas is unobstructed until the user opens settings with the eye
-  // button. The previous first-visit hint bubble has been removed.
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  // The drawer starts open in a normal browser so the settings are reachable
+  // straight away, and closed inside Wallpaper Engine so the canvas stays
+  // unobstructed until the eye button is used. The previous first-visit hint
+  // bubble has been removed.
+  const [isDrawerOpen, setIsDrawerOpen] = useState(() => !inWallpaperEngine)
   const [debugOpen, setDebugOpen] = useState(false)
   const [debugInfo, setDebugInfo] = useState([])
   const [animations, setAnimations] = useState([])
@@ -810,39 +811,50 @@ export default function App() {
         className="viewer__canvas"
         onPointerUp={handleCanvasPointerUp}
       />
-      <Spectrum
-        visible={spectrum.show}
-        style={spectrum.style}
-        position={spectrum.position}
-        height={spectrum.height}
-        offsetX={spectrum.offsetX}
-        color={spectrum.color}
-      />
-      <AlbumArt
-        visible={albumArt.show}
-        style={albumArt.style}
-        corner={albumArt.corner}
-        size={albumArt.size}
-        offsetX={albumArt.offsetX}
-        offsetY={albumArt.offsetY}
-        spectrumColor={spectrum.color}
-        language={language}
-        t={t}
-      />
-      <Clock
-        visible={clock.show}
-        placement={clock.placement}
-        offsetX={clock.offsetX}
-        offsetY={clock.offsetY}
-        size={clock.size}
-        reactToBeat={clock.reactToBeat}
-        beatIntensity={clock.beatIntensity}
-        use24Hour={clock.use24Hour}
-        theme={clock.theme}
-        onToggleHourFormat={() => setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))}
-        language={language}
-        t={t}
-      />
+      {/* The clock, spectrum and album card only exist inside Wallpaper Engine:
+          they read engine audio and media data that a plain browser cannot
+          provide. They are not mounted at all in the browser, so a model preset
+          that sets show: true (e.g. spine_hhbsd_bdmy) has no visible effect
+          there either. */}
+      {inWallpaperEngine && (
+        <>
+          <Spectrum
+            visible={spectrum.show}
+            style={spectrum.style}
+            position={spectrum.position}
+            height={spectrum.height}
+            offsetX={spectrum.offsetX}
+            color={spectrum.color}
+          />
+          <AlbumArt
+            visible={albumArt.show}
+            style={albumArt.style}
+            corner={albumArt.corner}
+            size={albumArt.size}
+            offsetX={albumArt.offsetX}
+            offsetY={albumArt.offsetY}
+            spectrumColor={spectrum.color}
+            language={language}
+            t={t}
+          />
+          <Clock
+            visible={clock.show}
+            placement={clock.placement}
+            offsetX={clock.offsetX}
+            offsetY={clock.offsetY}
+            size={clock.size}
+            reactToBeat={clock.reactToBeat}
+            beatIntensity={clock.beatIntensity}
+            use24Hour={clock.use24Hour}
+            theme={clock.theme}
+            onToggleHourFormat={() =>
+              setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))
+            }
+            language={language}
+            t={t}
+          />
+        </>
+      )}
       {debugOpen && (
         <div className="debug-hud">
           <section
