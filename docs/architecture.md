@@ -14,7 +14,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
             ├─ startSpineStage(canvas, { model, callbacks })
             ├─ <Spectrum /> / <AlbumArt /> / <Clock />  // 全屏浮层
             ├─ <SettingsDrawer />  // 四个标签：时间 / 频谱 / 模型 / 其它
-            ├─ 眼睛按钮 / 提示气泡
+            ├─ 眼睛按钮
             ├─ <main style={{ backgroundColor }} />
             └─ 左上角调试面板（由抽屉开关控制）
 ```
@@ -40,21 +40,20 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   - `canvasRef` / `stageRef`
   - `statusState` / `status` / `isError`
   - `isDrawerOpen`
-  - `showEyeHint`
   - `debugOpen` / `debugInfo`
   - `animations` / `currentAnimation`
   - `models` / `selectedModelId` / `recordedViews`
   - `viewSettings`
   - `language` / `t`
   - `clock` / `spectrum` / `albumArt`（三个独立的持久化偏好 state）
-  - `inWallpaperEngine`（环境检测，决定抽屉初始状态和模型选择器是否渲染）
+  - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染；抽屉在两种环境下都默认打开）
 - 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
 - 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
 - 把 `backgroundColor` 写到 `<main>` 的内联样式。
 - 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
-- 管理眼睛提示和调试面板；调试面板在打开时收集环境、尺寸、WebGL、音频状态等 16 行信息。
+- 管理调试面板；调试面板在打开时收集环境、尺寸、WebGL、音频状态等 16 行信息。
 - 为 `clock` / `spectrum` / `albumArt` 各自定义 `normalize*` 或夹取逻辑，并在 `useEffect` 中把每次变化写回各自的 `localStorage` key；`recordModelView` 只在用户点击“记录当前视图”时写 `model-views`。
 - 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层，以及 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
@@ -195,7 +194,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 样式按组件拆分，每个组件在自己文件里引入同目录的 CSS：
 
 - `src/base.css`：设计变量（字号、间距、颜色、圆角）、reset、`.viewer` 外壳与全屏 canvas。
-- `src/App.css`：调试面板、眼睛按钮、提示气泡。
+- `src/App.css`：调试面板、眼睛按钮。
 - `src/components/Clock.css`：时钟浮层，含锚点、七个布局与主题配色。
 - `src/components/SettingsDrawer.css`：右侧抽屉、标签菜单、表单控件与窄屏断点。
 - `src/components/Spectrum.css`、`MiniSpectrum.css`、`AlbumArt.css`：音频频谱与专辑封面卡片。
@@ -425,7 +424,6 @@ backgroundColor
 
 ```text
 localStorage keys:
-spine-viewer:eye-hint:v1        # 眼睛提示是否已关闭
 spine-viewer:model-views:v1     # 按模型记录的视图
 spine-viewer:language:v1        # 界面语言
 spine-viewer:clock:v1           # 时钟显示偏好
@@ -445,7 +443,6 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 | `.viewer__settings-button` | 12 | 右下角眼睛按钮 |
 | `.inspector-backdrop` | 15 | 抽屉打开时的透明点击层 |
 | `.playback-inspector` | 20 | 右侧设置抽屉 |
-| `.eye-hint` | 31 | 首次提示气泡 |
 
 行为：
 

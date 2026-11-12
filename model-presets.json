@@ -1,22 +1,4 @@
 {
-  "spine_hhbsd_bdmy": {
-    "scale": 2.4,
-    "positionX": -30,
-    "positionY": -27,
-    "backgroundColor": "#06070d"
-  },
-  "spine_hl_cshs": {
-    "scale": 2,
-    "positionX": 0,
-    "positionY": 2,
-    "backgroundColor": "#000000"
-  },
-  "spine_hls_my": {
-    "scale": 3,
-    "positionX": 0,
-    "positionY": 0,
-    "backgroundColor": "#000000"
-  },
   "spine_bmh_cshs": {
     "view": {
       "scale": 3.21,
@@ -55,16 +37,42 @@
       "offsetY": 0
     }
   },
-  "spine_bmh_mr": {
-    "scale": 2.41,
-    "positionX": 0,
-    "positionY": -34,
-    "backgroundColor": "#06070d"
-  },
-  "spine_smzpdl_np": {
-    "scale": 1.75,
-    "positionX": 0,
-    "positionY": 0,
-    "backgroundColor": "#000000"
+  "spine_hhbsd_bdmy": {
+    "view": {
+      "scale": 2.6,
+      "positionX": -34,
+      "positionY": -26,
+      "backgroundColor": "#104168",
+      "parallax": true,
+      "parallaxAmount": 2,
+      "clickToAction": true
+    },
+    "clock": {
+      "show": true,
+      "placement": "card",
+      "offsetX": 63,
+      "offsetY": 28,
+      "size": 152,
+      "reactToBeat": true,
+      "beatIntensity": 150,
+      "use24Hour": true,
+      "theme": "light"
+    },
+    "spectrum": {
+      "show": true,
+      "style": "ringwave",
+      "position": "bottom",
+      "height": 52,
+      "offsetX": 14,
+      "color": "#45739b"
+    },
+    "albumArt": {
+      "show": true,
+      "style": "bar",
+      "corner": "top-left",
+      "size": 11,
+      "offsetX": 50,
+      "offsetY": 70
+    }
   }
 }

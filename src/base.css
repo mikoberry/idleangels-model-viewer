@@ -1,6 +1,6 @@
 /* Global foundation: design tokens, reset and the viewer shell.
    Component styles live next to their components:
-   - App.css             debug panel, settings button, eye hint
+   - App.css             debug panel, settings button
    - components/Clock.css
    - components/SettingsDrawer.css
    - components/Spectrum.css

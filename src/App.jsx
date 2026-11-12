@@ -27,7 +27,6 @@ import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallp
 import { startSpineStage } from './spineStage.js'
 import './App.css'
 
-const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
 const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 const CLOCK_KEY = 'spine-viewer:clock:v1'
 const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
@@ -209,22 +208,6 @@ function loadAlbumArtSettings() {
 function saveAlbumArtSettings(albumArt) {
   try {
     window.localStorage.setItem(ALBUM_ART_KEY, JSON.stringify(albumArt))
-  } catch {
-    return
-  }
-}
-
-function hasSeenEyeHint() {
-  try {
-    return window.localStorage.getItem(EYE_HINT_KEY) === '1'
-  } catch {
-    return false
-  }
-}
-
-function markEyeHintSeen() {
-  try {
-    window.localStorage.setItem(EYE_HINT_KEY, '1')
   } catch {
     return
   }
@@ -431,8 +414,10 @@ export default function App() {
   const status = t(statusState.key, statusState.params)
   const [isError, setIsError] = useState(false)
   const inWallpaperEngine = isWallpaperEngineEnvironment()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(() => !inWallpaperEngine)
-  const [showEyeHint, setShowEyeHint] = useState(() => !hasSeenEyeHint())
+  // The drawer starts open every load, in the browser and inside Wallpaper
+  // Engine alike, so the tuned state is visible immediately instead of hiding
+  // behind the eye button.
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true)
   const [debugOpen, setDebugOpen] = useState(false)
   const [debugInfo, setDebugInfo] = useState([])
   const [animations, setAnimations] = useState([])
@@ -645,12 +630,6 @@ export default function App() {
       viewport?.removeEventListener('resize', update)
     }
   }, [debugOpen, language])
-
-  const dismissEyeHint = (openDrawer = false) => {
-    setShowEyeHint(false)
-    markEyeHintSeen()
-    if (openDrawer) setIsDrawerOpen(true)
-  }
 
   const updateViewSettings = (patch) => {
     setViewSettings((previous) => ({ ...previous, ...patch }))
@@ -899,11 +878,8 @@ export default function App() {
       )}
       <button
         type="button"
-        className={`viewer__settings-button${isDrawerOpen ? ' is-open' : ''}${showEyeHint ? ' is-hinting' : ''}`}
-        onClick={() => {
-          if (showEyeHint) dismissEyeHint()
-          setIsDrawerOpen((open) => !open)
-        }}
+        className={`viewer__settings-button${isDrawerOpen ? ' is-open' : ''}`}
+        onClick={() => setIsDrawerOpen((open) => !open)}
         aria-expanded={isDrawerOpen}
         aria-controls="settings-drawer"
         aria-label={
@@ -925,19 +901,6 @@ export default function App() {
           <circle cx="12" cy="12" r="3" />
         </svg>
       </button>
-      {showEyeHint && (
-        <aside className="eye-hint" role="status">
-          <p className="eye-hint__text">{t('eyeHint.text')}</p>
-          <button
-            type="button"
-            className="eye-hint__button"
-            onClick={() => dismissEyeHint(true)}
-          >
-            {t('eyeHint.confirm')}
-          </button>
-          <span className="eye-hint__arrow" aria-hidden="true" />
-        </aside>
-      )}
       <SettingsDrawer
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}

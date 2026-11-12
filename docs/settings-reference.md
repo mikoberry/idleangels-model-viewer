@@ -26,12 +26,6 @@ const [currentAnimation, setCurrentAnimation] = useState('idle')
 
 `models` 来自 `public/spine/models/manifest.json`；页面加载后默认选中 `models[0]`。
 
-眼睛提示是否看过使用单独的 `localStorage` key，与播放设置无关：
-
-```text
-spine-viewer:eye-hint:v1
-```
-
 ## 字段
 
 ### `scale`
@@ -336,10 +330,9 @@ const DEFAULT_ALBUM_ART = {
 | `spine-viewer:spectrum:v1` | `spectrum` 的五个字段 | `spectrum` 变化时 |
 | `spine-viewer:album-art:v1` | `albumArt` 的五个字段 | `albumArt` 变化时 |
 | `spine-viewer:drawer-tab:v1` | 抽屉上次打开的标签 | 切换标签时 |
-| `spine-viewer:eye-hint:v1` | 眼睛提示是否已关闭（`'1'`） | 关闭提示时 |
 
 - 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key，也没有统一的 `sanitizeSettings`；每个模块各自做校验（`normalizeClock`、`clampNumber`、`normalizeHexColor`）。
-- 所有 `localStorage` 读写都包在 `try/catch` 中，失败时静默忽略（语言 / 抽屉标签 / 眼睛提示 / 各浮层偏好），或回退默认值（时钟 / 频谱 / 专辑封面）。
+- 所有 `localStorage` 读写都包在 `try/catch` 中，失败时静默忽略（语言 / 抽屉标签 / 各浮层偏好），或回退默认值（时钟 / 频谱 / 专辑封面）。
 
 如果后续要加持久化，建议：
 

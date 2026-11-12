@@ -14,7 +14,7 @@
 
 A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **128 models** with `angel`, `bg`, and `action`; the GitHub Pages build ships **51 representative models**.
 
-The canvas stays mounted while the settings drawer opens and closes. In a normal browser the drawer starts open; inside Wallpaper Engine it starts closed. The drawer is split into four tabs — **clock**, **spectrum**, **model**, and **other** — and contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
+The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in both a normal browser and inside Wallpaper Engine. It is split into four tabs — **clock**, **spectrum**, **model**, and **other** — and contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
 
 ## Online version
 
@@ -33,7 +33,7 @@ You can:
 - Click **Copy all views** to export every recorded model as JSON for `model-presets.json`
 - Show a clock with optional audio-reactive bobbing, a 128-bar audio spectrum, and a now-playing album art card
 
-Unrecorded changes are not kept after a refresh. Recorded model views are restored from `localStorage`. The clock, spectrum, album art, language, and drawer tab preferences are saved automatically. Wallpaper Engine uses the full local library and starts with the drawer closed.
+Unrecorded changes are not kept after a refresh. Recorded model views are restored from `localStorage`. The clock, spectrum, album art, language, and drawer tab preferences are saved automatically. Wallpaper Engine uses the full local library.
 
 ## Features
 
@@ -49,7 +49,6 @@ Unrecorded changes are not kept after a refresh. Recorded model views are restor
 - 128-bar audio spectrum on the top or bottom edge with configurable height, position, and color
 - Now-playing album art card (cover, title, artist, album) with a mini spectrum, from Wallpaper Engine media integration
 - UI in Chinese, English, Japanese, and Korean; defaults to the browser language and can be switched in the drawer
-- First-visit eye-button hint
 - Debug panel toggle inside the settings drawer
 - Responsive full-screen layout; the drawer fills the width on mobile
 - Single-model and all-model packaging
