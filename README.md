@@ -141,9 +141,16 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 │  ├─ App.jsx
 │  ├─ components/
 │  │  ├─ SettingsDrawer.jsx
-│  │  └─ Clock.jsx
+│  │  ├─ Clock.jsx
+│  │  ├─ Spectrum.jsx
+│  │  └─ AlbumArt.jsx
+│  ├─ utils/
+│  │  ├─ audio.js
+│  │  ├─ clock.js
+│  │  ├─ wallpaperAudio.js
+│  │  ├─ wallpaperMedia.js
+│  │  └─ wallpaperPause.js
 │  ├─ i18n.js
-│  ├─ clock.js
 │  ├─ spineStage.js
 │  ├─ spine-webgl.js
 │  └─ styles.css

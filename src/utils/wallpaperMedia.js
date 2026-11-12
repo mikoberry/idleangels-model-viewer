@@ -10,7 +10,7 @@
 //     thumbnail, primaryColor, secondaryColor, tertiaryColor,
 //     textColor, highContrastColor,
 //     title, artist, subTitle, albumTitle, albumArtist, genres, contentType,
-//     playback,      // 'playing' | 'paused' | 'stopped'
+//     playback,      // 'playing' | 'paused' | 'stopped' | null when unknown
 //     enabled,       // whether the user enabled media integration
 //     updatedAt,     // ms timestamp of the last thumbnail/property update
 //   }

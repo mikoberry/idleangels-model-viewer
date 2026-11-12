@@ -155,7 +155,7 @@ const DEFAULT_CLOCK = {
 默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
 
 - 位置以**左下角**为原点。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 贴对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
-- 范围常量定义在 [src/clock.js](../src/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
+- 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
 - 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
 - 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这五个字段）。
 - 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
@@ -203,7 +203,7 @@ const DEFAULT_SPECTRUM = {
 
 - 打开后时钟随音频**低频（bass）**律动：最大放大 12%，并叠加一层随强度增长的光晕。
 - 数据来源分两种：
-  - **Wallpaper Engine**：`window.wallpaperRegisterAudioListener` 推送的 128 长度数组（`0–63` 左声道、`64–127` 右声道，低索引为低频）。监听在 [src/wallpaperAudio.js](../src/wallpaperAudio.js) 中于**模块顶层**注册，`src/main.jsx` 在 `createRoot` 之前调用，不能放进 `useEffect` 或 `window.onload`。
+  - **Wallpaper Engine**：`window.wallpaperRegisterAudioListener` 推送的 128 长度数组（`0–63` 左声道、`64–127` 右声道，低索引为低频）。监听在 [src/utils/wallpaperAudio.js](../src/utils/wallpaperAudio.js) 中于**模块顶层**注册，`src/main.jsx` 在 `createRoot` 之前调用，不能放进 `useEffect` 或 `window.onload`。
   - **浏览器**：无法读取系统音频，使用 `syntheticAudioLevel()` 生成的确定性模拟节拍。
 - 数据来源分两种，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
   - **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时柱状图为**静音**，绝不回退到模拟数据。
@@ -211,7 +211,7 @@ const DEFAULT_SPECTRUM = {
 - 静音阈值 `NOISE_FLOOR = 0.02`：低于该值的采样视为静音并归零，避免引擎残留底噪让 128 根柱子持续微颤。高于阈值的值会重新缩放，不产生可见跳变。
 - 帧超过 **1.5 秒**没有更新视为过期（`getWallpaperAudioFrame(staleMs)`），柱状图回到静止，而不是冻结在最后一次响亮的画面上。
 - 调试面板的「音频数据」一行只显示三态：`非 WE 环境` / `已注册，等待音频数据` / `接收中`。
-- 数值处理在 [src/audio.js](../src/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动，attack 约 50ms 冲到 95%，release 约 500ms 衰减到 5%。
+- 数值处理在 [src/utils/audio.js](../src/utils/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动，attack 约 50ms 冲到 95%，release 约 500ms 衰减到 5%。
 - 律动与倾斜共用同一个 rAF 循环，只写 CSS 变量和 transform，不额外触发重排。
 - `public/project.json` 的音频开关必须写在 **`general` 对象内部**，不是顶层：
 

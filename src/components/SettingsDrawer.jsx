@@ -6,18 +6,24 @@ import {
   CLOCK_OFFSET_MIN,
   CLOCK_SIZE_MAX,
   CLOCK_SIZE_MIN,
-} from '../clock.js'
+} from '../utils/clock.js'
 
 const MIN_SCALE = 0.5
 
 // Tabs of the settings drawer, rendered as a vertical menu on its left edge.
-const DRAWER_TABS = ['display', 'model', 'other']
+const DRAWER_TABS = ['clock', 'spectrum', 'model', 'other']
 const DRAWER_TAB_KEY = 'spine-viewer:drawer-tab:v1'
+
+// `display` was the single tab that used to hold both the clock and the
+// spectrum; it now maps to the clock tab so an existing preference still opens
+// a sensible pane after the split.
+const LEGACY_TAB_ALIASES = { display: 'clock' }
 
 function loadDrawerTab() {
   try {
     const saved = window.localStorage.getItem(DRAWER_TAB_KEY)
     if (DRAWER_TABS.includes(saved)) return saved
+    if (saved && LEGACY_TAB_ALIASES[saved]) return LEGACY_TAB_ALIASES[saved]
   } catch {
     // Storage unavailable: fall back to the default tab.
   }
@@ -33,13 +39,20 @@ function saveDrawerTab(tab) {
 }
 const MAX_SCALE = 5
 const POSITION_LIMIT = 100
+// Swatches shown above the colour picker. They are muted on purpose: a wallpaper
+// background sits behind artwork for hours, so these are desaturated versions of
+// recognisable hues rather than full-strength colours that would fight the model.
+// Eight fills the swatch grid exactly and keeps the hues far enough apart to be
+// told apart at a glance.
 const BACKGROUND_PRESETS = [
-  '#06070d',
-  '#000000',
-  '#111827',
-  '#1e293b',
-  '#3b1f45',
-  '#f2f5ff',
+  '#101217', // near-black
+  '#1c2230', // midnight blue
+  '#2c2436', // dusk violet
+  '#4a5a6d', // slate blue
+  '#1f2f2a', // deep pine
+  '#7a6a55', // sand
+  '#5f7b7a', // dusty teal
+  '#c9d1e0', // pale steel
 ]
 const HEX_COLOR = /^#[0-9a-f]{6}$/i
 
@@ -1028,7 +1041,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {activeTab === 'display' && (
+      {activeTab === 'clock' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.clock')}</span>
         <label className="toggle-row">
@@ -1174,23 +1187,58 @@ export default function SettingsDrawer({
 
             <p className="inspector-hint">{t('clock.offsetHint')}</p>
 
-            <label className="toggle-row">
-              <input
-                type="checkbox"
-                checked={clock.reactToBeat === true}
-                onChange={(event) =>
-                  onClockChange({ reactToBeat: event.currentTarget.checked })
-                }
-              />
-              <span>{t('clock.reactToBeat')}</span>
-            </label>
+            <div className="inspector-field inspector-field--split">
+              <label className="toggle-row">
+                <input
+                  type="checkbox"
+                  checked={clock.reactToBeat === true}
+                  onChange={(event) =>
+                    onClockChange({ reactToBeat: event.currentTarget.checked })
+                  }
+                />
+                <span>{t('clock.reactToBeat')}</span>
+              </label>
+              <StepControl
+                label={t('clock.beatIntensity')}
+                onStep={(delta) => onClockChange({ beatIntensity: clock.beatIntensity + delta })}
+                canDecrease={clock.reactToBeat === true && clock.beatIntensity > 0}
+                canIncrease={clock.reactToBeat === true && clock.beatIntensity < 500}
+                t={t}
+              >
+                <label className="scale-input">
+                  <input
+                    className="viewer-number"
+                    type="number"
+                    min={0}
+                    max={500}
+                    step={1}
+                    value={Math.round(clock.beatIntensity)}
+                    aria-label={t('clock.beatIntensityAria')}
+                    disabled={clock.reactToBeat !== true}
+                    onChange={(event) =>
+                      onClockChange({ beatIntensity: Number(event.currentTarget.value) })
+                    }
+                  />
+                  <span aria-hidden="true">%</span>
+                </label>
+              </StepControl>
+            </div>
+            <ViewerSlider
+              value={clock.beatIntensity}
+              min={0}
+              max={500}
+              step={1}
+              label={t('clock.beatIntensity')}
+              valueText={`${Math.round(clock.beatIntensity)}%`}
+              onChange={(beatIntensity) => onClockChange({ beatIntensity })}
+            />
             <p className="inspector-hint">{t('clock.reactToBeatHint')}</p>
           </>
         )}
       </section>
       )}
 
-      {activeTab === 'display' && (
+      {activeTab === 'spectrum' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.spectrum')}</span>
         <label className="toggle-row">
@@ -1311,7 +1359,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {activeTab === 'display' && (
+      {activeTab === 'spectrum' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.albumArt')}</span>
         <label className="toggle-row">

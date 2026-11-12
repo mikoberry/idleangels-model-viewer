@@ -1,13 +1,13 @@
 // Clock formatting helpers.
 //
 // Month/day order follows the active UI language through Intl. Weekday names
-// are rendered through i18n so relative day wording ("today", "yesterday")
-// stays consistent with the rest of the UI.
+// are rendered through i18n so the label stays consistent with the rest of the
+// UI.
 
 const WEEKDAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 // Clock layout limits, shared by the overlay and the settings drawer so the
-// Controls and the clamping logic can never disagree.
+// controls and the clamping logic can never disagree.
 //
 // Widgets use one uniform position range on both axes so the same numbers mean
 // the same thing everywhere: 0% sits on the anchor edge and 100% sits on the

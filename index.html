@@ -83,11 +83,52 @@
       if (typeof window.wallpaperRegisterMediaPlaybackListener === 'function') {
         window.wallpaperRegisterMediaPlaybackListener(function (event) {
           if (!event) return;
-          var constants = window.wallpaperMediaIntegration || {};
+          var constants = window.wallpaperMediaIntegration;
+          // The playback integers are host-defined, so they must never be
+          // hard-coded. If the constants object is missing entirely we cannot
+          // classify the state: keep `null` (meaning "unknown") instead of
+          // guessing "stopped", which would hide the album art for good.
+          if (!constants) {
+            media.playback = null;
+            return;
+          }
           if (event.state === constants.PLAYBACK_PLAYING) media.playback = 'playing';
           else if (event.state === constants.PLAYBACK_PAUSED) media.playback = 'paused';
           else media.playback = 'stopped';
         });
+      }
+    </script>
+
+    <!--
+      Pause bridge.
+
+      The engine freezes its render process while paused, but the page keeps its
+      own requestAnimationFrame loops and timers alive, which wastes power on a
+      wallpaper that runs for hours. The flag is recorded here and broadcast as a
+      DOM event so src/wallpaperPause.js can react after the module loads.
+    -->
+    <script>
+      window.__wePaused = false;
+
+      function __weSetPaused(value) {
+        var next = value === true;
+        if (window.__wePaused === next) return;
+        window.__wePaused = next;
+        window.dispatchEvent(
+          new CustomEvent('we-pause-change', { detail: next }),
+        );
+      }
+
+      // Only attach to a listener object the engine itself created. Creating one
+      // unconditionally would make the app's `wallpaperPropertyListener` based
+      // environment check pass in a plain browser, hiding the model picker and
+      // collapsing the drawer everywhere.
+      if (window.wallpaperPropertyListener) {
+        window.wallpaperPropertyListener.setPaused = __weSetPaused;
+      } else if (typeof window.wallpaperRegisterAudioListener === 'function') {
+        // Engine present but it has not created the listener object yet: create
+        // it so the pause callback is not lost.
+        window.wallpaperPropertyListener = { setPaused: __weSetPaused };
       }
     </script>
   </head>

@@ -6,8 +6,9 @@ import {
   spectrumGradientStops,
   SPECTRUM_BARS,
   syntheticSpectrum,
-} from '../audio.js'
-import { getWallpaperAudioFrame } from '../wallpaperAudio.js'
+} from '../utils/audio.js'
+import { getWallpaperAudioFrame } from '../utils/wallpaperAudio.js'
+import { isWallpaperPaused } from '../utils/wallpaperPause.js'
 
 // Canvas 2D is used instead of 128 DOM nodes: a bar chart that redraws at
 // 60fps needs a single paint call, not 128 style invalidations.
@@ -114,8 +115,11 @@ export default function Spectrum({
       const delta = Math.min(Math.max((now - lastTime) / 1000, 0), 0.05)
       lastTime = now
 
-      readBars(now / 1000, targets)
-      draw(delta, now / 1000)
+      // Paused wallpaper: keep the loop alive but skip all drawing work.
+      if (!isWallpaperPaused()) {
+        readBars(now / 1000, targets)
+        draw(delta, now / 1000)
+      }
 
       frameId = window.requestAnimationFrame(tick)
     }

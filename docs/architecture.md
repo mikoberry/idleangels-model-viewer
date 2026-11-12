@@ -100,14 +100,21 @@ index.html
 - `pointer-events: none`，不拦截画布点击；`aria-hidden`，对辅助技术隐藏。
 - `position: 'top'` 通过 `transform: scaleY(-1)` 翻转，避免再写一套绘制逻辑。
 
-### `src/wallpaperAudio.js`
+### `src/utils/wallpaperAudio.js`
 
 - 在 `index.html` 的 `<head>` 中由内联经典脚本注册（早于 Vite 的 module 脚本），把 128 长度数组和到达时间戳写到 `window.__weAudioFrame` / `window.__weAudioAt`。
-- `src/wallpaperAudio.js` 只读取这两个全局值，无副作用，导出 `isWallpaperAudioAvailable()` 与 `getWallpaperAudioFrame(staleMs = 1500)`；超过 1.5 秒未更新的帧视为过期并返回 `null`，让消费端回到静止而不是冻结在最后一帧。
+- `src/utils/wallpaperAudio.js` 只读取这两个全局值，无副作用，导出 `isWallpaperAudioAvailable()` 与 `getWallpaperAudioFrame(staleMs = 1500)`；超过 1.5 秒未更新的帧视为过期并返回 `null`，让消费端回到静止而不是冻结在最后一帧。
 - 官方文档明确：**不能**在 `window.onload` 或类似事件里注册，否则会漏事件。
 - `public/project.json` 的 `general.supportsaudioprocessing` 必须嵌在 `general` 内，写在顶层会被引擎忽略。
 
-### `src/audio.js`
+### `src/utils/wallpaperPause.js`
+
+- 统一暂停状态桥接。内联脚本在 `index.html` 中记录 `window.__wePaused`，并在状态变化时派发 `we-pause-change` DOM 事件。
+- 导出 `isWallpaperPaused()` 与 `onWallpaperPauseChange(listener)`；订阅会立即收到当前状态，之后每次变化再触发。
+- **不要**在组件里给 `wallpaperPropertyListener.setPaused` 重新赋值，那会覆盖启动时注册的回调。
+- `spineStage.js`、`Spectrum.jsx` 在暂停时跳过整帧绘制（保留 rAF 以便立即恢复）；`Clock.jsx` 在恢复时立即刷新时间。
+
+### `src/utils/audio.js`
 
 - 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`、`spectrumGradientStops`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` / `DEFAULT_SPECTRUM_COLOR` 常量。
 - `spectrumGradientStops(hex)` 把 `#rrggbb` 转成柱子的两个渐变端点（顶部 0.95、底部 0.45 透明度）；输入不合法时返回 `null`，调用方回退到默认色，避免画不出柱子。
@@ -115,7 +122,7 @@ index.html
 - `syntheticSpectrum(t)` 生成确定性的模拟频谱，供浏览器预览；负时间返回全 0。
 - `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
 
-### `src/clock.js`
+### `src/utils/clock.js`
 
 - 纯函数模块，不依赖 React：`formatClockTime`、`formatClockDateParts`、`formatClockZone`、`computeClockTilt`、`smoothStep`、`weekdayKey`。
 - 同时导出时钟布局范围常量 `CLOCK_OFFSET_MIN`（`0`）、`CLOCK_OFFSET_MAX`（`100`）、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，由 `App.jsx` 和 `SettingsDrawer.jsx` 共用，避免控件范围与校验范围不一致。这两个位置常量同样用于频谱的水平位置，使所有小组件的位置范围统一。
@@ -410,7 +417,7 @@ localStorage key: spine-viewer:eye-hint:v1
 - [src/App.jsx](../src/App.jsx)
 - [src/components/SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx)
 - [src/components/Clock.jsx](../src/components/Clock.jsx)
-- [src/clock.js](../src/clock.js)
+- [src/utils/clock.js](../src/utils/clock.js)
 - [src/spineStage.js](../src/spineStage.js)
 - [src/spine-webgl.js](../src/spine-webgl.js)
 - [src/styles.css](../src/styles.css)

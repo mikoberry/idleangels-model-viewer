@@ -1,4 +1,5 @@
 import { spine } from './spine-webgl.js'
+import { isWallpaperPaused } from './utils/wallpaperPause.js'
 
 const DEFAULT_ANIMATION = 'idle'
 const ACTION_ANIMATION = 'action'
@@ -379,6 +380,16 @@ export async function startSpineStage(
 
   const frame = (now) => {
     if (disposed) return
+
+    // While the engine has the wallpaper paused there is nothing to draw and
+    // nothing to advance, so skip the whole frame body. Keeping the rAF alive
+    // means resuming is instant, and skipping the work is what actually saves
+    // power.
+    if (isWallpaperPaused()) {
+      lastTime = now
+      frameId = window.requestAnimationFrame(frame)
+      return
+    }
 
     const delta = Math.min(Math.max((now - lastTime) / 1000, 0), 0.05)
     lastTime = now

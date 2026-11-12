@@ -5,15 +5,17 @@ import {
   formatClockTime,
   formatClockZone,
   smoothStep,
-} from '../clock.js'
-import { smoothAudioLevel, summarizeWallpaperAudio, syntheticAudioLevel } from '../audio.js'
-import { getWallpaperAudioFrame } from '../wallpaperAudio.js'
+} from '../utils/clock.js'
+import { smoothAudioLevel, summarizeWallpaperAudio, syntheticAudioLevel } from '../utils/audio.js'
+import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from '../utils/wallpaperAudio.js'
+import { onWallpaperPauseChange } from '../utils/wallpaperPause.js'
 
 // Idle tilt eases back to flat when the pointer leaves the window.
 const FLAT = { rotateX: 0, rotateY: 0 }
 
-// Maximum scale added by a full-strength beat. Small on purpose: the clock
-// should breathe with the music, not bounce.
+// Maximum scale added by a full-strength beat, before the user's intensity
+// setting scales it down or up. Small on purpose: the clock should breathe with
+// the music, not bounce.
 const BEAT_SCALE = 0.12
 // Extra glow spread at full beat.
 const BEAT_GLOW = 0.55
@@ -36,11 +38,17 @@ function viewportBounds() {
 
 // Wallpaper Engine reports real system audio; anywhere else the synthetic
 // curve stands in, because browsers cannot tap system output.
+//
+// Once the engine is detected it must never fall back to synthetic data: a
+// missing frame means "no audio right now", so the beat level should settle to
+// zero rather than keep bouncing on a fake tempo.
+const SILENT_TARGET = { bass: 0, left: 0, right: 0 }
+
 function readAudioTarget(timeSeconds) {
-  const frame = getWallpaperAudioFrame()
-  if (frame) {
-    const summary = summarizeWallpaperAudio(frame)
-    if (summary) return summary
+  if (isWallpaperAudioAvailable()) {
+    const frame = getWallpaperAudioFrame()
+    if (!frame) return SILENT_TARGET
+    return summarizeWallpaperAudio(frame) ?? SILENT_TARGET
   }
   return syntheticAudioLevel(timeSeconds)
 }
@@ -53,6 +61,7 @@ export default function Clock({
   offsetY = 0,
   size = 100,
   reactToBeat = false,
+  beatIntensity = 100,
   t,
 }) {
   const [now, setNow] = useState(() => new Date())
@@ -82,19 +91,22 @@ export default function Clock({
     const interval = window.setInterval(update, 1000)
 
     // Repaint immediately when the wallpaper is unpaused or the tab becomes
-    // visible again, instead of waiting for the next interval tick. Wallpaper
-    // Engine fires setPaused on its own; in a browser the optional call is a
-    // no-op because no listener object exists.
+    // visible again, instead of waiting for the next interval tick. The pause
+    // state comes from the shared bridge, not from reassigning the engine's
+    // callback (which would replace the one registered at startup).
     const onVisibilityChange = () => {
       if (!document.hidden) update()
     }
 
     document.addEventListener('visibilitychange', onVisibilityChange)
-    window.wallpaperPropertyListener?.setPaused?.(() => update())
+    const unsubscribe = onWallpaperPauseChange((paused) => {
+      if (!paused) update()
+    })
 
     return () => {
       window.clearInterval(interval)
       document.removeEventListener('visibilitychange', onVisibilityChange)
+      unsubscribe()
     }
   }, [visible])
 
@@ -214,13 +226,18 @@ export default function Clock({
     bottom: `${offsetY}%`,
   }
 
+  // The user's intensity slider scales both the scale bump and the glow. 0%
+  // means the clock still follows the audio internally but visibly does
+  // nothing; 500% is the strongest response the slider allows.
+  const intensity = Math.min(Math.max(beatIntensity, 0), 500) / 100
+
   const tiltStyle = {
     // No CSS transition here: the rAF loop already eases the values, and a
     // transition on top would add lag and stutter.
-    transform: `perspective(900px) rotateX(${tilt.rotateX.toFixed(3)}deg) rotateY(${tilt.rotateY.toFixed(3)}deg) scale(${(1 + beat * BEAT_SCALE).toFixed(3)})`,
+    transform: `perspective(900px) rotateX(${tilt.rotateX.toFixed(3)}deg) rotateY(${tilt.rotateY.toFixed(3)}deg) scale(${(1 + beat * BEAT_SCALE * intensity).toFixed(3)})`,
     '--clock-scale': size / 100,
     // A soft glow that grows with the beat; 0 when the feature is off.
-    '--clock-beat-glow': (beat * BEAT_GLOW).toFixed(3),
+    '--clock-beat-glow': (beat * BEAT_GLOW * intensity).toFixed(3),
   }
 
   const content =

@@ -4,9 +4,9 @@ import Clock from './components/Clock.jsx'
 import Spectrum from './components/Spectrum.jsx'
 import AlbumArt from './components/AlbumArt.jsx'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
-import { CLOCK_OFFSET_MIN, CLOCK_OFFSET_MAX, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './clock.js'
-import { DEFAULT_SPECTRUM_COLOR } from './audio.js'
-import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './wallpaperAudio.js'
+import { CLOCK_OFFSET_MIN, CLOCK_OFFSET_MAX, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './utils/clock.js'
+import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
+import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
 
 const EYE_HINT_KEY = 'spine-viewer:eye-hint:v1'
@@ -25,6 +25,8 @@ const DEFAULT_CLOCK = {
   offsetY: 50,
   size: 100,
   reactToBeat: false,
+  // How strongly the clock reacts, as a percentage of the built-in animation.
+  beatIntensity: 100,
 }
 
 function clampNumber(value, fallback, min, max) {
@@ -58,6 +60,12 @@ function normalizeClock(value, fallback = DEFAULT_CLOCK) {
     size: clampNumber(source.size, fallback.size, CLOCK_SIZE_MIN, CLOCK_SIZE_MAX),
     reactToBeat:
       typeof source.reactToBeat === 'boolean' ? source.reactToBeat : fallback.reactToBeat,
+    beatIntensity: clampNumber(
+      source.beatIntensity,
+      fallback.beatIntensity,
+      0,
+      500,
+    ),
   }
 }
 
@@ -685,6 +693,7 @@ export default function App() {
         size={albumArt.size}
         offsetX={albumArt.offsetX}
         offsetY={albumArt.offsetY}
+        spectrumColor={spectrum.color}
         language={language}
         t={t}
       />
@@ -695,6 +704,7 @@ export default function App() {
         offsetY={clock.offsetY}
         size={clock.size}
         reactToBeat={clock.reactToBeat}
+        beatIntensity={clock.beatIntensity}
         language={language}
         t={t}
       />
