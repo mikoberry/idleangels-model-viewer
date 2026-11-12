@@ -45,8 +45,10 @@ npm run models:import
 
 - 同时有 `angel` 和 `bg`；
 - 每层恰好一套 `.skel` / `.atlas` / `.png`；
-- 有 `idle` 和 `action`；
+- `angel` 层有 `action` 和 `idle`；
 - atlas 页面名与 PNG 文件名一致。
+
+`bg` 层可以没有 `action`：导入时会带上警告（`bg has no action; only angel will play action`），这样 `bg` 在 `action` 期间保持待机而不是消失。
 
 当前源目录有 377 个模型目录、约 1.27 GB；按上述条件导入 **128 个**、约 731 MB。NPC、只有 `angel`、没有 `action`、缺 PNG、特殊目录（多套资源/嵌套模型）暂不处理。
 
@@ -62,7 +64,7 @@ npm run models:import
 ## 当前资源核对结果
 
 - 源目录中 509 个 `.skel` 全部解析为 **3.8.99**。
-- 当前导入的 128 个模型都是 `bg + angel`，每层都有 `idle` / `action`。
+- 当前导入的 128 个模型都是 `bg + angel`，`angel` 都有 `idle` / `action`。
 - 有 17 个 NPC 只有 `idle`，没有导入。
 - 有 2 个模型缺少 PNG，没有导入。
 - 源目录 509 个 atlas 中有 455 个声明的 `size` 与 PNG 实际尺寸不一致；`prepare-models` 会在复制时按 PNG 尺寸重写 atlas。
@@ -115,7 +117,7 @@ atlas 的页面名会相对于 atlas 文件所在目录解析。因此 `.skel`�
 替换或新增模型走模型管线：
 
 1. 用 Spine **3.8.99** 导出新的二进制骨架和 atlas，按 `<model-id>/angel/` 与 `<model-id>/bg/` 放好。
-2. 确保每层恰好一套 `.skel` / `.atlas` / `.png`，atlas 页面名与 PNG 文件名一致，并且有 `idle` 和 `action`。
+2. 确保每层恰好一套 `.skel` / `.atlas` / `.png`，atlas 页面名与 PNG 文件名一致；`angel` 必须有 `idle` 和 `action`。
 3. 运行导入：
    ```bash
    npm run models:import

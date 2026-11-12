@@ -2,6 +2,8 @@ import * as Slider from '@radix-ui/react-slider'
 import { useEffect, useRef, useState } from 'react'
 import { LANGUAGES } from '../i18n.js'
 import {
+  CLOCK_BEAT_INTENSITY_MAX,
+  CLOCK_BEAT_INTENSITY_MIN,
   CLOCK_OFFSET_MAX,
   CLOCK_OFFSET_MIN,
   CLOCK_SIZE_MAX,
@@ -1201,16 +1203,22 @@ export default function SettingsDrawer({
               <StepControl
                 label={t('clock.beatIntensity')}
                 onStep={(delta) => onClockChange({ beatIntensity: clock.beatIntensity + delta })}
-                canDecrease={clock.reactToBeat === true && clock.beatIntensity > 0}
-                canIncrease={clock.reactToBeat === true && clock.beatIntensity < 500}
+                canDecrease={
+                  clock.reactToBeat === true &&
+                  clock.beatIntensity > CLOCK_BEAT_INTENSITY_MIN
+                }
+                canIncrease={
+                  clock.reactToBeat === true &&
+                  clock.beatIntensity < CLOCK_BEAT_INTENSITY_MAX
+                }
                 t={t}
               >
                 <label className="scale-input">
                   <input
                     className="viewer-number"
                     type="number"
-                    min={0}
-                    max={500}
+                    min={CLOCK_BEAT_INTENSITY_MIN}
+                    max={CLOCK_BEAT_INTENSITY_MAX}
                     step={1}
                     value={Math.round(clock.beatIntensity)}
                     aria-label={t('clock.beatIntensityAria')}
@@ -1225,8 +1233,8 @@ export default function SettingsDrawer({
             </div>
             <ViewerSlider
               value={clock.beatIntensity}
-              min={0}
-              max={500}
+              min={CLOCK_BEAT_INTENSITY_MIN}
+              max={CLOCK_BEAT_INTENSITY_MAX}
               step={1}
               label={t('clock.beatIntensity')}
               valueText={`${Math.round(clock.beatIntensity)}%`}

@@ -4,7 +4,14 @@ import Clock from './components/Clock.jsx'
 import Spectrum from './components/Spectrum.jsx'
 import AlbumArt from './components/AlbumArt.jsx'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
-import { CLOCK_OFFSET_MIN, CLOCK_OFFSET_MAX, CLOCK_SIZE_MAX, CLOCK_SIZE_MIN } from './utils/clock.js'
+import {
+  CLOCK_BEAT_INTENSITY_MAX,
+  CLOCK_BEAT_INTENSITY_MIN,
+  CLOCK_OFFSET_MIN,
+  CLOCK_OFFSET_MAX,
+  CLOCK_SIZE_MAX,
+  CLOCK_SIZE_MIN,
+} from './utils/clock.js'
 import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
@@ -63,8 +70,8 @@ function normalizeClock(value, fallback = DEFAULT_CLOCK) {
     beatIntensity: clampNumber(
       source.beatIntensity,
       fallback.beatIntensity,
-      0,
-      500,
+      CLOCK_BEAT_INTENSITY_MIN,
+      CLOCK_BEAT_INTENSITY_MAX,
     ),
   }
 }

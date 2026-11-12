@@ -18,6 +18,12 @@ export const CLOCK_OFFSET_MAX = 100
 export const CLOCK_SIZE_MIN = 40
 export const CLOCK_SIZE_MAX = 200
 
+// Range of the clock's audio-reactive intensity. 0% still follows the audio
+// internally but shows nothing; 1000% is the strongest response the slider
+// allows (ten times the built-in animation).
+export const CLOCK_BEAT_INTENSITY_MIN = 0
+export const CLOCK_BEAT_INTENSITY_MAX = 1000
+
 export function weekdayKey(date) {
   return WEEKDAY_KEYS[date.getDay()]
 }

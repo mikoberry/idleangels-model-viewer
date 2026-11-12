@@ -1,6 +1,6 @@
 # 设置字段参考
 
-当前设置模型位于 [src/App.jsx](../src/App.jsx) 的 `viewSettings` React state 中。`viewSettings` 本身不会自动持久化；点击“记录当前视图”后会按模型写入 `localStorage`。本文档列出当前实际字段、默认值、范围、生效路径和扩展方式。
+当前设置模型位于 [src/App.jsx](../src/App.jsx) 的 `viewSettings` React state 中。`viewSettings` 本身不会自动持久化；点击“记录当前视图”后会按模型写入 `localStorage`。时钟 `clock`、频谱 `spectrum`、专辑封面 `albumArt` 是三个独立 state，各自持久化。本文档列出当前实际字段、默认值、范围、生效路径和扩展方式。
 
 ## 数据结构
 
@@ -140,6 +140,7 @@ const DEFAULT_CLOCK = {
   offsetY: 50,
   size: 100,
   reactToBeat: false,
+  beatIntensity: 100,
 }
 ```
 
@@ -151,13 +152,14 @@ const DEFAULT_CLOCK = {
 | `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，正值向上 |
 | `size` | `number` | `100` | `40`–`200` | 字号百分比，`100` 为默认大小 |
 | `reactToBeat` | `boolean` | `false` | — | 是否随音频低频律动（缩放 + 光晕） |
+| `beatIntensity` | `number` | `100` | `0`–`1000` | 律动强度百分比，缩放律动的放大与光晕幅度；`0` 等于看不出反应 |
 
 默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
 
 - 位置以**左下角**为原点。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 贴对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
 - 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
 - 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
-- 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这五个字段）。
+- 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这七个字段）。
 - 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
 - 时间每秒刷新一次；秒数不变时不触发 React 重渲染。
 - 时钟**没有背景**：无边框、无底色、无卡片阴影，只有文字和一层柔和投影保证在亮色画面上可读。
@@ -168,8 +170,8 @@ const DEFAULT_CLOCK = {
   - 指针移出窗口后回到平放。
   - 计算逻辑是 `computeClockTilt()` 与 `smoothStep()`。
   - 组件不再使用 CSS `transition`，避免每次指针移动都重启过渡造成卡顿。
-- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时，倾斜与过渡都关闭。
-- Wallpaper Engine 中壁纸被暂停/恢复时，通过 `wallpaperPropertyListener.setPaused` 或 `visibilitychange` 立即刷新显示。
+- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时，倾斜关闭。
+- Wallpaper Engine 中壁纸被暂停/恢复时，通过共享的暂停桥接（`wallpaperPause.js`）或 `visibilitychange` 立即刷新显示。
 - 时间格式固定为 24 小时制；日期与周几跟随界面语言（中文/英文/日文/韩文）。
 
 ## 音频频谱 `spectrum`（独立 state）
@@ -181,6 +183,8 @@ const DEFAULT_SPECTRUM = {
   show: false,
   position: 'bottom',
   height: 22,
+  offsetX: 0,
+  color: DEFAULT_SPECTRUM_COLOR, // '#a8c4ff'
 }
 ```
 
@@ -197,21 +201,50 @@ const DEFAULT_SPECTRUM = {
 - 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制。
 - 只绘制柱子，没有峰值标记。
 - 浮层 `pointer-events: none`，不拦截画布点击。
-- 数据来源与时钟律动相同，见下节 `reactToBeat`。
+- 数据来源见下节「音频数据来源」。
 
-## 音频响应 `reactToBeat`
+## 专辑封面 `albumArt`（独立 state）
 
-- 打开后时钟随音频**低频（bass）**律动：最大放大 12%，并叠加一层随强度增长的光晕。
-- 数据来源分两种：
-  - **Wallpaper Engine**：`window.wallpaperRegisterAudioListener` 推送的 128 长度数组（`0–63` 左声道、`64–127` 右声道，低索引为低频）。监听在 [src/utils/wallpaperAudio.js](../src/utils/wallpaperAudio.js) 中于**模块顶层**注册，`src/main.jsx` 在 `createRoot` 之前调用，不能放进 `useEffect` 或 `window.onload`。
-  - **浏览器**：无法读取系统音频，使用 `syntheticAudioLevel()` 生成的确定性模拟节拍。
-- 数据来源分两种，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
-  - **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时柱状图为**静音**，绝不回退到模拟数据。
-  - **浏览器中**（API 不存在）：无法读取系统音频，使用 `syntheticSpectrum()` 生成的确定性模拟频谱。
-- 静音阈值 `NOISE_FLOOR = 0.02`：低于该值的采样视为静音并归零，避免引擎残留底噪让 128 根柱子持续微颤。高于阈值的值会重新缩放，不产生可见跳变。
+从 Wallpaper Engine 的媒体集成读取封面与曲目信息，卡片锚定在屏幕四角之一：
+
+```js
+const DEFAULT_ALBUM_ART = {
+  show: false,
+  corner: 'bottom-right',
+  size: 18,
+  offsetX: 0,
+  offsetY: 0,
+}
+```
+
+| 字段 | 类型 | 默认值 | 范围 | 说明 |
+| --- | --- | --- | --- | --- |
+| `show` | `boolean` | `false` | — | 是否显示专辑封面卡片 |
+| `corner` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | — | 锚定的角落 |
+| `size` | `number` | `18` | `10`–`40` | 卡片高度，占视口高度的百分比（卡片宽度为该值的 3.6 倍） |
+| `offsetX` | `number` | `0` | `0`–`100` | 从所选角落向内的水平偏移 |
+| `offsetY` | `number` | `0` | `0`–`100` | 从所选角落向内的垂直偏移 |
+
+- 持久化：`localStorage` 的 `spine-viewer:album-art:v1`。
+- 非引擎环境或播放器不提供媒体信息时，卡片显示对应的提示文案，而不是空白。
+- 卡片内的小频谱颜色跟随 `spectrum.color`。
+- 数据来源：[src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 读取 `index.html` 内联脚本写入的 `window.__weMedia`；`AlbumArt.jsx` 每秒轮询一次。
+- 需要用户在 WE 设置中开启**媒体集成**，否则不会有任何数据。
+
+## 音频数据来源（频谱 / 时钟律动 / 封面小频谱共用一个来源）
+
+三处可视化都用同一套读取逻辑，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
+
+- **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时**静音**，绝不回退到模拟数据。
+- **浏览器中**（API 不存在）：无法读取系统音频，使用 `syntheticSpectrum()` / `syntheticAudioLevel()` 生成的确定性模拟数据。
+
+其它要点：
+
+- 监听器在 [index.html](../index.html) 的 `<head>` 中由内联经典脚本注册（早于 Vite 的延迟模块脚本），把 128 长度数组和到达时间戳写到 `window.__weAudioFrame` / `window.__weAudioAt`。[src/utils/wallpaperAudio.js](../src/utils/wallpaperAudio.js) 只读这两个全局值，无副作用。**不要**改到模块顶层或 `useEffect` / `window.onload` 里注册。
 - 帧超过 **1.5 秒**没有更新视为过期（`getWallpaperAudioFrame(staleMs)`），柱状图回到静止，而不是冻结在最后一次响亮的画面上。
+- 静音阈值 `NOISE_FLOOR = 0.06`：低于该值的采样视为静音并归零，避免引擎残留底噪让 128 根柱子持续微颤。高于阈值的值会重新缩放，不产生可见跳变。
 - 调试面板的「音频数据」一行只显示三态：`非 WE 环境` / `已注册，等待音频数据` / `接收中`。
-- 数值处理在 [src/utils/audio.js](../src/utils/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动，attack 约 50ms 冲到 95%，release 约 500ms 衰减到 5%。
+- 数值处理在 [src/utils/audio.js](../src/utils/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动（attack 60/s、release 6/s）。
 - 律动与倾斜共用同一个 rAF 循环，只写 CSS 变量和 transform，不额外触发重排。
 - `public/project.json` 的音频开关必须写在 **`general` 对象内部**，不是顶层：
 
@@ -221,6 +254,12 @@ const DEFAULT_SPECTRUM = {
 
   Wallpaper Engine 的原生结构还包含 `general.properties.schemecolor`，`type` 是 `"Web"`（大写）。写在顶层（`"supportsaudioprocessing": true` 平级于 `file`）会被引擎忽略——表现为注册成功但回调恒为 0 次。
 - 若音频仍不工作，先在 WE 设置 → General → Media 中确认 **audio recording device** 选对，并确认 WE 在 Windows 音量合成器中没有被静音——引擎在录不到声音时不会推送任何音频帧。
+
+## 音频响应 `reactToBeat`
+
+- 打开后时钟随音频**低频（bass）**律动：最大放大 12%，并叠加一层随强度增长的光晕。
+- `beatIntensity` 同时缩放这两项：`0%` 时内部仍跟随音频但看不出变化，`500%` 为最大响应。
+- 数据来源与频谱相同，见上节。
 
 ### `currentAnimation`
 
@@ -283,32 +322,29 @@ const DEFAULT_SPECTRUM = {
 
 当前行为：
 
-- `scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction`、`selectedModelId` 只存在于 React state。
+- **不持久化**：`scale`、`positionX`、`positionY`、`backgroundColor`、`clickToAction`、`selectedModelId` 只存在于 React state。
 - 刷新页面后会重新选中清单第一个模型；未记录的字段恢复默认值，已记录模型视图会从 `localStorage` 恢复。
-- 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key。
-- 没有 `sanitizeSettings` / 版本迁移逻辑。
-- 每个模型的当前视图会写入 `localStorage`：
-  ```text
-  spine-viewer:model-views:v1
-  ```
-- 界面语言写入：
-  ```text
-  spine-viewer:language:v1
-  ```
-- 眼睛提示使用单独的 key：
+- **持久化**的 key 一览：
 
-  ```text
-  spine-viewer:eye-hint:v1
-  ```
+| key | 内容 | 写入时机 |
+| --- | --- | --- |
+| `spine-viewer:model-views:v1` | 按模型记录的自定义视图 | 点击“记录当前视图”时 |
+| `spine-viewer:language:v1` | 界面语言 | 语言变化时 |
+| `spine-viewer:clock:v1` | `clock` 的七个字段 | `clock` 变化时 |
+| `spine-viewer:spectrum:v1` | `spectrum` 的五个字段 | `spectrum` 变化时 |
+| `spine-viewer:album-art:v1` | `albumArt` 的五个字段 | `albumArt` 变化时 |
+| `spine-viewer:drawer-tab:v1` | 抽屉上次打开的标签 | 切换标签时 |
+| `spine-viewer:eye-hint:v1` | 眼睛提示是否已关闭（`'1'`） | 关闭提示时 |
 
-  读取/写入都包在 `try/catch` 中，失败时静默忽略。
+- 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key，也没有统一的 `sanitizeSettings`；每个模块各自做校验（`normalizeClock`、`clampNumber`、`normalizeHexColor`）。
+- 所有 `localStorage` 读写都包在 `try/catch` 中，失败时静默忽略（语言 / 抽屉标签 / 眼睛提示 / 各浮层偏好），或回退默认值（时钟 / 频谱 / 专辑封面）。
 
 如果后续要加持久化，建议：
 
 1. 新增一个明确的 key，例如 `spine-viewer:playback:v1`。
 2. 读取时只接受类型正确、范围合法的字段，其他字段回退默认值。
 3. 写入时处理 `localStorage` 不可用或配额异常。
-4. 如果字段语义发生不兼容变化，提升 key 版本或显式迁移。
+4. 如果字段语义发生不兼容变化，提升 key 版本或显式迁移；已有先例：抽屉的 `display` 标签读取时映射为 `clock`。
 5. 同步更新本文档和[使用指南](user-guide.md)。
 
 ## URL 状态
@@ -318,7 +354,7 @@ const DEFAULT_SPECTRUM = {
 - 没有 `?mode=show`。
 - 没有编辑/展示模式。
 - 设置不写入 URL。
-- 刷新后不保留任何播放设置。
+- 刷新后不保留播放设置（但时钟 / 频谱 / 专辑封面 / 语言 / 抽屉标签等显示偏好会恢复）。
 
 ## 设置如何到达 Stage
 
@@ -357,14 +393,23 @@ clickToAction
   → 抽屉关闭且开关为 true 时 stage.triggerAction()
 ```
 
+```text
+clock / spectrum / albumArt
+  → SettingsDrawer 的 onClockChange / onSpectrumChange / onAlbumArtChange(patch)
+  → App 的 update* 函数（夹取范围、校验颜色）
+  → 对应浮层组件重新渲染
+  → useEffect 写入各自的 localStorage key
+```
+
 ## 新增设置检查清单
 
-1. 在 `App.jsx` 的 `viewSettings` 初始值中加入字段。
-2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传。
-3. 如果是 Stage 相关设置：
+1. 在 `App.jsx` 的 `viewSettings` 初始值中加入字段；如果是独立的显示偏好，按 `clock` / `spectrum` / `albumArt` 的模式新增一个 state + `load*` / `save*` + 夹取函数。
+2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传；控件放到对应的标签（`clock` / `spectrum` / `model` / `other`）里。
+3. 如果需要 i18n 文案，在 `src/i18n.js` 的四套语言表里同时加 key。
+4. 如果是 Stage 相关设置：
    - 在 `App.jsx` 中加同步 `useEffect`，或
    - 扩展 `spineStage.js` 返回的 API。
-4. 做范围/类型校验；当前没有统一的 `sanitizeSettings`，需要手动保证。
-5. 如果要做持久化，按上面的持久化建议实现，不要只写不读。
-6. 更新本文件、[使用指南](user-guide.md) 和必要的架构说明。
-7. 运行 `npm run build` 验证；需要部署到 WE 时直接运行 `npm run build:we`（它会重新构建并复制），然后在 Wallpaper Engine 中手动验证。
+5. 做范围/类型校验；当前没有统一的 `sanitizeSettings`，需要手动保证。
+6. 如果要做持久化，按上面的持久化建议实现，不要只写不读。
+7. 更新本文件、[使用指南](user-guide.md) 和必要的架构说明。
+8. 运行 `npm run build` 验证；需要部署到 WE 时直接运行 `npm run build:we`（它会重新构建并复制），然后在 Wallpaper Engine 中手动验证。

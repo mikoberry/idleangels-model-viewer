@@ -14,7 +14,7 @@
 
 A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **128 models** with `angel`, `bg`, and `action`; the GitHub Pages build ships **51 representative models**.
 
-The canvas stays mounted while the settings drawer opens and closes. In a normal browser the drawer starts open; inside Wallpaper Engine it starts closed. The drawer contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
+The canvas stays mounted while the settings drawer opens and closes. In a normal browser the drawer starts open; inside Wallpaper Engine it starts closed. The drawer is split into four tabs — **clock**, **spectrum**, **model**, and **other** — and contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
 
 ## Online version
 
@@ -31,8 +31,9 @@ You can:
 - Click the canvas to trigger `action`
 - Click **Record current view** to store the current model view in the browser
 - Click **Copy all views** to export every recorded model as JSON for `model-presets.json`
+- Show a clock with optional audio-reactive bobbing, a 128-bar audio spectrum, and a now-playing album art card
 
-Unrecorded changes are not kept after a refresh. Recorded model views are restored from `localStorage`. Wallpaper Engine uses the full local library and starts with the drawer closed.
+Unrecorded changes are not kept after a refresh. Recorded model views are restored from `localStorage`. The clock, spectrum, album art, language, and drawer tab preferences are saved automatically. Wallpaper Engine uses the full local library and starts with the drawer closed.
 
 ## Features
 
@@ -44,13 +45,16 @@ Unrecorded changes are not kept after a refresh. Recorded model views are restor
 - Horizontal/vertical position from -100% to 100%
 - Page background color with presets, color picker, and `#RRGGBB` input
 - Per-model view recording and copy-all export
+- Clock overlay with card/bar layouts, 3D pointer tilt, and audio-reactive bobbing with adjustable intensity
+- 128-bar audio spectrum on the top or bottom edge with configurable height, position, and color
+- Now-playing album art card (cover, title, artist, album) with a mini spectrum, from Wallpaper Engine media integration
 - UI in Chinese, English, Japanese, and Korean; defaults to the browser language and can be switched in the drawer
 - First-visit eye-button hint
 - Debug panel toggle inside the settings drawer
 - Responsive full-screen layout; the drawer fills the width on mobile
 - Single-model and all-model packaging
 
-Not included yet: automatic global settings persistence, selected-model persistence, edit/show mode, `?mode=show`, speed, pause, looping action, autoplay, animation bounds, and a full-screen loading/error overlay.
+Not included yet: global playback settings persistence, selected-model persistence, edit/show mode, `?mode=show`, speed, pause, looping action, autoplay, animation bounds, FPS limiting, Wallpaper Engine user properties, and a full-screen loading/error overlay.
 
 ## Quick start
 
@@ -122,19 +126,23 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 
 ```text
 .
-├─ model-library/                 # Committed source model library
-├─ model-presets.json             # Per-model recommended views
-├─ local.config.example.json      # Local path template
-├─ local.config.json              # Local paths, ignored by Git
-├─ deploy-models.json             # GitHub Pages / Vercel deployment subset
+├─ index.html                      # Inline WE bridges (audio / media / pause)
+├─ model-library/                  # Committed source model library
+├─ model-presets.json              # Per-model recommended views
+├─ local.config.example.json       # Local path template
+├─ local.config.json               # Local paths, ignored by Git
+├─ deploy-models.json              # GitHub Pages / Vercel deployment subset
+├─ heroes_multilang.csv            # Character name translations used by the drawer link
 ├─ public/
 │  ├─ project.json
-│  └─ spine/models/               # Generated models, ignored by Git
+│  └─ spine/models/                # Generated models, ignored by Git
 ├─ scripts/
 │  ├─ import-models.mjs
 │  ├─ prepare-models.mjs
 │  ├─ package-models.mjs
 │  ├─ copy-to-we.mjs
+│  ├─ dev-all.mjs
+│  ├─ local-config.mjs
 │  └─ model-utils.mjs
 ├─ src/
 │  ├─ main.jsx
@@ -143,6 +151,7 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 │  │  ├─ SettingsDrawer.jsx
 │  │  ├─ Clock.jsx
 │  │  ├─ Spectrum.jsx
+│  │  ├─ MiniSpectrum.jsx
 │  │  └─ AlbumArt.jsx
 │  ├─ utils/
 │  │  ├─ audio.js

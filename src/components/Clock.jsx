@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
+  CLOCK_BEAT_INTENSITY_MAX,
+  CLOCK_BEAT_INTENSITY_MIN,
   computeClockTilt,
   formatClockDateParts,
   formatClockTime,
@@ -228,8 +230,11 @@ export default function Clock({
 
   // The user's intensity slider scales both the scale bump and the glow. 0%
   // means the clock still follows the audio internally but visibly does
-  // nothing; 500% is the strongest response the slider allows.
-  const intensity = Math.min(Math.max(beatIntensity, 0), 500) / 100
+  // nothing; CLOCK_BEAT_INTENSITY_MAX is the strongest response the slider
+  // allows. The clamp lives here as well so a stale stored value can never
+  // overshoot the control range.
+  const intensity =
+    Math.min(Math.max(beatIntensity, CLOCK_BEAT_INTENSITY_MIN), CLOCK_BEAT_INTENSITY_MAX) / 100
 
   const tiltStyle = {
     // No CSS transition here: the rAF loop already eases the values, and a

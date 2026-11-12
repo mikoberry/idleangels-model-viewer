@@ -5,14 +5,15 @@
 ## 总览
 
 ```text
-index.html
+index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   └─ src/main.jsx
        └─ <App />
             ├─ fetch spine/models/manifest.json
             ├─ 默认选中 models[0]
             ├─ <canvas ref={canvasRef} />
             ├─ startSpineStage(canvas, { model, callbacks })
-            ├─ <SettingsDrawer />  // 模型选择 + 播放设置
+            ├─ <Spectrum /> / <AlbumArt /> / <Clock />  // 全屏浮层
+            ├─ <SettingsDrawer />  // 四个标签：时间 / 频谱 / 模型 / 其它
             ├─ 眼睛按钮 / 提示气泡
             ├─ <main style={{ backgroundColor }} />
             └─ 左上角调试面板（由抽屉开关控制）
@@ -23,7 +24,7 @@ index.html
 - `App` 加载模型清单，持有画布、当前模型、播放设置、当前动画和抽屉状态。Stage 随选中模型创建/重建，抽屉开关不会重建它。
 - `spineStage.js` 是不依赖 React 的命令式 WebGL 层，按 manifest 的 `layers` 动态加载 1~N 个图层。
 - `spine-webgl.js` 是 vendored 的 Spine 3.8.99 运行时，只通过 `export { spine }` 暴露命名空间。
-- 设置和当前模型只存在于 React state。当前版本没有持久化、没有 URL 状态、没有编辑/展示模式，刷新后默认选择清单第一个模型。
+- 设置分为两类：**播放设置**（缩放/位置/背景色/点击开关）和**当前模型选择**只存在于 React state，不持久化；**显示偏好**（时钟、频谱、专辑封面、语言、抽屉标签）和**按模型的视图记录**会写入 `localStorage`。当前版本没有 URL 状态、没有编辑/展示模式，刷新后默认选择清单第一个模型。
 
 ## 分层职责
 
@@ -42,26 +43,32 @@ index.html
   - `showEyeHint`
   - `debugOpen` / `debugInfo`
   - `animations` / `currentAnimation`
-  - `models` / `selectedModelId`
+  - `models` / `selectedModelId` / `recordedViews`
   - `viewSettings`
+  - `language` / `t`
+  - `clock` / `spectrum` / `albumArt`（三个独立的持久化偏好 state）
+  - `inWallpaperEngine`（环境检测，决定抽屉初始状态和模型选择器是否渲染）
 - 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
 - 把 `viewSettings.scale` / `positionX` / `positionY` 同步到 `stage.setView()`。
 - 把 `backgroundColor` 写到 `<main>` 的内联样式。
 - 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
-- 管理眼睛提示和调试面板。
-- 渲染 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
+- 管理眼睛提示和调试面板；调试面板在打开时收集环境、尺寸、WebGL、音频状态等 16 行信息。
+- 为 `clock` / `spectrum` / `albumArt` 各自定义 `normalize*` 或夹取逻辑，并在 `useEffect` 中把每次变化写回各自的 `localStorage` key；`recordModelView` 只在用户点击“记录当前视图”时写 `model-views`。
+- 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层，以及 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
 ### `src/components/SettingsDrawer.jsx`
 
-- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` 回传；文案通过 `t` 获取。
+- 受控组件：所有值来自 `settings` / `currentAnimation` / `animations` / `models` / `clock` / `spectrum` / `albumArt`，修改通过 `onChange(patch)` / `onAnimationChange(name)` / `onModelChange(id)` / `onClockChange` / `onSpectrumChange` / `onAlbumArtChange` / `onLanguageChange` / `onDebugChange` 回传；文案通过 `t` 获取。
 - 抽屉通过 `.is-open` 滑入；关闭时 `inert`，并通过 `aria-hidden` 对辅助技术隐藏。
-- **左侧竖向标签分区**：`.inspector-body` 内含 `.inspector-nav`（标签菜单）与 `.inspector-pane`（当前标签内容）。三个标签：
-  - `display` 显示：时间与日期、音频频谱
+- **左侧竖向标签分区**：`.inspector-body` 内含 `.inspector-nav`（标签菜单）与 `.inspector-pane`（当前标签内容）。四个标签：
+  - `clock` 时间：时间与日期的显示开关、版式、大小、位置、随音频律动
+  - `spectrum` 频谱：音频频谱与专辑封面（两者都是音频可视化，放在同一标签）
   - `model` 模型：模型选择、Spine 动画、画面变换、背景
-  - `other` 其它：语言、调试
-- 标签选择持久化在 `localStorage` 的 `spine-viewer:drawer-tab:v1`。
+  - `other` 其它：调试
+- 语言按钮和“收起”按钮固定在 `.inspector-nav` 底部，不属于任何标签。
+- 标签选择持久化在 `localStorage` 的 `spine-viewer:drawer-tab:v1`；已废弃的 `display` 值在读取时映射为 `clock`（旧的“显示”标签被拆成 `clock` + `spectrum`）。
 - **抽屉本身不滚动**（`overflow: hidden`），只有 `.inspector-pane` 滚动。分标签是为让每个标签内容更短，避免依赖在 Wallpaper Engine 中不可靠的滚动操作。
 - 窄屏（`max-width: 640px`）时标签菜单改为顶部横向排列。
 - 包含：
@@ -73,7 +80,11 @@ index.html
   - 水平/垂直位置滑杆、数字输入、±1% 步进
   - 初始、推荐、记录当前视图、复制全部视图按钮
   - 背景色预设、取色器、十六进制输入
+  - 时钟：显示开关、版式、大小、位置、随音频律动 + 响应强度
+  - 频谱：显示开关、位置、高度、水平位置、颜色
+  - 专辑封面：显示开关、角落、大小、水平/垂直位置
 - 没有速度、暂停、循环、自动播放、包围盒等控件。
+- 颜色输入（背景色与频谱颜色）共用 `BackgroundColorField`：预设色块、HSV 色域、色相条、`#RRGGBB` 输入框。
 
 ### `src/components/Clock.jsx`
 
@@ -89,7 +100,7 @@ index.html
 - 按视口而非卡片尺寸归一化是关键：按卡片尺寸时，指针一离开卡片就撞上 `clamp` 上限，表现为"过临界点瞬间跳到极限"。
 - 指针离开窗口（`pointerleave`）时目标归零；`prefers-reduced-motion: reduce` 下强制平放。
 - 浮层设置 `pointer-events: none`，不拦截画布点击，所以开着时钟也能触发 `action`。
-- **音频律动**：`reactToBeat` 打开时，同一个 rAF 循环读取音频低频并叠加 `scale` 与 `--clock-beat-glow` 变量；不额外起定时器。
+- **音频律动**：`reactToBeat` 打开时，同一个 rAF 循环读取音频低频并叠加 `scale` 与 `--clock-beat-glow` 变量；`beatIntensity`（0–500%）缩放这两项效果的幅度，0% 等于看不出反应。不额外起定时器。
 
 ### `src/components/Spectrum.jsx`
 
@@ -99,6 +110,28 @@ index.html
 - 画布 backing store 用 CSS 像素（与 WebGL canvas 一致，不乘 `devicePixelRatio`）。
 - `pointer-events: none`，不拦截画布点击；`aria-hidden`，对辅助技术隐藏。
 - `position: 'top'` 通过 `transform: scaleY(-1)` 翻转，避免再写一套绘制逻辑。
+
+### `src/components/AlbumArt.jsx`
+
+- 显示 Wallpaper Engine 媒体信息里的专辑封面、曲名、艺术家和专辑名；`visible` 为 `false` 时不渲染。
+- 每秒轮询一次 `getWallpaperMedia()`（`index.html` 的内联脚本只写全局变量，没有可订阅的事件），`visible` 关闭时不创建定时器。
+- 卡片锚定在四角之一（`corner`），大小由 `size`（vh 百分比）换算成 `--album-size`，卡片宽度是 `--album-size` 的 3.6 倍、高度正好等于 `--album-size`；水平和垂直位置测量方向都是从所选角落向内，范围同样是 `0%`–`100%`。
+- 三种状态（环境不支持 / 暂无播放 / 正在播放）都通过同一个 `shell()` 渲染，卡片尺寸和版式不随数据到达而跳动。
+- 封面包在 `.album-art__disc` 里做圆形遮罩，每 24 秒转一圈；`is-paused` 时设置 `animation-play-state: paused`，`prefers-reduced-motion` 下完全关闭旋转。
+- 卡片为 `pointer-events: none`，不拦截画布点击。
+
+### `src/components/MiniSpectrum.jsx`
+
+- 与 `Spectrum.jsx` 相同的柱状渲染，但没有定位逻辑：填满父容器给定的盒子。
+- `readBars` 语义与 `Spectrum.jsx` 一致——引擎内用真实帧，浏览器里用模拟数据，引擎存在但没有帧时画静音（绝不伪造柱形）。
+- `AlbumArt.jsx` 用它作为卡片的背景图层；颜色跟随 `spectrum.color`。
+
+### `src/utils/wallpaperMedia.js`
+
+- 媒体监听器同样在 `index.html` 的内联经典脚本中注册，结果写进单个全局对象 `window.__weMedia`（缩略图、曲名、艺术家、专辑名、配色、播放状态、是否启用媒体集成）。
+- 本模块只读该全局对象，无副作用，导出 `isWallpaperMediaAvailable()`、`getWallpaperMedia()`、`isWallpaperMediaEnabled()`。
+- 封面**不按时间过期**：引擎只在换曲时推送，所以用播放状态决定是否清空——只有明确的 `stopped` 才返回 `null`；`playback` 未知（`null`）按“播放中”处理，因为部分播放器根本不发播放状态事件。
+- 播放状态数字常量来自 `window.wallpaperMediaIntegration`，缺失时保持 `null`（未知），不能猜成 `stopped`，否则封面会永久消失。
 
 ### `src/utils/wallpaperAudio.js`
 
@@ -110,15 +143,15 @@ index.html
 ### `src/utils/wallpaperPause.js`
 
 - 统一暂停状态桥接。内联脚本在 `index.html` 中记录 `window.__wePaused`，并在状态变化时派发 `we-pause-change` DOM 事件。
-- 导出 `isWallpaperPaused()` 与 `onWallpaperPauseChange(listener)`；订阅会立即收到当前状态，之后每次变化再触发。
+- 导出 `isWallpaperPaused()`、`onWallpaperPauseChange(listener)` 和事件名常量 `PAUSE_EVENT_NAME`；订阅会立即收到当前状态，之后每次变化再触发。
 - **不要**在组件里给 `wallpaperPropertyListener.setPaused` 重新赋值，那会覆盖启动时注册的回调。
-- `spineStage.js`、`Spectrum.jsx` 在暂停时跳过整帧绘制（保留 rAF 以便立即恢复）；`Clock.jsx` 在恢复时立即刷新时间。
+- `spineStage.js`、`Spectrum.jsx`、`MiniSpectrum.jsx` 在暂停时跳过整帧绘制（保留 rAF 以便立即恢复）；`Clock.jsx` 在恢复时立即刷新时间。
 
 ### `src/utils/audio.js`
 
 - 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`、`spectrumGradientStops`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` / `DEFAULT_SPECTRUM_COLOR` 常量。
 - `spectrumGradientStops(hex)` 把 `#rrggbb` 转成柱子的两个渐变端点（顶部 0.95、底部 0.45 透明度）；输入不合法时返回 `null`，调用方回退到默认色，避免画不出柱子。
-- `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.02` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
+- `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.06` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
 - `syntheticSpectrum(t)` 生成确定性的模拟频谱，供浏览器预览；负时间返回全 0。
 - `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
 
@@ -364,17 +397,35 @@ SettingsDrawer 动画选择
   → App.currentAnimation
 ```
 
+```text
+时钟 / 频谱 / 专辑封面 / 语言 / 抽屉标签
+  → 各自的 state 更新
+  → 对应浮层组件重新渲染（不经过 Stage）
+  → useEffect 写入各自的 localStorage key
+```
+
+```text
+backgroundColor
+  → <main style={{ backgroundColor }} />
+  → canvas 透明区域显示该颜色
+```
+
 当前**没有**：
 
-- `localStorage` 播放设置持久化
+- `localStorage` 播放设置持久化（`scale` / `positionX` / `positionY` / `backgroundColor` / `clickToAction`）
 - URL 模式（`?mode=show`）
 - 编辑/展示模式
 - 速度、暂停、循环、自动播放、包围盒设置
 
-眼睛提示单独使用：
-
 ```text
-localStorage key: spine-viewer:eye-hint:v1
+localStorage keys:
+spine-viewer:eye-hint:v1        # 眼睛提示是否已关闭
+spine-viewer:model-views:v1     # 按模型记录的视图
+spine-viewer:language:v1        # 界面语言
+spine-viewer:clock:v1           # 时钟显示偏好
+spine-viewer:spectrum:v1        # 频谱显示偏好
+spine-viewer:album-art:v1       # 专辑封面显示偏好
+spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 ```
 
 ## 交互与层级
@@ -383,9 +434,11 @@ localStorage key: spine-viewer:eye-hint:v1
 | --- | --- | --- |
 | canvas | 默认 | 全屏画面 |
 | `.debug-hud` | 4 | 左上角调试面板（可开关） |
+| `.spectrum` | 3 | 贴边音频频谱 |
+| `.clock-anchor` / `.album-art` | 5 | 时钟与专辑封面浮层 |
+| `.viewer__settings-button` | 12 | 右下角眼睛按钮 |
 | `.inspector-backdrop` | 15 | 抽屉打开时的透明点击层 |
 | `.playback-inspector` | 20 | 右侧设置抽屉 |
-| `.viewer__settings-button` | 30 | 右下角眼睛按钮 |
 | `.eye-hint` | 31 | 首次提示气泡 |
 
 行为：
@@ -399,7 +452,7 @@ localStorage key: spine-viewer:eye-hint:v1
 
 ## 已知限制与取舍
 
-- **无持久化**：播放设置和当前模型刷新即重置；模型默认选清单第一项。
+- **部分持久化**：时钟、频谱、专辑封面、语言、抽屉标签、按模型的视图记录都已持久化；而播放设置（缩放/位置/背景色/点击开关）和当前模型只存在于 React state，刷新即重置，模型默认选清单第一项。
 - **只处理部分模型**：当前只导入 128 / 377 个“有 action + angel + bg”的模型；NPC、单层、缺资源等暂不处理。
 - **全模型包较大**：约 731 MB，构建/复制耗时。
 - **无模式**：没有编辑/展示模式，也没有 URL 状态。
@@ -417,7 +470,15 @@ localStorage key: spine-viewer:eye-hint:v1
 - [src/App.jsx](../src/App.jsx)
 - [src/components/SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx)
 - [src/components/Clock.jsx](../src/components/Clock.jsx)
+- [src/components/Spectrum.jsx](../src/components/Spectrum.jsx)
+- [src/components/MiniSpectrum.jsx](../src/components/MiniSpectrum.jsx)
+- [src/components/AlbumArt.jsx](../src/components/AlbumArt.jsx)
 - [src/utils/clock.js](../src/utils/clock.js)
+- [src/utils/audio.js](../src/utils/audio.js)
+- [src/utils/wallpaperAudio.js](../src/utils/wallpaperAudio.js)
+- [src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js)
+- [src/utils/wallpaperPause.js](../src/utils/wallpaperPause.js)
+- [index.html](../index.html)
 - [src/spineStage.js](../src/spineStage.js)
 - [src/spine-webgl.js](../src/spine-webgl.js)
 - [src/styles.css](../src/styles.css)

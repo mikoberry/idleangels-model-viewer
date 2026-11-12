@@ -116,6 +116,27 @@ npm run package:all
 - GitHub Pages 使用 [.github/workflows/deploy-pages.yml](../.github/workflows/deploy-pages.yml)，需要在仓库 Settings → Pages 将 Source 设为 GitHub Actions。
 - `package:all` 约 731 MB，构建和复制都会明显变慢。
 
+### 仓库根目录与脚本
+
+```text
+index.html                 # <head> 内联脚本：音频 / 媒体 / 暂停桥接
+local.config.example.json  # 本机路径模板
+heroes_multilang.csv       # 角色名多语言对照，抽屉里的“人物名字”链接指向它
+deploy-models.json         # 线上部署子集
+vercel.json                # Vercel 构建配置
+
+scripts/
+├─ import-models.mjs       # 源目录 → model-library/
+├─ prepare-models.mjs      # model-library/ → public/spine/models/（按 PNG 重写 atlas）
+├─ package-models.mjs      # 准备 + 构建 + 复制到 WE
+├─ copy-to-we.mjs          # dist/ → WE 目标目录
+├─ dev-all.mjs             # 准备全部模型后启动 Vite
+├─ local-config.mjs        # 读取 local.config.json / 环境变量
+└─ model-utils.mjs         # 共享路径与工具
+```
+
+与模型管线无关的桥接脚本位于 `index.html` 的内联 `<script>` 中，它们必须在 Vite 的延迟模块脚本之前运行；对应的只读模块在 `src/utils/`（`wallpaperAudio.js`、`wallpaperMedia.js`、`wallpaperPause.js`）。
+
 ### 构建能检查什么
 
 `npm run build` 能发现：
@@ -151,6 +172,7 @@ npm run package:all
 然后手动检查：
 
 - [ ] 抽屉里能搜索模型，默认选中第一个
+- [ ] 抽屉四个标签（时间 / 频谱 / 模型 / 其它）可切换，刷新后停在上次的标签
 - [ ] 切换模型后 canvas 重载，不残留上一个模型的动画/贴图
 - [ ] 有推荐配置的模型应用推荐缩放/位置/背景；没有推荐时回到 100/0/0 + 黑色
 - [ ] “记录当前视图”只在点击时写入；切换模型不会自动记录
@@ -166,17 +188,21 @@ npm run package:all
 - [ ] “初始”“推荐”“记录当前视图”“复制全部视图”按钮正常
 - [ ] 语言按钮切换后文案、页面标题和 `<html lang>` 同步更新
 - [ ] 背景色即时生效，透明区域显示该颜色
+- [ ] 时钟显示/版式/大小/位置生效，鼠标移动时倾斜平滑
+- [ ] 时钟“随音频节拍律动”与“响应强度”生效
+- [ ] 频谱可在上下边缘显示，高度、水平位置、颜色生效
+- [ ] 专辑封面卡片能显示封面与曲名，角落/大小/位置生效，暂停时停止旋转
 - [ ] 眼睛提示首次出现，点击“我知道了”后不再出现
-- [ ] 设置抽屉里的“显示调试信息”能控制左上角调试窗口的显示/隐藏
-- [ ] 移动端宽度下抽屉占满宽度
-- [ ] 刷新后未记录的播放设置恢复默认值，并回到第一个模型
+- [ ] 设置抽屉“其它”标签里的“显示调试信息”能控制左上角调试窗口的显示/隐藏
+- [ ] 移动端宽度下抽屉占满宽度，标签菜单改为顶部横排
+- [ ] 刷新后未记录的播放设置恢复默认值，并回到第一个模型；时钟/频谱/专辑封面/语言/标签保持不变
 - [ ] 浏览器控制台无资源 404、WebGL 错误或未捕获异常
 
 ## 调试
 
 ### 调试面板
 
-在设置抽屉的“调试”区域勾选“显示调试信息”，左上角会显示调试面板，内容包括：
+在设置抽屉的“其它”标签勾选“显示调试信息”，左上角会显示调试面板，内容包括：
 
 - 运行环境（Wallpaper Engine / 浏览器）
 - 浏览器版本
@@ -186,9 +212,10 @@ npm run package:all
 - 平台、语言
 - WebGL 版本 / vendor / renderer
 - WE API 检测结果
+- 音频数据来源（`非 WE 环境` / `已注册，等待音频数据` / `接收中`）
 - 页面 URL、User Agent
 
-面板在勾选后和窗口 resize 时更新。错误状态显示在面板顶部“状态”行和抽屉状态行里；当前没有全屏错误遮罩。
+面板在勾选后、语言变化和窗口 resize 时更新。错误状态显示在面板顶部“状态”行和抽屉状态行里；当前没有全屏错误遮罩。
 
 ### canvas 数据属性
 
@@ -275,12 +302,13 @@ npm run preview -- --port 5174 --strictPort
 - `model-library/` 是源库，`public/spine/models/` 是生成物；不要把模型资源提交进 Git。
 - 切换模型会 dispose 旧 Stage；修改 Stage 生命周期时保持资源释放和旧回调失效。
 - 新增设置时，至少同步：
-  - `App.jsx` 的初始 `viewSettings`
-  - `src/components/SettingsDrawer.jsx` 的控件和 `onChange`
+  - `App.jsx` 的初始 `viewSettings`（或按 `clock` / `spectrum` / `albumArt` 的模式新增独立 state）
+  - `src/components/SettingsDrawer.jsx` 的控件、`onChange` 和所在标签
+  - `src/i18n.js` 四套语言文案
   - 如涉及 Stage，补 `spineStage.js` 的 API / effect
   - 相关文档
-- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口、应用状态、i18n、WebGL 层、运行时和样式。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
-- 纯函数（格式化、计算等）独立成模块放在 `src/` 根目录，不要塞进组件文件，便于在不引入 React 的情况下验证。
+- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口（`main.jsx`）、应用状态（`App.jsx`）、i18n、WebGL 层（`spineStage.js`）、vendored 运行时（`spine-webgl.js`）和样式（`styles.css`）。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
+- 纯函数（格式化、计算等）独立成模块，放在 `src/utils/` 下（例如 `clock.js`、`audio.js`），不要塞进组件文件，便于在不引入 React 的情况下验证。
 - 保持沉浸式全屏布局，不引入页头、页脚或明显卡片边框。
 - 关闭的设置抽屉应保持 `inert`。
 - 修改动画逻辑时，保留 `actionToken` / pending 集合的旧回调保护。
@@ -295,6 +323,8 @@ npm run preview -- --port 5174 --strictPort
 - [ ] 控制台无资源 404 / WebGL 错误
 - [ ] 两个图层、`idle` / `action` 正常
 - [ ] 点击 Action、抽屉开关、眼睛提示正常
+- [ ] 抽屉四个标签可切换，上次标签能恢复
+- [ ] 时钟 / 频谱 / 专辑封面三个浮层正常，刷新后偏好保留
 - [ ] 缩放/位置/背景色实时生效
 - [ ] 视图复位按钮行为正确
 - [ ] 移动端宽度下抽屉可用

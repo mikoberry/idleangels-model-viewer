@@ -14,7 +14,7 @@
 
 基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，支持在多个模型之间切换。当前模型库已导入 **128 个** 同时具备 `angel`、`bg` 和 `action` 动画的模型；GitHub Pages 线上版使用其中 **51 个** 代表模型。
 
-画布常驻全屏，右侧设置抽屉在浏览器中默认打开、在 Wallpaper Engine 中默认收起。抽屉里有可搜索的模型选择器（**仅浏览器中显示**，Wallpaper Engine 中隐藏）；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
+画布常驻全屏，右侧设置抽屉在浏览器中默认打开、在 Wallpaper Engine 中默认收起。抽屉左侧是竖向标签菜单，分为**时间**、**频谱**、**模型**、**其它**四个标签；模型选择器**仅浏览器中显示**（Wallpaper Engine 中隐藏）；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
 
 ## 在线版本
 
@@ -33,8 +33,9 @@ https://mikoberry.github.io/idleangels-model-viewer/
 - 点击画面触发 `action`
 - 点击“记录当前视图”把当前模型视图保存到当前浏览器
 - 点击“复制全部视图”导出所有已记录模型，用于填写 `model-presets.json`
+- 打开时间与日期时钟（可选随音频律动）、128 根柱子的音频频谱，以及正在播放的专辑封面卡片
 
-未手动记录的画面调整在刷新后不会保留；已记录的模型视图会从浏览器 `localStorage` 恢复。线上版和 Wallpaper Engine 版共用同一套代码，但 WE 使用完整本地模型库，且默认收起设置抽屉。
+未手动记录的画面调整在刷新后不会保留；已记录的模型视图会从浏览器 `localStorage` 恢复。时钟、频谱、专辑封面、界面语言和抽屉标签属于显示偏好，会自动保存。线上版和 Wallpaper Engine 版共用同一套代码，但 WE 使用完整本地模型库，且默认收起设置抽屉。
 
 ## 功能
 
@@ -46,13 +47,16 @@ https://mikoberry.github.io/idleangels-model-viewer/
 - 水平/垂直位置偏移（-100%–100%）
 - 页面背景色（预设色、取色器、`#RRGGBB` 输入）
 - 每模型视图手动记录、全部复制为预设 JSON
+- 时钟浮层：竖排/横排两种版式、跟随鼠标 3D 摆动、随音频低频律动（响应强度可调）
+- 128 根柱子的音频频谱：可贴顶边或底边，高度、水平位置、颜色可调
+- 专辑封面卡片：封面、曲名、艺术家、专辑名，内嵌小频谱，来自 Wallpaper Engine 媒体集成
 - 界面支持中文、英文、日文、韩文；默认跟随浏览器语言，可在抽屉中切换
 - 首次打开的眼睛按钮提示
-- 设置抽屉里的“显示调试信息”开关；勾选后左上角显示调试窗口
-- 全屏响应式布局；移动端设置抽屉占满宽度
+- 设置抽屉“其它”标签里的“显示调试信息”开关；勾选后左上角显示调试窗口
+- 全屏响应式布局；移动端设置抽屉占满宽度，标签菜单改为顶部横排
 - 单模型包 / 全模型包两种打包方式
 
-当前版本**不包含**：全局播放设置自动持久化、模型选择持久化、编辑/展示模式、`?mode=show`、播放速度、暂停、循环 Action、自动播放、动画包围盒显示、全屏加载/错误遮罩。未手动记录的设置只在当前页面会话有效；刷新后会恢复第一个模型及其已记录视图（如果有）。
+当前版本**不包含**：全局播放设置自动持久化（缩放/位置/背景色/点击开关）、模型选择持久化、编辑/展示模式、`?mode=show`、播放速度、暂停、循环 Action、自动播放、动画包围盒显示、帧率上限、WE 用户属性、全屏加载/错误遮罩。未手动记录的设置只在当前页面会话有效；刷新后会恢复第一个模型及其已记录视图（如果有）。
 
 ## 快速开始
 
@@ -213,7 +217,7 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 
 ## 设置项
 
-设置保存在 `src/App.jsx` 的 `viewSettings` React state 中；全局设置不会自动持久化，点击“记录当前视图”后会按模型写入 `localStorage`。
+画面设置保存在 `src/App.jsx` 的 `viewSettings` React state 中；全局播放设置不会自动持久化，点击“记录当前视图”后会按模型写入 `localStorage`。时钟、频谱、专辑封面是各自独立的 state，会自动持久化。
 
 | 设置 | 默认值 | 范围 / 说明 |
 | --- | --- | --- |
@@ -227,9 +231,19 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 
 - 当前模型由 `manifest.json` 的第一项初始化；切换模型会应用该模型的推荐视图，刷新后回到第一个。
 - 当前动画是独立 state，初始为 `idle`；可选值来自 Stage 返回的 `animations`。
-- 每个模型的当前视图记录在 `localStorage` 的 `spine-viewer:model-views:v1`。
-- 眼睛提示是否看过保存在 `localStorage` 的 `spine-viewer:eye-hint:v1`，与播放设置无关。
-- 页面没有 URL 状态，刷新后恢复上述默认值并选择第一个模型。
+- 以下 key 会自动持久化，刷新后恢复：
+
+  | key | 内容 |
+  | --- | --- |
+  | `spine-viewer:model-views:v1` | 按模型记录的自定义视图 |
+  | `spine-viewer:clock:v1` | 时钟显示偏好 |
+  | `spine-viewer:spectrum:v1` | 频谱显示偏好 |
+  | `spine-viewer:album-art:v1` | 专辑封面显示偏好 |
+  | `spine-viewer:language:v1` | 界面语言 |
+  | `spine-viewer:drawer-tab:v1` | 抽屉上次打开的标签 |
+  | `spine-viewer:eye-hint:v1` | 眼睛提示是否已关闭 |
+
+- 页面没有 URL 状态，刷新后播放设置恢复默认值并选择第一个模型。
 
 字段细节见[设置字段参考](docs/settings-reference.md)。
 
@@ -237,42 +251,47 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 
 ```text
 .
-├─ index.html
+├─ index.html                # <head> 内联 WE 桥接脚本（音频 / 媒体 / 暂停）
 ├─ vite.config.js
 ├─ package.json
-├─ model-library/           # 源模型库，git 忽略
+├─ heroes_multilang.csv      # 角色名多语言对照（抽屉里的链接指向它）
+├─ model-library/            # 源模型库，跟踪提交
 │  ├─ models.json
+│  ├─ import-report.json
 │  └─ spine_*/
 ├─ public/
 │  ├─ project.json
-│  └─ spine/models/         # 按包生成，git 忽略
+│  └─ spine/models/          # 按包生成，git 忽略
 │     ├─ manifest.json
 │     └─ spine_*/
 ├─ scripts/
-│  ├─ import-models.mjs     # 扫描源库并导入合格模型
-│  ├─ prepare-models.mjs    # 重写 atlas 并生成当前包
-│  ├─ package-models.mjs    # 单模型/全模型打包
-│  ├─ copy-to-we.mjs        # 复制 dist 到 WE
+│  ├─ import-models.mjs      # 扫描源库并导入合格模型
+│  ├─ prepare-models.mjs     # 重写 atlas 并生成当前包
+│  ├─ package-models.mjs     # 单模型/全模型打包
+│  ├─ copy-to-we.mjs         # 复制 dist 到 WE
+│  ├─ dev-all.mjs            # 准备全部模型后启动 Vite
+│  ├─ local-config.mjs       # 读取 local.config.json / 环境变量
 │  └─ model-utils.mjs
 ├─ src/
-│  ├─ main.jsx              # React 入口
-│  ├─ App.jsx               # 状态、canvas、Stage 启动、模型清单
+│  ├─ main.jsx               # React 入口
+│  ├─ App.jsx                # 状态、canvas、Stage 启动、模型清单
 │  ├─ components/
-│  │  ├─ SettingsDrawer.jsx # 设置抽屉 + 模型选择
-│  │  ├─ Clock.jsx          # 时间与日期浮层
-│  │  ├─ Spectrum.jsx       # 音频频谱
-│  │  └─ AlbumArt.jsx       # 专辑封面
-│  ├─ utils/                # 非 React 模块（纯函数 / WE 桥接）
-│  │  ├─ audio.js           # 音频帧解析、频谱提取、合成数据
-│  │  ├─ clock.js           # 时钟格式化与倾斜计算
-│  │  ├─ wallpaperAudio.js  # WE 音频帧读取
-│  │  ├─ wallpaperMedia.js  # WE 媒体信息读取
-│  │  └─ wallpaperPause.js  # WE 暂停状态
-│  ├─ i18n.js               # 中文 / 英文 / 日文 / 韩文文案
-│  ├─ spineStage.js         # WebGL / 资源 / 动画 / 相机 / 渲染循环
-│  ├─ spine-webgl.js        # vendored Spine 3.8.99 运行时
+│  │  ├─ SettingsDrawer.jsx  # 四标签设置抽屉 + 模型选择
+│  │  ├─ Clock.jsx           # 时间与日期浮层
+│  │  ├─ Spectrum.jsx        # 贴边音频频谱
+│  │  ├─ MiniSpectrum.jsx    # 封面卡片内嵌的小频谱
+│  │  └─ AlbumArt.jsx        # 专辑封面卡片
+│  ├─ utils/                 # 非 React 模块（纯函数 / WE 桥接）
+│  │  ├─ audio.js            # 音频帧解析、频谱提取、合成数据
+│  │  ├─ clock.js            # 时钟格式化与倾斜计算
+│  │  ├─ wallpaperAudio.js   # WE 音频帧读取
+│  │  ├─ wallpaperMedia.js   # WE 媒体信息读取
+│  │  └─ wallpaperPause.js   # WE 暂停状态
+│  ├─ i18n.js                # 中文 / 英文 / 日文 / 韩文文案
+│  ├─ spineStage.js          # WebGL / 资源 / 动画 / 相机 / 渲染循环
+│  ├─ spine-webgl.js         # vendored Spine 3.8.99 运行时
 │  └─ styles.css
-├─ dist/                    # 构建产物，git 忽略
+├─ dist/                     # 构建产物，git 忽略
 ├─ docs/
 ├─ AGENTS.md
 └─ README.md
@@ -283,21 +302,23 @@ React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接�
 ## 数据流
 
 ```text
-main.jsx
-  └─ <App />
-       ├─ fetch spine/models/manifest.json
-       ├─ 默认选中 manifest.models[0]，用户可在抽屉里搜索/切换
-       ├─ <canvas ref>
-       │    └─ startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })
-       │         ├─ spine.webgl.ManagedWebGLRenderingContext + SceneRenderer
-       │         ├─ 按 model.layers 创建 AssetManager（bg + angel，可选）
-       │         ├─ SkeletonBinary + AtlasAttachmentLoader → Skeleton / AnimationState
-       │         ├─ fitView() → camera
-       │         └─ requestAnimationFrame → drawSkeleton × layers
-       ├─ viewSettings ── effect ──> stage.setView(scale, x / 100, y / 100)
-       ├─ backgroundColor ──> <main style>
-       ├─ clickToAction ──> canvas pointerup ──> stage.triggerAction()
-       └─ <SettingsDrawer> ── 模型选择 / onChange / play ──> App / Stage
+index.html（<head> 内联脚本：音频 / 媒体 / 暂停）
+  └─ main.jsx
+       └─ <App />
+            ├─ fetch spine/models/manifest.json
+            ├─ 默认选中 manifest.models[0]，用户可在抽屉里搜索/切换
+            ├─ <canvas ref>
+            │    └─ startSpineStage(canvas, { model, onStatus, onAnimationChange, isCancelled })
+            │         ├─ spine.webgl.ManagedWebGLRenderingContext + SceneRenderer
+            │         ├─ 按 model.layers 创建 AssetManager（bg + angel，可选）
+            │         ├─ SkeletonBinary + AtlasAttachmentLoader → Skeleton / AnimationState
+            │         ├─ fitView() → camera
+            │         └─ requestAnimationFrame → drawSkeleton × layers
+            ├─ viewSettings ── effect ──> stage.setView(scale, x / 100, y / 100)
+            ├─ backgroundColor ──> <main style>
+            ├─ clickToAction ──> canvas pointerup ──> stage.triggerAction()
+            ├─ clock / spectrum / albumArt ──> 浮层组件 + localStorage
+            └─ <SettingsDrawer> ── 四标签：模型选择 / onChange / play ──> App / Stage
 ```
 
 更完整的说明见[架构设计](docs/architecture.md)。
@@ -305,21 +326,22 @@ main.jsx
 ## 关键约束
 
 - `.skel` 是 Spine **3.8.99** 二进制；必须使用 [src/spine-webgl.js](src/spine-webgl.js) 中的 3.8 运行时，不能替换为 Spine 4.x 或 npm 上的运行时。
-- `model-library/` 是源库；`public/spine/models/` 是按包生成物。两者都不进 Git，不要手改生成资源。
-- 只处理 `angel` + `bg`、每层一套资源、同时有 `idle` / `action` 的模型；当前 128 个。
+- `model-library/` 是源库，跟踪提交；`public/spine/models/` 是按包生成物，不进 Git。不要手改生成资源。
+- 只处理 `angel` + `bg`、每层一套资源、`angel` 有 `idle` / `action` 的模型；当前 128 个。
 - 两个图层都使用 `premultipliedAlpha: true`。
 - `action` 在骨架中排在前面，`idle` 必须在启动时显式播放；`action` 非循环，完成后统一回到 `idle`。如果以后加循环 Action，必须补上 Spine 3.8 的 `complete` 保护。
-- 播放设置和当前模型只存在于 React state，不写入 `localStorage`，也不写入 URL。
+- 播放设置（缩放/位置/背景色/点击开关）和当前模型只存在于 React state，不写入 `localStorage`，也不写入 URL；时钟、频谱、专辑封面、语言、抽屉标签等显示偏好会写入 `localStorage`。
 - `npm run build` 只构建到 `dist/`；`npm run build:we` 再通过 `scripts/copy-to-we.mjs` 复制并替换 WE 目标目录。
 
 ## 已知限制
 
 - 当前只导入 128 / 377 个模型；只有 `angel`、没有 `action`、NPC、缺 PNG 或特殊结构的模型暂未处理。
 - 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大，复制时间较长。
-- 模型选择不持久化，刷新后总是第一个模型。
+- 模型选择与播放设置不持久化，刷新后总是第一个模型、默认画面。
 - 高 DPI 屏幕上 canvas 按 CSS 像素渲染，没有乘 `devicePixelRatio`，画面可能偏软。
 - 资源加载没有超时；网络或文件服务卡住时，页面可能一直停在加载状态。
 - 加载和错误状态显示在调试窗口和抽屉的状态行里，没有全屏遮罩。
+- 没有帧率上限；壁纸暂停时会跳过整帧渲染，但播放时仍按显示器刷新率运行。
 - `npm run build` 没有类型检查；逻辑错误不会被构建发现。
 - 复制步骤会清空 WE 目标目录；目标被 Wallpaper Engine 占用时可能失败。
 
@@ -340,4 +362,4 @@ npm run package:model -- <id>     # 单模型构建并部署
 npm run package:all              # 全模型构建并部署
 ```
 
-`npm run build` 必须通过；部署时 `package:model` / `package:all` 的构建和复制都必须成功。之后在 Wallpaper Engine 中手动验证模型选择、两个图层、动画、点击 Action、缩放/位置/背景色和刷新后的默认行为。项目没有自动化测试；不要在未明确要求时引入 Playwright。
+`npm run build` 必须通过；部署时 `package:model` / `package:all` 的构建和复制都必须成功。之后在 Wallpaper Engine 中手动验证模型选择、两个图层、动画、点击 Action、缩放/位置/背景色、时钟/频谱/专辑封面三个浮层，以及刷新后的默认行为。项目没有自动化测试；不要在未明确要求时引入 Playwright。

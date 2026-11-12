@@ -2,7 +2,7 @@
 
 本文档记录 Wallpaper Engine（WE）网页壁纸提供的**全部接口与能力**，以及本项目当前的使用情况。全部内容来自 WE 官方文档，并标注了与本项目相关的注意事项。
 
-当前状态：**仅记录，未实现**。已实现的部分单独标注。
+当前状态：**已实现音频、媒体信息与暂停三部分；其余能力仅记录**。每个能力在下方表格和对应章节中单独标注。
 
 ## 目录
 
@@ -20,13 +20,13 @@
 
 | 能力 | 入口 | 本项目状态 |
 | --- | --- | --- |
-| 音频频谱 | `wallpaperRegisterAudioListener` | ✅ 已用于频谱与时钟律动 |
-| 暂停/恢复 | `wallpaperPropertyListener.setPaused` | ✅ 时钟已监听 |
+| 音频频谱 | `wallpaperRegisterAudioListener` | ✅ 已用于频谱、时钟律动与封面小频谱 |
+| 暂停/恢复 | `wallpaperPropertyListener.setPaused` | ✅ 已用于暂停渲染循环与刷新时钟 |
 | 帧率上限 | `applyGeneralProperties({fps})` | ❌ 未使用 |
 | 用户属性 | `applyUserProperties` | ❌ 未使用 |
 | 属性显示条件 | `project.json` 中的条件表达式 | ❌ 未使用 |
 | 属性翻译 | `project.json` 的 `general.localization` | ❌ 未使用 |
-| 媒体信息 | `wallpaperRegisterMedia*Listener` | ❌ 未使用 |
+| 媒体信息 | `wallpaperRegisterMedia*Listener` | ✅ 已用于专辑封面卡片 |
 | RGB 硬件 | `window.wpPlugins.led` | ❌ 未使用 |
 | iCUE 扩展 | `window.cue.*` | ❌ 未使用 |
 | 插件加载通知 | `wallpaperPluginListener.onPluginLoaded` | ❌ 未使用 |
@@ -158,6 +158,14 @@ window.wallpaperRegisterMediaThumbnailListener(wallpaperMediaThumbnailListener)
 
 与音频监听器一样，**应在 `body` 末尾或同等早期时机注册，不要放在 `window.onload`**。
 
+### 本项目实现
+
+- 四个监听器（status / thumbnail / properties / playback）都在 [index.html](../index.html) 的内联脚本中注册，写入统一的全局对象 `window.__weMedia`。
+- [src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 只读该对象；`src/components/AlbumArt.jsx` 每秒轮询一次。
+- 播放状态常量取自 `window.wallpaperMediaIntegration`，对象缺失时保持“未知”，不能猜成 `stopped`。
+- 目前只用了 `thumbnail`、`title`、`artist`、`albumTitle`、`playback`，**没有**用 `primaryColor` / `textColor` 驱动背景色（见下方优先级建议）。
+- `timeline` 监听器未使用。
+
 ### 本项目可用的方向
 
 `primaryColor` / `textColor` 是现成的取色结果，可以直接驱动页面背景色，让壁纸跟随当前歌曲的封面色调变化，不需要自己实现取色算法。
@@ -238,9 +246,10 @@ function getEncodedCanvasImageData(canvas) {
 | --- | --- | --- |
 | `wallpaperRegisterAudioListener(cb)` | 约 30 次/秒推送 128 长度数组 | ✅ 已用 |
 | `applyGeneralProperties({ fps })` | 用户设置的 FPS 上限 | ❌ 未用 |
-| `setPaused(isPaused)` | 壁纸暂停/恢复；WE 本身会冻结渲染进程，此回调用于需要额外处理的场景 | ✅ 时钟已用 |
+| `setPaused(isPaused)` | 壁纸暂停/恢复；WE 本身会冻结渲染进程，此回调用于需要额外处理的场景 | ✅ 已用（经由 `wallpaperPause.js`） |
 | `wallpaperPluginListener.onPluginLoaded` | 插件加载通知（RGB） | ❌ 未用 |
-| `wallpaperPropertyListener` | 用户属性与通用属性回调 | ❌ 未用 |
+| `wallpaperPropertyListener` | 用户属性与通用属性回调 | ⚠️ 仅用 `setPaused`，未用 `applyUserProperties` / `applyGeneralProperties` |
+| `wallpaperRegisterMedia*Listener` | 媒体信息（封面、曲名、播放状态） | ✅ 已用 |
 | CEF devtools port | WE 设置 → General 中填写端口，浏览器访问调试 | 调试用 |
 
 `applyGeneralProperties` 的典型用法：
@@ -272,11 +281,11 @@ window.wallpaperPropertyListener = {
 
 **收益**：背景色随专辑封面自动变化。`primaryColor` / `textColor` 是现成值。
 
-**代价**：小。需处理用户未开启媒体集成、播放器不提供信息等降级路径。
+**代价**：小。媒体监听器、桥接模块和封面卡片已经就绪，只需把配色接到背景色；仍需处理用户未开启媒体集成、播放器不提供信息等降级路径（`getWallpaperMedia()` 已返回 `null`）。
 
 ### 优先级 3：FPS 限制
 
-**收益**：降低桌面壁纸的持续耗电。当前 rAF 无限制运行。
+**收益**：降低桌面壁纸的持续耗电。当前 rAF 无限制运行（暂停时已跳过整帧，但播放时仍按显示器刷新率跑）。
 
 **代价**：很小，在 `src/spineStage.js` 的渲染循环里加帧间隔判断。
 
