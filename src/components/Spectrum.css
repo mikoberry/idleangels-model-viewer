@@ -1,71 +1,60 @@
-/* Audio spectrum: a full-width bar equaliser along an edge of the screen.
+/* Audio spectrum: a floating audio visualiser the user can place anywhere.
    Like the clock it never intercepts pointer events, so click-to-action keeps
-   working over it. */
+   working over it.
+
+   Positioning: the box is centred on the point given by --spectrum-offset-x /
+   --spectrum-offset-y (0-100% of the viewport, so 50% is dead centre) and then
+   scaled by --spectrum-scale. Scaling the whole box rather than individual
+   draw calls keeps every style's proportions intact.
+
+   The base size is a viewport-relative square-ish stage; wide (bar-like) styles
+   stretch across it and radial styles use its short side as their diameter. */
 
 .spectrum {
   position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  height: var(--spectrum-height, 22vh);
-  /* Horizontal nudge in viewport-percentage units, shared with the clock's
-     position controls (0% to 100%). */
-  transform: translateX(var(--spectrum-offset-x, 0%));
+  left: var(--spectrum-offset-x, 50%);
+  top: var(--spectrum-offset-y, 50%);
+  /* Wide enough for the bar styles to read, tall enough for the ring styles to
+     stay circular inside the box. */
+  width: 90vw;
+  height: 40vh;
+  /* translate(-50%, -50%) makes left/top address the box centre, then scale
+     grows it symmetrically about that same point. Order matters: the shift must
+     not be scaled by the later transform. */
+  transform: translate(-50%, -50%) scale(var(--spectrum-scale, 1));
+  transform-origin: center center;
   pointer-events: none;
+  z-index: 3;
 }
 
-.spectrum--bottom {
-  bottom: 0;
-}
-
-.spectrum--top {
-  top: 0;
-  /* Keep the flip and the offset in one transform so they compose. */
-  transform: translateX(var(--spectrum-offset-x, 0%)) scaleY(-1);
-}
-
-/* The bar-like styles grow from the edge they are pinned to, so flipping the
-   whole surface for the top edge is exactly right. The centred styles (ring
-   spectra, ripples, aurora) are radial or symmetric and must not be mirrored,
-   so they opt out and draw upright on both edges. */
-.spectrum--top.spectrum--style-ring,
-.spectrum--top.spectrum--style-ringwave,
-.spectrum--top.spectrum--style-ripples,
-.spectrum--top.spectrum--style-aurora {
-  transform: translateX(var(--spectrum-offset-x, 0%));
-}
-
-/* Radial styles need a square box: the ring spectra are circles, and the ripple
-   field is a set of concentric circles whose reach is bounded by the shorter
-   side. In the wide edge strip the height was the limiting side, so ripples
-   collapsed into a small disc. The size control drives the diameter and the
-   widget is centred on the chosen edge. */
+/* Bar-like styles are drawn from the bottom of their box upward. Mirrored
+   styles (ring, ringwave, ripples, aurora) are symmetric and stay upright. */
 .spectrum--style-ring,
 .spectrum--style-ringwave,
-.spectrum--style-ripples {
-  left: 50%;
-  right: auto;
-  width: var(--spectrum-height, 22vh);
-  height: var(--spectrum-height, 22vh);
-  margin-left: calc(var(--spectrum-height, 22vh) / -2);
-}
-
-/* Anchored at the chosen edge; because the box is square the circle sits fully
-   inside the viewport instead of being cropped by the edge. */
-.spectrum--style-ring.spectrum--bottom,
-.spectrum--style-ringwave.spectrum--bottom,
-.spectrum--style-ripples.spectrum--bottom {
-  bottom: 0;
-}
-
-.spectrum--style-ring.spectrum--top,
-.spectrum--style-ringwave.spectrum--top,
-.spectrum--style-ripples.spectrum--top {
-  top: 0;
+.spectrum--style-ripples,
+.spectrum--style-aurora {
+  /* Square box so circles stay circular regardless of the viewport aspect. */
+  width: min(90vw, 70vh);
+  height: min(90vw, 70vh);
 }
 
 .spectrum__canvas {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+@media (max-width: 640px) {
+  .spectrum {
+    width: 96vw;
+    height: 34vh;
+  }
+
+  .spectrum--style-ring,
+  .spectrum--style-ringwave,
+  .spectrum--style-ripples,
+  .spectrum--style-aurora {
+    width: min(96vw, 60vh);
+    height: min(96vw, 60vh);
+  }
 }

@@ -80,7 +80,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   - 初始、推荐、记录当前视图、复制全部视图按钮
   - 背景色预设、取色器、十六进制输入
   - 时钟：显示开关、版式、大小、位置、随音频律动 + 响应强度
-  - 频谱：显示开关、位置、高度、水平位置、颜色
+  - 频谱：显示开关、样式、水平位置、垂直位置、缩放、颜色
   - 专辑封面：显示开关、角落、大小、水平/垂直位置
 - 没有速度、暂停、循环、自动播放、包围盒等控件。
 - 颜色输入（背景色与频谱颜色）共用 `BackgroundColorField`：预设色块、HSV 色域、色相条、`#RRGGBB` 输入框。
@@ -103,7 +103,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 ### `src/components/Spectrum.jsx`
 
-- 128 根柱子的音频频谱浮层，贴在屏幕底边或顶边，高度由 `height`（vh 百分比）控制。
+- 128 根柱子的音频频谱浮层，可自由摆放在屏幕上任意位置；`offsetX` / `offsetY`（0–100% 视口，50 为居中）定位盒子中心，`scale`（0.5–5）用 CSS `transform` 缩放整块画布。
 - 用 **Canvas 2D** 绘制而不是 128 个 DOM 节点：`requestAnimationFrame` 中一次 `fillRect` 循环完成整帧。
 - 每帧顺序：读音频目标 → `smoothAudioLevel()` 缓动实际高度 → 绘制带渐变的柱子。没有峰值标记。
 - 画布 backing store 用 CSS 像素（与 WebGL canvas 一致，不乘 `devicePixelRatio`）。

@@ -23,7 +23,7 @@ export const PRESET_LIMITS = {
   positionY: { min: -300, max: 300 },
   clockSize: { min: 50, max: 200 },
   widgetOffset: { min: -100, max: 200 },
-  spectrumHeight: { min: 8, max: 60 },
+  spectrumScale: { min: 0.5, max: 5 },
   albumSize: { min: 10, max: 40 },
   beatIntensity: { min: 0, max: 1000 },
   parallaxAmount: { min: -15, max: 15 },
@@ -43,12 +43,16 @@ export const CLOCK_DEFAULTS = {
   theme: 'dark',
 }
 
+// The spectrum is a free-floating overlay: offsetX/offsetY place its centre in
+// the same 0-100 viewport percentages the other widgets use (50 is the centre),
+// and `scale` sizes the whole surface. The retired `position`/`height` fields
+// are ignored on purpose, so an older preset falls back to these defaults.
 export const SPECTRUM_DEFAULTS = {
   show: false,
   style: 'bars',
-  position: 'bottom',
-  height: 22,
-  offsetX: 0,
+  offsetX: 50,
+  offsetY: 50,
+  scale: 1,
   color: '#a8c4ff',
 }
 
@@ -140,9 +144,9 @@ export function normalizeSpectrumPreset(value, fallback = SPECTRUM_DEFAULTS) {
   return {
     show: bool(source.show, fallback.show),
     style: oneOf(source.style, SPECTRUM_STYLES, fallback.style),
-    position: source.position === 'top' ? 'top' : source.position === 'bottom' ? 'bottom' : fallback.position,
-    height: clampNumber(source.height, fallback.height, PRESET_LIMITS.spectrumHeight),
     offsetX: clampNumber(source.offsetX, fallback.offsetX, PRESET_LIMITS.widgetOffset),
+    offsetY: clampNumber(source.offsetY, fallback.offsetY, PRESET_LIMITS.widgetOffset),
+    scale: clampNumber(source.scale, fallback.scale, PRESET_LIMITS.spectrumScale),
     color: hexColor(source.color, fallback.color),
   }
 }

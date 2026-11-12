@@ -46,7 +46,7 @@ Unrecorded changes are not kept after a refresh. Recorded model views are restor
 - Page background color with presets, color picker, and `#RRGGBB` input
 - Per-model view recording and copy-all export
 - Clock overlay with card/bar layouts, 3D pointer tilt, and audio-reactive bobbing with adjustable intensity
-- 128-bar audio spectrum on the top or bottom edge with configurable height, position, and color
+- 128-bar audio spectrum that floats anywhere on screen, with adjustable horizontal position, vertical position, scale, and color
 - Now-playing album art card (cover, title, artist, album) with a mini spectrum, from Wallpaper Engine media integration
 - UI in Chinese, English, Japanese, and Korean; defaults to the browser language and can be switched in the drawer
 - Debug panel toggle inside the settings drawer
@@ -190,7 +190,7 @@ Settings → Pages → Build and deployment → Source → GitHub Actions
 
 GitHub Pages limits the published site to 1 GB and has a soft bandwidth limit of 100 GB/month. The current deployment subset is about 288 MB.
 
-The deployed page includes Cloudflare Web Analytics for aggregate page-load traffic. It is cookieless and does not create a new page view when switching models.
+The deployed page loads no third-party analytics or external scripts; it only requests assets bundled with the build.
 
 ## Documentation
 

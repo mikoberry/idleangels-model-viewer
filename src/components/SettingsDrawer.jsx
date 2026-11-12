@@ -1405,61 +1405,6 @@ export default function SettingsDrawer({
               </div>
             </div>
 
-            <div className="clock-placement" role="group" aria-label={t('spectrum.position')}>
-              <span className="clock-placement__label">{t('spectrum.position')}</span>
-              <div className="clock-placement__options">
-                {['bottom', 'top'].map((position) => (
-                  <button
-                    key={position}
-                    type="button"
-                    className={`clock-placement__option${spectrum.position === position ? ' is-active' : ''}`}
-                    aria-pressed={spectrum.position === position}
-                    onClick={() => onSpectrumChange({ position })}
-                  >
-                    {t(position === 'bottom' ? 'spectrum.positionBottom' : 'spectrum.positionTop')}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('spectrum.height')}</span>
-                <StepControl
-                  label={t('spectrum.height')}
-                  onStep={(delta) => onSpectrumChange({ height: spectrum.height + delta })}
-                  canDecrease={spectrum.height > 8}
-                  canIncrease={spectrum.height < 60}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={8}
-                      max={60}
-                      step={1}
-                      value={Math.round(spectrum.height)}
-                      aria-label={t('spectrum.heightAria')}
-                      onChange={(event) =>
-                        onSpectrumChange({ height: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={spectrum.height}
-                min={8}
-                max={60}
-                step={1}
-                label={t('spectrum.height')}
-                valueText={`${Math.round(spectrum.height)}%`}
-                onChange={(height) => onSpectrumChange({ height })}
-              />
-            </div>
-
             <div className="inspector-field">
               <div className="inspector-field inspector-field--split">
                 <span className="inspector-field__label">{t('spectrum.offsetX')}</span>
@@ -1495,6 +1440,84 @@ export default function SettingsDrawer({
                 label={t('spectrum.offsetX')}
                 valueText={formatOffset(spectrum.offsetX)}
                 onChange={(offsetX) => onSpectrumChange({ offsetX })}
+              />
+            </div>
+
+            <div className="inspector-field">
+              <div className="inspector-field inspector-field--split">
+                <span className="inspector-field__label">{t('spectrum.offsetY')}</span>
+                <StepControl
+                  label={t('spectrum.offsetY')}
+                  onStep={(delta) => onSpectrumChange({ offsetY: spectrum.offsetY + delta })}
+                  canDecrease={Math.round(spectrum.offsetY) > CLOCK_OFFSET_MIN}
+                  canIncrease={Math.round(spectrum.offsetY) < CLOCK_OFFSET_MAX}
+                  t={t}
+                >
+                  <label className="scale-input">
+                    <input
+                      className="viewer-number"
+                      type="number"
+                      min={CLOCK_OFFSET_MIN}
+                      max={CLOCK_OFFSET_MAX}
+                      step={1}
+                      value={Math.round(spectrum.offsetY)}
+                      aria-label={t('spectrum.offsetYAria')}
+                      onChange={(event) =>
+                        onSpectrumChange({ offsetY: Number(event.currentTarget.value) })
+                      }
+                    />
+                    <span aria-hidden="true">%</span>
+                  </label>
+                </StepControl>
+              </div>
+              <ViewerSlider
+                value={spectrum.offsetY}
+                min={CLOCK_OFFSET_MIN}
+                max={CLOCK_OFFSET_MAX}
+                step={1}
+                label={t('spectrum.offsetY')}
+                valueText={formatOffset(spectrum.offsetY)}
+                onChange={(offsetY) => onSpectrumChange({ offsetY })}
+              />
+            </div>
+
+            <div className="inspector-field">
+              <div className="inspector-field inspector-field--split">
+                <span className="inspector-field__label">{t('spectrum.scale')}</span>
+                <StepControl
+                  label={t('spectrum.scale')}
+                  onStep={(delta) =>
+                    onSpectrumChange({ scale: Math.round(spectrum.scale * 100 + delta) / 100 })
+                  }
+                  canDecrease={spectrum.scale > MIN_SCALE}
+                  canIncrease={spectrum.scale < MAX_SCALE}
+                  t={t}
+                >
+                  <label className="scale-input">
+                    <input
+                      className="viewer-number"
+                      type="number"
+                      min={MIN_SCALE * 100}
+                      max={MAX_SCALE * 100}
+                      step={1}
+                      value={Math.round(spectrum.scale * 100)}
+                      aria-label={t('spectrum.scaleAria')}
+                      onChange={(event) =>
+                        onSpectrumChange({ scale: Number(event.currentTarget.value) / 100 })
+                      }
+                    />
+                    <span aria-hidden="true">%</span>
+                  </label>
+                </StepControl>
+              </div>
+              <ViewerSlider
+                value={spectrum.scale}
+                min={MIN_SCALE}
+                max={MAX_SCALE}
+                step={0.01}
+                label={t('spectrum.scale')}
+                valueText={`${Math.round(spectrum.scale * 100)}%`}
+                onChange={(scale) => onSpectrumChange({ scale })}
               />
             </div>
 

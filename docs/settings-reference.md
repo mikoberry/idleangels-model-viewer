@@ -177,9 +177,10 @@ const DEFAULT_CLOCK = {
 ```js
 const DEFAULT_SPECTRUM = {
   show: false,
-  position: 'bottom',
-  height: 22,
-  offsetX: 0,
+  style: 'bars',
+  offsetX: 50,
+  offsetY: 50,
+  scale: 1,
   color: DEFAULT_SPECTRUM_COLOR, // '#a8c4ff'
 }
 ```
@@ -187,11 +188,14 @@ const DEFAULT_SPECTRUM = {
 | 字段 | 类型 | 默认值 | 范围 | 说明 |
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示频谱 |
-| `position` | `'bottom' \| 'top'` | `'bottom'` | — | 贴屏幕哪一边 |
-| `height` | `number` | `22` | `8`–`60` | 占用屏幕高度的百分比 |
-| `offsetX` | `number` | `0` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
+| `style` | 见下 | `'bars'` | 8 种样式 | 视觉样式，见 `src/utils/spectrum.js` |
+| `offsetX` | `number` | `50` | `0`–`100` | 水平位置，窗口宽度的百分比，`50` 为居中 |
+| `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，`50` 为居中 |
+| `scale` | `number` | `1` | `0.5`–`5` | 整块频谱的缩放，`1` 为 100% |
 | `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色；由 `spectrumGradientStops()` 生成上下两道渐变 |
 
+- 位置以**盒子中心**定位：`offsetX` / `offsetY` 决定浮层中心落在视口的哪个百分比位置，`scale` 以该中心为原点缩放，所以改变缩放不会让频谱漂移。
+- 旧的 `position`（`top` / `bottom`）和 `height` 字段已废弃：归一化时直接忽略，没有新字段的模型预设会回退到上面的默认值（居中、100%）。
 - 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
 - 共 **128 根柱子**，与 Wallpaper Engine 的 128 个频段一一对应：左声道占 0–63，右声道镜像占 64–127，低频在两端。
 - 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制。

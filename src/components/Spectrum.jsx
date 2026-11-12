@@ -84,9 +84,9 @@ const RENDERERS = {
 export default function Spectrum({
   visible,
   style = 'bars',
-  position = 'bottom',
-  height = 22,
-  offsetX = 0,
+  offsetX = 50,
+  offsetY = 50,
+  scale = 1,
   color = DEFAULT_SPECTRUM_COLOR,
 }) {
   const canvasRef = useRef(null)
@@ -122,11 +122,14 @@ export default function Spectrum({
     let elapsed = 0
 
     const resize = () => {
-      const rect = canvas.getBoundingClientRect()
+      // offsetWidth/offsetHeight describe the layout box and ignore the
+      // `transform: scale()` used for the zoom control. getBoundingClientRect
+      // would report the *scaled* size, so a zoom change plus a window resize
+      // would double-scale the backing store and the bars would jump.
       // Backing store in CSS pixels keeps this consistent with the WebGL
       // canvas, which also ignores devicePixelRatio.
-      const width = Math.max(1, Math.round(rect.width))
-      const height = Math.max(1, Math.round(rect.height))
+      const width = Math.max(1, Math.round(canvas.offsetWidth))
+      const height = Math.max(1, Math.round(canvas.offsetHeight))
       if (canvas.width !== width) canvas.width = width
       if (canvas.height !== height) canvas.height = height
     }
@@ -171,11 +174,14 @@ export default function Spectrum({
 
   return (
     <div
-      className={`spectrum spectrum--${position} spectrum--style-${variant}`}
+      className={`spectrum spectrum--style-${variant}`}
       style={{
-        '--spectrum-height': `${height}vh`,
-        // Same -100..200 percentage range as every other widget position.
+        // The surface floats at offsetX/offsetY percentages of the viewport and
+        // `scale` sizes the whole box, so the widget keeps its aspect ratio.
+        // The wrapper is a fixed-size stage centred on that point.
         '--spectrum-offset-x': `${offsetX}%`,
+        '--spectrum-offset-y': `${offsetY}%`,
+        '--spectrum-scale': scale,
       }}
       aria-hidden="true"
     >

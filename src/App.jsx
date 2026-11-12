@@ -109,15 +109,15 @@ function saveClockSettings(clock) {
 
 // The spectrum keeps its own preferences so enabling audio visualisation does
 // not depend on the clock being shown.
-// `style` picks the renderer in src/utils/spectrum.js; every style shares the
-// same position, height, offset and colour controls.
+// `style` picks the renderer in src/utils/spectrum.js. The surface floats
+// freely: `offsetX` / `offsetY` place it (0-100 viewport percentages, 50 is the
+// centre) and `scale` sizes it, the same 0.5-5 range the model view uses.
 const DEFAULT_SPECTRUM = {
   show: false,
   style: 'bars',
-  position: 'bottom',
-  height: 22,
-  // Horizontal nudge, same 0..100 range every widget position uses.
-  offsetX: 0,
+  offsetX: 50,
+  offsetY: 50,
+  scale: 1,
   // Bar colour; the same #rrggbb form the background colour uses.
   color: DEFAULT_SPECTRUM_COLOR,
 }
@@ -136,16 +136,19 @@ function loadSpectrumSettings() {
     return {
       show: value.show === true,
       style: SPECTRUM_STYLES.includes(value.style) ? value.style : DEFAULT_SPECTRUM.style,
-      position: ['bottom', 'top'].includes(value.position)
-        ? value.position
-        : DEFAULT_SPECTRUM.position,
-      height: clampNumber(value.height, DEFAULT_SPECTRUM.height, 8, 60),
       offsetX: clampNumber(
         value.offsetX,
         DEFAULT_SPECTRUM.offsetX,
         CLOCK_OFFSET_MIN,
         CLOCK_OFFSET_MAX,
       ),
+      offsetY: clampNumber(
+        value.offsetY,
+        DEFAULT_SPECTRUM.offsetY,
+        CLOCK_OFFSET_MIN,
+        CLOCK_OFFSET_MAX,
+      ),
+      scale: clampNumber(value.scale, DEFAULT_SPECTRUM.scale, 0.5, 5),
       color: normalizeHexColor(value.color, DEFAULT_SPECTRUM.color),
     }
   } catch {
@@ -766,13 +769,19 @@ export default function App() {
       return {
         ...next,
         style: SPECTRUM_STYLES.includes(next.style) ? next.style : previous.style,
-        height: clampNumber(next.height, previous.height, 8, 60),
         offsetX: clampNumber(
           next.offsetX,
           previous.offsetX,
           CLOCK_OFFSET_MIN,
           CLOCK_OFFSET_MAX,
         ),
+        offsetY: clampNumber(
+          next.offsetY,
+          previous.offsetY,
+          CLOCK_OFFSET_MIN,
+          CLOCK_OFFSET_MAX,
+        ),
+        scale: clampNumber(next.scale, previous.scale, 0.5, 5),
         color: normalizeHexColor(next.color, previous.color),
       }
     })
@@ -821,9 +830,9 @@ export default function App() {
           <Spectrum
             visible={spectrum.show}
             style={spectrum.style}
-            position={spectrum.position}
-            height={spectrum.height}
             offsetX={spectrum.offsetX}
+            offsetY={spectrum.offsetY}
+            scale={spectrum.scale}
             color={spectrum.color}
           />
           <AlbumArt
