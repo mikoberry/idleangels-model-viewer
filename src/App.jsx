@@ -11,6 +11,7 @@ import {
   CLOCK_OFFSET_MAX,
   CLOCK_SIZE_MAX,
   CLOCK_SIZE_MIN,
+  smoothStep,
 } from './utils/clock.js'
 import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
 import { copyText } from './utils/clipboard.js'
@@ -253,6 +254,9 @@ function loadModelViews() {
         /^#[0-9a-f]{6}$/i.test(view.backgroundColor)
           ? { backgroundColor: view.backgroundColor.toLowerCase() }
           : {}),
+        ...(typeof view.parallax === 'boolean' ? { parallax: view.parallax } : {}),
+        ...(Number.isFinite(view.parallaxAmount) ? { parallaxAmount: view.parallaxAmount } : {}),
+        ...(typeof view.clickToAction === 'boolean' ? { clickToAction: view.clickToAction } : {}),
       }
     }
     return views
@@ -441,6 +445,10 @@ export default function App() {
   const [viewSettings, setViewSettings] = useState(() => ({
     ...DEFAULT_MODEL_VIEW,
     clickToAction: true,
+    // Pointer parallax: the character drifts with the mouse. `amount` is a
+    // fraction of the viewport at the screen edge, so 0.03 means a 3% drift.
+    parallax: true,
+    parallaxAmount: 3,
   }))
   const [recordedViews, setRecordedViews] = useState(loadModelViews)
   const modelViewsRef = useRef(recordedViews)
@@ -479,6 +487,11 @@ export default function App() {
         positionX: view.positionX,
         positionY: view.positionY,
         backgroundColor: view.backgroundColor,
+        // Interaction settings travel with the record too, otherwise recording a
+        // view would fall back to the defaults for them on the next switch.
+        ...(typeof view.parallax === 'boolean' ? { parallax: view.parallax } : {}),
+        ...(Number.isFinite(view.parallaxAmount) ? { parallaxAmount: view.parallaxAmount } : {}),
+        ...(typeof view.clickToAction === 'boolean' ? { clickToAction: view.clickToAction } : {}),
       },
     }
 
@@ -685,6 +698,81 @@ export default function App() {
     if (event.pointerType === 'mouse' && event.button !== 0) return
     stageRef.current?.triggerAction()
   }
+
+  // Pointer parallax. The listener lives on window because the character must
+  // follow the cursor even when the pointer is over an overlay (the drawer, the
+  // debug panel) rather than the canvas itself.
+  //
+  // The target is stored in a ref and eased by the stage's own frame loop, so a
+  // fast mouse cannot outrun the animation and the character never snaps. When
+  // the feature is off the target is pinned to centre, which parks the camera at
+  // the untouched view position.
+  const parallaxTargetRef = useRef({ x: 0, y: 0 })
+  const parallaxEnabled = viewSettings.parallax !== false
+  // Percentage at the screen edge, clamped to the drawer's slider range. A
+  // negative value reverses the drift (the character leans away from the
+  // pointer), which the slider exposes deliberately.
+  const parallaxAmount = clampNumber(viewSettings.parallaxAmount, 3, -15, 15)
+
+  useEffect(() => {
+    const reset = () => {
+      parallaxTargetRef.current = { x: 0, y: 0 }
+    }
+
+    if (!parallaxEnabled) {
+      reset()
+      return undefined
+    }
+
+    const handleMove = (event) => {
+      const width = window.innerWidth || 1
+      const height = window.innerHeight || 1
+      // Normalise to [-1, 1] with 0 at the viewport centre.
+      parallaxTargetRef.current = {
+        x: (event.clientX / width) * 2 - 1,
+        y: (event.clientY / height) * 2 - 1,
+      }
+    }
+
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerleave', reset)
+    document.addEventListener('pointerleave', reset)
+
+    return () => {
+      window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerleave', reset)
+      document.removeEventListener('pointerleave', reset)
+      reset()
+    }
+  }, [parallaxEnabled])
+
+  // Push the eased parallax into the stage every frame. Values are eased here
+  // rather than in the stage so the smoothing constants live next to the
+  // interaction, and only the stage touches the camera.
+  useEffect(() => {
+    if (!parallaxEnabled) {
+      stageRef.current?.setParallax(0, 0, 0)
+      return undefined
+    }
+
+    let frame = 0
+    let currentX = 0
+    let currentY = 0
+    let last = performance.now()
+
+    const tick = (now) => {
+      const delta = Math.min(Math.max((now - last) / 1000, 0), 0.05)
+      last = now
+      const target = parallaxTargetRef.current
+      currentX = smoothStep(currentX, target.x, delta, 6)
+      currentY = smoothStep(currentY, target.y, delta, 6)
+      stageRef.current?.setParallax(currentX, currentY, parallaxAmount / 100)
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frame)
+  }, [parallaxEnabled, parallaxAmount])
 
   // Numeric clock fields are clamped on every write as well as on load, so an
   // out-of-range value can never reach the overlay or localStorage.

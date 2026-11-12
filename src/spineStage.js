@@ -235,6 +235,11 @@ export async function startSpineStage(
   let viewScale = 1
   let viewOffsetX = 0
   let viewOffsetY = 0
+  // Parallax offset, in fractions of the viewport. Kept separate from the view
+  // offsets above so pointer movement never overwrites the user's saved
+  // position: the camera sits at view + parallax.
+  let parallaxX = 0
+  let parallaxY = 0
 
   const fitView = () => {
     const width = canvas.width
@@ -253,9 +258,24 @@ export async function startSpineStage(
     const centerY = (bounds.minY + bounds.maxY) * 0.5
 
     camera.zoom = zoom
+    // The view offset keeps its original sign convention (positive positionY
+    // moves the camera down, so the artwork appears to rise) because saved views
+    // in model-presets.json depend on it.
+    //
+    // The parallax term uses the same expressions as the view offset, so one
+    // amount drives both axes identically: a positive amount follows the
+    // pointer, a negative one leans away. The per-axis directions are documented
+    // on each term below; they were established by projecting world points
+    // through this runtime's lookAt + ortho matrices.
     camera.position.set(
-      centerX - viewOffsetX * width * zoom,
-      centerY + viewOffsetY * height * zoom,
+      // x is subtracted from the centre, so a positive parallaxX lowers camera.x
+      // and the artwork slides right.
+      centerX - viewOffsetX * width * zoom - parallaxX * width * zoom,
+      // y is added, so a positive parallaxY raises camera.y and the artwork
+      // slides down. (Direction confirmed by projecting world points through this
+      // runtime's lookAt + ortho matrices: camera.x up => artwork left,
+      // camera.y up => artwork down.)
+      centerY + viewOffsetY * height * zoom + parallaxY * height * zoom,
       0,
     )
     camera.update()
@@ -284,6 +304,36 @@ export async function startSpineStage(
     if (frameId) window.cancelAnimationFrame(frameId)
     window.removeEventListener('resize', resize)
     disposeResources()
+  }
+
+  // Pointer-driven parallax. `x` and `y` are normalised to [-1, 1] across the
+  // viewport, where 0 is the centre; `amount` scales how far the character may
+  // drift, as a fraction of the viewport. Re-fits the camera so the offset is
+  // visible immediately rather than on the next resize.
+  const setParallax = (x, y, amount = 0) => {
+    if (disposed) return
+    // Negative amounts are allowed: they reverse the drift, so the character
+    // leans away from the pointer instead of following it.
+    const limit = Math.min(Math.max(Number.isFinite(amount) ? amount : 0, -0.5), 0.5)
+    const nx = Math.min(Math.max(Number.isFinite(x) ? x : 0, -1), 1)
+    const ny = Math.min(Math.max(Number.isFinite(y) ? y : 0, -1), 1)
+
+    // Verified by projecting world points through this runtime's own matrices
+    // (lookAt + ortho), rather than reasoning about signs:
+    //   camera.x up  => artwork moves LEFT on screen
+    //   camera.y up  => artwork moves DOWN on screen
+    //   camera.x = centre - offset (fitView)  => +parallaxX lowers camera.x,
+    //                                            so the artwork moves RIGHT
+    //   camera.y = centre + offset (fitView)  => +parallaxY raises camera.y,
+    //                                            so the artwork moves DOWN
+    // Following the pointer therefore needs: +nx horizontally (pointer right =>
+    // artwork right) and +ny vertically (pointer low => ny > 0 => artwork down).
+    //
+    // `limit` appears exactly once per axis, so a negative amount reverses both
+    // axes together.
+    parallaxX = nx * limit
+    parallaxY = ny * limit
+    fitView()
   }
 
   const setView = (scale, offsetX, offsetY) => {
@@ -414,5 +464,5 @@ export async function startSpineStage(
   }
 
   frameId = window.requestAnimationFrame(frame)
-  return { setView, triggerAction, play, animations: availableAnimations, dispose }
+  return { setView, setParallax, triggerAction, play, animations: availableAnimations, dispose }
 }

@@ -26,6 +26,7 @@ export const PRESET_LIMITS = {
   spectrumHeight: { min: 8, max: 60 },
   albumSize: { min: 10, max: 40 },
   beatIntensity: { min: 0, max: 1000 },
+  parallaxAmount: { min: -15, max: 15 },
 }
 
 export const VIEW_KEYS = ['scale', 'positionX', 'positionY', 'backgroundColor']
@@ -96,6 +97,22 @@ export function normalizeView(value, fallback = { scale: 1, positionX: 0, positi
     positionX: clampNumber(source.positionX, fallback.positionX, PRESET_LIMITS.positionX),
     positionY: clampNumber(source.positionY, fallback.positionY, PRESET_LIMITS.positionY),
     backgroundColor: hexColor(source.backgroundColor, fallback.backgroundColor),
+    // Interaction settings live with the view because they are tuned per model
+    // alongside the framing. They are optional so presets written before these
+    // existed still load, and a missing key keeps whatever the app has.
+    ...(typeof source.parallax === 'boolean' ? { parallax: source.parallax } : {}),
+    ...(typeof source.parallaxAmount === 'number' && Number.isFinite(source.parallaxAmount)
+      ? {
+          parallaxAmount: clampNumber(
+            source.parallaxAmount,
+            fallback.parallaxAmount ?? 3,
+            PRESET_LIMITS.parallaxAmount,
+          ),
+        }
+      : {}),
+    ...(typeof source.clickToAction === 'boolean'
+      ? { clickToAction: source.clickToAction }
+      : {}),
   }
 }
 

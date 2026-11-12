@@ -22,7 +22,10 @@
       "scale": 3.21,
       "positionX": 5,
       "positionY": -4,
-      "backgroundColor": "#000000"
+      "backgroundColor": "#000000",
+      "parallax": true,
+      "parallaxAmount": 2,
+      "clickToAction": true
     },
     "clock": {
       "show": true,

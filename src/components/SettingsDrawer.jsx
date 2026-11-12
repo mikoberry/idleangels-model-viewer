@@ -42,6 +42,10 @@ function saveDrawerTab(tab) {
 }
 const MAX_SCALE = 5
 const POSITION_LIMIT = 100
+// Pointer parallax amount, as a percentage of the viewport at the screen edge.
+// Negative values reverse the drift, so the range is symmetric.
+const PARALLAX_AMOUNT_MIN = -15
+const PARALLAX_AMOUNT_MAX = 15
 // Swatches shown above the colour picker. They are muted on purpose: a wallpaper
 // background sits behind artwork for hours, so these are desaturated versions of
 // recognisable hues rather than full-strength colours that would fight the model.
@@ -120,6 +124,25 @@ function formatOffset(value) {
   return `${rounded > 0 ? '+' : ''}${rounded}%`
 }
 
+// Snaps a slider value to its step. A 0.1 step accumulates binary rounding error
+// (3.2000000000000002), which would leak into the persisted settings and the
+// displayed percentage. Rounding the result to a fixed number of decimals fixes
+// the multiply-back step, which reintroduces the error on its own.
+function roundToStep(value, step = 0.1) {
+  if (!Number.isFinite(value)) return 0
+  const snapped = Math.round(value / step) * step
+  return Number(snapped.toFixed(2))
+}
+
+// Keeps the parallax amount inside the slider range and snapped to its step.
+// Typing into the number field can produce anything (blank, out of range), so
+// every entry point funnels through here.
+function clampParallax(value, fallback = 3) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) return fallback
+  return roundToStep(Math.min(Math.max(number, PARALLAX_AMOUNT_MIN), PARALLAX_AMOUNT_MAX))
+}
+
 function ViewerSlider({ value, min, max, step, label, valueText, onChange }) {
   return (
     <Slider.Root
@@ -152,6 +175,8 @@ function StepControl({
   canDecrease,
   canIncrease,
   children,
+  // Most controls step by 1; the parallax slider uses a fractional step.
+  step = 1,
   t,
 }) {
   return (
@@ -161,7 +186,7 @@ function StepControl({
         className="step-button"
         aria-label={t('step.decreaseAria', { label })}
         disabled={!canDecrease}
-        onClick={() => onStep(-1)}
+        onClick={() => onStep(-step)}
       >
         −
       </button>
@@ -171,7 +196,7 @@ function StepControl({
         className="step-button"
         aria-label={t('step.increaseAria', { label })}
         disabled={!canIncrease}
-        onClick={() => onStep(1)}
+        onClick={() => onStep(step)}
       >
         +
       </button>
@@ -811,6 +836,60 @@ export default function SettingsDrawer({
           <span>{t('clickAction.label')}</span>
         </label>
         <p className="inspector-hint">{t('drawer.animationHint')}</p>
+
+        <label className="toggle-row">
+          <input
+            type="checkbox"
+            checked={settings.parallax !== false}
+            onChange={(event) => onChange({ parallax: event.currentTarget.checked })}
+          />
+          <span>{t('parallax.label')}</span>
+        </label>
+        {settings.parallax !== false && (
+          <div className="inspector-field">
+            <div className="inspector-field inspector-field--split">
+              <span className="inspector-field__label">{t('parallax.amount')}</span>
+              <StepControl
+                label={t('parallax.amount')}
+                step={0.1}
+                onStep={(delta) =>
+                  onChange({
+                    parallaxAmount: clampParallax((settings.parallaxAmount ?? 3) + delta),
+                  })
+                }
+                canDecrease={roundToStep(settings.parallaxAmount ?? 3) > PARALLAX_AMOUNT_MIN}
+                canIncrease={roundToStep(settings.parallaxAmount ?? 3) < PARALLAX_AMOUNT_MAX}
+                t={t}
+              >
+                <label className="scale-input">
+                  <input
+                    className="viewer-number"
+                    type="number"
+                    min={PARALLAX_AMOUNT_MIN}
+                    max={PARALLAX_AMOUNT_MAX}
+                    step={0.1}
+                    value={roundToStep(settings.parallaxAmount ?? 3).toFixed(1)}
+                    aria-label={t('parallax.amountAria')}
+                    onChange={(event) =>
+                      onChange({ parallaxAmount: clampParallax(Number(event.currentTarget.value)) })
+                    }
+                  />
+                  <span aria-hidden="true">%</span>
+                </label>
+              </StepControl>
+            </div>
+            <ViewerSlider
+              min={PARALLAX_AMOUNT_MIN}
+              max={PARALLAX_AMOUNT_MAX}
+              step={0.1}
+              value={roundToStep(settings.parallaxAmount ?? 3)}
+              onChange={(parallaxAmount) => onChange({ parallaxAmount: roundToStep(parallaxAmount) })}
+              label={t('parallax.amount')}
+              valueText={`${roundToStep(settings.parallaxAmount ?? 3).toFixed(1)}%`}
+            />
+          </div>
+        )}
+        <p className="inspector-hint">{t('parallax.hint')}</p>
       </section>
       )}
 
