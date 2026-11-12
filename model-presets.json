@@ -18,10 +18,39 @@
     "backgroundColor": "#000000"
   },
   "spine_bmh_cshs": {
-    "scale": 3.21,
-    "positionX": 5,
-    "positionY": -4,
-    "backgroundColor": "#000000"
+    "view": {
+      "scale": 3.21,
+      "positionX": 5,
+      "positionY": -4,
+      "backgroundColor": "#000000"
+    },
+    "clock": {
+      "show": true,
+      "placement": "card",
+      "offsetX": 3,
+      "offsetY": 82,
+      "size": 160,
+      "reactToBeat": true,
+      "beatIntensity": 150,
+      "use24Hour": true,
+      "theme": "light"
+    },
+    "spectrum": {
+      "show": true,
+      "style": "curve",
+      "position": "bottom",
+      "height": 35,
+      "offsetX": 0,
+      "color": "#9e2d54"
+    },
+    "albumArt": {
+      "show": true,
+      "style": "minimal",
+      "corner": "top-right",
+      "size": 15,
+      "offsetX": 0,
+      "offsetY": 0
+    }
   },
   "spine_bmh_mr": {
     "scale": 2.41,

@@ -17,11 +17,18 @@ import './Clock.css'
 const FLAT = { rotateX: 0, rotateY: 0 }
 
 // Maximum scale added by a full-strength beat, before the user's intensity
-// setting scales it down or up. Small on purpose: the clock should breathe with
-// the music, not bounce.
-const BEAT_SCALE = 0.12
-// Extra glow spread at full beat.
-const BEAT_GLOW = 0.55
+// setting scales it down or up. Sized so a typical bass level (around 0.3-0.5
+// of full scale) produces a plainly visible swell rather than a hint of one.
+const BEAT_SCALE = 0.34
+// Extra glow spread at full beat. Kept at 1 so the whole musical range keeps a
+// gradient: a larger factor saturated by mid-volume and the halo stopped
+// responding exactly when the music got loud.
+const BEAT_GLOW = 1
+// Bass drives the response less than linearly: real music rarely pushes the low
+// bands much past half scale, so a raw value would only ever use the bottom of
+// the range. Raising it to this power lifts ordinary levels into the visible
+// part of the sweep while leaving true peaks at full strength.
+const BEAT_CURVE = 0.62
 
 function prefersReducedMotion() {
   return (
@@ -244,10 +251,19 @@ export default function Clock({
   const intensity =
     Math.min(Math.max(beatIntensity, CLOCK_BEAT_INTENSITY_MIN), CLOCK_BEAT_INTENSITY_MAX) / 100
 
+  // Lift ordinary bass levels into the visible part of the range (see
+  // BEAT_CURVE). Clamped so a stray frame above 1 cannot overshoot.
+  const response = Math.min(1, Math.max(0, beat)) ** BEAT_CURVE
+
+  // The glow var is multiplied into a spread radius and an alpha. Keep it at or
+  // below 1 so the alpha term (glow * 0.85) never saturates: past 1 the halo
+  // stops gaining contrast and the pulse reads as a constant bloom.
+  const glow = Math.min(1, response * BEAT_GLOW * intensity)
+
   const tiltStyle = {
-    transform: `perspective(900px) rotateX(${tilt.rotateX.toFixed(3)}deg) rotateY(${tilt.rotateY.toFixed(3)}deg) scale(${(1 + beat * BEAT_SCALE * intensity).toFixed(3)})`,
+    transform: `perspective(900px) rotateX(${tilt.rotateX.toFixed(3)}deg) rotateY(${tilt.rotateY.toFixed(3)}deg) scale(${(1 + response * BEAT_SCALE * intensity).toFixed(3)})`,
     '--clock-scale': size / 100,
-    '--clock-beat-glow': (beat * BEAT_GLOW * intensity).toFixed(3),
+    '--clock-beat-glow': glow.toFixed(3),
   }
 
   // The user-facing theme picks the text colour: "light" renders light text on

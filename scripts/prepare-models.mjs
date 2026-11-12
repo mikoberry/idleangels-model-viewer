@@ -14,6 +14,7 @@ import {
   rescaleAtlasText,
   writeJson,
 } from './model-utils.mjs'
+import { normalizePreset } from '../src/utils/modelPreset.js'
 
 const args = process.argv.slice(2)
 let selectAll = false
@@ -146,12 +147,22 @@ for (const model of selected) {
     })
   }
 
-  const preset = presets[model.id]
+  const rawPreset = presets[model.id]
+  // Presets come in two shapes: the legacy flat view object and the nested one
+  // that also carries the clock/spectrum/album settings. Fold both into the same
+  // nested form so the viewer only ever reads one layout.
+  const preset = rawPreset ? normalizePreset(rawPreset) : null
+  if (rawPreset && !preset) {
+    throw new Error(`invalid preset for model ${model.id}`)
+  }
   preparedModels.push({
     id: model.id,
     label: model.label ?? model.id,
     layers,
-    ...(preset ? { recommendedView: preset } : {}),
+    // `recommendedView` stays the flat view object for backwards compatibility
+    // with anything already reading the manifest; `preset` carries the full set.
+    ...(preset?.view ? { recommendedView: preset.view } : {}),
+    ...(preset ? { preset } : {}),
   })
 }
 

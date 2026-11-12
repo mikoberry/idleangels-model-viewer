@@ -561,8 +561,8 @@ export default function SettingsDrawer({
   isError,
   modelId,
   recommendedView,
-  recordedViews = {},
   onRecordView,
+  onCopyPreset,
   language,
   onLanguageChange,
   t,
@@ -571,8 +571,8 @@ export default function SettingsDrawer({
   // keeps each pane short enough to avoid relying on scrolling, which is
   // unreliable inside Wallpaper Engine.
   const [activeTab, setActiveTab] = useState(() => loadDrawerTab())
-  const [copyState, setCopyState] = useState('idle')
   const [recordState, setRecordState] = useState('idle')
+  const [presetCopyState, setPresetCopyState] = useState('idle')
   const [scaleInput, setScaleInput] = useState(() =>
     String(Math.round(settings.scale * 100)),
   )
@@ -666,34 +666,16 @@ export default function SettingsDrawer({
     window.setTimeout(() => setRecordState('idle'), 2000)
   }
 
-  async function copyAllViews() {
-    const text = JSON.stringify(recordedViews, null, 2)
-
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text)
-      } else {
-        const textarea = document.createElement('textarea')
-        textarea.value = text
-        textarea.style.position = 'fixed'
-        textarea.style.opacity = '0'
-        document.body.appendChild(textarea)
-        textarea.select()
-        const copied = document.execCommand('copy')
-        textarea.remove()
-        if (!copied) throw new Error('copy failed')
-      }
-
-      setCopyState('copied')
-    } catch {
-      setCopyState('error')
-    }
-
-    window.setTimeout(() => setCopyState('idle'), 2000)
+  // Copies the complete current setup (view + clock + spectrum + album card) for
+  // the selected model, ready to paste into model-presets.json. This is the step
+  // that turns browser tuning into the packaged default.
+  async function copyCurrentPreset() {
+    const ok = (await onCopyPreset?.()) ?? false
+    setPresetCopyState(ok ? 'copied' : 'error')
+    window.setTimeout(() => setPresetCopyState('idle'), 2000)
   }
 
   const scalePercent = Math.round(settings.scale * 100)
-  const recordedCount = Object.keys(recordedViews).length
 
   return (
     <aside
@@ -881,18 +863,6 @@ export default function SettingsDrawer({
               : t('record.idle')}
         </button>
 
-        <button
-          type="button"
-          className={`copy-view-button${copyState === 'error' ? ' is-error' : ''}`}
-          disabled={recordedCount === 0}
-          onClick={copyAllViews}
-        >
-          {copyState === 'copied'
-            ? t('copy.copied', { count: recordedCount })
-            : copyState === 'error'
-              ? t('copy.error')
-              : t('copy.idle', { count: recordedCount })}
-        </button>
         <p className="inspector-hint">{t('drawer.recordHint')}</p>
 
         <div className="inspector-field">
@@ -1617,6 +1587,25 @@ export default function SettingsDrawer({
             <p className="inspector-hint">{t('albumArt.idleHint')}</p>
           </>
         )}
+      </section>
+      )}
+
+      {activeTab === 'other' && (
+      <section className="inspector-section">
+        <span className="inspector-section__title">{t('preset.section')}</span>
+        <button
+          type="button"
+          className={`copy-view-button${presetCopyState === 'error' ? ' is-error' : ''}`}
+          disabled={!modelId}
+          onClick={copyCurrentPreset}
+        >
+          {presetCopyState === 'copied'
+            ? t('preset.copied')
+            : presetCopyState === 'error'
+              ? t('preset.error')
+              : t('preset.copy')}
+        </button>
+        <p className="inspector-hint">{t('preset.hint')}</p>
       </section>
       )}
 

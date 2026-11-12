@@ -13,6 +13,14 @@ import {
   CLOCK_SIZE_MIN,
 } from './utils/clock.js'
 import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
+import { copyText } from './utils/clipboard.js'
+import {
+  buildPresetForModel,
+  normalizeAlbumPreset,
+  normalizeClockPreset,
+  normalizePreset,
+  normalizeSpectrumPreset,
+} from './utils/modelPreset.js'
 import { SPECTRUM_STYLES } from './utils/spectrum.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
@@ -557,10 +565,14 @@ export default function App() {
         setCurrentAnimation((name) =>
           stage.animations.includes(name) ? name : (stage.animations[0] ?? 'idle'),
         )
+        // Precedence for the view: a locally recorded view wins over the preset
+        // shipped in the manifest, which wins over the built-in default. The
+        // record is what the user just tuned in the browser, so it must not be
+        // overwritten by an older preset.
         const recorded = modelViewsRef.current[selectedModel.id]
-        const initialView = recorded
-          ? { ...currentRecommendedView, ...recorded }
-          : currentRecommendedView
+        const preset = selectedModel.preset
+        const baseView = preset?.view ? { ...currentRecommendedView, ...preset.view } : currentRecommendedView
+        const initialView = recorded ? { ...baseView, ...recorded } : baseView
 
         setViewSettings((current) => ({
           ...current,
@@ -571,6 +583,9 @@ export default function App() {
           initialView.positionX / 100,
           initialView.positionY / 100,
         )
+        // Widget settings are only overridden when the model actually carries
+        // them, so a preset without a clock section leaves the user's clock alone.
+        applyPresetWidgets(preset)
         disposeStage = stage.dispose
       })
       .catch((error) => {
@@ -641,6 +656,28 @@ export default function App() {
   const handleRecordView = () => {
     if (!selectedModel) return false
     return recordModelView(selectedModel.id, viewSettings)
+  }
+
+  // Apply the widget sections of a model preset. A missing section means "leave
+  // this widget alone", which is what lets a preset override only the clock, or
+  // only the spectrum, instead of having to restate everything.
+  const applyPresetWidgets = (preset) => {
+    if (!preset) return
+    if (preset.clock) setClock((previous) => normalizeClockPreset(preset.clock, previous))
+    if (preset.spectrum) {
+      setSpectrum((previous) => normalizeSpectrumPreset(preset.spectrum, previous))
+    }
+    if (preset.albumArt) setAlbumArt((previous) => normalizeAlbumPreset(preset.albumArt, previous))
+  }
+
+  // Everything the user has tuned for the current model, as one object ready to
+  // paste into model-presets.json. Mirrors the "copy all views" affordance but
+  // covers the clock, spectrum and album card too.
+  const handleCopyPreset = async () => {
+    if (!selectedModel) return false
+    const preset = buildPresetForModel({ view: viewSettings, clock, spectrum, albumArt })
+    const payload = { [selectedModel.id]: preset }
+    return copyText(JSON.stringify(payload, null, 2))
   }
 
   const handleCanvasPointerUp = (event) => {
@@ -837,8 +874,8 @@ export default function App() {
         isError={isError}
         modelId={selectedModel?.id ?? ''}
         recommendedView={currentRecommendedView}
-        recordedViews={recordedViews}
         onRecordView={handleRecordView}
+        onCopyPreset={handleCopyPreset}
         language={language}
         onLanguageChange={setLanguage}
         t={t}
