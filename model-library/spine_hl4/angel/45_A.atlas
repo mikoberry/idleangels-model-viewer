@@ -1,0 +1,594 @@
+
+45_A.png
+size: 2017,2017
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm
+  rotate: false
+  xy: 1148, 84
+  size: 119, 186
+  orig: 119, 186
+  offset: 0, 0
+  index: -1
+breast
+  rotate: false
+  xy: 668, 8
+  size: 192, 117
+  orig: 194, 117
+  offset: 2, 0
+  index: -1
+crown
+  rotate: true
+  xy: 1441, 49
+  size: 148, 88
+  orig: 148, 88
+  offset: 0, 0
+  index: -1
+crystalrose원본 복사
+  rotate: true
+  xy: 356, 2
+  size: 44, 35
+  orig: 44, 35
+  offset: 0, 0
+  index: -1
+dive2 wing1
+  rotate: true
+  xy: 1932, 953
+  size: 162, 69
+  orig: 162, 72
+  offset: 0, 3
+  index: -1
+dove 1
+  rotate: false
+  xy: 1269, 63
+  size: 170, 134
+  orig: 170, 206
+  offset: 0, 0
+  index: -1
+dove1 wing1
+  rotate: false
+  xy: 1886, 356
+  size: 108, 210
+  orig: 108, 210
+  offset: 0, 0
+  index: -1
+dove2
+  rotate: false
+  xy: 501, 2
+  size: 165, 123
+  orig: 169, 126
+  offset: 0, 3
+  index: -1
+dove2 wing2
+  rotate: false
+  xy: 1282, 286
+  size: 268, 75
+  orig: 319, 76
+  offset: 0, 0
+  index: -1
+eyes close
+  rotate: true
+  xy: 1968, 1551
+  size: 89, 34
+  orig: 89, 34
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 1666, 234
+  size: 121, 151
+  orig: 121, 151
+  offset: 0, 0
+  index: -1
+halo light
+  rotate: false
+  xy: 1626, 1300
+  size: 340, 340
+  orig: 340, 340
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 1710, 62
+  size: 67, 63
+  orig: 67, 63
+  offset: 0, 0
+  index: -1
+head flower1
+  rotate: false
+  xy: 1341, 1192
+  size: 53, 36
+  orig: 53, 36
+  offset: 0, 0
+  index: -1
+head flower10
+  rotate: true
+  xy: 414, 342
+  size: 47, 42
+  orig: 47, 42
+  offset: 0, 0
+  index: -1
+head flower2
+  rotate: false
+  xy: 458, 350
+  size: 36, 39
+  orig: 36, 39
+  offset: 0, 0
+  index: -1
+head flower30
+  rotate: false
+  xy: 501, 278
+  size: 75, 37
+  orig: 75, 37
+  offset: 0, 0
+  index: -1
+head flower40
+  rotate: false
+  xy: 1779, 83
+  size: 81, 69
+  orig: 81, 69
+  offset: 0, 0
+  index: -1
+magic light(액션시 빛남)
+  rotate: false
+  xy: 1142, 447
+  size: 197, 194
+  orig: 197, 194
+  offset: 0, 0
+  index: -1
+magic wand
+  rotate: false
+  xy: 1341, 567
+  size: 326, 275
+  orig: 326, 275
+  offset: 0, 0
+  index: -1
+magicwand light(idle 점멸)
+  rotate: false
+  xy: 2, 37
+  size: 352, 303
+  orig: 352, 303
+  offset: 0, 0
+  index: -1
+magicwandribbon
+  rotate: false
+  xy: 585, 493
+  size: 555, 211
+  orig: 555, 211
+  offset: 0, 0
+  index: -1
+magicwandribon2
+  rotate: false
+  xy: 501, 317
+  size: 82, 72
+  orig: 82, 72
+  offset: 0, 0
+  index: -1
+mouth close
+  rotate: false
+  xy: 1116, 84
+  size: 30, 29
+  orig: 30, 29
+  offset: 0, 0
+  index: -1
+neck
+  rotate: true
+  xy: 1695, 5
+  size: 55, 62
+  orig: 55, 62
+  offset: 0, 0
+  index: -1
+necklace
+  rotate: false
+  xy: 1353, 7
+  size: 64, 54
+  orig: 64, 54
+  offset: 0, 0
+  index: -1
+star1 (별 따로따로 점멸)
+  rotate: false
+  xy: 1578, 1614
+  size: 30, 26
+  orig: 30, 26
+  offset: 0, 0
+  index: -1
+star2
+  rotate: false
+  xy: 1113, 464
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+star3
+  rotate: true
+  xy: 1989, 300
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+star4
+  rotate: false
+  xy: 1989, 327
+  size: 26, 27
+  orig: 26, 27
+  offset: 0, 0
+  index: -1
+star5
+  rotate: false
+  xy: 393, 19
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+star6
+  rotate: false
+  xy: 422, 19
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+star7
+  rotate: true
+  xy: 81, 2
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: -1
+veil
+  rotate: false
+  xy: 965, 10
+  size: 149, 103
+  orig: 149, 124
+  offset: 0, 0
+  index: -1
+veil2
+  rotate: true
+  xy: 1531, 72
+  size: 140, 131
+  orig: 140, 131
+  offset: 0, 0
+  index: -1
+구슬
+  rotate: true
+  xy: 1870, 152
+  size: 72, 84
+  orig: 72, 84
+  offset: 0, 0
+  index: -1
+귀걸이 오른
+  rotate: false
+  xy: 1968, 1418
+  size: 35, 63
+  orig: 115, 63
+  offset: 80, 0
+  index: -1
+귀걸이 왼
+  rotate: false
+  xy: 1968, 1300
+  size: 43, 51
+  orig: 132, 51
+  offset: 0, 0
+  index: -1
+날개치마 오른
+  rotate: false
+  xy: 2, 1339
+  size: 775, 676
+  orig: 775, 676
+  offset: 0, 0
+  index: -1
+날개치마 왼
+  rotate: true
+  xy: 779, 1230
+  size: 382, 615
+  orig: 382, 615
+  offset: 0, 0
+  index: -1
+날개치마뒤
+  rotate: true
+  xy: 2, 342
+  size: 995, 410
+  orig: 995, 533
+  offset: 0, 0
+  index: -1
+날리는깃털1
+  rotate: true
+  xy: 1968, 1483
+  size: 66, 35
+  orig: 66, 35
+  offset: 0, 0
+  index: -1
+날리는깃털2
+  rotate: true
+  xy: 779, 1614
+  size: 401, 797
+  orig: 401, 797
+  offset: 0, 0
+  index: -1
+날리는꽃잎1
+  rotate: false
+  xy: 1116, 4
+  size: 139, 78
+  orig: 139, 78
+  offset: 0, 0
+  index: -1
+날리는꽃잎2
+  rotate: false
+  xy: 1578, 1642
+  size: 425, 373
+  orig: 425, 373
+  offset: 0, 0
+  index: -1
+날리는꽃잎3
+  rotate: true
+  xy: 414, 391
+  size: 946, 169
+  orig: 946, 169
+  offset: 0, 0
+  index: -1
+넥카라
+  rotate: true
+  xy: 1938, 635
+  size: 106, 71
+  orig: 106, 71
+  offset: 0, 0
+  index: -1
+넥카라2
+  rotate: false
+  xy: 1962, 297
+  size: 25, 57
+  orig: 25, 57
+  offset: 0, 0
+  index: -1
+뒤쪽손
+  rotate: false
+  xy: 1777, 154
+  size: 91, 70
+  orig: 91, 70
+  offset: 0, 0
+  index: -1
+뒤쪽치마
+  rotate: true
+  xy: 968, 263
+  size: 228, 143
+  orig: 236, 143
+  offset: 8, 0
+  index: -1
+뒤쪽치마 리본 더뒤쪽
+  rotate: true
+  xy: 1396, 1191
+  size: 421, 228
+  orig: 421, 228
+  offset: 0, 0
+  index: -1
+뒤쪽치마 리봉
+  rotate: true
+  xy: 1163, 643
+  size: 585, 176
+  orig: 603, 176
+  offset: 0, 0
+  index: -1
+뒤쪽치마 몸뒤쪽
+  rotate: true
+  xy: 862, 2
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+뒤쪽팔
+  rotate: true
+  xy: 1673, 357
+  size: 209, 211
+  orig: 229, 211
+  offset: 15, 0
+  index: -1
+뒤쪽팔 손목
+  rotate: true
+  xy: 1666, 127
+  size: 105, 109
+  orig: 105, 109
+  offset: 0, 0
+  index: -1
+뒷다리정강이
+  rotate: false
+  xy: 1622, 858
+  size: 308, 257
+  orig: 308, 257
+  offset: 0, 0
+  index: -1
+뒷머리
+  rotate: false
+  xy: 1341, 363
+  size: 330, 202
+  orig: 330, 202
+  offset: 0, 0
+  index: -1
+뒷발리본
+  rotate: false
+  xy: 1531, 2
+  size: 162, 68
+  orig: 162, 68
+  offset: 0, 0
+  index: -1
+목리본
+  rotate: false
+  xy: 1862, 94
+  size: 70, 56
+  orig: 70, 56
+  offset: 0, 0
+  index: -1
+몸통
+  rotate: true
+  xy: 1669, 568
+  size: 288, 267
+  orig: 321, 297
+  offset: 33, 0
+  index: -1
+미니날개 오른1
+  rotate: true
+  xy: 1282, 199
+  size: 85, 237
+  orig: 85, 237
+  offset: 0, 0
+  index: -1
+미니날개 오른2복사
+  rotate: true
+  xy: 866, 117
+  size: 151, 98
+  orig: 151, 98
+  offset: 0, 0
+  index: -1
+빤짝이
+  rotate: false
+  xy: 585, 706
+  size: 576, 522
+  orig: 576, 522
+  offset: 0, 0
+  index: -1
+손가락1
+  rotate: true
+  xy: 1142, 656
+  size: 48, 15
+  orig: 48, 15
+  offset: 0, 0
+  index: -1
+손가락2
+  rotate: true
+  xy: 1664, 72
+  size: 53, 44
+  orig: 53, 44
+  offset: 0, 0
+  index: -1
+손가락3
+  rotate: false
+  xy: 393, 2
+  size: 37, 15
+  orig: 37, 15
+  offset: 0, 0
+  index: -1
+손목 레이스
+  rotate: false
+  xy: 1938, 569
+  size: 67, 64
+  orig: 67, 64
+  offset: 0, 0
+  index: -1
+앞다리
+  rotate: true
+  xy: 1626, 1117
+  size: 181, 377
+  orig: 181, 377
+  offset: 0, 0
+  index: -1
+앞다리 정강이
+  rotate: true
+  xy: 1938, 743
+  size: 113, 70
+  orig: 113, 70
+  offset: 0, 0
+  index: -1
+앞머리(크게안움직임)
+  rotate: false
+  xy: 1552, 265
+  size: 112, 96
+  orig: 112, 96
+  offset: 0, 0
+  index: -1
+앞머리2
+  rotate: false
+  xy: 1282, 367
+  size: 49, 78
+  orig: 49, 78
+  offset: 0, 0
+  index: -1
+앞발
+  rotate: true
+  xy: 1521, 214
+  size: 49, 143
+  orig: 49, 143
+  offset: 0, 0
+  index: -1
+앞발 리본
+  rotate: true
+  xy: 356, 48
+  size: 292, 143
+  orig: 292, 143
+  offset: 0, 0
+  index: -1
+어깨 악세
+  rotate: true
+  xy: 1257, 2
+  size: 45, 94
+  orig: 45, 94
+  offset: 0, 0
+  index: -1
+어깨악세2
+  rotate: false
+  xy: 1968, 1353
+  size: 40, 63
+  orig: 40, 63
+  offset: 0, 0
+  index: -1
+왼뒷다리
+  rotate: true
+  xy: 501, 127
+  size: 141, 363
+  orig: 365, 562
+  offset: 0, 199
+  index: -1
+왼치마장식
+  rotate: false
+  xy: 1819, 226
+  size: 141, 128
+  orig: 141, 128
+  offset: 0, 0
+  index: -1
+왼치마장식리본  2
+  rotate: false
+  xy: 966, 115
+  size: 180, 146
+  orig: 180, 146
+  offset: 0, 0
+  index: -1
+종
+  rotate: true
+  xy: 1932, 858
+  size: 93, 75
+  orig: 93, 75
+  offset: 0, 0
+  index: -1
+치마장식꽃2 복사
+  rotate: false
+  xy: 1113, 272
+  size: 167, 173
+  orig: 167, 173
+  offset: 0, 0
+  index: -1
+치마장식리본 복사
+  rotate: true
+  xy: 1341, 844
+  size: 345, 279
+  orig: 345, 279
+  offset: 0, 0
+  index: -1
+컵
+  rotate: false
+  xy: 585, 1246
+  size: 192, 91
+  orig: 192, 91
+  offset: 0, 0
+  index: -1
+하의 레이스
+  rotate: false
+  xy: 2, 2
+  size: 77, 33
+  orig: 77, 33
+  offset: 0, 0
+  index: -1
+하트대리석(치마에 고정됨)
+  rotate: false
+  xy: 585, 270
+  size: 381, 221
+  orig: 564, 221
+  offset: 0, 0
+  index: -1

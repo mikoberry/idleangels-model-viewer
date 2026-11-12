@@ -346,9 +346,16 @@ export async function startSpineStage(
 
   let actionToken = 0
   const pendingActionLayers = new Set()
+  // True from the moment an action starts until every layer that has one has
+  // finished and the stage is back on idle. Clicks arriving inside that window
+  // are dropped rather than restarting the action, so a fast double-click
+  // cannot cut the move short or stack a second playback on top of it.
+  let actionInFlight = false
 
   const returnToIdle = (token) => {
     if (token !== actionToken) return
+
+    actionInFlight = false
 
     for (const layer of layers) {
       if (layer.skeleton.data.findAnimation(DEFAULT_ANIMATION)) {
@@ -366,8 +373,15 @@ export async function startSpineStage(
     returnToIdle(token)
   }
 
-  const triggerAction = () => {
+  // Starts the action on every layer that has it. `force` restarts an action
+  // that is already running; without it a request arriving while one is in
+  // flight is ignored. Clicking the canvas is non-forced, so fast repeated
+  // clicks wait for the previous action to finish; picking `action` in the
+  // drawer is forced, because that is an explicit request to replay it.
+  const startAction = (force) => {
     if (disposed) return
+
+    if (actionInFlight && !force) return
 
     actionToken += 1
     const token = actionToken
@@ -390,19 +404,28 @@ export async function startSpineStage(
       started = true
     }
 
-    if (started) setCurrentAnimation(ACTION_ANIMATION)
+    if (started) {
+      actionInFlight = true
+      setCurrentAnimation(ACTION_ANIMATION)
+    }
   }
+
+  const triggerAction = () => startAction(false)
 
   const play = (name) => {
     if (disposed || !availableAnimations.includes(name)) return
 
     if (name === ACTION_ANIMATION) {
-      triggerAction()
+      startAction(true)
       return
     }
 
     actionToken += 1
     pendingActionLayers.clear()
+    // An explicit switch away from the action cancels it, so the in-flight
+    // guard has to be released too; otherwise the stale `complete` callbacks are
+    // ignored by the token check and clicks would stay blocked forever.
+    actionInFlight = false
 
     let played = false
     for (const layer of layers) {

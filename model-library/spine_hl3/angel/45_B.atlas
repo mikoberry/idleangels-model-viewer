@@ -1,0 +1,517 @@
+
+45_B.png
+size: 2000,2000
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BACKHAIR
+  rotate: true
+  xy: 670, 502
+  size: 402, 391
+  orig: 402, 391
+  offset: 0, 0
+  index: -1
+BACKSKIRT
+  rotate: false
+  xy: 847, 1072
+  size: 386, 212
+  orig: 386, 212
+  offset: 0, 0
+  index: -1
+backhair2
+  rotate: true
+  xy: 1524, 1092
+  size: 192, 340
+  orig: 192, 340
+  offset: 0, 0
+  index: -1
+backhair3
+  rotate: true
+  xy: 1221, 4
+  size: 137, 309
+  orig: 148, 309
+  offset: 0, 0
+  index: -1
+breast 복사
+  rotate: false
+  xy: 2, 50
+  size: 152, 110
+  orig: 158, 129
+  offset: 6, 0
+  index: -1
+crown
+  rotate: true
+  xy: 1813, 1286
+  size: 80, 45
+  orig: 80, 45
+  offset: 0, 0
+  index: -1
+eyes close
+  rotate: true
+  xy: 1957, 1757
+  size: 80, 25
+  orig: 80, 25
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 1229, 651
+  size: 98, 131
+  orig: 98, 131
+  offset: 0, 0
+  index: -1
+flower
+  rotate: true
+  xy: 986, 26
+  size: 353, 167
+  orig: 353, 167
+  offset: 0, 0
+  index: -1
+leftbackhair
+  rotate: true
+  xy: 1563, 1296
+  size: 188, 248
+  orig: 188, 248
+  offset: 0, 0
+  index: -1
+leftribbon
+  rotate: false
+  xy: 1813, 1427
+  size: 49, 57
+  orig: 49, 57
+  offset: 0, 0
+  index: -1
+neck
+  rotate: true
+  xy: 1957, 1947
+  size: 51, 41
+  orig: 51, 41
+  offset: 0, 0
+  index: -1
+peacock1 복사
+  rotate: true
+  xy: 329, 153
+  size: 159, 127
+  orig: 167, 127
+  offset: 8, 0
+  index: -1
+peacock2
+  rotate: false
+  xy: 166, 184
+  size: 161, 128
+  orig: 161, 128
+  offset: 0, 0
+  index: -1
+peacock3
+  rotate: true
+  xy: 1866, 1237
+  size: 247, 128
+  orig: 247, 128
+  offset: 0, 0
+  index: -1
+petal1
+  rotate: false
+  xy: 850, 1286
+  size: 711, 712
+  orig: 711, 712
+  offset: 0, 0
+  index: -1
+petal2
+  rotate: false
+  xy: 2, 314
+  size: 565, 313
+  orig: 565, 313
+  offset: 0, 0
+  index: -1
+petal3
+  rotate: false
+  xy: 1333, 556
+  size: 479, 517
+  orig: 479, 517
+  offset: 0, 0
+  index: -1
+r11
+  rotate: false
+  xy: 258, 49
+  size: 64, 133
+  orig: 64, 133
+  offset: 0, 0
+  index: -1
+r2 복사 3
+  rotate: true
+  xy: 324, 47
+  size: 104, 128
+  orig: 104, 128
+  offset: 0, 0
+  index: -1
+r2 복사 4
+  rotate: true
+  xy: 1866, 1103
+  size: 132, 129
+  orig: 132, 129
+  offset: 0, 0
+  index: -1
+r2 복사 5
+  rotate: false
+  xy: 642, 66
+  size: 89, 82
+  orig: 116, 122
+  offset: 0, 40
+  index: -1
+r2 복사 6
+  rotate: true
+  xy: 569, 413
+  size: 115, 94
+  orig: 152, 110
+  offset: 0, 16
+  index: -1
+r4 복사 1
+  rotate: true
+  xy: 1813, 1368
+  size: 57, 48
+  orig: 57, 48
+  offset: 0, 0
+  index: -1
+r4 복사 2
+  rotate: false
+  xy: 1729, 88
+  size: 47, 54
+  orig: 72, 54
+  offset: 25, 0
+  index: -1
+rightribbon
+  rotate: true
+  xy: 1524, 1077
+  size: 13, 46
+  orig: 13, 46
+  offset: 0, 0
+  index: -1
+rightribbon2
+  rotate: false
+  xy: 1957, 1522
+  size: 16, 43
+  orig: 16, 43
+  offset: 0, 0
+  index: -1
+rose(고정됨)
+  rotate: true
+  xy: 961, 382
+  size: 118, 43
+  orig: 118, 43
+  offset: 0, 0
+  index: -1
+skirt
+  rotate: false
+  xy: 1229, 271
+  size: 437, 283
+  orig: 437, 283
+  offset: 0, 0
+  index: -1
+skirt flower
+  rotate: true
+  xy: 1779, 53
+  size: 199, 139
+  orig: 199, 139
+  offset: 0, 0
+  index: -1
+skirt flower2
+  rotate: false
+  xy: 1006, 406
+  size: 47, 94
+  orig: 47, 95
+  offset: 0, 0
+  index: -1
+skirtflower 3
+  rotate: false
+  xy: 788, 390
+  size: 171, 110
+  orig: 171, 110
+  offset: 0, 0
+  index: -1
+가슴옷
+  rotate: true
+  xy: 1920, 113
+  size: 139, 77
+  orig: 139, 77
+  offset: 0, 0
+  index: -1
+꽃다발
+  rotate: true
+  xy: 1779, 254
+  size: 224, 181
+  orig: 224, 181
+  offset: 0, 0
+  index: -1
+꽃다발리본
+  rotate: false
+  xy: 1063, 381
+  size: 164, 523
+  orig: 164, 523
+  offset: 0, 0
+  index: -1
+뒷다리
+  rotate: false
+  xy: 1814, 480
+  size: 167, 610
+  orig: 195, 635
+  offset: 28, 0
+  index: -1
+뒷발
+  rotate: false
+  xy: 458, 213
+  size: 89, 99
+  orig: 89, 99
+  offset: 0, 0
+  index: -1
+레이어 8
+  rotate: true
+  xy: 1155, 119
+  size: 159, 64
+  orig: 159, 64
+  offset: 0, 0
+  index: -1
+리본
+  rotate: false
+  xy: 820, 8
+  size: 110, 81
+  orig: 110, 81
+  offset: 0, 0
+  index: -1
+리봉
+  rotate: true
+  xy: 569, 150
+  size: 229, 415
+  orig: 229, 415
+  offset: 0, 0
+  index: -1
+반투명 꽃장식
+  rotate: true
+  xy: 2, 162
+  size: 150, 162
+  orig: 150, 162
+  offset: 0, 0
+  index: -1
+반투명 합
+  rotate: false
+  xy: 2, 1329
+  size: 846, 669
+  orig: 846, 669
+  offset: 0, 0
+  index: -1
+반투명 합2
+  rotate: false
+  xy: 1563, 1486
+  size: 392, 512
+  orig: 392, 512
+  offset: 0, 0
+  index: -1
+반투명2
+  rotate: true
+  xy: 2, 629
+  size: 698, 666
+  orig: 698, 666
+  offset: 0, 0
+  index: -1
+베일뒤오른쪽
+  rotate: false
+  xy: 733, 66
+  size: 85, 82
+  orig: 85, 82
+  offset: 0, 0
+  index: -1
+베일뒤왼쪽
+  rotate: true
+  xy: 454, 55
+  size: 96, 91
+  orig: 96, 91
+  offset: 0, 0
+  index: -1
+베일오른쪽
+  rotate: true
+  xy: 569, 530
+  size: 97, 95
+  orig: 269, 172
+  offset: 172, 77
+  index: -1
+베일왼쪽
+  rotate: false
+  xy: 1229, 556
+  size: 97, 93
+  orig: 97, 170
+  offset: 0, 77
+  index: -1
+상체몸통
+  rotate: false
+  xy: 670, 1067
+  size: 175, 260
+  orig: 177, 260
+  offset: 0, 0
+  index: -1
+앞머리(많이안움직임)
+  rotate: true
+  xy: 1155, 280
+  size: 99, 65
+  orig: 99, 65
+  offset: 0, 0
+  index: -1
+앞머리2(크게안움직임)
+  rotate: false
+  xy: 1155, 39
+  size: 64, 78
+  orig: 64, 78
+  offset: 0, 0
+  index: -1
+옆머리
+  rotate: false
+  xy: 1555, 148
+  size: 83, 121
+  orig: 83, 121
+  offset: 0, 0
+  index: -1
+옆머리2
+  rotate: true
+  xy: 547, 60
+  size: 88, 93
+  orig: 88, 93
+  offset: 0, 0
+  index: -1
+오른 베일 리본
+  rotate: true
+  xy: 1229, 784
+  size: 120, 100
+  orig: 120, 100
+  offset: 0, 0
+  index: -1
+오른귀걸이
+  rotate: false
+  xy: 1957, 1839
+  size: 27, 28
+  orig: 31, 28
+  offset: 2, 0
+  index: -1
+오른손가락
+  rotate: false
+  xy: 1957, 1869
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+오른손가락2
+  rotate: false
+  xy: 1957, 1626
+  size: 23, 40
+  orig: 23, 40
+  offset: 0, 0
+  index: -1
+오른손가락3
+  rotate: false
+  xy: 1957, 1905
+  size: 29, 40
+  orig: 29, 40
+  offset: 0, 0
+  index: -1
+오른어깨옷
+  rotate: false
+  xy: 1729, 8
+  size: 98, 43
+  orig: 98, 43
+  offset: 0, 0
+  index: -1
+오른쪽팔
+  rotate: false
+  xy: 166, 12
+  size: 90, 170
+  orig: 90, 170
+  offset: 0, 0
+  index: -1
+왼귀걸이
+  rotate: false
+  xy: 1957, 1719
+  size: 25, 36
+  orig: 131, 41
+  offset: 0, 5
+  index: -1
+왼손새끼손가락
+  rotate: true
+  xy: 1957, 1668
+  size: 49, 23
+  orig: 53, 23
+  offset: 4, 0
+  index: -1
+왼손약지
+  rotate: true
+  xy: 1957, 1567
+  size: 57, 16
+  orig: 57, 18
+  offset: 0, 2
+  index: -1
+왼쪽다리
+  rotate: true
+  xy: 670, 906
+  size: 159, 661
+  orig: 159, 673
+  offset: 0, 12
+  index: -1
+왼쪽발
+  rotate: true
+  xy: 820, 91
+  size: 57, 126
+  orig: 57, 126
+  offset: 0, 0
+  index: -1
+왼쪽베일리본
+  rotate: true
+  xy: 665, 388
+  size: 112, 121
+  orig: 112, 121
+  offset: 0, 0
+  index: -1
+왼쪽손
+  rotate: true
+  xy: 1920, 9
+  size: 102, 61
+  orig: 102, 61
+  offset: 0, 0
+  index: -1
+왼쪽어깨옷
+  rotate: false
+  xy: 642, 2
+  size: 113, 62
+  orig: 113, 62
+  offset: 0, 0
+  index: -1
+왼쪽팔
+  rotate: true
+  xy: 1235, 1075
+  size: 209, 287
+  orig: 277, 287
+  offset: 68, 0
+  index: -1
+하체몸통
+  rotate: false
+  xy: 1555, 7
+  size: 172, 135
+  orig: 172, 135
+  offset: 0, 0
+  index: -1
+흰리본
+  rotate: false
+  xy: 458, 153
+  size: 67, 58
+  orig: 67, 58
+  offset: 0, 0
+  index: -1
+흰리본1
+  rotate: false
+  xy: 1668, 144
+  size: 109, 410
+  orig: 109, 410
+  offset: 0, 0
+  index: -1
+흰리본2
+  rotate: true
+  xy: 1221, 143
+  size: 126, 332
+  orig: 126, 332
+  offset: 0, 0
+  index: -1

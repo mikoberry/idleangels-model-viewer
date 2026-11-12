@@ -1,0 +1,244 @@
+
+48_S.png
+size: 2033,2033
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 1639, 1370
+  size: 661, 380
+  orig: 661, 380
+  offset: 0, 0
+  index: -1
+bracelet_b
+  rotate: false
+  xy: 1958, 470
+  size: 72, 77
+  orig: 72, 77
+  offset: 0, 0
+  index: -1
+bracelet_l_a_03
+  rotate: false
+  xy: 1424, 603
+  size: 81, 31
+  orig: 81, 31
+  offset: 0, 0
+  index: -1
+bracelet_l_a_04
+  rotate: false
+  xy: 2, 6
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+bracelet_r_01_1
+  rotate: false
+  xy: 1958, 412
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: -1
+bracelet_r_01_2
+  rotate: true
+  xy: 1958, 250
+  size: 51, 55
+  orig: 53, 56
+  offset: 1, 1
+  index: -1
+bracelet_r_02_1
+  rotate: false
+  xy: 1958, 357
+  size: 59, 53
+  orig: 59, 53
+  offset: 0, 0
+  index: -1
+bracelet_r_02_2
+  rotate: false
+  xy: 1958, 303
+  size: 56, 52
+  orig: 57, 52
+  offset: 0, 0
+  index: -1
+calf_r
+  rotate: false
+  xy: 2, 32
+  size: 452, 183
+  orig: 452, 183
+  offset: 0, 0
+  index: -1
+chest
+  rotate: false
+  xy: 1319, 362
+  size: 277, 236
+  orig: 277, 238
+  offset: 0, 2
+  index: -1
+choker_a
+  rotate: true
+  xy: 1988, 549
+  size: 35, 37
+  orig: 35, 38
+  offset: 0, 1
+  index: -1
+earring_l
+  rotate: true
+  xy: 128, 12
+  size: 18, 46
+  orig: 18, 46
+  offset: 0, 0
+  index: -1
+earring_r
+  rotate: true
+  xy: 84, 7
+  size: 23, 42
+  orig: 23, 42
+  offset: 0, 0
+  index: -1
+ef_1
+  rotate: true
+  xy: 1797, 383
+  size: 93, 110
+  orig: 124, 127
+  offset: 17, 10
+  index: -1
+eye_02
+  rotate: false
+  xy: 1298, 600
+  size: 124, 34
+  orig: 124, 35
+  offset: 0, 0
+  index: -1
+foot_r
+  rotate: false
+  xy: 1319, 228
+  size: 235, 132
+  orig: 235, 144
+  offset: 0, 1
+  index: -1
+fore_arm_l
+  rotate: true
+  xy: 1039, 18
+  size: 88, 344
+  orig: 88, 344
+  offset: 0, 0
+  index: -1
+fore_arm_r
+  rotate: true
+  xy: 1386, 138
+  size: 88, 225
+  orig: 88, 225
+  offset: 0, 0
+  index: -1
+hair_ac
+  rotate: false
+  xy: 1780, 128
+  size: 176, 104
+  orig: 176, 104
+  offset: 0, 0
+  index: -1
+hair_b
+  rotate: false
+  xy: 2, 568
+  size: 1166, 1463
+  orig: 1166, 1463
+  offset: 0, 0
+  index: -1
+hair_b_l
+  rotate: true
+  xy: 1608, 586
+  size: 782, 423
+  orig: 782, 423
+  offset: 0, 0
+  index: -1
+hair_b_r
+  rotate: false
+  xy: 1170, 1220
+  size: 436, 811
+  orig: 436, 811
+  offset: 0, 0
+  index: -1
+hair_f_l
+  rotate: true
+  xy: 1170, 568
+  size: 66, 126
+  orig: 66, 126
+  offset: 0, 0
+  index: -1
+hair_f_r
+  rotate: true
+  xy: 1797, 478
+  size: 106, 132
+  orig: 106, 132
+  offset: 0, 0
+  index: -1
+hair_s_l
+  rotate: true
+  xy: 1385, 2
+  size: 104, 252
+  orig: 104, 252
+  offset: 0, 0
+  index: -1
+hair_s_r
+  rotate: true
+  xy: 1556, 234
+  size: 126, 239
+  orig: 126, 239
+  offset: 0, 0
+  index: -1
+hand_l
+  rotate: true
+  xy: 1639, 6
+  size: 106, 180
+  orig: 123, 180
+  offset: 17, 0
+  index: -1
+hand_r
+  rotate: true
+  xy: 1821, 23
+  size: 103, 165
+  orig: 103, 180
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 763, 15
+  size: 200, 274
+  orig: 200, 274
+  offset: 0, 0
+  index: -1
+leg_l
+  rotate: true
+  xy: 2, 217
+  size: 349, 1315
+  orig: 372, 1361
+  offset: 0, 0
+  index: -1
+neck
+  rotate: true
+  xy: 1613, 114
+  size: 118, 165
+  orig: 118, 165
+  offset: 0, 0
+  index: -1
+thigh_r
+  rotate: false
+  xy: 1170, 636
+  size: 409, 582
+  orig: 409, 582
+  offset: 0, 0
+  index: -1
+upper_arm_l
+  rotate: true
+  xy: 1039, 108
+  size: 107, 345
+  orig: 113, 345
+  offset: 0, 0
+  index: -1
+upper_arm_r
+  rotate: true
+  xy: 456, 21
+  size: 194, 305
+  orig: 194, 305
+  offset: 0, 0
+  index: -1

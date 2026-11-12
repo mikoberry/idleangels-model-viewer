@@ -1,0 +1,272 @@
+
+25_S.png
+size: 2032,2032
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+medusa_1
+  rotate: true
+  xy: 1624, 184
+  size: 128, 386
+  orig: 128, 386
+  offset: 0, 0
+  index: -1
+medusa_10
+  rotate: false
+  xy: 1211, 336
+  size: 28, 42
+  orig: 28, 42
+  offset: 0, 0
+  index: -1
+medusa_11
+  rotate: true
+  xy: 1865, 1639
+  size: 220, 119
+  orig: 220, 119
+  offset: 0, 0
+  index: -1
+medusa_13
+  rotate: false
+  xy: 1077, 13
+  size: 60, 39
+  orig: 60, 39
+  offset: 0, 0
+  index: -1
+medusa_14
+  rotate: false
+  xy: 2, 2
+  size: 321, 100
+  orig: 321, 100
+  offset: 0, 0
+  index: -1
+medusa_15
+  rotate: false
+  xy: 1624, 314
+  size: 99, 281
+  orig: 99, 281
+  offset: 0, 0
+  index: -1
+medusa_16
+  rotate: false
+  xy: 1839, 827
+  size: 91, 187
+  orig: 91, 187
+  offset: 0, 0
+  index: -1
+medusa_17
+  rotate: true
+  xy: 1839, 1367
+  size: 163, 157
+  orig: 163, 157
+  offset: 0, 0
+  index: -1
+medusa_18
+  rotate: true
+  xy: 492, 12
+  size: 303, 146
+  orig: 303, 146
+  offset: 0, 0
+  index: -1
+medusa_19
+  rotate: true
+  xy: 930, 54
+  size: 114, 319
+  orig: 114, 319
+  offset: 0, 0
+  index: -1
+medusa_2
+  rotate: true
+  xy: 2, 317
+  size: 320, 646
+  orig: 320, 646
+  offset: 0, 0
+  index: -1
+medusa_20
+  rotate: true
+  xy: 1865, 1533
+  size: 104, 144
+  orig: 104, 144
+  offset: 0, 0
+  index: -1
+medusa_20_1
+  rotate: false
+  xy: 325, 8
+  size: 103, 94
+  orig: 103, 94
+  offset: 0, 0
+  index: -1
+medusa_21
+  rotate: false
+  xy: 1211, 248
+  size: 19, 86
+  orig: 19, 86
+  offset: 0, 0
+  index: -1
+medusa_22
+  rotate: true
+  xy: 1469, 11
+  size: 169, 175
+  orig: 169, 175
+  offset: 0, 0
+  index: -1
+medusa_24
+  rotate: true
+  xy: 1211, 380
+  size: 110, 38
+  orig: 110, 38
+  offset: 0, 0
+  index: -1
+medusa_25
+  rotate: true
+  xy: 990, 9
+  size: 43, 85
+  orig: 43, 85
+  offset: 0, 0
+  index: -1
+medusa_26
+  rotate: true
+  xy: 930, 8
+  size: 44, 58
+  orig: 44, 58
+  offset: 0, 0
+  index: -1
+medusa_27
+  rotate: false
+  xy: 1513, 1532
+  size: 350, 498
+  orig: 350, 498
+  offset: 0, 0
+  index: -1
+medusa_28
+  rotate: true
+  xy: 650, 492
+  size: 145, 599
+  orig: 145, 599
+  offset: 0, 0
+  index: -1
+medusa_29
+  rotate: true
+  xy: 1865, 1861
+  size: 169, 143
+  orig: 169, 143
+  offset: 0, 0
+  index: -1
+medusa_30
+  rotate: false
+  xy: 1725, 329
+  size: 239, 159
+  orig: 239, 159
+  offset: 0, 0
+  index: -1
+medusa_31
+  rotate: true
+  xy: 1646, 45
+  size: 137, 347
+  orig: 137, 347
+  offset: 0, 0
+  index: -1
+medusa_31_1
+  rotate: true
+  xy: 2, 104
+  size: 211, 488
+  orig: 211, 488
+  offset: 0, 0
+  index: -1
+medusa_32
+  rotate: true
+  xy: 1932, 770
+  size: 244, 82
+  orig: 244, 82
+  offset: 0, 0
+  index: -1
+medusa_33
+  rotate: true
+  xy: 1251, 32
+  size: 70, 215
+  orig: 70, 215
+  offset: 0, 0
+  index: -1
+medusa_35
+  rotate: false
+  xy: 650, 170
+  size: 559, 320
+  orig: 559, 320
+  offset: 0, 0
+  index: -1
+medusa_36
+  rotate: false
+  xy: 1469, 182
+  size: 153, 413
+  orig: 153, 413
+  offset: 0, 0
+  index: -1
+medusa_37
+  rotate: true
+  xy: 1725, 490
+  size: 105, 266
+  orig: 105, 266
+  offset: 0, 0
+  index: -1
+medusa_38
+  rotate: true
+  xy: 1937, 1096
+  size: 126, 84
+  orig: 126, 84
+  offset: 0, 0
+  index: -1
+medusa_39
+  rotate: false
+  xy: 1251, 104
+  size: 216, 533
+  orig: 216, 533
+  offset: 0, 0
+  index: -1
+medusa_39_1
+  rotate: true
+  xy: 640, 4
+  size: 164, 288
+  orig: 164, 288
+  offset: 0, 0
+  index: -1
+medusa_40
+  rotate: false
+  xy: 1839, 1016
+  size: 96, 206
+  orig: 96, 206
+  offset: 0, 0
+  index: -1
+medusa_41
+  rotate: false
+  xy: 430, 4
+  size: 52, 98
+  orig: 52, 98
+  offset: 0, 0
+  index: -1
+medusa_42
+  rotate: true
+  xy: 1839, 1224
+  size: 141, 112
+  orig: 141, 112
+  offset: 0, 0
+  index: -1
+medusa_43
+  rotate: false
+  xy: 1839, 683
+  size: 101, 85
+  orig: 101, 85
+  offset: 0, 0
+  index: -1
+medusa_44
+  rotate: false
+  xy: 2, 639
+  size: 1509, 1391
+  orig: 1509, 1391
+  offset: 0, 0
+  index: -1
+medusa_44_1
+  rotate: true
+  xy: 1513, 597
+  size: 933, 324
+  orig: 933, 324
+  offset: 0, 0
+  index: -1

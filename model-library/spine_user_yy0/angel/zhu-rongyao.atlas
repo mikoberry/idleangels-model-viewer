@@ -1,0 +1,405 @@
+
+zhu-rongyao.png
+size: 1922,1922
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/1eyes close
+  rotate: false
+  xy: 1675, 146
+  size: 31, 22
+  orig: 31, 22
+  offset: 0, 0
+  index: -1
+images/2eyes close
+  rotate: false
+  xy: 1666, 1368
+  size: 19, 18
+  orig: 19, 18
+  offset: 0, 0
+  index: -1
+images/blue veil
+  rotate: false
+  xy: 831, 2
+  size: 124, 104
+  orig: 124, 104
+  offset: 0, 0
+  index: -1
+images/bo hudie
+  rotate: true
+  xy: 764, 321
+  size: 40, 33
+  orig: 40, 33
+  offset: 0, 0
+  index: -1
+images/body top
+  rotate: false
+  xy: 1376, 600
+  size: 151, 295
+  orig: 151, 295
+  offset: 0, 0
+  index: -1
+images/hair
+  rotate: true
+  xy: 764, 363
+  size: 551, 292
+  orig: 551, 292
+  offset: 0, 0
+  index: -1
+images/hair 0
+  rotate: false
+  xy: 1076, 897
+  size: 363, 211
+  orig: 363, 211
+  offset: 0, 0
+  index: -1
+images/hair11
+  rotate: true
+  xy: 1828, 940
+  size: 210, 70
+  orig: 210, 70
+  offset: 0, 0
+  index: -1
+images/hair2
+  rotate: true
+  xy: 1441, 902
+  size: 181, 264
+  orig: 181, 264
+  offset: 0, 0
+  index: -1
+images/hair3
+  rotate: true
+  xy: 1459, 1085
+  size: 271, 227
+  orig: 271, 227
+  offset: 0, 0
+  index: -1
+images/hair4
+  rotate: false
+  xy: 1530, 7
+  size: 182, 137
+  orig: 182, 137
+  offset: 0, 0
+  index: -1
+images/handle2
+  rotate: false
+  xy: 1669, 631
+  size: 90, 269
+  orig: 90, 269
+  offset: 0, 0
+  index: -1
+images/head
+  rotate: false
+  xy: 1675, 195
+  size: 146, 180
+  orig: 146, 180
+  offset: 0, 0
+  index: -1
+images/head gear
+  rotate: false
+  xy: 1530, 146
+  size: 143, 183
+  orig: 143, 183
+  offset: 0, 0
+  index: -1
+images/horse handle
+  rotate: false
+  xy: 1076, 1110
+  size: 381, 246
+  orig: 381, 247
+  offset: 0, 1
+  index: -1
+images/horse leftleg
+  rotate: true
+  xy: 1391, 331
+  size: 267, 144
+  orig: 267, 154
+  offset: 0, 10
+  index: -1
+images/horse leftleg armor
+  rotate: true
+  xy: 1058, 103
+  size: 200, 330
+  orig: 200, 330
+  offset: 0, 0
+  index: -1
+images/horse rightleg
+  rotate: true
+  xy: 1761, 678
+  size: 256, 115
+  orig: 264, 115
+  offset: 8, 0
+  index: -1
+images/horse rightleg armor
+  rotate: false
+  xy: 1688, 1152
+  size: 215, 234
+  orig: 215, 234
+  offset: 0, 0
+  index: -1
+images/horse tail
+  rotate: true
+  xy: 1666, 1562
+  size: 358, 251
+  orig: 358, 261
+  offset: 0, 10
+  index: -1
+images/huaguan01
+  rotate: true
+  xy: 1844, 1439
+  size: 121, 63
+  orig: 121, 63
+  offset: 0, 0
+  index: -1
+images/hudiejie
+  rotate: true
+  xy: 1847, 7
+  size: 44, 45
+  orig: 44, 45
+  offset: 0, 0
+  index: -1
+images/left leg 2
+  rotate: true
+  xy: 1537, 359
+  size: 255, 120
+  orig: 255, 120
+  offset: 0, 0
+  index: -1
+images/left leg armor
+  rotate: true
+  xy: 1058, 305
+  size: 278, 331
+  orig: 278, 331
+  offset: 0, 0
+  index: -1
+images/leftarm
+  rotate: false
+  xy: 1058, 21
+  size: 152, 80
+  orig: 152, 83
+  offset: 0, 3
+  index: -1
+images/leftarm blue lace
+  rotate: false
+  xy: 1319, 26
+  size: 63, 75
+  orig: 63, 78
+  offset: 0, 3
+  index: -1
+images/leftarm ring in
+  rotate: true
+  xy: 1714, 8
+  size: 46, 71
+  orig: 46, 71
+  offset: 0, 0
+  index: -1
+images/leftarm ring on
+  rotate: false
+  xy: 1823, 201
+  size: 56, 71
+  orig: 60, 71
+  offset: 4, 0
+  index: -1
+images/leftarm1
+  rotate: true
+  xy: 1784, 516
+  size: 160, 102
+  orig: 160, 102
+  offset: 0, 0
+  index: -1
+images/mal
+  rotate: false
+  xy: 2, 916
+  size: 1072, 1004
+  orig: 1072, 1004
+  offset: 0, 0
+  index: -1
+images/pants(action)
+  rotate: true
+  xy: 1823, 274
+  size: 101, 78
+  orig: 101, 78
+  offset: 0, 0
+  index: -1
+images/qunbai01
+  rotate: false
+  xy: 1076, 1358
+  size: 588, 562
+  orig: 588, 562
+  offset: 0, 0
+  index: -1
+images/qunbai02
+  rotate: false
+  xy: 2, 321
+  size: 760, 593
+  orig: 760, 593
+  offset: 0, 0
+  index: -1
+images/right arm
+  rotate: false
+  xy: 1666, 1388
+  size: 176, 172
+  orig: 176, 172
+  offset: 0, 0
+  index: -1
+images/right leg
+  rotate: false
+  xy: 831, 108
+  size: 225, 253
+  orig: 225, 253
+  offset: 0, 0
+  index: -1
+images/right leg armor
+  rotate: false
+  xy: 611, 6
+  size: 218, 313
+  orig: 218, 313
+  offset: 0, 0
+  index: -1
+images/righthand
+  rotate: false
+  xy: 1844, 1393
+  size: 60, 44
+  orig: 63, 44
+  offset: 0, 0
+  index: -1
+images/shangyi
+  rotate: true
+  xy: 1784, 377
+  size: 137, 131
+  orig: 137, 131
+  offset: 0, 0
+  index: -1
+images/shield
+  rotate: false
+  xy: 1714, 56
+  size: 131, 137
+  orig: 131, 137
+  offset: 0, 0
+  index: -1
+images/shield acce2
+  rotate: true
+  xy: 1659, 377
+  size: 35, 51
+  orig: 35, 51
+  offset: 0, 0
+  index: -1
+images/shield acce3
+  rotate: true
+  xy: 1787, 22
+  size: 32, 58
+  orig: 32, 58
+  offset: 0, 0
+  index: -1
+images/shield chain 1
+  rotate: false
+  xy: 1847, 93
+  size: 64, 106
+  orig: 77, 106
+  offset: 0, 0
+  index: -1
+images/shield chain left
+  rotate: true
+  xy: 1675, 170
+  size: 23, 37
+  orig: 23, 37
+  offset: 0, 0
+  index: -1
+images/shield chain right
+  rotate: true
+  xy: 1878, 863
+  size: 75, 33
+  orig: 75, 33
+  offset: 0, 0
+  index: -1
+images/shield chain1 2
+  rotate: false
+  xy: 1787, 2
+  size: 50, 18
+  orig: 50, 18
+  offset: 0, 0
+  index: -1
+images/skirt
+  rotate: true
+  xy: 1707, 936
+  size: 214, 119
+  orig: 214, 132
+  offset: 0, 13
+  index: -1
+images/skirt in
+  rotate: true
+  xy: 1390, 112
+  size: 191, 138
+  orig: 194, 138
+  offset: 0, 0
+  index: -1
+images/sword
+  rotate: false
+  xy: 1058, 585
+  size: 316, 310
+  orig: 316, 310
+  offset: 0, 0
+  index: -1
+images/sword acce
+  rotate: false
+  xy: 1529, 616
+  size: 138, 284
+  orig: 138, 284
+  offset: 0, 0
+  index: -1
+images/sword blade
+  rotate: false
+  xy: 2, 9
+  size: 607, 310
+  orig: 607, 310
+  offset: 0, 0
+  index: -1
+images/sword chain
+  rotate: true
+  xy: 1659, 414
+  size: 200, 123
+  orig: 200, 123
+  offset: 0, 0
+  index: -1
+images/sword jewel(floating)
+  rotate: true
+  xy: 1878, 811
+  size: 50, 37
+  orig: 50, 37
+  offset: 0, 0
+  index: -1
+images/toufa01
+  rotate: false
+  xy: 1688, 1104
+  size: 12, 46
+  orig: 12, 46
+  offset: 0, 0
+  index: -1
+images/toufa02
+  rotate: false
+  xy: 1878, 766
+  size: 36, 43
+  orig: 36, 46
+  offset: 0, 0
+  index: -1
+images/toufa03
+  rotate: false
+  xy: 957, 25
+  size: 99, 81
+  orig: 99, 81
+  offset: 0, 0
+  index: -1
+images/toufa04
+  rotate: true
+  xy: 1847, 53
+  size: 38, 68
+  orig: 38, 68
+  offset: 0, 0
+  index: -1
+images/xiong
+  rotate: false
+  xy: 1212, 20
+  size: 105, 81
+  orig: 105, 82
+  offset: 0, 0
+  index: -1

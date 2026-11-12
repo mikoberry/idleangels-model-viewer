@@ -1,0 +1,286 @@
+
+25_A.png
+size: 2015,2015
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+medusa_1
+  rotate: false
+  xy: 1465, 311
+  size: 126, 377
+  orig: 126, 377
+  offset: 0, 0
+  index: -1
+medusa_10
+  rotate: false
+  xy: 1762, 24
+  size: 28, 40
+  orig: 28, 40
+  offset: 0, 0
+  index: -1
+medusa_11
+  rotate: false
+  xy: 411, 330
+  size: 128, 105
+  orig: 128, 105
+  offset: 0, 0
+  index: -1
+medusa_13
+  rotate: true
+  xy: 1087, 1392
+  size: 58, 38
+  orig: 58, 38
+  offset: 0, 0
+  index: -1
+medusa_14
+  rotate: true
+  xy: 1706, 328
+  size: 314, 98
+  orig: 314, 98
+  offset: 0, 0
+  index: -1
+medusa_15
+  rotate: false
+  xy: 1472, 36
+  size: 97, 273
+  orig: 97, 273
+  offset: 0, 0
+  index: -1
+medusa_16
+  rotate: true
+  xy: 1666, 66
+  size: 88, 182
+  orig: 88, 182
+  offset: 0, 0
+  index: -1
+medusa_17
+  rotate: false
+  xy: 1850, 63
+  size: 158, 153
+  orig: 158, 153
+  offset: 0, 0
+  index: -1
+medusa_18
+  rotate: false
+  xy: 1356, 690
+  size: 295, 142
+  orig: 295, 142
+  offset: 0, 0
+  index: -1
+medusa_19
+  rotate: false
+  xy: 1593, 332
+  size: 111, 310
+  orig: 111, 310
+  offset: 0, 0
+  index: -1
+medusa_2
+  rotate: false
+  xy: 1690, 644
+  size: 312, 633
+  orig: 312, 633
+  offset: 0, 0
+  index: -1
+medusa_20
+  rotate: false
+  xy: 1690, 1287
+  size: 103, 163
+  orig: 103, 163
+  offset: 0, 0
+  index: -1
+medusa_20_1
+  rotate: true
+  xy: 1571, 7
+  size: 100, 92
+  orig: 100, 92
+  offset: 0, 0
+  index: -1
+medusa_21
+  rotate: false
+  xy: 806, 492
+  size: 18, 84
+  orig: 18, 84
+  offset: 0, 0
+  index: -1
+medusa_22
+  rotate: false
+  xy: 1666, 156
+  size: 164, 170
+  orig: 164, 170
+  offset: 0, 0
+  index: -1
+medusa_24
+  rotate: false
+  xy: 1172, 58
+  size: 107, 37
+  orig: 107, 37
+  offset: 0, 0
+  index: -1
+medusa_25
+  rotate: false
+  xy: 1128, 597
+  size: 42, 82
+  orig: 42, 82
+  offset: 0, 0
+  index: -1
+medusa_26
+  rotate: true
+  xy: 1593, 645
+  size: 43, 57
+  orig: 43, 57
+  offset: 0, 0
+  index: -1
+medusa_27
+  rotate: false
+  xy: 830, 92
+  size: 340, 484
+  orig: 340, 484
+  offset: 0, 0
+  index: -1
+medusa_28
+  rotate: false
+  xy: 1172, 97
+  size: 141, 582
+  orig: 141, 582
+  offset: 0, 0
+  index: -1
+medusa_29
+  rotate: true
+  xy: 1832, 218
+  size: 164, 139
+  orig: 164, 139
+  offset: 0, 0
+  index: -1
+medusa_3
+  rotate: true
+  xy: 411, 437
+  size: 931, 393
+  orig: 931, 393
+  offset: 0, 0
+  index: -1
+medusa_30
+  rotate: true
+  xy: 1315, 42
+  size: 233, 155
+  orig: 233, 155
+  offset: 0, 0
+  index: -1
+medusa_31
+  rotate: false
+  xy: 1128, 681
+  size: 226, 769
+  orig: 226, 769
+  offset: 0, 0
+  index: -1
+medusa_32
+  rotate: true
+  xy: 1910, 405
+  size: 237, 80
+  orig: 237, 80
+  offset: 0, 0
+  index: -1
+medusa_33
+  rotate: true
+  xy: 830, 22
+  size: 68, 209
+  orig: 68, 209
+  offset: 0, 0
+  index: -1
+medusa_34
+  rotate: true
+  xy: 1087, 1452
+  size: 561, 710
+  orig: 561, 710
+  offset: 0, 0
+  index: -1
+medusa_35
+  rotate: false
+  xy: 2, 11
+  size: 544, 317
+  orig: 544, 317
+  offset: 0, 0
+  index: -1
+medusa_36
+  rotate: false
+  xy: 1315, 277
+  size: 148, 402
+  orig: 148, 402
+  offset: 0, 0
+  index: -1
+medusa_37
+  rotate: false
+  xy: 1806, 384
+  size: 102, 258
+  orig: 102, 258
+  offset: 0, 0
+  index: -1
+medusa_38
+  rotate: false
+  xy: 1041, 8
+  size: 123, 82
+  orig: 123, 82
+  offset: 0, 0
+  index: -1
+medusa_39
+  rotate: false
+  xy: 1799, 1279
+  size: 214, 734
+  orig: 214, 734
+  offset: 0, 0
+  index: -1
+medusa_4
+  rotate: true
+  xy: 1356, 834
+  size: 616, 332
+  orig: 616, 332
+  offset: 0, 0
+  index: -1
+medusa_40
+  rotate: false
+  xy: 1571, 109
+  size: 93, 200
+  orig: 93, 200
+  offset: 0, 0
+  index: -1
+medusa_41
+  rotate: true
+  xy: 1665, 14
+  size: 50, 95
+  orig: 50, 95
+  offset: 0, 0
+  index: -1
+medusa_5
+  rotate: false
+  xy: 2, 330
+  size: 407, 1038
+  orig: 407, 1038
+  offset: 0, 0
+  index: -1
+medusa_6
+  rotate: false
+  xy: 2, 1370
+  size: 1083, 643
+  orig: 1083, 643
+  offset: 0, 0
+  index: -1
+medusa_7
+  rotate: true
+  xy: 1653, 701
+  size: 131, 32
+  orig: 131, 32
+  offset: 0, 0
+  index: -1
+medusa_8
+  rotate: true
+  xy: 548, 16
+  size: 419, 280
+  orig: 419, 280
+  offset: 0, 0
+  index: -1
+medusa_9
+  rotate: false
+  xy: 806, 578
+  size: 320, 790
+  orig: 320, 790
+  offset: 0, 0
+  index: -1

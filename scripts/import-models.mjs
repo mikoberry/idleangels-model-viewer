@@ -148,6 +148,16 @@ function inspectLayer(modelDir, layerName) {
   }
 }
 
+// NPCs and the `sn` (兽娘 / beast-girl) set are deliberately excluded: they are
+// not playable characters and the user does not want them in the library. The
+// `sn` family covers every form the source uses — `spine_sn_<name>` (e.g.
+// `spine_sn_ht`) and the numbered `spine_sn0`/`spine_sn1`/`spine_sn2` — so the
+// pattern accepts any character that is not one of the player's names.
+function isExcludedCharacter(id) {
+  if (/^spine_npc\d*$/.test(id)) return true
+  return /^spine_sn(?![a-z])/i.test(id)
+}
+
 fs.mkdirSync(libraryDir, { recursive: true })
 
 const modelIds = fs
@@ -166,14 +176,30 @@ for (const id of modelIds) {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
 
-  if (!layerNames.includes('angel') || !layerNames.includes('bg')) {
+  if (!layerNames.includes('angel')) {
     rejected.push({ id, reason: 'not standard angel+bg' })
     continue
   }
 
-  const bg = inspectLayer(modelDir, 'bg')
+  if (isExcludedCharacter(id)) {
+    rejected.push({ id, reason: 'npc or sn character' })
+    continue
+  }
+
+  // A model is either the full `angel` + `bg` pair or an `angel`-only variant
+  // that renders on the page background. Anything else (extra or unexpected
+  // layers) is a directory layout we do not handle.
+  const hasBg = layerNames.includes('bg')
+  const expectedLayers = hasBg ? ['bg', 'angel'] : ['angel']
+  const unexpectedLayers = layerNames.filter((name) => !expectedLayers.includes(name))
+  if (unexpectedLayers.length > 0) {
+    rejected.push({ id, reason: `unexpected layers: ${unexpectedLayers.join(', ')}` })
+    continue
+  }
+
+  const bg = hasBg ? inspectLayer(modelDir, 'bg') : null
   const angel = inspectLayer(modelDir, 'angel')
-  const error = bg.error ?? angel.error
+  const error = bg?.error ?? angel.error
 
   if (error) {
     rejected.push({ id, reason: error })
@@ -185,14 +211,17 @@ for (const id of modelIds) {
     continue
   }
 
-  const warnings = [...bg.warnings, ...angel.warnings]
-  if (!bg.layer.animations.includes('action')) {
+  const warnings = [...(bg?.warnings ?? []), ...angel.warnings]
+  if (hasBg && !bg.layer.animations.includes('action')) {
     warnings.push('bg has no action; only angel will play action')
+  }
+  if (!hasBg) {
+    warnings.push('angel-only model; it renders on the page background')
   }
 
   const destination = path.join(libraryDir, id)
   fs.rmSync(destination, { recursive: true, force: true })
-  for (const layerName of ['bg', 'angel']) {
+  for (const layerName of expectedLayers) {
     fs.cpSync(path.join(modelDir, layerName), path.join(destination, layerName), {
       recursive: true,
     })
@@ -201,7 +230,7 @@ for (const id of modelIds) {
   models.push({
     id,
     label: id,
-    layers: [bg.layer, angel.layer],
+    layers: bg ? [bg.layer, angel.layer] : [angel.layer],
     warnings,
   })
 }
@@ -235,8 +264,8 @@ const totalBytes = models.reduce((sum, model) => {
 
 const reasonCounts = new Map()
 for (const item of rejected) {
-  const reason = item.reason.startsWith('not standard') ? 'not standard angel+bg' : item.reason
-  reasonCounts.set(reason, (reasonCounts.get(reason) ?? 0) + 1)
+  const key = item.reason === 'not standard angel+bg' ? 'no angel layer' : item.reason
+  reasonCounts.set(key, (reasonCounts.get(key) ?? 0) + 1)
 }
 
 console.log('[models:import] source directory loaded')

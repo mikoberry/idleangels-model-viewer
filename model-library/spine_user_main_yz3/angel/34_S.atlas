@@ -1,0 +1,146 @@
+
+34_S.png
+size: 1977,1977
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Hair3
+  rotate: true
+  xy: 227, 24
+  size: 79, 190
+  orig: 79, 190
+  offset: 0, 0
+  index: -1
+Hair_back
+  rotate: true
+  xy: 1296, 1502
+  size: 473, 543
+  orig: 473, 543
+  offset: 0, 0
+  index: -1
+Hair_front
+  rotate: true
+  xy: 1202, 2
+  size: 307, 400
+  orig: 307, 400
+  offset: 0, 0
+  index: -1
+Hair_side
+  rotate: true
+  xy: 1153, 834
+  size: 480, 502
+  orig: 480, 502
+  offset: 0, 0
+  index: -1
+Hand_right
+  rotate: false
+  xy: 323, 975
+  size: 208, 161
+  orig: 209, 161
+  offset: 1, 0
+  index: -1
+Hand_right2
+  rotate: false
+  xy: 227, 105
+  size: 206, 159
+  orig: 206, 159
+  offset: 0, 0
+  index: -1
+Layer 138
+  rotate: true
+  xy: 533, 986
+  size: 150, 170
+  orig: 150, 170
+  offset: 0, 0
+  index: -1
+ball
+  rotate: true
+  xy: 707, 169
+  size: 492, 493
+  orig: 511, 512
+  offset: 10, 9
+  index: -1
+body
+  rotate: false
+  xy: 707, 663
+  size: 444, 651
+  orig: 444, 651
+  offset: 0, 0
+  index: -1
+cap
+  rotate: true
+  xy: 435, 23
+  size: 241, 119
+  orig: 241, 135
+  offset: 0, 16
+  index: -1
+eye_close
+  rotate: true
+  xy: 636, 1206
+  size: 108, 50
+  orig: 144, 68
+  offset: 22, 9
+  index: -1
+face
+  rotate: true
+  xy: 2, 85
+  size: 179, 223
+  orig: 207, 224
+  offset: 13, 1
+  index: -1
+foot_left
+  rotate: true
+  xy: 1296, 1364
+  size: 136, 281
+  orig: 136, 281
+  offset: 0, 0
+  index: -1
+foot_right
+  rotate: true
+  xy: 323, 1138
+  size: 176, 311
+  orig: 176, 311
+  offset: 0, 0
+  index: -1
+lef_right
+  rotate: true
+  xy: 323, 1316
+  size: 659, 971
+  orig: 659, 1008
+  offset: 0, 0
+  index: -1
+left_arm
+  rotate: false
+  xy: 1202, 311
+  size: 353, 521
+  orig: 353, 521
+  offset: 0, 0
+  index: -1
+left_arm_top
+  rotate: false
+  xy: 1557, 371
+  size: 284, 461
+  orig: 284, 461
+  offset: 0, 0
+  index: -1
+leg_left
+  rotate: false
+  xy: 2, 970
+  size: 319, 1005
+  orig: 319, 1005
+  offset: 0, 0
+  index: -1
+top
+  rotate: true
+  xy: 2, 266
+  size: 702, 703
+  orig: 702, 703
+  offset: 0, 0
+  index: -1
+top_acc
+  rotate: true
+  xy: 636, 1180
+  size: 24, 51
+  orig: 24, 51
+  offset: 0, 0
+  index: -1

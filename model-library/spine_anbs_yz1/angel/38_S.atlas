@@ -1,0 +1,160 @@
+
+38_S.png
+size: 2002,2002
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+anubiseu_2
+  rotate: true
+  xy: 604, 2
+  size: 191, 147
+  orig: 191, 147
+  offset: 0, 0
+  index: -1
+anubiseu_22
+  rotate: true
+  xy: 207, 71
+  size: 182, 97
+  orig: 182, 97
+  offset: 0, 0
+  index: -1
+anubiseu_23
+  rotate: false
+  xy: 2, 41
+  size: 203, 212
+  orig: 203, 212
+  offset: 0, 0
+  index: -1
+anubiseu_28
+  rotate: true
+  xy: 1440, 960
+  size: 496, 444
+  orig: 496, 444
+  offset: 0, 0
+  index: -1
+anubiseu_3
+  rotate: false
+  xy: 1886, 1130
+  size: 76, 151
+  orig: 76, 151
+  offset: 0, 0
+  index: -1
+anubiseu_32_1
+  rotate: true
+  xy: 837, 272
+  size: 624, 317
+  orig: 624, 317
+  offset: 0, 0
+  index: -1
+anubiseu_33
+  rotate: false
+  xy: 1440, 1458
+  size: 426, 542
+  orig: 426, 542
+  offset: 0, 0
+  index: -1
+anubiseu_37
+  rotate: false
+  xy: 2, 255
+  size: 315, 1745
+  orig: 315, 1745
+  offset: 0, 0
+  index: -1
+anubiseu_38
+  rotate: false
+  xy: 1479, 528
+  size: 403, 430
+  orig: 403, 430
+  offset: 0, 0
+  index: -1
+anubiseu_38_1
+  rotate: true
+  xy: 1156, 394
+  size: 456, 321
+  orig: 456, 338
+  offset: 0, 0
+  index: -1
+anubiseu_4
+  rotate: false
+  xy: 1868, 1460
+  size: 98, 158
+  orig: 98, 160
+  offset: 0, 0
+  index: -1
+anubiseu_40
+  rotate: false
+  xy: 1168, 852
+  size: 270, 1148
+  orig: 270, 1148
+  offset: 0, 0
+  index: -1
+anubiseu_43
+  rotate: false
+  xy: 319, 356
+  size: 516, 540
+  orig: 561, 540
+  offset: 45, 0
+  index: -1
+anubiseu_43_1
+  rotate: false
+  xy: 604, 195
+  size: 184, 159
+  orig: 184, 159
+  offset: 0, 0
+  index: -1
+anubiseu_49
+  rotate: true
+  xy: 1548, 5
+  size: 147, 233
+  orig: 147, 233
+  offset: 0, 0
+  index: -1
+anubiseu_5
+  rotate: false
+  xy: 1868, 1620
+  size: 71, 205
+  orig: 71, 205
+  offset: 0, 0
+  index: -1
+anubiseu_51
+  rotate: false
+  xy: 319, 95
+  size: 283, 259
+  orig: 283, 259
+  offset: 0, 0
+  index: -1
+anubiseu_52
+  rotate: false
+  xy: 319, 898
+  size: 847, 1102
+  orig: 847, 1321
+  offset: 0, 219
+  index: -1
+anubiseu_53
+  rotate: false
+  xy: 1156, 2
+  size: 390, 390
+  orig: 390, 390
+  offset: 0, 0
+  index: -1
+anubiseu_6
+  rotate: true
+  xy: 1886, 1283
+  size: 175, 60
+  orig: 178, 65
+  offset: 0, 0
+  index: -1
+anubiseu_8
+  rotate: false
+  xy: 1548, 154
+  size: 308, 372
+  orig: 308, 372
+  offset: 0, 0
+  index: -1
+anubiseu_9
+  rotate: false
+  xy: 1868, 1827
+  size: 108, 173
+  orig: 108, 173
+  offset: 0, 0
+  index: -1

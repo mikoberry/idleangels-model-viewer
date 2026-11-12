@@ -12,9 +12,9 @@
 >
 > 欢迎通过 Issue 指出错误或提交改进，翻译问题也欢迎指正。
 
-基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，支持在多个模型之间切换。当前模型库已导入 **128 个** 同时具备 `angel`、`bg` 和 `action` 动画的模型；GitHub Pages 线上版使用其中 **51 个** 代表模型。
+基于 **Vite + React 18（JSX）** 的 Spine 3.8 全屏 WebGL 查看器，支持在多个模型之间切换。当前模型库已导入 **332 个** 模型，其中 127 个是 `angel` + `bg` 双层模型，205 个是只有 `angel` 的单层模型；GitHub Pages 线上版使用其中 **50 个** 代表模型。
 
-画布常驻全屏，右侧设置抽屉在浏览器和 Wallpaper Engine 中都默认打开。抽屉左侧是竖向标签菜单，分为**时间**、**频谱**、**模型**、**其它**四个标签；模型选择器**仅浏览器中显示**（Wallpaper Engine 中隐藏）；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
+画布常驻全屏，右侧设置抽屉在浏览器和 Wallpaper Engine 中都默认收起，点右下角眼睛按钮打开。抽屉左侧是竖向标签菜单，分为**时间**、**频谱**、**模型**、**其它**四个标签；模型选择器**仅浏览器中显示**（Wallpaper Engine 中隐藏）；每次刷新默认选择清单中的第一个模型。当前版本没有编辑/展示模式，也没有 URL 模式；抽屉关闭时，点击画面可以触发一次 `action`。
 
 ## 在线版本
 
@@ -24,7 +24,7 @@
 https://mikoberry.github.io/idleangels-model-viewer/
 ```
 
-线上版由 GitHub Pages 部署，构建时读取 [deploy-models.json](deploy-models.json)，只发布 51 个代表模型，约 294 MB。
+线上版由 GitHub Pages 部署，构建时读取 [deploy-models.json](deploy-models.json)，只发布 50 个代表模型，约 288 MB。
 
 可以：
 
@@ -79,7 +79,7 @@ http://localhost:5173/
 | 命令 | 说明 |
 | --- | --- |
 | `npm run dev` | 启动 Vite 开发服务器，默认 `5173`；不会同步资源 |
-| `npm run dev:all` | 准备全部 128 个模型后启动开发服务器；已经准备好时会跳过复制 |
+| `npm run dev:all` | 准备全部 332 个模型后启动开发服务器；已经准备好时会跳过复制 |
 | `npm run build` | 只执行 `vite build`，输出到 `dist/`，不复制到 WE 目录 |
 | `npm run build:we` | 先执行 `npm run build`，再复制 `dist/` 到 WE 目标目录 |
 | `npm run models:import` | 扫描源模型目录，把合格模型导入 `model-library/` |
@@ -139,7 +139,7 @@ node scripts/copy-to-we.mjs
 
 ## 模型库与打包
 
-源目录共有 377 个目录、约 1.27 GB。当前按“**有 `action` + 有 `angel` + 有 `bg` + 单套资源**”筛选，导入了 **128 个模型**。NPC、只有 `angel` 的模型、缺 PNG 的模型和特殊结构目录暂不处理。
+源目录共有 377 个目录、约 1.27 GB。当前按“**有 `angel` + 有 `action` + 单套资源**”筛选：`angel` + `bg` 双层模型和只有 `angel` 的单层模型都会导入，共 **332 个**（127 个双层 + 205 个单层）。NPC（`spine_npc*`）、兽娘（`spine_sn*`，含 `spine_sn0`–`spine_sn2`）、缺 PNG 的模型和多套资源的特殊结构目录不导入。单层模型没有背景，直接渲染在页面背景色上。
 
 ```text
 model-library/                 # 源模型库，跟踪提交
@@ -166,13 +166,13 @@ npm run models:use -- spine_hhbsd_bdmy,spine_abl0
 # 准备全部模型并启动 dev（已准备好时会跳过复制）
 npm run dev:all
 
-# 只准备部署子集（当前 deploy-models.json 中 51 个模型）
+# 只准备部署子集（当前 deploy-models.json 中 50 个模型）
 node scripts/prepare-models.mjs --file deploy-models.json
 
 # 打包单个模型到 WE
 npm run package:model -- spine_hhbsd_bdmy
 
-# 打包全部 128 个模型到 WE
+# 打包全部 332 个模型到 WE
 npm run package:all
 ```
 
@@ -183,9 +183,9 @@ npm run package:all
 - 准备模型时会按 PNG 实际尺寸重写 atlas 元数据，避免贴图错位。
 - 调整好画面后点击“记录当前视图”，该模型视图会写入 `localStorage`；画面变换区域的“复制全部视图”只复制已记录模型，可直接粘贴到 `model-presets.json`。
 - 每次刷新或切换模型时，有推荐就用推荐，没有就回到初始视图；模型选择不持久化。
-- 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
-- [deploy-models.json](deploy-models.json) 是部署子集；当前按“每个角色名挑一个、优先 bdmy > np > cshs > mr”选了 51 个模型，约 294 MB。
-- [vercel.json](vercel.json) 在 Vercel 构建时用该子集准备模型，再执行 `vite build`。全量 128 个模型约 730 MB，不适合直接作为 Vercel 构建内容。
+- 全模型包约 1.2 GB，`dist` 和 WE 目标目录都会很大；构建/复制前确认磁盘空间，并先停止使用目标目录的壁纸。
+- [deploy-models.json](deploy-models.json) 是部署子集；当前按“每个角色名挑一个、优先 bdmy > np > cshs > mr”选了 50 个模型，约 288 MB。
+- [vercel.json](vercel.json) 在 Vercel 构建时用该子集准备模型，再执行 `vite build`。全量 332 个模型约 1.2 GB，不适合直接作为 Vercel 构建内容。
 
 ### GitHub Pages
 
@@ -210,7 +210,7 @@ Settings → Pages → Build and deployment → Source
 https://mikoberry.github.io/idleangels-model-viewer/
 ```
 
-GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署超过 10 分钟会超时。当前部署子集约 294 MB，低于 1 GB。
+GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署超过 10 分钟会超时。当前部署子集约 288 MB，低于 1 GB。
 
 线上版包含 Cloudflare Web Analytics，仅统计页面加载的聚合访问量，不写 Cookie；模型切换不会被当作新的页面浏览。
 
@@ -301,7 +301,7 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 └─ README.md
 ```
 
-React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录保留入口、应用状态、i18n、Spine 运行时与样式。没有 `hooks/` 目录，也没有 `tsconfig.json`。当前模型格式要求 `angel` + `bg`，每个图层各一套 `.skel` / `.atlas` / `.png`。
+React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录保留入口、应用状态、i18n、Spine 运行时与样式。没有 `hooks/` 目录，也没有 `tsconfig.json`。当前模型格式要求有 `angel` 层，`bg` 层可选；每个图层各一套 `.skel` / `.atlas` / `.png`。
 
 ## 数据流
 
@@ -331,7 +331,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停）
 
 - `.skel` 是 Spine **3.8.99** 二进制；必须使用 [src/spine-webgl.js](src/spine-webgl.js) 中的 3.8 运行时，不能替换为 Spine 4.x 或 npm 上的运行时。
 - `model-library/` 是源库，跟踪提交；`public/spine/models/` 是按包生成物，不进 Git。不要手改生成资源。
-- 只处理 `angel` + `bg`、每层一套资源、`angel` 有 `idle` / `action` 的模型；当前 128 个。
+- 处理有 `angel` 层、每层一套资源、`angel` 有 `idle` / `action` 的模型；`bg` 可选，共 332 个（127 个双层 + 205 个单层）。
 - 两个图层都使用 `premultipliedAlpha: true`。
 - `action` 在骨架中排在前面，`idle` 必须在启动时显式播放；`action` 非循环，完成后统一回到 `idle`。如果以后加循环 Action，必须补上 Spine 3.8 的 `complete` 保护。
 - 播放设置（缩放/位置/背景色/点击开关）和当前模型只存在于 React state，不写入 `localStorage`，也不写入 URL；时钟、频谱、专辑封面、语言、抽屉标签等显示偏好会写入 `localStorage`。
@@ -339,8 +339,8 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停）
 
 ## 已知限制
 
-- 当前只导入 128 / 377 个模型；只有 `angel`、没有 `action`、NPC、缺 PNG 或特殊结构的模型暂未处理。
-- 全模型包约 731 MB，`dist` 和 WE 目标目录都会很大，复制时间较长。
+- 当前只导入 332 / 377 个模型；NPC、兽娘（`spine_sn*`）、缺 PNG 或多套资源的特殊结构模型未导入。
+- 全模型包约 1.2 GB，`dist` 和 WE 目标目录都会很大，复制时间较长。
 - 模型选择与播放设置不持久化，刷新后总是第一个模型、默认画面。
 - 高 DPI 屏幕上 canvas 按 CSS 像素渲染，没有乘 `devicePixelRatio`，画面可能偏软。
 - 资源加载没有超时；网络或文件服务卡住时，页面可能一直停在加载状态。

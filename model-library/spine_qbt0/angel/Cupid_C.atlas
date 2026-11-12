@@ -1,0 +1,265 @@
+
+Cupid_C.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arrow1
+  rotate: false
+  xy: 1643, 873
+  size: 403, 395
+  orig: 403, 395
+  offset: 0, 0
+  index: -1
+arrow2
+  rotate: 270
+  xy: 202, 205
+  size: 503, 547
+  orig: 503, 547
+  offset: 0, 0
+  index: -1
+arrow_fx3
+  rotate: false
+  xy: 1389, 930
+  size: 180, 193
+  orig: 180, 193
+  offset: 0, 0
+  index: -1
+arrow_fx5
+  rotate: false
+  xy: 2, 1243
+  size: 701, 803
+  orig: 701, 803
+  offset: 0, 0
+  index: -1
+arrow_fx6
+  rotate: false
+  xy: 2, 847
+  size: 401, 394
+  orig: 401, 394
+  offset: 0, 0
+  index: -1
+back_effect01
+  rotate: false
+  xy: 1059, 1355
+  size: 126, 151
+  orig: 126, 151
+  offset: 0, 0
+  index: -1
+back_hair
+  rotate: false
+  xy: 2, 356
+  size: 80, 256
+  orig: 80, 263
+  offset: 0, 7
+  index: -1
+back_hair1
+  rotate: false
+  xy: 705, 1302
+  size: 131, 180
+  orig: 131, 180
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 3, 531
+  size: 369, 584
+  orig: 369, 585
+  offset: 0, 1
+  index: -1
+body_coat0
+  rotate: 180
+  xy: 586, 370
+  size: 744, 435
+  orig: 744, 435
+  offset: 0, 0
+  index: -1
+body_coat7
+  rotate: true
+  xy: 539, 776
+  size: 504, 533
+  orig: 504, 533
+  offset: 0, 0
+  index: -1
+body_ribbon
+  rotate: false
+  xy: 1598, 1783
+  size: 128, 73
+  orig: 128, 73
+  offset: 0, 0
+  index: -1
+body_ribbon1
+  rotate: false
+  xy: 1287, 857
+  size: 198, 107
+  orig: 198, 107
+  offset: 0, 0
+  index: -1
+bow
+  rotate: 180
+  xy: 705, 1125
+  size: 1156, 681
+  orig: 1156, 681
+  offset: 0, 0
+  index: -1
+bow_grip
+  rotate: false
+  xy: 1944, 2005
+  size: 84, 41
+  orig: 84, 41
+  offset: 0, 0
+  index: -1
+breast
+  rotate: false
+  xy: 1071, 927
+  size: 316, 260
+  orig: 316, 265
+  offset: 0, 0
+  index: -1
+close_eye
+  rotate: false
+  xy: 1531, 2004
+  size: 50, 43
+  orig: 50, 43
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 1015, 290
+  size: 312, 227
+  orig: 312, 227
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 1472, 458
+  size: 186, 245
+  orig: 186, 245
+  offset: 0, 0
+  index: -1
+hair_acc
+  rotate: false
+  xy: 1437, 1966
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: -1
+hair_ribbon
+  rotate: false
+  xy: 1944, 1969
+  size: 51, 34
+  orig: 51, 34
+  offset: 0, 0
+  index: -1
+l_arm_coat
+  rotate: false
+  xy: 405, 1003
+  size: 105, 239
+  orig: 105, 239
+  offset: 0, 0
+  index: -1
+l_hand
+  rotate: false
+  xy: 1585, 1977
+  size: 112, 70
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+l_lower_arm
+  rotate: false
+  xy: 1766, 1303
+  size: 268, 189
+  orig: 268, 189
+  offset: 0, 0
+  index: -1
+l_lower_leg
+  rotate: false
+  xy: 1839, 1421
+  size: 207, 385
+  orig: 207, 385
+  offset: 0, 0
+  index: -1
+l_upper_arm
+  rotate: false
+  xy: 1878, 1766
+  size: 167, 126
+  orig: 167, 145
+  offset: 0, 0
+  index: -1
+l_upper_leg
+  rotate: false
+  xy: 1322, 321
+  size: 143, 391
+  orig: 143, 391
+  offset: 0, 0
+  index: -1
+l_wing
+  rotate: false
+  xy: 1116, 1508
+  size: 319, 539
+  orig: 319, 539
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: false
+  xy: 1700, 1989
+  size: 77, 57
+  orig: 77, 57
+  offset: 0, 0
+  index: -1
+neck_acc
+  rotate: false
+  xy: 1522, 1460
+  size: 141, 110
+  orig: 145, 110
+  offset: 4, 0
+  index: -1
+r_arm
+  rotate: 270
+  xy: 1480, 317
+  size: 355, 566
+  orig: 362, 579
+  offset: 0, 0
+  index: -1
+r_arm_coat
+  rotate: false
+  xy: 1350, 1413
+  size: 185, 157
+  orig: 185, 157
+  offset: 0, 0
+  index: -1
+r_leg
+  rotate: 270
+  xy: 938, 646
+  size: 336, 1108
+  orig: 367, 1139
+  offset: 31, 0
+  index: -1
+r_wing
+  rotate: false
+  xy: 705, 1556
+  size: 409, 490
+  orig: 409, 490
+  offset: 0, 0
+  index: -1
+skirt3
+  rotate: false
+  xy: 754, 403
+  size: 377, 179
+  orig: 377, 179
+  offset: 0, 0
+  index: -1
+skirt_center
+  rotate: false
+  xy: 1437, 1571
+  size: 221, 170
+  orig: 221, 170
+  offset: 0, 0
+  index: -1
+top_hair
+  rotate: true
+  xy: 1437, 1743
+  size: 303, 505
+  orig: 303, 505
+  offset: 0, 0
+  index: -1

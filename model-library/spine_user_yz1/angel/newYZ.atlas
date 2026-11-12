@@ -1,0 +1,167 @@
+
+newYZ.png
+size: 1990,1990
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+banghair1
+  rotate: false
+  xy: 1348, 50
+  size: 159, 108
+  orig: 159, 108
+  offset: 0, 0
+  index: -1
+banghair2
+  rotate: true
+  xy: 997, 19
+  size: 152, 177
+  orig: 152, 177
+  offset: 0, 0
+  index: -1
+banghair3
+  rotate: false
+  xy: 1592, 327
+  size: 334, 230
+  orig: 334, 230
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 453, 343
+  size: 400, 793
+  orig: 409, 793
+  offset: 9, 0
+  index: -1
+breast
+  rotate: true
+  xy: 1034, 173
+  size: 168, 193
+  orig: 168, 193
+  offset: 0, 0
+  index: -1
+earing
+  rotate: false
+  xy: 1167, 1419
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+eye close
+  rotate: true
+  xy: 1920, 1846
+  size: 142, 53
+  orig: 144, 53
+  offset: 2, 0
+  index: -1
+hairribbon
+  rotate: true
+  xy: 803, 39
+  size: 156, 192
+  orig: 162, 192
+  offset: 2, 0
+  index: -1
+head
+  rotate: false
+  xy: 575, 75
+  size: 226, 266
+  orig: 230, 266
+  offset: 0, 0
+  index: -1
+hood in
+  rotate: false
+  xy: 1167, 1452
+  size: 751, 536
+  orig: 751, 559
+  offset: 0, 23
+  index: -1
+hood leftarm1
+  rotate: false
+  xy: 2, 309
+  size: 423, 261
+  orig: 429, 261
+  offset: 6, 0
+  index: -1
+hood leftarm2
+  rotate: false
+  xy: 1176, 12
+  size: 170, 146
+  orig: 173, 146
+  offset: 3, 0
+  index: -1
+hood out
+  rotate: false
+  xy: 1211, 799
+  size: 425, 651
+  orig: 425, 651
+  offset: 0, 0
+  index: -1
+hood rightarm
+  rotate: true
+  xy: 362, 28
+  size: 279, 211
+  orig: 279, 211
+  offset: 0, 0
+  index: -1
+leftarm
+  rotate: true
+  xy: 1248, 160
+  size: 637, 342
+  orig: 671, 342
+  offset: 34, 0
+  index: -1
+leftleg
+  rotate: false
+  xy: 453, 1192
+  size: 712, 796
+  orig: 712, 796
+  offset: 0, 0
+  index: -1
+ponytail1
+  rotate: true
+  xy: 1638, 559
+  size: 891, 342
+  orig: 891, 342
+  offset: 0, 0
+  index: -1
+ponytail2
+  rotate: false
+  xy: 453, 745
+  size: 756, 445
+  orig: 756, 445
+  offset: 0, 0
+  index: -1
+rightarm
+  rotate: false
+  xy: 2, 2
+  size: 358, 305
+  orig: 358, 314
+  offset: 0, 0
+  index: -1
+rightleg
+  rotate: false
+  xy: 2, 572
+  size: 449, 1416
+  orig: 449, 1416
+  offset: 0, 0
+  index: -1
+sidehair
+  rotate: true
+  xy: 1592, 110
+  size: 215, 331
+  orig: 215, 331
+  offset: 0, 0
+  index: -1
+straw
+  rotate: false
+  xy: 1509, 67
+  size: 69, 91
+  orig: 69, 91
+  offset: 0, 0
+  index: -1
+sunglass
+  rotate: false
+  xy: 803, 197
+  size: 229, 144
+  orig: 230, 144
+  offset: 0, 0
+  index: -1

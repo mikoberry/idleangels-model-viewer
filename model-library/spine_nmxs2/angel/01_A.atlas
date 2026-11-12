@@ -1,0 +1,279 @@
+
+01_A.png
+size: 2001,2001
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eff1
+  rotate: false
+  xy: 300, 541
+  size: 41, 41
+  orig: 45, 45
+  offset: 2, 2
+  index: -1
+eff2
+  rotate: true
+  xy: 1320, 24
+  size: 29, 207
+  orig: 31, 212
+  offset: 1, 0
+  index: -1
+nemesis_1
+  rotate: false
+  xy: 809, 392
+  size: 72, 110
+  orig: 72, 110
+  offset: 0, 0
+  index: -1
+nemesis_10
+  rotate: false
+  xy: 344, 916
+  size: 631, 662
+  orig: 631, 662
+  offset: 0, 0
+  index: -1
+nemesis_11
+  rotate: true
+  xy: 1207, 196
+  size: 185, 172
+  orig: 185, 172
+  offset: 0, 0
+  index: -1
+nemesis_12
+  rotate: true
+  xy: 300, 248
+  size: 254, 507
+  orig: 254, 520
+  offset: 0, 13
+  index: -1
+nemesis_13
+  rotate: true
+  xy: 1573, 853
+  size: 755, 204
+  orig: 755, 204
+  offset: 0, 0
+  index: -1
+nemesis_14
+  rotate: true
+  xy: 1779, 785
+  size: 286, 157
+  orig: 286, 157
+  offset: 0, 0
+  index: -1
+nemesis_15
+  rotate: false
+  xy: 977, 910
+  size: 392, 668
+  orig: 392, 668
+  offset: 0, 0
+  index: -1
+nemesis_16
+  rotate: false
+  xy: 906, 383
+  size: 466, 241
+  orig: 485, 241
+  offset: 0, 0
+  index: -1
+nemesis_17
+  rotate: false
+  xy: 1660, 413
+  size: 86, 324
+  orig: 86, 324
+  offset: 0, 0
+  index: -1
+nemesis_18
+  rotate: false
+  xy: 1686, 173
+  size: 252, 91
+  orig: 252, 91
+  offset: 0, 0
+  index: -1
+nemesis_19
+  rotate: true
+  xy: 809, 196
+  size: 185, 396
+  orig: 185, 396
+  offset: 0, 0
+  index: -1
+nemesis_2
+  rotate: false
+  xy: 2, 584
+  size: 340, 1415
+  orig: 340, 1415
+  offset: 0, 0
+  index: -1
+nemesis_20
+  rotate: false
+  xy: 1748, 406
+  size: 132, 262
+  orig: 132, 262
+  offset: 0, 0
+  index: -1
+nemesis_21
+  rotate: true
+  xy: 1573, 739
+  size: 112, 166
+  orig: 112, 166
+  offset: 0, 0
+  index: -1
+nemesis_22
+  rotate: false
+  xy: 1511, 1610
+  size: 336, 389
+  orig: 336, 389
+  offset: 0, 0
+  index: -1
+nemesis_23
+  rotate: false
+  xy: 1686, 266
+  size: 142, 138
+  orig: 142, 138
+  offset: 0, 0
+  index: -1
+nemesis_24
+  rotate: true
+  xy: 1748, 670
+  size: 113, 251
+  orig: 113, 251
+  offset: 0, 0
+  index: -1
+nemesis_25
+  rotate: false
+  xy: 2, 17
+  size: 296, 565
+  orig: 313, 565
+  offset: 17, 0
+  index: -1
+nemesis_26
+  rotate: true
+  xy: 344, 657
+  size: 257, 569
+  orig: 257, 569
+  offset: 0, 0
+  index: -1
+nemesis_27
+  rotate: false
+  xy: 1374, 388
+  size: 284, 236
+  orig: 284, 236
+  offset: 0, 0
+  index: -1
+nemesis_28
+  rotate: false
+  xy: 1779, 1073
+  size: 143, 535
+  orig: 143, 535
+  offset: 0, 0
+  index: -1
+nemesis_29
+  rotate: false
+  xy: 1381, 157
+  size: 303, 229
+  orig: 303, 229
+  offset: 0, 0
+  index: -1
+nemesis_3
+  rotate: true
+  xy: 1320, 55
+  size: 100, 390
+  orig: 107, 390
+  offset: 0, 0
+  index: -1
+nemesis_30
+  rotate: true
+  xy: 344, 504
+  size: 151, 560
+  orig: 151, 560
+  offset: 0, 0
+  index: -1
+nemesis_31
+  rotate: true
+  xy: 781, 2
+  size: 39, 92
+  orig: 39, 92
+  offset: 0, 0
+  index: -1
+nemesis_32
+  rotate: true
+  xy: 875, 2
+  size: 39, 92
+  orig: 39, 92
+  offset: 0, 0
+  index: -1
+nemesis_33
+  rotate: false
+  xy: 344, 1580
+  size: 1165, 419
+  orig: 1174, 421
+  offset: 4, 1
+  index: -1
+nemesis_4
+  rotate: false
+  xy: 915, 626
+  size: 526, 108
+  orig: 526, 108
+  offset: 0, 0
+  index: -1
+nemesis_5
+  rotate: true
+  xy: 781, 43
+  size: 151, 370
+  orig: 170, 370
+  offset: 19, 0
+  index: -1
+nemesis_6_1
+  rotate: false
+  xy: 1849, 1622
+  size: 135, 377
+  orig: 148, 377
+  offset: 13, 0
+  index: -1
+nemesis_6_2
+  rotate: false
+  xy: 1924, 1387
+  size: 71, 233
+  orig: 71, 233
+  offset: 0, 0
+  index: -1
+nemesis_6_3
+  rotate: true
+  xy: 300, 17
+  size: 229, 479
+  orig: 229, 479
+  offset: 0, 0
+  index: -1
+nemesis_6_4
+  rotate: false
+  xy: 1882, 389
+  size: 107, 279
+  orig: 107, 279
+  offset: 0, 0
+  index: -1
+nemesis_7
+  rotate: false
+  xy: 1153, 2
+  size: 165, 192
+  orig: 165, 197
+  offset: 0, 0
+  index: -1
+nemesis_7_1
+  rotate: true
+  xy: 1924, 1288
+  size: 97, 33
+  orig: 97, 33
+  offset: 0, 0
+  index: -1
+nemesis_8
+  rotate: true
+  xy: 915, 736
+  size: 172, 423
+  orig: 201, 423
+  offset: 0, 0
+  index: -1
+nemesis_9
+  rotate: false
+  xy: 1371, 793
+  size: 200, 785
+  orig: 200, 785
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,300 @@
+
+shenqingerC.png
+size: 1937,1937
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Lhand01
+  rotate: false
+  xy: 782, 64
+  size: 56, 290
+  orig: 64, 290
+  offset: 8, 0
+  index: -1
+Lhand02
+  rotate: true
+  xy: 987, 75
+  size: 74, 67
+  orig: 78, 67
+  offset: 3, 0
+  index: -1
+Lotus
+  rotate: true
+  xy: 1191, 839
+  size: 1096, 731
+  orig: 1096, 748
+  offset: 0, 17
+  index: -1
+Lribbon01
+  rotate: true
+  xy: 485, 841
+  size: 32, 85
+  orig: 32, 85
+  offset: 0, 0
+  index: -1
+Lribbon02
+  rotate: true
+  xy: 999, 591
+  size: 94, 157
+  orig: 94, 157
+  offset: 0, 0
+  index: -1
+Lribbon03
+  rotate: false
+  xy: 840, 232
+  size: 66, 116
+  orig: 66, 116
+  offset: 0, 0
+  index: -1
+Lribbon04
+  rotate: false
+  xy: 1618, 290
+  size: 255, 95
+  orig: 255, 95
+  offset: 0, 0
+  index: -1
+Lribbon04bg
+  rotate: true
+  xy: 908, 106
+  size: 242, 77
+  orig: 242, 77
+  offset: 0, 0
+  index: -1
+Rhand01
+  rotate: false
+  xy: 782, 357
+  size: 79, 58
+  orig: 79, 58
+  offset: 0, 0
+  index: -1
+Rhand02
+  rotate: true
+  xy: 1108, 285
+  size: 69, 40
+  orig: 73, 40
+  offset: 0, 0
+  index: -1
+Rribbon01
+  rotate: true
+  xy: 409, 839
+  size: 34, 74
+  orig: 34, 74
+  offset: 0, 0
+  index: -1
+Rribbon02
+  rotate: true
+  xy: 782, 2
+  size: 53, 72
+  orig: 53, 72
+  offset: 0, 0
+  index: -1
+Rribbon03
+  rotate: true
+  xy: 847, 426
+  size: 42, 55
+  orig: 42, 55
+  offset: 0, 0
+  index: -1
+Rribbon04
+  rotate: false
+  xy: 999, 356
+  size: 156, 59
+  orig: 156, 59
+  offset: 0, 0
+  index: -1
+bg01
+  rotate: false
+  xy: 2, 1182
+  size: 1169, 321
+  orig: 1178, 331
+  offset: 9, 0
+  index: -1
+bg02
+  rotate: true
+  xy: 2, 3
+  size: 22, 146
+  orig: 22, 146
+  offset: 0, 0
+  index: -1
+bg03
+  rotate: false
+  xy: 782, 470
+  size: 211, 154
+  orig: 231, 155
+  offset: 20, 1
+  index: -1
+bg04
+  rotate: true
+  xy: 782, 687
+  size: 493, 378
+  orig: 759, 704
+  offset: 0, 326
+  index: -1
+bg05
+  rotate: false
+  xy: 643, 35
+  size: 137, 802
+  orig: 576, 1164
+  offset: 283, 362
+  index: -1
+bg06
+  rotate: true
+  xy: 1618, 102
+  size: 186, 118
+  orig: 186, 147
+  offset: 0, 29
+  index: -1
+bg061
+  rotate: true
+  xy: 994, 151
+  size: 203, 105
+  orig: 1314, 387
+  offset: 256, 0
+  index: -1
+bg062
+  rotate: true
+  xy: 1618, 387
+  size: 450, 267
+  orig: 450, 477
+  offset: 0, 0
+  index: -1
+hair01
+  rotate: false
+  xy: 643, 4
+  size: 26, 29
+  orig: 27, 29
+  offset: 1, 0
+  index: -1
+hair02
+  rotate: false
+  xy: 840, 66
+  size: 66, 83
+  orig: 67, 84
+  offset: 0, 0
+  index: -1
+hair03
+  rotate: true
+  xy: 1924, 1815
+  size: 15, 6
+  orig: 15, 6
+  offset: 0, 0
+  index: -1
+hair04
+  rotate: true
+  xy: 150, 7
+  size: 18, 63
+  orig: 18, 63
+  offset: 0, 0
+  index: -1
+hair05
+  rotate: true
+  xy: 1173, 1479
+  size: 24, 15
+  orig: 24, 15
+  offset: 0, 0
+  index: -1
+hair06
+  rotate: true
+  xy: 782, 626
+  size: 59, 214
+  orig: 59, 214
+  offset: 0, 0
+  index: -1
+hairbg
+  rotate: true
+  xy: 2, 844
+  size: 336, 405
+  orig: 415, 405
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 904, 350
+  size: 88, 118
+  orig: 88, 118
+  offset: 0, 0
+  index: -1
+skirt
+  rotate: true
+  xy: 1162, 57
+  size: 780, 454
+  orig: 780, 454
+  offset: 0, 0
+  index: -1
+spine1
+  rotate: false
+  xy: 995, 417
+  size: 162, 172
+  orig: 162, 172
+  offset: 0, 0
+  index: -1
+spine2
+  rotate: false
+  xy: 409, 875
+  size: 362, 305
+  orig: 369, 305
+  offset: 0, 0
+  index: -1
+sweat01
+  rotate: true
+  xy: 782, 426
+  size: 42, 63
+  orig: 42, 63
+  offset: 0, 0
+  index: -1
+sweat02
+  rotate: false
+  xy: 999, 14
+  size: 107, 41
+  orig: 107, 41
+  offset: 0, 0
+  index: -1
+sweat03
+  rotate: false
+  xy: 2, 27
+  size: 639, 810
+  orig: 639, 810
+  offset: 0, 0
+  index: -1
+toushi01
+  rotate: false
+  xy: 1924, 1899
+  size: 10, 36
+  orig: 13, 42
+  offset: 0, 6
+  index: -1
+toushi02
+  rotate: true
+  xy: 1056, 76
+  size: 73, 100
+  orig: 73, 104
+  offset: 0, 4
+  index: -1
+toushi03
+  rotate: false
+  xy: 1924, 1832
+  size: 7, 65
+  orig: 7, 66
+  offset: 0, 0
+  index: -1
+water
+  rotate: false
+  xy: 2, 1505
+  size: 1187, 430
+  orig: 1187, 450
+  offset: 0, 0
+  index: -1
+xiongzhui01
+  rotate: true
+  xy: 215, 8
+  size: 17, 36
+  orig: 17, 36
+  offset: 0, 0
+  index: -1
+xiongzhui02
+  rotate: true
+  xy: 856, 9
+  size: 46, 141
+  orig: 50, 142
+  offset: 4, 0
+  index: -1

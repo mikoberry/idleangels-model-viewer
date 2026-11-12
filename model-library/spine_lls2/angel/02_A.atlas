@@ -1,0 +1,328 @@
+
+02_A.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eff1
+  rotate: false
+  xy: 531, 1801
+  size: 220, 142
+  orig: 220, 142
+  offset: 0, 0
+  index: -1
+lilith_1
+  rotate: false
+  xy: 256, 418
+  size: 120, 182
+  orig: 120, 182
+  offset: 0, 0
+  index: -1
+lilith_11
+  rotate: false
+  xy: 2, 1800
+  size: 44, 44
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+lilith_12
+  rotate: false
+  xy: 2, 1883
+  size: 27, 40
+  orig: 27, 40
+  offset: 0, 0
+  index: -1
+lilith_13
+  rotate: 180
+  xy: 337, 1148
+  size: 185, 237
+  orig: 185, 237
+  offset: 0, 0
+  index: -1
+lilith_14
+  rotate: false
+  xy: 280, 1625
+  size: 93, 215
+  orig: 106, 215
+  offset: 13, 0
+  index: -1
+lilith_15
+  rotate: false
+  xy: 1281, 485
+  size: 108, 302
+  orig: 108, 302
+  offset: 0, 0
+  index: -1
+lilith_16
+  rotate: 270
+  xy: 1512, 536
+  size: 113, 234
+  orig: 113, 234
+  offset: 0, 0
+  index: -1
+lilith_17
+  rotate: false
+  xy: 1704, 1206
+  size: 93, 227
+  orig: 93, 227
+  offset: 0, 0
+  index: -1
+lilith_18
+  rotate: false
+  xy: 325, 1306
+  size: 45, 209
+  orig: 45, 209
+  offset: 0, 0
+  index: -1
+lilith_19
+  rotate: false
+  xy: 1050, 758
+  size: 154, 228
+  orig: 154, 228
+  offset: 0, 0
+  index: -1
+lilith_2
+  rotate: false
+  xy: 528, 1655
+  size: 117, 121
+  orig: 117, 121
+  offset: 0, 0
+  index: -1
+lilith_20
+  rotate: 180
+  xy: 1701, 1016
+  size: 252, 627
+  orig: 252, 632
+  offset: 0, 5
+  index: -1
+lilith_21
+  rotate: true
+  xy: 1494, 362
+  size: 147, 460
+  orig: 147, 460
+  offset: 0, 0
+  index: -1
+lilith_22
+  rotate: false
+  xy: 1550, 1863
+  size: 135, 176
+  orig: 135, 180
+  offset: 0, 4
+  index: -1
+lilith_22_1
+  rotate: false
+  xy: 2, 1844
+  size: 94, 29
+  orig: 94, 29
+  offset: 0, 0
+  index: -1
+lilith_23
+  rotate: 180
+  xy: 26, 1132
+  size: 333, 586
+  orig: 338, 586
+  offset: 0, 0
+  index: -1
+lilith_24
+  rotate: false
+  xy: 1367, 3
+  size: 184, 1017
+  orig: 184, 1017
+  offset: 0, 0
+  index: -1
+lilith_25
+  rotate: 270
+  xy: 496, 1868
+  size: 170, 964
+  orig: 170, 964
+  offset: 0, 0
+  index: -1
+lilith_26
+  rotate: 180
+  xy: 1542, 1391
+  size: 253, 646
+  orig: 253, 646
+  offset: 0, 0
+  index: -1
+lilith_27
+  rotate: false
+  xy: 1491, 593
+  size: 327, 623
+  orig: 327, 623
+  offset: 0, 0
+  index: -1
+lilith_28
+  rotate: 180
+  xy: 1780, 1832
+  size: 175, 206
+  orig: 185, 206
+  offset: 0, 0
+  index: -1
+lilith_29
+  rotate: true
+  xy: 1530, 123
+  size: 238, 77
+  orig: 245, 77
+  offset: 0, 0
+  index: -1
+lilith_3
+  rotate: false
+  xy: 726, 5
+  size: 329, 624
+  orig: 329, 624
+  offset: 0, 0
+  index: -1
+lilith_30
+  rotate: false
+  xy: 1797, 1743
+  size: 149, 88
+  orig: 149, 88
+  offset: 0, 0
+  index: -1
+lilith_31
+  rotate: 180
+  xy: 48, 138
+  size: 667, 917
+  orig: 667, 917
+  offset: 0, 0
+  index: -1
+lilith_32
+  rotate: false
+  xy: 2, 1015
+  size: 607, 1022
+  orig: 607, 1022
+  offset: 0, 0
+  index: -1
+lilith_33
+  rotate: true
+  xy: 589, 1066
+  size: 718, 306
+  orig: 718, 306
+  offset: 0, 0
+  index: -1
+lilith_34
+  rotate: false
+  xy: 1320, 1276
+  size: 224, 640
+  orig: 224, 640
+  offset: 0, 0
+  index: -1
+lilith_35
+  rotate: true
+  xy: 1073, 864
+  size: 481, 403
+  orig: 481, 403
+  offset: 0, 0
+  index: -1
+lilith_36
+  rotate: false
+  xy: 871, 1098
+  size: 264, 805
+  orig: 264, 805
+  offset: 0, 0
+  index: -1
+lilith_37
+  rotate: 180
+  xy: 1040, 78
+  size: 273, 807
+  orig: 279, 807
+  offset: 6, 0
+  index: -1
+lilith_38
+  rotate: false
+  xy: 1137, 1188
+  size: 116, 379
+  orig: 116, 379
+  offset: 0, 0
+  index: -1
+lilith_39
+  rotate: false
+  xy: 390, 296
+  size: 125, 430
+  orig: 125, 430
+  offset: 0, 0
+  index: -1
+lilith_4
+  rotate: false
+  xy: 1137, 1537
+  size: 184, 329
+  orig: 184, 329
+  offset: 0, 0
+  index: -1
+lilith_40
+  rotate: false
+  xy: 499, 465
+  size: 98, 292
+  orig: 98, 292
+  offset: 0, 0
+  index: -1
+lilith_41
+  rotate: true
+  xy: 115, 5
+  size: 125, 176
+  orig: 125, 176
+  offset: 0, 0
+  index: -1
+lilith_42
+  rotate: false
+  xy: 1512, 1493
+  size: 103, 307
+  orig: 103, 307
+  offset: 0, 0
+  index: -1
+lilith_43
+  rotate: true
+  xy: 223, 12
+  size: 179, 466
+  orig: 179, 466
+  offset: 0, 0
+  index: -1
+lilith_44
+  rotate: false
+  xy: 1470, 960
+  size: 237, 538
+  orig: 237, 538
+  offset: 0, 0
+  index: -1
+lilith_45
+  rotate: true
+  xy: 2, 602
+  size: 586, 591
+  orig: 586, 591
+  offset: 0, 0
+  index: -1
+lilith_5
+  rotate: false
+  xy: 1797, 1648
+  size: 124, 92
+  orig: 124, 92
+  offset: 0, 0
+  index: -1
+lilith_6
+  rotate: false
+  xy: 2, 1875
+  size: 213, 162
+  orig: 213, 162
+  offset: 0, 0
+  index: -1
+lilith_7
+  rotate: 180
+  xy: 704, 533
+  size: 366, 605
+  orig: 366, 605
+  offset: 0, 0
+  index: -1
+lilith_8
+  rotate: false
+  xy: 2, 89
+  size: 220, 341
+  orig: 220, 341
+  offset: 0, 0
+  index: -1
+lilith_9
+  rotate: false
+  xy: 740, 1695
+  size: 189, 240
+  orig: 189, 240
+  offset: 0, 0
+  index: -1

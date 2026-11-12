@@ -21,7 +21,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - `npm run build:we` — runs `npm run build`, then `node scripts/copy-to-we.mjs` replaces the Wallpaper Engine target with `dist/`. Use this when deploying the current `public/spine/models` content.
 - `npm run models:import` — scans `modelSourceDir` from `local.config.json` (or `MODEL_SOURCE_DIR`), imports eligible models into `model-library/`, and writes `model-library/models.json`.
 - `npm run models:use -- <id>[,<id>...]` — prepares one or more selected models into `public/spine/models` for dev/single builds.
-- `node scripts/prepare-models.mjs --file deploy-models.json` — prepares the deployment subset (currently 51 models) without starting Vite.
+- `node scripts/prepare-models.mjs --file deploy-models.json` — prepares the deployment subset (currently 50 models) without starting Vite.
 - `npm run package:model -- <id>` — prepares one model, builds, and deploys.
 - `npm run package:all` — prepares every eligible model in `model-library`, builds, and deploys.
 - `npm run preview` — serves `dist/` on Vite's default preview port (`4173`); use `--port` if that port is unavailable.
@@ -34,7 +34,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - The Wallpaper Engine target comes from `weTargetDir` in the ignored `local.config.json` or from `WE_TARGET_DIR`; there is no built-in local default. `local.config.example.json` is the tracked template.
 - The copy replaces the whole target directory. Do not put hand-written files there; if Wallpaper Engine is using those files, the copy may fail.
 - `base` is `'./'`, so generated asset URLs are relative; `build.target` is `es2015`.
-- `deploy-models.json` is the deployment subset (currently 51 models, one per name, priority `bdmy > np > cshs > mr`, about 294 MB). `vercel.json` and `.github/workflows/deploy-pages.yml` prepare that file with `prepare-models --file` before building `dist`; do not switch deployments to all 128 models unless the platform supports a ~730 MB output.
+- `deploy-models.json` is the deployment subset (currently 50 models, one per name, priority `bdmy > np > cshs > mr`, about 288 MB). `vercel.json` and `.github/workflows/deploy-pages.yml` prepare that file with `prepare-models --file` before building `dist`; do not switch deployments to all 332 models unless the platform supports a ~1.2 GB output.
 - GitHub Pages workflow: `.github/workflows/deploy-pages.yml`; Pages source must be set to GitHub Actions. The published site must stay under GitHub Pages' 1 GB limit.
 
 ## Assets and Spine runtime
@@ -46,9 +46,9 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 - To capture a model's tuned look for packaging: tune it in the browser, open the drawer's model tab, press “复制本模型完整预设”, paste the JSON into `model-presets.json`, then repackage. `localStorage` never ships with `dist/`, so tuning alone is not enough.
 - If a model has no preset, use `scale: 1`, `positionX: 0`, `positionY: 0`, `backgroundColor: '#000000'`. Do not hard-code a global recommended view in the UI.
 - A model's current view is recorded only when the user clicks “记录当前视图”; records live in `localStorage` under `spine-viewer:model-views:v1`. The “复制全部视图” button copies only recorded models as a ready-to-paste `model-presets.json` object. Do not auto-record on model switch or view change.
-- Current accepted model shape: `angel` + `bg`, exactly one `.skel`/`.atlas`/`.png` per layer, `idle` and `action` present. Models without `action`, without `bg`, NPC-only models, and malformed directories are intentionally skipped.
+- Current accepted model shape: an `angel` layer with exactly one `.skel`/`.atlas`/`.png` and both `idle` and `action`; the `bg` layer is optional, and an `angel`-only model renders on the page background. NPCs (`spine_npc*`), the `sn` beast-girl set (`spine_sn*`, which also covers `spine_sn0`–`spine_sn2`), models without `action`, models with missing textures, and multi-asset directories are intentionally skipped. The library currently holds 332 models (127 dual-layer, 205 angel-only).
 - `scripts/import-models.mjs` imports eligible models and rescales atlas metadata in `scripts/prepare-models.mjs` so atlas `size` matches the actual PNG. Do not bypass that step.
-- Layers are `bg` then `angel`; each contains one skeleton, one atlas, and one PNG. File names are model-specific and may contain spaces or `+`; the stage encodes path segments.
+- Layers are rendered in manifest order: `bg` first when present, then `angel`. An `angel`-only model has a single `angel` layer and shows the page background behind it. Each layer contains one skeleton, one atlas, and one PNG. File names are model-specific and may contain spaces or `+`; the stage encodes path segments.
 - The `.skel` files are Spine **3.8.99 binary**. Use the vendored [src/spine-webgl.js](src/spine-webgl.js) (3.8 runtime, `export { spine }`); do not replace it with Spine 4.x or the npm runtime.
 - Both layers use `premultipliedAlpha: true`.
 - `Vector3` is `spine.webgl.Vector3`, not `spine.Vector3`.
@@ -77,6 +77,7 @@ Spine 3.8 WebGL viewer built with Vite + React 18 (JSX). It can package one mode
 
 - Only animations are `idle` and `action`. `action` is first in the skeleton; `idle` must be played explicitly at startup.
 - `action` is non-looping. When all layers that have it complete, the stage returns them to `idle`. The implementation uses an action token plus a pending-layer set to ignore stale completions.
+- A click never restarts a running `action`: `triggerAction()` is non-forced and returns early while `actionInFlight` is set, so the next action only starts after the previous one finished and the stage is back on `idle`. Picking `action` in the drawer's animation dropdown is forced (`play('action')` → `startAction(true)`) and still replays from the start. Any switch to another animation in `play()` must clear `actionInFlight`, otherwise the token check swallows the stale `complete` and clicks stay blocked forever.
 - If a looping Action is added later, Spine 3.8 fires `complete` on every loop wrap; add a `loopAction` guard before returning to idle.
 - There is no TypeScript compile step. Syntax and import errors fail `npm run build`; logic errors do not.
 - The canvas backing store is sized in CSS pixels (no `devicePixelRatio` scaling), so high-DPI rendering is currently upscaled and may look soft.

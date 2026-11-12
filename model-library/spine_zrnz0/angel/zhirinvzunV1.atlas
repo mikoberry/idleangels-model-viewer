@@ -1,0 +1,384 @@
+
+zhirinvzunV1.png
+size: 2017,2017
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/Layer 146
+  rotate: true
+  xy: 645, 298
+  size: 111, 84
+  orig: 111, 84
+  offset: 0, 0
+  index: -1
+images/Layer 155
+  rotate: true
+  xy: 884, 11
+  size: 189, 232
+  orig: 189, 232
+  offset: 0, 0
+  index: -1
+images/Layer 159
+  rotate: false
+  xy: 1875, 564
+  size: 112, 231
+  orig: 112, 231
+  offset: 0, 0
+  index: -1
+images/Layer 196_1
+  rotate: false
+  xy: 1813, 238
+  size: 123, 136
+  orig: 123, 136
+  offset: 0, 0
+  index: -1
+images/Layer 196_1_1
+  rotate: false
+  xy: 1104, 223
+  size: 216, 267
+  orig: 216, 267
+  offset: 0, 0
+  index: -1
+images/Layer 196_2
+  rotate: false
+  xy: 1640, 797
+  size: 246, 115
+  orig: 246, 115
+  offset: 0, 0
+  index: -1
+images/Layer 196_3
+  rotate: false
+  xy: 1646, 210
+  size: 165, 266
+  orig: 165, 266
+  offset: 0, 0
+  index: -1
+images/Layer 196_3_1
+  rotate: true
+  xy: 608, 2
+  size: 198, 274
+  orig: 198, 274
+  offset: 0, 0
+  index: -1
+images/Layer 257
+  rotate: true
+  xy: 1591, 1463
+  size: 552, 378
+  orig: 552, 380
+  offset: 0, 0
+  index: -1
+images/Layer 288
+  rotate: false
+  xy: 1591, 1210
+  size: 30, 97
+  orig: 30, 97
+  offset: 0, 0
+  index: -1
+images/Layer 307_2
+  rotate: false
+  xy: 1343, 754
+  size: 295, 443
+  orig: 295, 446
+  offset: 0, 3
+  index: -1
+images/Layer 30_1
+  rotate: false
+  xy: 1640, 914
+  size: 271, 393
+  orig: 271, 393
+  offset: 0, 0
+  index: -1
+images/Layer 333
+  rotate: true
+  xy: 2, 272
+  size: 137, 641
+  orig: 137, 641
+  offset: 0, 0
+  index: -1
+images/Layer 341
+  rotate: true
+  xy: 2, 99
+  size: 171, 604
+  orig: 171, 604
+  offset: 0, 0
+  index: -1
+images/Layer 342
+  rotate: false
+  xy: 1971, 1903
+  size: 43, 112
+  orig: 43, 112
+  offset: 0, 0
+  index: -1
+images/Layer 344
+  rotate: true
+  xy: 1813, 376
+  size: 161, 114
+  orig: 161, 114
+  offset: 0, 0
+  index: -1
+images/Layer 345
+  rotate: true
+  xy: 746, 492
+  size: 678, 595
+  orig: 678, 595
+  offset: 0, 0
+  index: -1
+images/Layer 351
+  rotate: false
+  xy: 1674, 492
+  size: 53, 45
+  orig: 57, 46
+  offset: 0, 0
+  index: -1
+images/Layer 352
+  rotate: false
+  xy: 1929, 455
+  size: 40, 48
+  orig: 41, 51
+  offset: 0, 1
+  index: -1
+images/Layer 69
+  rotate: false
+  xy: 1343, 478
+  size: 329, 274
+  orig: 329, 274
+  offset: 0, 0
+  index: -1
+images/back floral leaf_1
+  rotate: false
+  xy: 430, 68
+  size: 51, 29
+  orig: 51, 29
+  offset: 0, 0
+  index: -1
+images/back floral leaf_10
+  rotate: false
+  xy: 1813, 218
+  size: 49, 18
+  orig: 49, 18
+  offset: 0, 0
+  index: -1
+images/back floral leaf_11
+  rotate: true
+  xy: 608, 204
+  size: 66, 30
+  orig: 66, 30
+  offset: 0, 0
+  index: -1
+images/back floral leaf_2
+  rotate: false
+  xy: 1913, 927
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+images/back floral leaf_3
+  rotate: false
+  xy: 1929, 419
+  size: 39, 34
+  orig: 39, 34
+  offset: 0, 0
+  index: -1
+images/back floral leaf_4
+  rotate: true
+  xy: 1888, 840
+  size: 72, 20
+  orig: 72, 20
+  offset: 0, 0
+  index: -1
+images/back floral leaf_5
+  rotate: true
+  xy: 1971, 1835
+  size: 66, 27
+  orig: 66, 27
+  offset: 0, 0
+  index: -1
+images/back floral leaf_6
+  rotate: false
+  xy: 1729, 506
+  size: 47, 31
+  orig: 47, 31
+  offset: 0, 0
+  index: -1
+images/back floral leaf_7
+  rotate: true
+  xy: 1118, 2
+  size: 24, 27
+  orig: 24, 27
+  offset: 0, 0
+  index: -1
+images/back floral leaf_8
+  rotate: true
+  xy: 645, 276
+  size: 20, 53
+  orig: 20, 53
+  offset: 0, 0
+  index: -1
+images/back floral leaf_9
+  rotate: true
+  xy: 1623, 1264
+  size: 43, 15
+  orig: 43, 15
+  offset: 0, 0
+  index: -1
+images/body01
+  rotate: false
+  xy: 1322, 201
+  size: 322, 275
+  orig: 325, 276
+  offset: 3, 1
+  index: -1
+images/body02
+  rotate: true
+  xy: 1674, 539
+  size: 256, 199
+  orig: 259, 205
+  offset: 2, 3
+  index: -1
+images/body03
+  rotate: false
+  xy: 746, 202
+  size: 356, 288
+  orig: 356, 288
+  offset: 0, 0
+  index: -1
+images/ear deco
+  rotate: true
+  xy: 794, 1181
+  size: 16, 85
+  orig: 16, 85
+  offset: 0, 0
+  index: -1
+images/eye1
+  rotate: true
+  xy: 1640, 757
+  size: 38, 31
+  orig: 38, 32
+  offset: 0, 1
+  index: -1
+images/eye2
+  rotate: false
+  xy: 1969, 943
+  size: 46, 30
+  orig: 47, 30
+  offset: 0, 0
+  index: -1
+images/face
+  rotate: false
+  xy: 1118, 28
+  size: 155, 193
+  orig: 157, 193
+  offset: 2, 0
+  index: -1
+images/hair back01
+  rotate: false
+  xy: 2, 1172
+  size: 790, 843
+  orig: 790, 843
+  offset: 0, 0
+  index: -1
+images/hair back02
+  rotate: false
+  xy: 2, 411
+  size: 742, 759
+  orig: 742, 759
+  offset: 0, 0
+  index: -1
+images/hair deco01
+  rotate: false
+  xy: 1913, 1135
+  size: 75, 172
+  orig: 75, 180
+  offset: 0, 7
+  index: -1
+images/hair deco02
+  rotate: false
+  xy: 359, 32
+  size: 69, 65
+  orig: 69, 66
+  offset: 0, 0
+  index: -1
+images/hair side
+  rotate: true
+  xy: 2, 5
+  size: 92, 213
+  orig: 92, 213
+  offset: 0, 0
+  index: -1
+images/hair-front_1
+  rotate: true
+  xy: 217, 13
+  size: 84, 140
+  orig: 84, 140
+  offset: 0, 0
+  index: -1
+images/hair-front_2
+  rotate: false
+  xy: 1913, 975
+  size: 101, 158
+  orig: 102, 158
+  offset: 1, 0
+  index: -1
+images/hair-front_3
+  rotate: false
+  xy: 1545, 25
+  size: 129, 174
+  orig: 129, 174
+  offset: 0, 0
+  index: -1
+images/hair-front_4
+  rotate: true
+  xy: 1591, 1309
+  size: 152, 404
+  orig: 152, 409
+  offset: 0, 0
+  index: -1
+images/hair-top
+  rotate: false
+  xy: 1929, 505
+  size: 86, 57
+  orig: 94, 57
+  offset: 0, 0
+  index: -1
+images/meimao1
+  rotate: true
+  xy: 1875, 539
+  size: 23, 22
+  orig: 23, 24
+  offset: 0, 1
+  index: -1
+images/meimao2
+  rotate: false
+  xy: 1275, 205
+  size: 38, 16
+  orig: 40, 16
+  offset: 0, 0
+  index: -1
+images/mouth
+  rotate: false
+  xy: 359, 13
+  size: 30, 17
+  orig: 30, 17
+  offset: 0, 0
+  index: -1
+images/right arm
+  rotate: true
+  xy: 1676, 8
+  size: 200, 222
+  orig: 200, 222
+  offset: 0, 0
+  index: -1
+images/umbrella
+  rotate: false
+  xy: 794, 1199
+  size: 795, 816
+  orig: 795, 818
+  offset: 0, 2
+  index: -1
+images/umbrella handle
+  rotate: true
+  xy: 1275, 17
+  size: 182, 268
+  orig: 182, 268
+  offset: 0, 0
+  index: -1

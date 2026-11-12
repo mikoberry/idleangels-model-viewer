@@ -1,0 +1,139 @@
+
+35_S.png
+size: 1777,1777
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+10
+  rotate: true
+  xy: 452, 1300
+  size: 475, 804
+  orig: 531, 806
+  offset: 0, 2
+  index: -1
+10_1
+  rotate: true
+  xy: 516, 373
+  size: 373, 476
+  orig: 373, 476
+  offset: 0, 0
+  index: -1
+10_2
+  rotate: false
+  xy: 1374, 482
+  size: 83, 264
+  orig: 83, 264
+  offset: 0, 0
+  index: -1
+11_1
+  rotate: false
+  xy: 1462, 17
+  size: 88, 178
+  orig: 88, 178
+  offset: 0, 0
+  index: -1
+12
+  rotate: true
+  xy: 452, 748
+  size: 550, 1083
+  orig: 550, 1083
+  offset: 0, 0
+  index: -1
+15
+  rotate: false
+  xy: 2, 458
+  size: 448, 1317
+  orig: 448, 1317
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 1258, 1325
+  size: 464, 450
+  orig: 464, 465
+  offset: 0, 15
+  index: -1
+22_r51
+  rotate: true
+  xy: 516, 43
+  size: 328, 330
+  orig: 328, 330
+  offset: 0, 0
+  index: -1
+5_l-50
+  rotate: true
+  xy: 994, 197
+  size: 278, 572
+  orig: 278, 572
+  offset: 0, 0
+  index: -1
+6_r-50
+  rotate: false
+  xy: 1111, 89
+  size: 349, 106
+  orig: 349, 178
+  offset: 0, 72
+  index: -1
+6_r-50_1
+  rotate: false
+  xy: 1459, 640
+  size: 68, 106
+  orig: 68, 106
+  offset: 0, 0
+  index: -1
+7_r-50
+  rotate: true
+  xy: 1537, 477
+  size: 846, 108
+  orig: 846, 118
+  offset: 0, 7
+  index: -1
+7_r-50_1
+  rotate: true
+  xy: 1111, 4
+  size: 83, 302
+  orig: 83, 302
+  offset: 0, 0
+  index: -1
+8_r-50
+  rotate: true
+  xy: 1568, 61
+  size: 414, 174
+  orig: 414, 183
+  offset: 0, 9
+  index: -1
+head_0
+  rotate: true
+  xy: 994, 485
+  size: 261, 378
+  orig: 278, 378
+  offset: 0, 0
+  index: -1
+head_00
+  rotate: false
+  xy: 848, 224
+  size: 105, 147
+  orig: 105, 147
+  offset: 0, 0
+  index: -1
+head_1
+  rotate: false
+  xy: 2, 2
+  size: 512, 454
+  orig: 512, 454
+  offset: 0, 0
+  index: -1
+head_2
+  rotate: true
+  xy: 452, 608
+  size: 138, 36
+  orig: 144, 46
+  offset: 4, 4
+  index: -1
+head_3
+  rotate: true
+  xy: 848, 9
+  size: 186, 261
+  orig: 187, 261
+  offset: 1, 0
+  index: -1

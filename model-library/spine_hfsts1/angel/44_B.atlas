@@ -1,0 +1,335 @@
+
+44_B.png
+size: 2000,2000
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+backhair
+  rotate: false
+  xy: 2, 295
+  size: 493, 560
+  orig: 493, 560
+  offset: 0, 0
+  index: -1
+beklt
+  rotate: true
+  xy: 1860, 744
+  size: 284, 96
+  orig: 284, 96
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 1467, 1405
+  size: 357, 593
+  orig: 357, 593
+  offset: 0, 0
+  index: -1
+breast
+  rotate: false
+  xy: 493, 7
+  size: 296, 154
+  orig: 296, 154
+  offset: 0, 0
+  index: -1
+chair
+  rotate: false
+  xy: 2, 857
+  size: 528, 612
+  orig: 528, 612
+  offset: 0, 0
+  index: -1
+eyes close
+  rotate: true
+  xy: 1364, 7
+  size: 125, 35
+  orig: 125, 35
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 871, 780
+  size: 161, 214
+  orig: 161, 214
+  offset: 0, 0
+  index: -1
+flare_070
+  rotate: true
+  xy: 1295, 397
+  size: 77, 84
+  orig: 108, 108
+  offset: 16, 12
+  index: -1
+flare_071
+  rotate: false
+  xy: 1701, 847
+  size: 149, 180
+  orig: 210, 210
+  offset: 40, 15
+  index: -1
+front hair
+  rotate: true
+  xy: 791, 9
+  size: 152, 176
+  orig: 152, 176
+  offset: 0, 0
+  index: -1
+glasses
+  rotate: true
+  xy: 970, 139
+  size: 193, 134
+  orig: 232, 152
+  offset: 0, 18
+  index: -1
+hammer
+  rotate: false
+  xy: 986, 334
+  size: 123, 229
+  orig: 123, 229
+  offset: 0, 0
+  index: -1
+hammer handle
+  rotate: false
+  xy: 1295, 476
+  size: 248, 231
+  orig: 257, 231
+  offset: 0, 0
+  index: -1
+hammerlight(부딪칠때)
+  rotate: false
+  xy: 1401, 4
+  size: 87, 64
+  orig: 87, 64
+  offset: 0, 0
+  index: -1
+knife
+  rotate: true
+  xy: 1826, 1536
+  size: 275, 76
+  orig: 281, 76
+  offset: 6, 0
+  index: -1
+leftarm
+  rotate: true
+  xy: 1753, 47
+  size: 184, 239
+  orig: 184, 239
+  offset: 0, 0
+  index: -1
+leftarm up
+  rotate: true
+  xy: 1295, 709
+  size: 232, 252
+  orig: 276, 291
+  offset: 20, 0
+  index: -1
+lefthand
+  rotate: false
+  xy: 1872, 1165
+  size: 94, 122
+  orig: 94, 122
+  offset: 0, 0
+  index: -1
+lefthand light(부딪칠때)
+  rotate: true
+  xy: 436, 4
+  size: 57, 43
+  orig: 57, 43
+  offset: 0, 0
+  index: -1
+leftleg
+  rotate: false
+  xy: 1545, 492
+  size: 352, 215
+  orig: 352, 246
+  offset: 0, 31
+  index: -1
+leftleg down
+  rotate: false
+  xy: 532, 776
+  size: 337, 693
+  orig: 337, 693
+  offset: 0, 0
+  index: -1
+leftthair
+  rotate: false
+  xy: 1780, 233
+  size: 209, 257
+  orig: 213, 265
+  offset: 4, 8
+  index: -1
+metal
+  rotate: false
+  xy: 871, 943
+  size: 676, 453
+  orig: 676, 453
+  offset: 0, 0
+  index: -1
+metal light(부딪칠때)
+  rotate: true
+  xy: 1549, 1144
+  size: 259, 186
+  orig: 259, 186
+  offset: 0, 0
+  index: -1
+metal shadow
+  rotate: false
+  xy: 1417, 70
+  size: 334, 189
+  orig: 334, 189
+  offset: 0, 0
+  index: -1
+moru
+  rotate: false
+  xy: 2, 1471
+  size: 869, 527
+  orig: 869, 546
+  offset: 0, 19
+  index: -1
+mouth close
+  rotate: true
+  xy: 1381, 422
+  size: 52, 34
+  orig: 52, 34
+  offset: 0, 0
+  index: -1
+rightarm
+  rotate: false
+  xy: 1111, 134
+  size: 304, 253
+  orig: 319, 305
+  offset: 15, 52
+  index: -1
+rightarm up
+  rotate: true
+  xy: 2, 2
+  size: 291, 331
+  orig: 522, 776
+  offset: 231, 135
+  index: -1
+righthand
+  rotate: false
+  xy: 1860, 1030
+  size: 118, 122
+  orig: 118, 122
+  offset: 0, 0
+  index: -1
+righthand light(부딪칠때)
+  rotate: true
+  xy: 1899, 639
+  size: 103, 93
+  orig: 103, 93
+  offset: 0, 0
+  index: -1
+rightleg
+  rotate: false
+  xy: 497, 163
+  size: 471, 193
+  orig: 903, 485
+  offset: 432, 263
+  index: -1
+rightleg down
+  rotate: true
+  xy: 497, 565
+  size: 209, 613
+  orig: 209, 613
+  offset: 0, 0
+  index: -1
+skirt
+  rotate: false
+  xy: 873, 1398
+  size: 592, 600
+  orig: 592, 600
+  offset: 0, 0
+  index: -1
+skirt안쪽
+  rotate: true
+  xy: 497, 358
+  size: 205, 487
+  orig: 205, 487
+  offset: 0, 0
+  index: -1
+spk_007
+  rotate: false
+  xy: 1826, 1813
+  size: 167, 185
+  orig: 215, 215
+  offset: 24, 10
+  index: -1
+레이어 12
+  rotate: true
+  xy: 1112, 389
+  size: 552, 181
+  orig: 552, 181
+  offset: 0, 0
+  index: -1
+마후라
+  rotate: false
+  xy: 335, 63
+  size: 156, 230
+  orig: 156, 230
+  offset: 0, 0
+  index: -1
+셔츠
+  rotate: false
+  xy: 1417, 261
+  size: 361, 213
+  orig: 361, 213
+  offset: 0, 0
+  index: -1
+신 발끈
+  rotate: true
+  xy: 1490, 24
+  size: 44, 95
+  orig: 44, 95
+  offset: 0, 0
+  index: -1
+신발끈
+  rotate: true
+  xy: 335, 12
+  size: 49, 99
+  orig: 49, 99
+  offset: 0, 0
+  index: -1
+오른카라
+  rotate: false
+  xy: 1737, 1154
+  size: 133, 133
+  orig: 134, 133
+  offset: 0, 0
+  index: -1
+왼카라
+  rotate: true
+  xy: 969, 5
+  size: 132, 140
+  orig: 132, 140
+  offset: 0, 0
+  index: -1
+집게
+  rotate: true
+  xy: 1549, 723
+  size: 304, 150
+  orig: 304, 150
+  offset: 0, 0
+  index: -1
+철가루(부딪칠때사용)
+  rotate: false
+  xy: 1737, 1289
+  size: 193, 114
+  orig: 194, 115
+  offset: 1, 0
+  index: -1
+허리 연장주머니
+  rotate: false
+  xy: 1549, 1029
+  size: 309, 113
+  orig: 309, 113
+  offset: 0, 0
+  index: -1
+허리벨트
+  rotate: false
+  xy: 1111, 5
+  size: 251, 127
+  orig: 251, 127
+  offset: 0, 0
+  index: -1

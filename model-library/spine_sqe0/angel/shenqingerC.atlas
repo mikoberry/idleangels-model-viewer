@@ -1,0 +1,153 @@
+
+shenqingerC.png
+size: 1983,1983
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Lhand01
+  rotate: true
+  xy: 2, 213
+  size: 93, 482
+  orig: 105, 482
+  offset: 12, 0
+  index: -1
+Lhand02
+  rotate: true
+  xy: 1272, 805
+  size: 120, 109
+  orig: 128, 109
+  offset: 6, 0
+  index: -1
+Lotus
+  rotate: false
+  xy: 2, 1048
+  size: 1480, 933
+  orig: 1480, 933
+  offset: 0, 0
+  index: -1
+Rhand01
+  rotate: false
+  xy: 1750, 1113
+  size: 129, 84
+  orig: 129, 84
+  offset: 0, 0
+  index: -1
+Rhand02
+  rotate: true
+  xy: 1894, 1278
+  size: 113, 65
+  orig: 119, 65
+  offset: 0, 0
+  index: -1
+Rribbon03
+  rotate: false
+  xy: 1910, 748
+  size: 36, 112
+  orig: 36, 112
+  offset: 0, 0
+  index: -1
+bg01
+  rotate: true
+  xy: 1272, 927
+  size: 119, 113
+  orig: 129, 124
+  offset: 10, 0
+  index: -1
+bg06
+  rotate: true
+  xy: 1730, 578
+  size: 282, 178
+  orig: 993, 412
+  offset: 412, 214
+  index: -1
+bg061
+  rotate: true
+  xy: 1484, 678
+  size: 431, 244
+  orig: 615, 264
+  offset: 0, 20
+  index: -1
+hair01
+  rotate: true
+  xy: 1894, 1239
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+hair02
+  rotate: true
+  xy: 1272, 696
+  size: 107, 134
+  orig: 110, 137
+  offset: 0, 0
+  index: -1
+hair03
+  rotate: false
+  xy: 1939, 1014
+  size: 30, 103
+  orig: 30, 103
+  offset: 0, 0
+  index: -1
+hair05
+  rotate: true
+  xy: 1944, 1247
+  size: 29, 12
+  orig: 29, 12
+  offset: 0, 0
+  index: -1
+hair06
+  rotate: true
+  xy: 1272, 579
+  size: 97, 349
+  orig: 97, 349
+  offset: 0, 0
+  index: -1
+hairbg
+  rotate: true
+  xy: 1272, 30
+  size: 546, 659
+  orig: 675, 659
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 1750, 1199
+  size: 142, 192
+  orig: 142, 192
+  offset: 0, 0
+  index: -1
+skirt
+  rotate: false
+  xy: 2, 308
+  size: 1268, 738
+  orig: 1268, 768
+  offset: 0, 15
+  index: -1
+spine1
+  rotate: false
+  xy: 1484, 1111
+  size: 264, 280
+  orig: 264, 284
+  offset: 0, 2
+  index: -1
+spine2
+  rotate: true
+  xy: 1484, 1393
+  size: 588, 497
+  orig: 605, 497
+  offset: 2, 0
+  index: -1
+toushi01
+  rotate: true
+  xy: 1881, 1119
+  size: 78, 93
+  orig: 78, 93
+  offset: 0, 0
+  index: -1
+xiongribbon
+  rotate: false
+  xy: 1730, 862
+  size: 207, 247
+  orig: 207, 247
+  offset: 0, 0
+  index: -1

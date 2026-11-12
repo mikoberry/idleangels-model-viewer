@@ -1,0 +1,286 @@
+
+41_A.png
+size: 2016,2016
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dancer_a_ 001
+  rotate: true
+  xy: 303, 4
+  size: 32, 14
+  orig: 32, 18
+  offset: 0, 0
+  index: -1
+Dancer_a_ 002
+  rotate: false
+  xy: 252, 2
+  size: 49, 34
+  orig: 54, 34
+  offset: 0, 0
+  index: -1
+Dancer_a_ 003
+  rotate: false
+  xy: 1881, 1497
+  size: 116, 179
+  orig: 116, 179
+  offset: 0, 0
+  index: -1
+Dancer_a_ 004
+  rotate: false
+  xy: 468, 34
+  size: 42, 54
+  orig: 42, 54
+  offset: 0, 0
+  index: -1
+Dancer_a_ 005
+  rotate: false
+  xy: 802, 1536
+  size: 491, 478
+  orig: 491, 478
+  offset: 0, 0
+  index: -1
+Dancer_a_ 006
+  rotate: false
+  xy: 2, 90
+  size: 820, 318
+  orig: 820, 330
+  offset: 0, 12
+  index: -1
+Dancer_a_ 007
+  rotate: true
+  xy: 1811, 1024
+  size: 242, 198
+  orig: 242, 198
+  offset: 0, 0
+  index: -1
+Dancer_a_ 008
+  rotate: false
+  xy: 1760, 538
+  size: 239, 468
+  orig: 239, 560
+  offset: 0, 92
+  index: -1
+Dancer_a_ 009
+  rotate: false
+  xy: 1881, 1349
+  size: 111, 146
+  orig: 124, 146
+  offset: 13, 0
+  index: -1
+Dancer_a_ 010
+  rotate: false
+  xy: 802, 410
+  size: 119, 126
+  orig: 133, 126
+  offset: 3, 0
+  index: -1
+Dancer_a_ 011
+  rotate: false
+  xy: 1593, 1544
+  size: 280, 470
+  orig: 280, 470
+  offset: 0, 0
+  index: -1
+Dancer_a_ 012
+  rotate: false
+  xy: 1355, 109
+  size: 100, 124
+  orig: 100, 124
+  offset: 0, 0
+  index: -1
+Dancer_a_ 013
+  rotate: true
+  xy: 2, 13
+  size: 75, 150
+  orig: 75, 150
+  offset: 0, 0
+  index: -1
+Dancer_a_ 014
+  rotate: true
+  xy: 802, 616
+  size: 197, 486
+  orig: 428, 852
+  offset: 231, 366
+  index: -1
+Dancer_a_ 015
+  rotate: true
+  xy: 1290, 480
+  size: 333, 397
+  orig: 362, 428
+  offset: 29, 31
+  index: -1
+Dancer_a_ 016
+  rotate: true
+  xy: 824, 8
+  size: 146, 176
+  orig: 169, 176
+  offset: 23, 0
+  index: -1
+Dancer_a_ 017
+  rotate: false
+  xy: 1474, 36
+  size: 168, 225
+  orig: 168, 225
+  offset: 0, 0
+  index: -1
+Dancer_a_ 018
+  rotate: true
+  xy: 802, 815
+  size: 190, 956
+  orig: 256, 956
+  offset: 66, 0
+  index: -1
+Dancer_a_ 019
+  rotate: true
+  xy: 512, 46
+  size: 42, 40
+  orig: 42, 40
+  offset: 0, 0
+  index: -1
+Dancer_a_ 020
+  rotate: true
+  xy: 1295, 1553
+  size: 461, 296
+  orig: 479, 315
+  offset: 0, 19
+  index: -1
+Dancer_a_ 021
+  rotate: false
+  xy: 1474, 263
+  size: 193, 215
+  orig: 200, 215
+  offset: 0, 0
+  index: -1
+Dancer_a_ 022
+  rotate: true
+  xy: 154, 12
+  size: 76, 96
+  orig: 76, 96
+  offset: 0, 0
+  index: -1
+Dancer_a_ 023
+  rotate: false
+  xy: 1689, 205
+  size: 248, 331
+  orig: 254, 340
+  offset: 3, 6
+  index: -1
+Dancer_a_ 024
+  rotate: false
+  xy: 1644, 15
+  size: 173, 188
+  orig: 188, 196
+  offset: 0, 8
+  index: -1
+Dancer_a_ 025
+  rotate: false
+  xy: 252, 38
+  size: 94, 50
+  orig: 94, 51
+  offset: 0, 0
+  index: -1
+Dancer_a_ 026
+  rotate: true
+  xy: 923, 342
+  size: 272, 288
+  orig: 272, 288
+  offset: 0, 0
+  index: -1
+Dancer_a_ 027
+  rotate: true
+  xy: 1213, 235
+  size: 243, 259
+  orig: 248, 259
+  offset: 5, 0
+  index: -1
+Dancer_a_ 028
+  rotate: false
+  xy: 1223, 1008
+  size: 586, 258
+  orig: 586, 258
+  offset: 0, 0
+  index: -1
+Dancer_a_ 029
+  rotate: false
+  xy: 1223, 1268
+  size: 656, 266
+  orig: 656, 266
+  offset: 0, 0
+  index: -1
+Dancer_a_ 030
+  rotate: true
+  xy: 348, 20
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: -1
+Dancer_a_ 031
+  rotate: false
+  xy: 923, 156
+  size: 237, 184
+  orig: 328, 184
+  offset: 0, 0
+  index: -1
+Dancer_a_ 032
+  rotate: true
+  xy: 1002, 11
+  size: 143, 140
+  orig: 143, 140
+  offset: 0, 0
+  index: -1
+Dancer_a_ 033
+  rotate: false
+  xy: 2, 410
+  size: 798, 1604
+  orig: 798, 1604
+  offset: 0, 0
+  index: -1
+Dancer_a_ 034
+  rotate: true
+  xy: 1881, 1678
+  size: 336, 101
+  orig: 355, 104
+  offset: 0, 2
+  index: -1
+Dancer_a_ 035
+  rotate: true
+  xy: 1162, 39
+  size: 194, 191
+  orig: 194, 191
+  offset: 0, 0
+  index: -1
+Dancer_a_ 036
+  rotate: false
+  xy: 802, 1007
+  size: 419, 527
+  orig: 419, 538
+  offset: 0, 11
+  index: -1
+Dancer_a_ 037
+  rotate: true
+  xy: 824, 207
+  size: 98, 96
+  orig: 98, 96
+  offset: 0, 0
+  index: -1
+Dancer_a_ 038
+  rotate: true
+  xy: 824, 307
+  size: 101, 97
+  orig: 101, 97
+  offset: 0, 0
+  index: -1
+Dancer_a_ 039
+  rotate: true
+  xy: 414, 13
+  size: 75, 52
+  orig: 75, 52
+  offset: 0, 0
+  index: -1
+Dancer_a_ 040
+  rotate: false
+  xy: 1819, 47
+  size: 159, 156
+  orig: 162, 156
+  offset: 0, 0
+  index: -1

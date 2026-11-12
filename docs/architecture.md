@@ -46,7 +46,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   - `viewSettings`
   - `language` / `t`
   - `clock` / `spectrum` / `albumArt`（三个独立的持久化偏好 state）
-  - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染；抽屉在两种环境下都默认打开）
+  - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染；抽屉在两种环境下都默认收起）
 - 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
@@ -326,16 +326,17 @@ offset/size = skeleton.getBounds()
 
 ### 触发 Action
 
-`triggerAction()`：
+`triggerAction()` 走 `startAction(false)`，`play('action')` 走 `startAction(true)`：
 
-1. `actionToken += 1`，使旧回调失效。
-2. 清空 `pendingActionLayers`。
-3. 对每个拥有 `action` 的图层：
+1. `startAction(force)`：如果 `actionInFlight` 为真且 `force` 为假，直接返回。点击画面是非强制调用，所以 `action` 播放期间快速连点会被忽略，要等回到 `idle` 才能再次触发；下拉框选择 `action` 是强制调用，仍会从头重播。
+2. `actionToken += 1`，使旧回调失效。
+3. 清空 `pendingActionLayers`。
+4. 对每个拥有 `action` 的图层：
    - `state.setAnimation(0, 'action', false)`；
    - 如果当前已经是 `action`，设置 `entry.mixDuration = 0` 立即重播；
    - 挂 `complete` 监听；
    - 把图层 id 加入 pending 集合。
-4. 有图层启动成功时，把当前动画更新为 `action`。
+5. 有图层启动成功时，置 `actionInFlight = true`，并把当前动画更新为 `action`。
 
 ### 完成
 
@@ -344,6 +345,7 @@ offset/size = skeleton.getBounds()
 1. token 不匹配就忽略。
 2. 从 pending 集合删除该图层。
 3. pending 为空时调用 `returnToIdle()`：
+   - 置 `actionInFlight = false`，重新允许点击触发；
    - 对拥有 `idle` 的图层设置 `idle` 循环；
    - 当前动画更新为 `idle`。
 
@@ -351,8 +353,8 @@ offset/size = skeleton.getBounds()
 
 `play(name)`：
 
-- `action` 转给 `triggerAction()`。
-- 其他动画：token 递增、清 pending、对拥有该动画的图层设置循环播放。
+- `action` 转给 `startAction(true)`，强制重播，不受“播放中忽略”的拦截。
+- 其他动画：token 递增、清 pending、**`actionInFlight = false`**，再对拥有该动画的图层设置循环播放。这一步必须清除标记：token 递增后 `action` 的 `complete` 回调会被忽略，否则标记会永久停在 `true`，之后的点击全部失效。
 - 当前筛选的模型都有 `idle` / `action`；`availableAnimations` 会合并所有图层的动画名并去重。
 
 ### 循环 Action 的注意事项
@@ -456,8 +458,8 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 ## 已知限制与取舍
 
 - **部分持久化**：时钟、频谱、专辑封面、语言、抽屉标签、按模型的视图记录都已持久化；而播放设置（缩放/位置/背景色/点击开关）和当前模型只存在于 React state，刷新即重置，模型默认选清单第一项。
-- **只处理部分模型**：当前只导入 128 / 377 个“有 action + angel + bg”的模型；NPC、单层、缺资源等暂不处理。
-- **全模型包较大**：约 731 MB，构建/复制耗时。
+- **只处理部分模型**：当前导入 332 / 377 个模型（有 `angel` + 有 `action` + 单套资源，`bg` 可选）；NPC、兽娘 `spine_sn*`、缺资源、多套资源等暂不处理。
+- **全模型包较大**：约 1.2 GB，构建/复制耗时。
 - **无模式**：没有编辑/展示模式，也没有 URL 状态。
 - **无播放控制**：只有动画切换和点击 Action，没有速度/暂停/循环/自动播放。
 - **无包围盒调试**：没有逐层 bounds 绘制。

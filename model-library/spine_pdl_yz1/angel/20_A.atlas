@@ -1,0 +1,300 @@
+
+20_A.png
+size: 2017,2017
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Pandora_10
+  rotate: false
+  xy: 1974, 1858
+  size: 41, 157
+  orig: 41, 157
+  offset: 0, 0
+  index: -1
+Pandora_11
+  rotate: false
+  xy: 1481, 244
+  size: 117, 636
+  orig: 117, 636
+  offset: 0, 0
+  index: -1
+Pandora_12
+  rotate: true
+  xy: 1057, 307
+  size: 548, 193
+  orig: 548, 193
+  offset: 0, 0
+  index: -1
+Pandora_13
+  rotate: false
+  xy: 1600, 371
+  size: 121, 565
+  orig: 121, 582
+  offset: 0, 15
+  index: -1
+Pandora_14
+  rotate: true
+  xy: 1750, 929
+  size: 561, 188
+  orig: 561, 188
+  offset: 0, 0
+  index: -1
+Pandora_16
+  rotate: false
+  xy: 1895, 505
+  size: 92, 204
+  orig: 92, 204
+  offset: 0, 0
+  index: -1
+Pandora_16_1
+  rotate: true
+  xy: 1193, 200
+  size: 105, 85
+  orig: 105, 85
+  offset: 0, 0
+  index: -1
+Pandora_17
+  rotate: false
+  xy: 1006, 13
+  size: 210, 112
+  orig: 210, 112
+  offset: 0, 0
+  index: -1
+Pandora_18
+  rotate: true
+  xy: 1694, 65
+  size: 133, 100
+  orig: 133, 100
+  offset: 0, 0
+  index: -1
+Pandora_18_1
+  rotate: false
+  xy: 1785, 294
+  size: 85, 86
+  orig: 85, 86
+  offset: 0, 0
+  index: -1
+Pandora_19
+  rotate: false
+  xy: 1940, 1376
+  size: 67, 131
+  orig: 67, 131
+  offset: 0, 0
+  index: -1
+Pandora_20
+  rotate: false
+  xy: 445, 88
+  size: 237, 265
+  orig: 237, 265
+  offset: 0, 0
+  index: -1
+Pandora_20_dn
+  rotate: true
+  xy: 1252, 312
+  size: 68, 222
+  orig: 68, 222
+  offset: 0, 0
+  index: -1
+Pandora_21
+  rotate: false
+  xy: 756, 359
+  size: 39, 47
+  orig: 39, 47
+  offset: 0, 0
+  index: -1
+Pandora_22
+  rotate: false
+  xy: 1447, 200
+  size: 76, 42
+  orig: 76, 42
+  offset: 0, 0
+  index: -1
+Pandora_23
+  rotate: true
+  xy: 1723, 382
+  size: 32, 136
+  orig: 32, 136
+  offset: 0, 0
+  index: -1
+Pandora_24
+  rotate: true
+  xy: 1895, 1509
+  size: 37, 120
+  orig: 37, 120
+  offset: 0, 0
+  index: -1
+Pandora_25
+  rotate: true
+  xy: 1280, 200
+  size: 110, 76
+  orig: 110, 76
+  offset: 0, 0
+  index: -1
+Pandora_26
+  rotate: false
+  xy: 1940, 1143
+  size: 60, 115
+  orig: 60, 115
+  offset: 0, 0
+  index: -1
+Pandora_27
+  rotate: false
+  xy: 1974, 1805
+  size: 41, 51
+  orig: 41, 51
+  offset: 0, 0
+  index: -1
+Pandora_28
+  rotate: false
+  xy: 1006, 127
+  size: 185, 178
+  orig: 189, 178
+  offset: 0, 0
+  index: -1
+Pandora_31
+  rotate: false
+  xy: 1600, 200
+  size: 183, 169
+  orig: 183, 169
+  offset: 0, 0
+  index: -1
+Pandora_32
+  rotate: false
+  xy: 1531, 938
+  size: 217, 552
+  orig: 234, 573
+  offset: 8, 21
+  index: -1
+Pandora_34
+  rotate: true
+  xy: 684, 76
+  size: 277, 136
+  orig: 277, 136
+  offset: 0, 0
+  index: -1
+Pandora_35
+  rotate: true
+  xy: 1895, 420
+  size: 83, 90
+  orig: 83, 90
+  offset: 0, 0
+  index: -1
+Pandora_36
+  rotate: false
+  xy: 1177, 1492
+  size: 716, 523
+  orig: 716, 523
+  offset: 0, 0
+  index: -1
+Pandora_37
+  rotate: false
+  xy: 1358, 208
+  size: 87, 102
+  orig: 87, 102
+  offset: 0, 0
+  index: -1
+Pandora_38
+  rotate: false
+  xy: 1723, 416
+  size: 170, 511
+  orig: 170, 511
+  offset: 0, 0
+  index: -1
+Pandora_39
+  rotate: false
+  xy: 822, 31
+  size: 182, 375
+  orig: 182, 375
+  offset: 0, 0
+  index: -1
+Pandora_40
+  rotate: false
+  xy: 2, 7
+  size: 441, 346
+  orig: 441, 346
+  offset: 0, 0
+  index: -1
+Pandora_40up
+  rotate: false
+  xy: 756, 408
+  size: 299, 447
+  orig: 299, 447
+  offset: 0, 0
+  index: -1
+Pandora_42
+  rotate: true
+  xy: 1895, 1548
+  size: 217, 98
+  orig: 217, 98
+  offset: 0, 0
+  index: -1
+Pandora_43
+  rotate: false
+  xy: 1177, 882
+  size: 352, 608
+  orig: 352, 650
+  offset: 0, 42
+  index: -1
+Pandora_44
+  rotate: true
+  xy: 1252, 382
+  size: 498, 227
+  orig: 498, 227
+  offset: 0, 0
+  index: -1
+Pandora_45
+  rotate: false
+  xy: 445, 30
+  size: 197, 56
+  orig: 197, 56
+  offset: 0, 0
+  index: -1
+Pandora_47
+  rotate: false
+  xy: 2, 857
+  size: 1173, 1158
+  orig: 1173, 1158
+  offset: 0, 0
+  index: -1
+Pandora_50
+  rotate: false
+  xy: 2, 355
+  size: 752, 500
+  orig: 752, 500
+  offset: 0, 0
+  index: -1
+Pandora_51
+  rotate: true
+  xy: 1218, 24
+  size: 174, 474
+  orig: 174, 474
+  offset: 0, 0
+  index: -1
+Pandora_6
+  rotate: false
+  xy: 1531, 889
+  size: 39, 47
+  orig: 39, 47
+  offset: 0, 0
+  index: -1
+Pandora_7
+  rotate: true
+  xy: 1895, 711
+  size: 216, 87
+  orig: 216, 87
+  offset: 0, 0
+  index: -1
+Pandora_7_up
+  rotate: false
+  xy: 1940, 1260
+  size: 71, 114
+  orig: 71, 114
+  offset: 0, 0
+  index: -1
+Pandora_8
+  rotate: false
+  xy: 1895, 1767
+  size: 77, 248
+  orig: 83, 248
+  offset: 0, 0
+  index: -1

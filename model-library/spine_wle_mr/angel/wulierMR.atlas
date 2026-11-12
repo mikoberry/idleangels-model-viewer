@@ -1,0 +1,160 @@
+
+wulierMR.png
+size: 4096,4096
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+125
+  rotate: false
+  xy: 1076, 1070
+  size: 724, 399
+  orig: 724, 399
+  offset: 0, 0
+  index: -1
+126
+  rotate: true
+  xy: 1076, 316
+  size: 292, 1377
+  orig: 292, 1377
+  offset: 0, 0
+  index: -1
+127
+  rotate: true
+  xy: 2, 80
+  size: 156, 549
+  orig: 156, 549
+  offset: 0, 0
+  index: -1
+128
+  rotate: false
+  xy: 3435, 326
+  size: 543, 741
+  orig: 543, 741
+  offset: 0, 0
+  index: -1
+129
+  rotate: true
+  xy: 2678, 526
+  size: 541, 755
+  orig: 541, 755
+  offset: 0, 0
+  index: -1
+130
+  rotate: true
+  xy: 2, 511
+  size: 958, 1072
+  orig: 958, 1072
+  offset: 0, 0
+  index: -1
+131
+  rotate: false
+  xy: 2454, 289
+  size: 575, 234
+  orig: 575, 234
+  offset: 0, 0
+  index: -1
+132
+  rotate: 180
+  xy: 849, 33
+  size: 301, 477
+  orig: 301, 477
+  offset: 0, 0
+  index: -1
+133
+  rotate: false
+  xy: 1802, 1188
+  size: 14, 27
+  orig: 14, 27
+  offset: 0, 0
+  index: -1
+134
+  rotate: false
+  xy: 1802, 1218
+  size: 12, 31
+  orig: 12, 31
+  offset: 0, 0
+  index: -1
+135
+  rotate: false
+  xy: 1802, 1159
+  size: 13, 27
+  orig: 13, 27
+  offset: 0, 0
+  index: -1
+136
+  rotate: false
+  xy: 1802, 1132
+  size: 10, 26
+  orig: 10, 26
+  offset: 0, 0
+  index: -1
+137
+  rotate: false
+  xy: 1802, 1305
+  size: 29, 66
+  orig: 70, 98
+  offset: 19, 0
+  index: -1
+138
+  rotate: false
+  xy: 1802, 1251
+  size: 29, 52
+  orig: 40, 100
+  offset: 7, 0
+  index: -1
+139
+  rotate: false
+  xy: 2, 1471
+  size: 1920, 2508
+  orig: 1920, 2508
+  offset: 0, 0
+  index: -1
+140
+  rotate: false
+  xy: 2, 278
+  size: 480, 231
+  orig: 480, 231
+  offset: 0, 0
+  index: -1
+141
+  rotate: false
+  xy: 1076, 610
+  size: 1600, 456
+  orig: 1600, 456
+  offset: 0, 0
+  index: -1
+142
+  rotate: false
+  xy: 1924, 1068
+  size: 1920, 639
+  orig: 1920, 639
+  offset: 0, 0
+  index: -1
+143
+  rotate: false
+  xy: 1924, 1709
+  size: 1920, 2270
+  orig: 1920, 2270
+  offset: 0, 0
+  index: -1
+denguang1
+  rotate: true
+  xy: 484, 233
+  size: 276, 366
+  orig: 276, 366
+  offset: 0, 0
+  index: -1
+denguang2
+  rotate: false
+  xy: 3032, 198
+  size: 389, 326
+  orig: 389, 326
+  offset: 0, 0
+  index: -1
+zhuguang
+  rotate: false
+  xy: 1802, 1372
+  size: 80, 98
+  orig: 80, 98
+  offset: 0, 0
+  index: -1

@@ -12,9 +12,9 @@
 >
 > Issues and corrections are welcome, including translation fixes.
 
-A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **128 models** with `angel`, `bg`, and `action`; the GitHub Pages build ships **51 representative models**.
+A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **332 models** — 127 with `angel` + `bg`, and 205 with `angel` only; the GitHub Pages build ships **50 representative models**.
 
-The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in both a normal browser and inside Wallpaper Engine. It is split into four tabs — **clock**, **spectrum**, **model**, and **other** — and contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
+The canvas stays mounted while the settings drawer opens and closes. The drawer starts closed in both a normal browser and inside Wallpaper Engine, and the eye button in the bottom-right corner opens it. It is split into four tabs — **clock**, **spectrum**, **model**, and **other** — and contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
 
 ## Online version
 
@@ -22,7 +22,7 @@ The canvas stays mounted while the settings drawer opens and closes. The drawer 
 https://mikoberry.github.io/idleangels-model-viewer/
 ```
 
-The online build is deployed with GitHub Pages. It reads [deploy-models.json](deploy-models.json) and publishes 51 models, about 294 MB.
+The online build is deployed with GitHub Pages. It reads [deploy-models.json](deploy-models.json) and publishes 50 models, about 288 MB.
 
 You can:
 
@@ -72,7 +72,7 @@ http://localhost:5173/
 
 If port 5173 is busy, Vite chooses the next available port.
 
-To prepare all 128 models and start the dev server:
+To prepare all 332 models and start the dev server:
 
 ```bash
 npm run dev:all
@@ -104,7 +104,7 @@ node scripts/prepare-models.mjs --file deploy-models.json
 
 The source library is committed under `model-library/`; generated model assets live in `public/spine/models/` and are ignored by Git.
 
-Current scope: models with `angel` + `bg`, one `.skel` / `.atlas` / `.png` per layer, and both `idle` and `action`. The source directory contains 377 entries; 128 match these rules. NPC-only models, single-layer models, missing textures, and unusual directory layouts are skipped.
+Current scope: models with an `angel` layer, one `.skel` / `.atlas` / `.png` per layer, and both `idle` and `action`. The `bg` layer is optional: models without it render on the page background. The source directory contains 377 entries; 332 match these rules (127 `angel` + `bg`, 205 `angel` only). NPCs (`spine_npc*`), the `sn` beast-girl set (`spine_sn*`, including `spine_sn0`–`spine_sn2`), missing textures, and multi-asset directory layouts are skipped.
 
 Model recommendations are stored in [model-presets.json](model-presets.json):
 
@@ -188,7 +188,7 @@ Set the repository Pages source to **GitHub Actions**:
 Settings → Pages → Build and deployment → Source → GitHub Actions
 ```
 
-GitHub Pages limits the published site to 1 GB and has a soft bandwidth limit of 100 GB/month. The current deployment subset is about 294 MB.
+GitHub Pages limits the published site to 1 GB and has a soft bandwidth limit of 100 GB/month. The current deployment subset is about 288 MB.
 
 The deployed page includes Cloudflare Web Analytics for aggregate page-load traffic. It is cookieless and does not create a new page view when switching models.
 

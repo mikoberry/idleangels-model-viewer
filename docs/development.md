@@ -107,14 +107,14 @@ npm run package:model -- spine_hhbsd_bdmy
 npm run package:all
 ```
 
-- `models:import` 只导入“有 `action` + `angel` + `bg` + 单套资源”的模型；当前 128 个。
+- `models:import` 只导入“有 `angel` + 有 `action` + 单套资源”的模型，`bg` 可选；排除 NPC（`spine_npc*`）和兽娘（`spine_sn*`，含 `spine_sn0`–`spine_sn2`）；当前 332 个（127 个双层 + 205 个单层）。
 - `models:use` / `package:*` 会按 PNG 实际尺寸重写 atlas。
 - `model-presets.json` 存每个模型的推荐缩放/位置/可选背景；没有配置时回退到 `100 / 0 / 0` + 黑色。
 - 点击“记录当前视图”才会把该模型写入 localStorage；画面变换里的“复制全部视图”只复制已记录模型，粘贴到 `model-presets.json` 后重新准备模型。
 - 模型选择不持久化，刷新后默认清单第一个。
-- `deploy-models.json` 是部署子集，当前 51 个模型、约 294 MB，优先级 `bdmy > np > cshs > mr`；Vercel 和 GitHub Pages 构建只准备该子集。
+- `deploy-models.json` 是部署子集，当前 50 个模型、约 288 MB，优先级 `bdmy > np > cshs > mr`；Vercel 和 GitHub Pages 构建只准备该子集。
 - GitHub Pages 使用 [.github/workflows/deploy-pages.yml](../.github/workflows/deploy-pages.yml)，需要在仓库 Settings → Pages 将 Source 设为 GitHub Actions。
-- `package:all` 约 731 MB，构建和复制都会明显变慢。
+- `package:all` 约 1.2 GB，构建和复制都会明显变慢。
 
 ### 仓库根目录与脚本
 
@@ -192,7 +192,7 @@ npm run package:all
 - [ ] 时钟“随音频节拍律动”与“响应强度”生效
 - [ ] 频谱可在上下边缘显示，高度、水平位置、颜色生效
 - [ ] 专辑封面卡片能显示封面与曲名，角落/大小/位置生效，暂停时停止旋转
-- [ ] 抽屉默认打开，刷新后停在上次的标签
+- [ ] 抽屉默认收起，点眼睛按钮打开，刷新后停在上次的标签
 - [ ] 设置抽屉“其它”标签里的“显示调试信息”能控制左上角调试窗口的显示/隐藏
 - [ ] 移动端宽度下抽屉占满宽度，标签菜单改为顶部横排
 - [ ] 刷新后未记录的播放设置恢复默认值，并回到第一个模型；时钟/频谱/专辑封面/语言/标签保持不变

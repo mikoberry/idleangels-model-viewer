@@ -1,0 +1,174 @@
+
+01_C.png
+size: 2029,2029
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eff1
+  rotate: false
+  xy: 1293, 538
+  size: 57, 57
+  orig: 61, 61
+  offset: 2, 2
+  index: -1
+eff2
+  rotate: true
+  xy: 1667, 1354
+  size: 40, 281
+  orig: 42, 287
+  offset: 1, 0
+  index: -1
+nemesis_1
+  rotate: true
+  xy: 2, 10
+  size: 97, 150
+  orig: 97, 150
+  offset: 0, 0
+  index: -1
+nemesis_10
+  rotate: false
+  xy: 464, 1131
+  size: 855, 896
+  orig: 855, 896
+  offset: 0, 0
+  index: -1
+nemesis_12
+  rotate: false
+  xy: 1321, 1341
+  size: 344, 686
+  orig: 344, 704
+  offset: 0, 18
+  index: -1
+nemesis_14
+  rotate: false
+  xy: 464, 245
+  size: 387, 213
+  orig: 387, 213
+  offset: 0, 0
+  index: -1
+nemesis_15
+  rotate: true
+  xy: 472, 597
+  size: 532, 905
+  orig: 532, 905
+  offset: 0, 0
+  index: -1
+nemesis_16
+  rotate: true
+  xy: 1667, 1396
+  size: 631, 327
+  orig: 657, 327
+  offset: 0, 0
+  index: -1
+nemesis_17
+  rotate: false
+  xy: 994, 157
+  size: 116, 438
+  orig: 116, 438
+  offset: 0, 0
+  index: -1
+nemesis_18
+  rotate: false
+  xy: 1635, 21
+  size: 342, 123
+  orig: 342, 123
+  offset: 0, 0
+  index: -1
+nemesis_2
+  rotate: false
+  xy: 2, 109
+  size: 460, 1918
+  orig: 460, 1918
+  offset: 0, 0
+  index: -1
+nemesis_20
+  rotate: false
+  xy: 1112, 241
+  size: 179, 354
+  orig: 179, 354
+  offset: 0, 0
+  index: -1
+nemesis_21
+  rotate: true
+  xy: 733, 91
+  size: 152, 224
+  orig: 152, 224
+  offset: 0, 0
+  index: -1
+nemesis_22
+  rotate: false
+  xy: 1379, 606
+  size: 455, 527
+  orig: 455, 527
+  offset: 0, 0
+  index: -1
+nemesis_23
+  rotate: true
+  xy: 1836, 647
+  size: 192, 186
+  orig: 192, 186
+  offset: 0, 0
+  index: -1
+nemesis_24
+  rotate: true
+  xy: 1293, 137
+  size: 154, 340
+  orig: 154, 340
+  offset: 0, 0
+  index: -1
+nemesis_3
+  rotate: true
+  xy: 464, 460
+  size: 135, 528
+  orig: 144, 528
+  offset: 0, 0
+  index: -1
+nemesis_5
+  rotate: true
+  xy: 1321, 1135
+  size: 204, 501
+  orig: 230, 501
+  offset: 26, 0
+  index: -1
+nemesis_6_1
+  rotate: false
+  xy: 1836, 841
+  size: 183, 511
+  orig: 201, 511
+  offset: 18, 0
+  index: -1
+nemesis_6_2
+  rotate: true
+  xy: 154, 11
+  size: 96, 316
+  orig: 96, 316
+  offset: 0, 0
+  index: -1
+nemesis_6_3
+  rotate: true
+  xy: 1379, 293
+  size: 311, 648
+  orig: 311, 648
+  offset: 0, 0
+  index: -1
+nemesis_6_4
+  rotate: true
+  xy: 1635, 146
+  size: 145, 378
+  orig: 145, 378
+  offset: 0, 0
+  index: -1
+nemesis_7
+  rotate: true
+  xy: 472, 20
+  size: 223, 259
+  orig: 223, 267
+  offset: 0, 0
+  index: -1
+nemesis_9
+  rotate: true
+  xy: 853, 303
+  size: 155, 137
+  orig: 155, 137
+  offset: 0, 0
+  index: -1

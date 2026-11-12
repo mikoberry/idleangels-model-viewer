@@ -1,0 +1,139 @@
+
+40_S.png
+size: 2016,2016
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm_r
+  rotate: true
+  xy: 1474, 875
+  size: 235, 527
+  orig: 235, 527
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 1236, 1258
+  size: 323, 691
+  orig: 323, 691
+  offset: 0, 0
+  index: -1
+breast
+  rotate: true
+  xy: 1736, 579
+  size: 294, 260
+  orig: 294, 260
+  offset: 0, 0
+  index: -1
+eye_02
+  rotate: false
+  xy: 2, 6
+  size: 110, 27
+  orig: 110, 27
+  offset: 0, 0
+  index: -1
+hair_b
+  rotate: false
+  xy: 2, 35
+  size: 976, 985
+  orig: 976, 985
+  offset: 0, 0
+  index: -1
+hair_f_01
+  rotate: true
+  xy: 1236, 6
+  size: 207, 236
+  orig: 207, 265
+  offset: 0, 29
+  index: -1
+hair_f_l
+  rotate: false
+  xy: 1399, 224
+  size: 236, 649
+  orig: 236, 649
+  offset: 0, 0
+  index: -1
+hair_f_r
+  rotate: true
+  xy: 1236, 1583
+  size: 273, 711
+  orig: 273, 711
+  offset: 0, 0
+  index: -1
+hand_l_b
+  rotate: true
+  xy: 1091, 10
+  size: 95, 143
+  orig: 95, 143
+  offset: 0, 0
+  index: -1
+hand_r_f
+  rotate: false
+  xy: 980, 2
+  size: 109, 103
+  orig: 109, 103
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 1474, 31
+  size: 147, 191
+  orig: 147, 191
+  offset: 0, 0
+  index: -1
+head_ac_f
+  rotate: true
+  xy: 1623, 69
+  size: 153, 111
+  orig: 153, 111
+  offset: 0, 0
+  index: -1
+hip_ac_l
+  rotate: true
+  xy: 1935, 1955
+  size: 59, 65
+  orig: 59, 65
+  offset: 0, 0
+  index: -1
+hip_r_ac_01
+  rotate: true
+  xy: 1190, 1858
+  size: 156, 743
+  orig: 156, 743
+  offset: 0, 0
+  index: -1
+hip_r_ac_02
+  rotate: true
+  xy: 1399, 1112
+  size: 144, 605
+  orig: 144, 605
+  offset: 0, 0
+  index: -1
+leg_l
+  rotate: false
+  xy: 980, 107
+  size: 191, 913
+  orig: 191, 913
+  offset: 0, 0
+  index: -1
+leg_r
+  rotate: false
+  xy: 1190, 215
+  size: 207, 1041
+  orig: 207, 1041
+  offset: 0, 0
+  index: -1
+surfboard
+  rotate: false
+  xy: 2, 1022
+  size: 1186, 992
+  orig: 1186, 992
+  offset: 0, 0
+  index: -1
+upper_arm_l
+  rotate: false
+  xy: 1736, 84
+  size: 222, 493
+  orig: 222, 493
+  offset: 0, 0
+  index: -1

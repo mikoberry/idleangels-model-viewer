@@ -1,0 +1,139 @@
+
+44_S.png
+size: 2015,2015
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+back_top
+  rotate: true
+  xy: 1360, 805
+  size: 472, 535
+  orig: 472, 535
+  offset: 0, 0
+  index: -1
+backhair
+  rotate: false
+  xy: 1360, 1279
+  size: 646, 734
+  orig: 646, 734
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 913, 221
+  size: 402, 744
+  orig: 402, 744
+  offset: 0, 0
+  index: -1
+breast
+  rotate: false
+  xy: 699, 967
+  size: 387, 201
+  orig: 387, 201
+  offset: 0, 0
+  index: -1
+chair
+  rotate: true
+  xy: 2, 2
+  size: 950, 735
+  orig: 950, 735
+  offset: 0, 0
+  index: -1
+eyes close
+  rotate: true
+  xy: 1967, 924
+  size: 164, 46
+  orig: 164, 46
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 417, 957
+  size: 211, 280
+  orig: 211, 281
+  offset: 0, 0
+  index: -1
+front hair
+  rotate: true
+  xy: 1088, 997
+  size: 200, 231
+  orig: 200, 231
+  offset: 0, 0
+  index: -1
+glasses
+  rotate: true
+  xy: 1897, 1090
+  size: 187, 99
+  orig: 187, 99
+  offset: 0, 0
+  index: -1
+left_top
+  rotate: false
+  xy: 417, 1170
+  size: 295, 843
+  orig: 295, 843
+  offset: 0, 0
+  index: -1
+leftarm
+  rotate: true
+  xy: 913, 3
+  size: 216, 227
+  orig: 303, 227
+  offset: 0, 0
+  index: -1
+leftarm up
+  rotate: true
+  xy: 1620, 210
+  size: 317, 330
+  orig: 360, 399
+  offset: 43, 0
+  index: -1
+lefthand
+  rotate: false
+  xy: 739, 820
+  size: 166, 145
+  orig: 166, 173
+  offset: 0, 0
+  index: -1
+leftleg
+  rotate: false
+  xy: 2, 954
+  size: 413, 1059
+  orig: 621, 1059
+  offset: 0, 0
+  index: -1
+leftthair
+  rotate: true
+  xy: 1620, 529
+  size: 274, 337
+  orig: 279, 347
+  offset: 5, 10
+  index: -1
+mouth close
+  rotate: false
+  xy: 1897, 1043
+  size: 68, 45
+  orig: 68, 45
+  offset: 0, 0
+  index: -1
+right_top
+  rotate: false
+  xy: 739, 41
+  size: 172, 762
+  orig: 310, 871
+  offset: 76, 41
+  index: -1
+rightarm up
+  rotate: false
+  xy: 1317, 80
+  size: 301, 723
+  orig: 463, 756
+  offset: 128, 33
+  index: -1
+rightleg
+  rotate: false
+  xy: 714, 1199
+  size: 644, 814
+  orig: 961, 881
+  offset: 14, 8
+  index: -1

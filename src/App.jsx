@@ -414,10 +414,10 @@ export default function App() {
   const status = t(statusState.key, statusState.params)
   const [isError, setIsError] = useState(false)
   const inWallpaperEngine = isWallpaperEngineEnvironment()
-  // The drawer starts open every load, in the browser and inside Wallpaper
-  // Engine alike, so the tuned state is visible immediately instead of hiding
-  // behind the eye button.
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true)
+  // The drawer starts closed in the browser and inside Wallpaper Engine alike,
+  // so the canvas is unobstructed until the user opens settings with the eye
+  // button. The previous first-visit hint bubble has been removed.
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [debugOpen, setDebugOpen] = useState(false)
   const [debugInfo, setDebugInfo] = useState([])
   const [animations, setAnimations] = useState([])
