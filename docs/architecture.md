@@ -101,12 +101,14 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 - WallKit 是**纯展示库**：只认 props，不读 `window.wallpaper*`、不轮询媒体、不持有数据定时器、不含 i18n。
 - 本仓库负责它需要的一切输入：音频帧（`extractSpectrumBars`）、媒体信息（`getWallpaperMedia`）、暂停标志、文案（`i18n.js` 的 `labels`）。
-- **定位锚点**：WallKit 的每个浮动控件都有 `anchor` —— 四角、四边中点、居中，共 9 个；`offsetX` / `offsetY` 从锚点**向内**计，也可以直接给 CSS 长度。本仓库只用到其中三个：
-  - 时钟 → `bottom-left`（默认值），本地 `offsetX/offsetY`（0–100）原样传入，和旧实现 `left/bottom` 的语义完全一致。
-  - 频谱 → `center`，因为本地存的仍是**盒子中心**（50 = 正中）；`controlOverlay.js` 把 `offsetX/offsetY` 平移成相对中心的带符号位移（`- 50`）。居中锚点由库用 `translate(-50%, -50%)` 实现，所以 `size` 变化时盒子绕着同一个点缩放，不用再按盒子宽高换算（旧版那个「半宽」估算是这里删掉的技术债）。
-  - 专辑卡片 → 直接用设置里的 `corner`，两者同名同义。
-- 其余换算集中在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js)：频谱 `size`（20–500，100 = 30vw × 15vh 基准盒）；专辑卡片的 `size`（本地是 vh 百分比）→ WallKit 百分比（100 = 18vh 封面）。
-- **专辑卡片保留四角选择**：库支持的 9 个锚点里只暴露四角（卡片一直是角落式布局），另外五种留给以后的控件。
+- **定位**：三个浮层共用一套词汇而不是一套位置。每个控件在自己的 state 里存 `anchor`（库的 9 个锚点之一）+ `offsetX` / `offsetY`（从锚点向内，视口百分比），这三个值原样交给库，[src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 只做校验和兜底，不再换算坐标。
+  - 抽屉里的位置控件是同一个组件 `WidgetPosition`（[SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx) 内部），但每个浮层各渲染一份、绑定各自的 state——它们是三个独立浮层，不是一块面板的三种画法。
+  - 偏移标签随锚点改写（距左 / 距右 / 距中心），范围 `-50`–`150`：负值把控件推出屏幕，居中轴上超过 100 也合法。
+  - 频谱的旧记录会被迁移：早期版本存的是盒子中心（0–100，50 = 正中）且没有 `anchor`，读取时转成 `anchor: 'center'` 并把偏移减 50。专辑卡片的旧 `corner` 字段读成同名锚点，写入时只留 `anchor`。
+- 剩余的两处换算都在 `controlOverlay.js`：
+  - 频谱 `size`（20–500，100 = 30vw × 15vh 基准盒）；贴边满宽时改为传 `width: '100vw'` + `height: '{bandHeight}vh'`，位置仍由锚点决定。
+  - 专辑卡片的 `size` 直接作为封面直径传字符串 `'18vh'`——不再有「×100/18 换算成库百分比」那层，`18vh` 就是它字面的意思。
+- 新增参数的传递是直通的：`Spectrum` 的 `intensity` / `curve`、`Clock` 的 `beatCurve` / `tilt`、`AlbumArt` 的 `theme` 都只是把 state 里同名字段传下去。专辑卡片的 `colorHex` 由 `colorFollow` 决定用 `spectrum.color` 还是自己的 `color`。
 - 控件层自带 `--wallkit-*` 主题变量，本仓库没有覆盖它们。
 
 ### `src/utils/wallpaperMedia.js`
@@ -140,11 +142,12 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 ### `src/utils/clock.js`
 
-- 纯函数模块，不依赖 React：`formatClockTime`、`formatClockDateParts`、`formatClockZone`、`computeClockTilt`、`smoothStep`、`weekdayKey`。
-- 同时导出时钟布局范围常量 `CLOCK_OFFSET_MIN`（`0`）、`CLOCK_OFFSET_MAX`（`100`）、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，由 `App.jsx` 和 `SettingsDrawer.jsx` 共用，避免控件范围与校验范围不一致。这两个位置常量同样用于频谱的水平位置，使所有小组件的位置范围统一。
-- `formatClockDateParts` 始终返回**具体年月日**（如 `2026年11月12日`）和周几 key；不返回"今天/昨天/明天"这类相对词，否则会把真实日期隐藏掉。
-- 时间固定 24 小时制；日期顺序按界面语言通过 `Intl.DateTimeFormat` 格式化。
-- `computeClockTilt(point, bounds, { maxTilt })` 把指针相对 **`bounds` 中心**（传入视口）的偏移归一化到 `[-1, 1]`，再乘 `maxTilt`（默认 14°）。指针在视口内时角度随位置线性变化；参数缺失或尺寸为 0 时返回 `{ rotateX: 0, rotateY: 0 }`。
+- 纯函数模块，不依赖 React。控件迁到 WallKit 之后只剩两件事：给浮层准备日期文案，以及给视差循环做缓动——`formatClockDateParts`、`weekdayKey`、`smoothStep`。
+- 同时导出数值范围常量，由 `App.jsx`、`SettingsDrawer.jsx` 和 `modelPreset.js` 共用，避免控件范围与校验范围不一致：
+  - `CLOCK_OFFSET_MIN`（`-50`）/ `CLOCK_OFFSET_MAX`（`150`）：三个浮层共用的偏移范围，从锚点向内计，负值代表推到屏幕外。
+  - `CLOCK_SIZE_MIN` / `CLOCK_SIZE_MAX`、`CLOCK_BEAT_INTENSITY_MIN` / `MAX`、`CLOCK_BEAT_CURVE_MIN` / `MAX`：时钟自己的尺寸、律动幅度和律动曲线。
+- `formatClockDateParts` 始终返回**具体年月日**（如 `2026年11月12日`）和周几 key；不返回"今天/昨天/明天"这类相对词，否则会把真实日期隐藏掉。日期顺序按界面语言通过 `Intl.DateTimeFormat` 格式化。
+- 时刻本身由 WallKit 的 Clock 用 `labels.locale` 格式化；本仓库不再实现时间格式化、Ring 进度或倾斜数学——那些都在库里。
 - `smoothStep(current, target, deltaSeconds, speed = 8)` 用 `1 - e^(-speed·dt)` 做帧率无关的指数缓动；差值小于 `0.01` 时直接吸附到目标。`deltaSeconds` 非正或 `current` 非有限值时返回安全值。
 
 ### `src/i18n.js`
@@ -396,9 +399,10 @@ SettingsDrawer 动画选择
 
 ```text
 WallKit 的 props 换算（src/utils/controlOverlay.js）
-  spectrum  { size, offsetX(中心), offsetY(中心) } → { anchor: 'center', size, offsetX(-50), offsetY(-50) }
-  albumArt  { corner, size(vh 百分比) }            → { anchor: corner, size(WallKit 百分比) }
-  clock     { offsetX, offsetY }                   → { anchor: 'bottom-left'(默认), offsetX, offsetY }
+  spectrum  { anchor, offsetX, offsetY, size, edgeToEdge, bandHeight }
+            → { anchor, offsetX, offsetY, size, width?, height? }
+  albumArt  { anchor, size(vh), offsetX, offsetY } → { anchor, offsetX, offsetY, size: '18vh' }
+  clock     { anchor, offsetX, offsetY }           → 原样传入
   clock     { now, language, t }                   → { labels: { locale, weekday, dateWithWeekday, aria } }
 ```
 

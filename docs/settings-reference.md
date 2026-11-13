@@ -122,6 +122,19 @@ percent = round(scale × 100)
 - 持久化：写入 `localStorage` 的 `spine-viewer:language:v1`
 - 切换后立即更新界面文案、状态信息和 `<html lang>`
 
+### 控件定位：锚点 + 偏移（三个控件共用）
+
+时钟、频谱、专辑卡片是**三个互相独立的浮层**，各自保存自己的位置；它们只共用同一套定位词汇：
+
+```js
+{ anchor: 'bottom-left', offsetX: 10, offsetY: 50 }
+```
+
+- `anchor` 取 WallKit 的九个锚点之一：四角、四边中点、正中央（`ANCHORS` 从 `wallkit/core` 导出，抽屉的 3×3 圆点选择器就是它的顺序）。
+- `offsetX` / `offsetY` 是**从锚点向内**测量的距离，单位是视口宽 / 高的百分比：左锚点上正值向右，右锚点上正值向左，居中轴上正值向右 / 向下。因此同一组数字在不同锚点下含义不同，抽屉里的标签会随锚点改写（「距左边缘」「距右边缘」「水平偏移（向右为正）」等）。
+- 范围是 `-50`–`150`，不是 `0`–`100`：负值把控件推出屏幕（有意做的出血），居中轴上超过 100 也是合法的。常量见 [src/utils/clock.js](../src/utils/clock.js) 的 `CLOCK_OFFSET_MIN` / `CLOCK_OFFSET_MAX`。
+- 这三个字段在存储、预设和 WallKit 的 props 里是**同一套值**，[src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 只做校验和兜底，不再换算坐标。
+
 ### 时钟显示 `clock`（独立 state）
 
 时间与日期显示不是 `viewSettings` 的字段，而是 `src/App.jsx` 中独立的 `clock` state：
@@ -130,11 +143,16 @@ percent = round(scale × 100)
 const DEFAULT_CLOCK = {
   show: false,
   placement: 'minimal',
+  anchor: 'bottom-left',
   offsetX: 10,
   offsetY: 50,
   size: 100,
   reactToBeat: false,
   beatIntensity: 100,
+  beatCurve: 0.62,
+  tilt: true,
+  use24Hour: true,
+  theme: 'dark',
 }
 ```
 
@@ -142,35 +160,29 @@ const DEFAULT_CLOCK = {
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示当前时间与日期 |
 | `placement` | `'minimal' \| 'cyberpunk' \| 'infobar' \| 'split' \| 'poster' \| 'card' \| 'bar' \| 'ring' \| 'segments'`（外加只在校验表里的 `'stamp'`） | `'minimal'` | — | 时钟布局：极简数字、赛博朋克、横向信息条、双行分层、大字海报、竖排经典、横排经典、环形进度、分段进度 |
-| `theme` | `'dark' \| 'light'` | `'dark'` | — | 时钟色彩模式（深色 / 浅色） |
-| `use24Hour` | `boolean` | `true` | — | 是否启用 24 小时制（为 `false` 时显示 12 小时制 AM/PM） |
-| `offsetX` | `number` | `10` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
-| `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，正值向上 |
+| `theme` | `'dark' \| 'light'` | `'dark'` | — | 文字配色：`dark` 是深色文字配亮画面，`light` 是浅色文字配暗画面 |
+| `use24Hour` | `boolean` | `true` | — | 24 小时制；为 `false` 时显示 12 小时制 AM/PM。点击时钟本身也能切换 |
+| `anchor` | `'top-left'` … `'bottom-right'` | `'bottom-left'` | 9 个锚点 | 定位基准点 |
+| `offsetX` | `number` | `10` | `-50`–`150` | 从锚点向内的水平距离，窗口宽度的百分比 |
+| `offsetY` | `number` | `50` | `-50`–`150` | 从锚点向内的垂直距离，窗口高度的百分比 |
 | `size` | `number` | `100` | `40`–`200` | 字号百分比，`100` 为默认大小 |
 | `reactToBeat` | `boolean` | `false` | — | 是否随音频低频律动（缩放 + 光晕） |
-| `beatIntensity` | `number` | `100` | `0`–`1000` | 律动强度百分比，缩放律动的放大与光晕幅度；`0` 等于看不出反应 |
+| `beatIntensity` | `number` | `100` | `0`–`1000` | 律动幅度百分比；`0` 等于看不出反应 |
+| `beatCurve` | `number` | `0.62` | `0.2`–`2` | 律动曲线的指数：小于 1 时起伏柔和、大动态早出现；大于 1 时压低小幅波动，只在真正的重拍上跳 |
+| `tilt` | `boolean` | `true` | — | 是否跟随鼠标做 3D 倾斜 |
 
-默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
+默认值对应**左边距 10%、垂直居中**。
 
-- 位置从锚点**向内**测量。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 走到对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
-- 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
-- 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
-- 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这七个字段）。
-- 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
+- 所有字段在**加载时和每次更新时**都经过 `normalizeClockPreset()`（[src/utils/modelPreset.js](../src/utils/modelPreset.js)）校验并夹取范围，非法值回退到默认值。`localStorage` 与 `model-presets.json` 用的是同一个函数，不存在两套规则。
+- 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN` / `MAX`、`CLOCK_SIZE_MIN` / `MAX`、`CLOCK_BEAT_INTENSITY_MIN` / `MAX`、`CLOCK_BEAT_CURVE_MIN` / `MAX`，抽屉、加载器和预设校验共用。
+- 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（存上面全部字段）。因为它属于显示偏好而非按模型记录的视图，所以会持久化。
 - 时间每秒刷新一次；`now` 由 `ControlOverlays.jsx` 驱动（WallKit 的 Clock 不持有定时器），秒数不变时不触发重渲染。
 - 时钟的视觉由 WallKit 渲染，本地只负责数据和 `labels`：`locale`（由语言 id 映射成 `zh-CN` / `en-GB` / `ja-JP` / `ko-KR`）、`weekday`、`dateWithWeekday`、`aria`。
 - `stamp` 布局带库内固定的中文「第 N 天 / 第 N 周」，在其它语言界面下不成立，所以抽屉不提供它；校验表仍接受，旧预设可用。
-- 时钟**没有背景**：无边框、无底色、无卡片阴影，只有文字和一层柔和投影保证在亮色画面上可读。
 - 时钟浮层设置了 `pointer-events: none`，不会拦截画布的点击触发 `action`。
-- **跟随鼠标摆动**：浮层按鼠标相对**视口中心**的位置做 3D 倾斜（`perspective(900px) rotateX/rotateY`，最大 14°）。鼠标指向右上角区域时，右上角向观察者翘起、左下角向屏幕内侧下沉；指向其它方向同理。
-  - 角度按视口尺寸归一化，所以鼠标在整个屏幕上移动时倾斜**线性变化**，不会一出卡片就跳到极限。
-  - 倾斜值用 rAF 循环 + 指数缓动（`smoothStep`）追随目标，帧率无关且平滑，收尾时自动吸附。
-  - 指针移出窗口后回到平放。
-  - 计算逻辑是 `computeClockTilt()` 与 `smoothStep()`。
-  - 组件不再使用 CSS `transition`，避免每次指针移动都重启过渡造成卡顿。
-- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时，倾斜关闭。
-- Wallpaper Engine 中壁纸被暂停/恢复时，通过共享的暂停桥接（`wallpaperPause.js`）或 `visibilitychange` 立即刷新显示。
-- 时间格式固定为 24 小时制；日期与周几跟随界面语言（中文/英文/日文/韩文）。
+- **跟随鼠标倾斜**（`tilt`）：WallKit 按指针相对视口中心的位置做 `perspective(900px) rotateX/rotateY`，最大 14°；角度按视口尺寸归一化，指针移出窗口后回到平放。倾斜用 rAF + 指数缓动，不用 CSS `transition`。
+- 系统开启「减少动态效果」（`prefers-reduced-motion: reduce`）时，库会关闭倾斜。
+- Wallpaper Engine 中壁纸被暂停 / 恢复时，通过共享的暂停桥接（`wallpaperPause.js`）或 `visibilitychange` 立即刷新显示。
 
 ## 音频频谱 `spectrum`（独立 state）
 
@@ -180,10 +192,15 @@ const DEFAULT_CLOCK = {
 const DEFAULT_SPECTRUM = {
   show: false,
   style: 'bars',
-  offsetX: 50,
-  offsetY: 50,
+  anchor: 'center',
+  offsetX: 0,
+  offsetY: 0,
   size: 300,
-  color: DEFAULT_SPECTRUM_COLOR, // '#a8c4ff'
+  color: '#a8c4ff',
+  intensity: 100,
+  curve: 1,
+  edgeToEdge: false,
+  bandHeight: 15,
 }
 ```
 
@@ -191,33 +208,42 @@ const DEFAULT_SPECTRUM = {
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示频谱 |
 | `style` | 见下 | `'bars'` | 9 种样式 | WallKit 的绘制样式：`bars` / `mirror` / `curve` / `pill` / `ring` / `ringwave` / `dots` / `ripples` / `aurora` |
-| `offsetX` | `number` | `50` | `0`–`100` | 盒子中心的水平位置，窗口宽度的百分比，`50` 为居中 |
-| `offsetY` | `number` | `50` | `0`–`100` | 盒子中心的垂直位置，窗口高度的百分比，`50` 为居中 |
+| `anchor` | `'top-left'` … `'bottom-right'` | `'center'` | 9 个锚点 | 定位基准点，默认居中 |
+| `offsetX` | `number` | `0` | `-50`–`150` | 从锚点向内的水平距离 |
+| `offsetY` | `number` | `0` | `-50`–`150` | 从锚点向内的垂直距离 |
 | `size` | `number` | `300` | `20`–`500` | 整块频谱的大小百分比，`100` 是 WallKit 的基准盒（条形 `30vw × 15vh`）；`300` 约等于旧的 `scale: 1`（90vw 宽） |
 | `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色，以 `colorHex` 传给 WallKit |
+| `intensity` | `number` | `100` | `0`–`1000` | 响应强度百分比：安静的音乐柱高不够时调大 |
+| `curve` | `number` | `1` | `0.2`–`2` | 响应曲线指数：小于 1 抬高小幅波动，大于 1 让弱信号几乎不动 |
+| `edgeToEdge` | `boolean` | `false` | — | 贴边满宽：把基准盒换成 `width: 100vw` 的条带 |
+| `bandHeight` | `number` | `15` | `6`–`30` | 满宽条带的高度，单位是视口高度百分比（只在 `edgeToEdge` 时生效） |
 
-- 位置以**盒子中心**存储（`50` = 屏幕正中），传给 WallKit 时用 `anchor="center"`：换算在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 里把这两个数字平移成相对中心的位移（`offsetX - 50`）。中心锚点由库用 `translate(-50%, -50%)` 实现，所以改变 `size` 时盒子仍以同一个点缩放、不会漂移，也不需要再估算盒子有多大。
-- **`scale` 已废弃**：旧值是 0.5–5，读取时按 `size = scale × 300` 换算，超界夹到 20–500。抽屉现在直接调 `size`。
-- 旧的 `position`（`top` / `bottom`）和 `height` 字段同样已废弃：归一化时直接忽略，没有新字段的模型预设会回退到上面的默认值（居中、300）。
+- 位置直接使用锚点 + 偏移，与时钟、专辑卡片同一套语义；改变 `size` 时以锚点为原点缩放，不会漂移。
+- **贴边满宽**只是盒子尺寸的覆盖：`edgeToEdge: true` 时传给 WallKit 的是 `width: '100vw'` + `height: '{bandHeight}vh'`，位置仍由 `anchor` / 偏移决定。默认锚点是 `center`，所以从默认值直接打开时抽屉会顺手改成 `bottom-center` + 零偏移，否则条带会有一半在屏幕外。
+- **`scale` 已废弃**：旧值是 0.5–5，读取时按 `size = scale × 300` 换算，超界夹到 20–500。抽屉现在直接调 `size`，标签也从「缩放」改成了「尺寸」。
+- 旧的 `position`（`top` / `bottom`）和 `height` 字段同样已废弃：归一化时直接忽略。
+- **没有 `anchor` 的旧记录会被迁移**：早期版本把盒子中心存成 0–100 的百分比（`50` = 屏幕正中），读取时自动转成 `anchor: 'center'` 并把两个偏移减 50，所以既有的 `localStorage` 和旧预设位置不变。
 - 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
 - 共 **128 根柱子**，与 Wallpaper Engine 的 128 个频段一一对应：左声道占 0–63，右声道镜像占 64–127，低频在两端。
-- 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制。
-- 只绘制柱子，没有峰值标记。
+- 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制；只绘制柱子，没有峰值标记。
 - 浮层 `pointer-events: none`，不拦截画布点击。
 - 数据来源见下节「音频数据来源」。
 
 ## 专辑封面 `albumArt`（独立 state）
 
-从 Wallpaper Engine 的媒体集成读取封面与曲目信息。卡片可选四个角落之一，位置从所选角落**向内**测量：
+从 Wallpaper Engine 的媒体集成读取封面与曲目信息：
 
 ```js
 const DEFAULT_ALBUM_ART = {
   show: false,
   style: 'classic',
-  corner: 'bottom-right',
+  anchor: 'bottom-right',
   size: 18,
   offsetX: 0,
   offsetY: 0,
+  theme: 'light',
+  colorFollow: true,
+  color: '#a8c4ff',
 }
 ```
 
@@ -225,15 +251,20 @@ const DEFAULT_ALBUM_ART = {
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示专辑封面卡片 |
 | `style` | 见下 | `'classic'` | 6 种布局 | `classic` / `glass` / `vinyl` / `minimal` / `bar` / `wall`，以 `variant` 传给 WallKit |
-| `corner` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | — | 卡片贴哪个角落，直接作为 WallKit 的 `anchor` |
-| `size` | `number` | `18` | `10`–`40` | 封面高度，占视口高度的百分比（卡片宽度约为该值的 3.6 倍）；换算成 WallKit 的 `20`–`300`（`100` = 18vh 封面） |
-| `offsetX` | `number` | `0` | `0`–`100` | 从所选角落**向内**的水平距离 |
-| `offsetY` | `number` | `0` | `0`–`100` | 从所选角落**向内**的垂直距离 |
+| `anchor` | `'top-left'` … `'bottom-right'` | `'bottom-right'` | 9 个锚点 | 卡片贴哪个基准点 |
+| `size` | `number` | `18` | `10`–`40` | **封面直径**，单位是视口高度百分比，也就是原样传给 WallKit 的 `size`（`'18vh'`）；卡片宽度约为该值的 3.6 倍 |
+| `offsetX` | `number` | `0` | `-50`–`150` | 从锚点向内的水平距离 |
+| `offsetY` | `number` | `0` | `-50`–`150` | 从锚点向内的垂直距离 |
+| `theme` | `'light' \| 'dark'` | `'light'` | — | 文字配色。`light` 是浅色文字（深色画面）；`dark` 是深色文字，并翻转卡片自己绘制的面板（玻璃底、信息条胶囊、唱片标签） |
+| `colorFollow` | `boolean` | `true` | — | 卡片内的小频谱是否跟随 `spectrum.color` |
+| `color` | `string` | `#a8c4ff` | `#RRGGBB` | `colorFollow` 为 `false` 时卡片内频谱用的颜色 |
 
+- `size` 现在直接就是封面直径（vh），不再经过「×100/18 换算成库百分比」那层：渲染结果与旧版 `size: 18` 完全一致，但 `18vh` 就是它字面的意思。
+- **`corner` 字段已合并进 `anchor`**：旧预设和旧 `localStorage` 里的 `corner` 会被读成同名锚点（两者含义相同，偏移都是从该点向内），下次写入时只留 `anchor`。
+- 抽屉提供全部九个锚点（3×3 网格），卡片不再局限于四角。
 - 持久化：`localStorage` 的 `spine-viewer:album-art:v1`。
-- **`corner` 与 WallKit 的锚点同名同义**：卡片一直只用四个角落，库另外还支持四边中点和居中，但抽屉不暴露它们。旧预设里的 `corner` 原样生效，偏移量的含义（从角落向内）也没变。
-- **没有空态卡片**：没有曲目时 WallKit 直接不渲染（`track == null`），不再显示"暂无播放中的音乐"；要不要提示由抽屉里的文案负责。
-- 卡片内的小频谱颜色跟随 `spectrum.color`。
+- **没有空态卡片**：没有曲目时 WallKit 直接不渲染（`track == null`），不再显示「暂无播放中的音乐」；要不要提示由抽屉里的文案负责。
+- 卡片内的小频谱默认跟随 `spectrum.color`；关掉「跟随音频频谱的颜色」后可以单独设色，解决「频谱关闭后卡片颜色无法调整」的问题。
 - 数据来源：[src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 读取 `index.html` 内联脚本写入的 `window.__weMedia`；`ControlOverlays.jsx` 每秒轮询一次，字段没变时不触发重渲染。
 - 需要用户在 WE 设置中开启**媒体集成**，否则不会有任何数据。
 
@@ -263,9 +294,9 @@ const DEFAULT_ALBUM_ART = {
 
 ## 音频响应 `reactToBeat`
 
-- 打开后时钟随音频**低频（bass）**律动：最大放大 12%，并叠加一层随强度增长的光晕。
-- `beatIntensity` 同时缩放这两项：`0%` 时内部仍跟随音频但看不出变化，`500%` 为最大响应。
-- 数据来源与频谱相同，见上节。
+- 打开后时钟随音频**低频（bass）**律动：卡片缩放并叠加一层光晕，两者都由 `beatIntensity` 缩放（`0`–`1000`，`100` 是库的默认值，`0` 时内部仍跟随音频但看不出变化）。
+- `beatCurve` 决定同一份低频画出什么形状：小于 1 时小幅波动也会让卡片起伏，大于 1 时压低这些波动、只在真正的重拍上跳。两者是不同方向的调节，不是重复项。
+- 数据来源与频谱相同，见下节。
 
 ### `currentAnimation`
 
@@ -336,12 +367,12 @@ const DEFAULT_ALBUM_ART = {
 | --- | --- | --- |
 | `spine-viewer:model-views:v1` | 按模型记录的自定义视图 | 点击“记录当前视图”时 |
 | `spine-viewer:language:v1` | 界面语言 | 语言变化时 |
-| `spine-viewer:clock:v1` | `clock` 的七个字段 | `clock` 变化时 |
-| `spine-viewer:spectrum:v1` | `spectrum` 的五个字段 | `spectrum` 变化时 |
-| `spine-viewer:album-art:v1` | `albumArt` 的五个字段 | `albumArt` 变化时 |
+| `spine-viewer:clock:v1` | `clock` 的全部字段（含锚点、节拍曲线、倾斜开关） | `clock` 变化时 |
+| `spine-viewer:spectrum:v1` | `spectrum` 的全部字段（含锚点、强度、曲线、满宽模式） | `spectrum` 变化时 |
+| `spine-viewer:album-art:v1` | `albumArt` 的全部字段（含锚点、配色主题、独立颜色） | `albumArt` 变化时 |
 | `spine-viewer:drawer-tab:v1` | 抽屉上次打开的标签 | 切换标签时 |
 
-- 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key，也没有统一的 `sanitizeSettings`；每个模块各自做校验（`normalizeClock`、`clampNumber`、`normalizeHexColor`）。
+- 没有 `spine-viewer:playback:v1` 或其他全局播放设置存储 key；视图部分各自做校验（`clampNumber`、`normalizeHexColor`），三个浮层则统一走 `normalizeClockPreset` / `normalizeSpectrumPreset` / `normalizeAlbumPreset`。
 - 所有 `localStorage` 读写都包在 `try/catch` 中，失败时静默忽略（语言 / 抽屉标签 / 各浮层偏好），或回退默认值（时钟 / 频谱 / 专辑封面）。
 
 如果后续要加持久化，建议：

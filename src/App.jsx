@@ -1,20 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import SettingsDrawer from './components/SettingsDrawer.jsx'
 import ControlOverlays from './components/ControlOverlays.jsx'
-import { SPECTRUM_SIZE_MAX, SPECTRUM_SIZE_MIN, SPECTRUM_STYLES } from 'wallkit/components/spectrum'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
-import {
-  CLOCK_BEAT_INTENSITY_MAX,
-  CLOCK_BEAT_INTENSITY_MIN,
-  CLOCK_OFFSET_MIN,
-  CLOCK_OFFSET_MAX,
-  CLOCK_SIZE_MAX,
-  CLOCK_SIZE_MIN,
-  smoothStep,
-} from './utils/clock.js'
-import { DEFAULT_SPECTRUM_COLOR } from './utils/audio.js'
+import { smoothStep } from './utils/clock.js'
 import { copyText } from './utils/clipboard.js'
 import {
+  ALBUM_DEFAULTS,
+  CLOCK_DEFAULTS,
+  SPECTRUM_DEFAULTS,
   buildPresetForModel,
   normalizeAlbumPreset,
   normalizeClockPreset,
@@ -28,37 +21,6 @@ const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 const CLOCK_KEY = 'spine-viewer:clock:v1'
 const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
 const ALBUM_ART_KEY = 'spine-viewer:album-art:v1'
-// WallKit provides seven typographic layouts plus three that draw time through
-// geometry ("ring" / "segments" / "stamp"). The drawer offers the two geometric
-// ones that carry no fixed wording; "stamp" prints Chinese counters in the
-// library and is therefore not exposed in this four-language UI.
-const CLOCK_PLACEMENTS = [
-  'card',
-  'bar',
-  'minimal',
-  'cyberpunk',
-  'infobar',
-  'split',
-  'poster',
-  'ring',
-  'segments',
-  'stamp',
-]
-// Clock position is stored as a percentage of the viewport, measured from the
-// bottom-left anchor corner, so a saved offset keeps its intent across
-// resolutions. Limits live in clock.js and are shared with the drawer.
-const DEFAULT_CLOCK = {
-  show: false,
-  placement: 'minimal',
-  offsetX: 10,
-  offsetY: 50,
-  size: 100,
-  reactToBeat: false,
-  // How strongly the clock reacts, as a percentage of the built-in animation.
-  beatIntensity: 100,
-  use24Hour: true,
-  theme: 'dark', // 'dark' | 'light'
-}
 
 function clampNumber(value, fallback, min, max) {
   const number = Number(value)
@@ -66,48 +28,18 @@ function clampNumber(value, fallback, min, max) {
   return Math.min(Math.max(number, min), max)
 }
 
-// Single place that turns any clock object into a valid one. Applied on load
-// from localStorage and on every update, so no out-of-range value can reach the
-// overlay, the drawer or storage.
-function normalizeClock(value, fallback = DEFAULT_CLOCK) {
-  const source = value && typeof value === 'object' && !Array.isArray(value) ? value : {}
-  return {
-    show: typeof source.show === 'boolean' ? source.show : fallback.show,
-    placement: CLOCK_PLACEMENTS.includes(source.placement)
-      ? source.placement
-      : fallback.placement,
-    offsetX: clampNumber(
-      source.offsetX,
-      fallback.offsetX,
-      CLOCK_OFFSET_MIN,
-      CLOCK_OFFSET_MAX,
-    ),
-    offsetY: clampNumber(
-      source.offsetY,
-      fallback.offsetY,
-      CLOCK_OFFSET_MIN,
-      CLOCK_OFFSET_MAX,
-    ),
-    size: clampNumber(source.size, fallback.size, CLOCK_SIZE_MIN, CLOCK_SIZE_MAX),
-    reactToBeat:
-      typeof source.reactToBeat === 'boolean' ? source.reactToBeat : fallback.reactToBeat,
-    beatIntensity: clampNumber(
-      source.beatIntensity,
-      fallback.beatIntensity,
-      CLOCK_BEAT_INTENSITY_MIN,
-      CLOCK_BEAT_INTENSITY_MAX,
-    ),
-    use24Hour: typeof source.use24Hour === 'boolean' ? source.use24Hour : fallback.use24Hour,
-    theme: source.theme === 'light' ? 'light' : 'dark',
-  }
-}
+// Widget settings are normalised by the same functions that read presets, so a
+// value cannot mean one thing when it arrives from localStorage and another when
+// it arrives from model-presets.json. They also carry the one-time conversions
+// for preferences written before WallKit anchored widgets to a named point
+// (the spectrum's centre-relative offsets, the album card's `corner` field).
 
 function loadClockSettings() {
   try {
     const value = JSON.parse(window.localStorage.getItem(CLOCK_KEY) ?? 'null')
-    return normalizeClock(value)
+    return normalizeClockPreset(value, CLOCK_DEFAULTS)
   } catch {
-    return DEFAULT_CLOCK
+    return CLOCK_DEFAULTS
   }
 }
 
@@ -121,59 +53,12 @@ function saveClockSettings(clock) {
 
 // The spectrum keeps its own preferences so enabling audio visualisation does
 // not depend on the clock being shown.
-// `style` picks the WallKit renderer. The surface floats freely: `offsetX` /
-// `offsetY` place its centre (0-100 viewport percentages, 50 is the centre) and
-// `size` sizes it in WallKit's own percentage, where 100 is the widget's
-// reference box. 300 keeps the old "scale 1 = nearly full width" look.
-const DEFAULT_SPECTRUM = {
-  show: false,
-  style: 'bars',
-  offsetX: 50,
-  offsetY: 50,
-  size: 300,
-  // Bar colour; the same #rrggbb form the background colour uses.
-  color: DEFAULT_SPECTRUM_COLOR,
-}
-
-// Shared guard for the colour fields so every entry point validates the same
-// way: only a real #rrggbb string is accepted, anything else falls back.
-function normalizeHexColor(value, fallback) {
-  return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value)
-    ? value.toLowerCase()
-    : fallback
-}
 function loadSpectrumSettings() {
   try {
     const value = JSON.parse(window.localStorage.getItem(SPECTRUM_KEY) ?? 'null')
-    if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_SPECTRUM
-    return {
-      show: value.show === true,
-      style: SPECTRUM_STYLES.includes(value.style) ? value.style : DEFAULT_SPECTRUM.style,
-      offsetX: clampNumber(
-        value.offsetX,
-        DEFAULT_SPECTRUM.offsetX,
-        CLOCK_OFFSET_MIN,
-        CLOCK_OFFSET_MAX,
-      ),
-      offsetY: clampNumber(
-        value.offsetY,
-        DEFAULT_SPECTRUM.offsetY,
-        CLOCK_OFFSET_MIN,
-        CLOCK_OFFSET_MAX,
-      ),
-      // `scale` is the pre-WallKit field (0.5-5 over a 90vw box). A stored value
-      // is converted so an existing preference keeps its on-screen width; `size`
-      // itself is the widget percentage WallKit expects.
-      size: clampNumber(
-        value.size ?? Number(value.scale) * 300,
-        DEFAULT_SPECTRUM.size,
-        SPECTRUM_SIZE_MIN,
-        SPECTRUM_SIZE_MAX,
-      ),
-      color: normalizeHexColor(value.color, DEFAULT_SPECTRUM.color),
-    }
+    return normalizeSpectrumPreset(value, SPECTRUM_DEFAULTS)
   } catch {
-    return DEFAULT_SPECTRUM
+    return SPECTRUM_DEFAULTS
   }
 }
 
@@ -186,53 +71,12 @@ function saveSpectrumSettings(spectrum) {
 }
 
 // Album art card: cover plus track metadata from the engine's media session.
-// `style` picks the visual treatment; every layout shares the same corner, size
-// and offset controls, so switching it never moves the widget.
-//
-// `corner` is the card's own name for WallKit's `anchor`: both pin the widget to
-// a viewport point and measure the offsets inward from it, so the value is
-// passed through unchanged. Only the four corners are offered here — the card
-// has always been a corner card, even though the library also supports the four
-// edge midpoints and `center`.
-const ALBUM_ART_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
-const ALBUM_ART_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
-const DEFAULT_ALBUM_ART = {
-  show: false,
-  style: 'classic',
-  corner: 'bottom-right',
-  size: 18,
-  offsetX: 0,
-  offsetY: 0,
-}
-
 function loadAlbumArtSettings() {
   try {
     const value = JSON.parse(window.localStorage.getItem(ALBUM_ART_KEY) ?? 'null')
-    if (!value || typeof value !== 'object' || Array.isArray(value)) return DEFAULT_ALBUM_ART
-    return {
-      show: value.show === true,
-      style: ALBUM_ART_STYLES.includes(value.style)
-        ? value.style
-        : DEFAULT_ALBUM_ART.style,
-      corner: ALBUM_ART_CORNERS.includes(value.corner)
-        ? value.corner
-        : DEFAULT_ALBUM_ART.corner,
-      size: clampNumber(value.size, DEFAULT_ALBUM_ART.size, 10, 40),
-      offsetX: clampNumber(
-        value.offsetX,
-        DEFAULT_ALBUM_ART.offsetX,
-        CLOCK_OFFSET_MIN,
-        CLOCK_OFFSET_MAX,
-      ),
-      offsetY: clampNumber(
-        value.offsetY,
-        DEFAULT_ALBUM_ART.offsetY,
-        CLOCK_OFFSET_MIN,
-        CLOCK_OFFSET_MAX,
-      ),
-    }
+    return normalizeAlbumPreset(value, ALBUM_DEFAULTS)
   } catch {
-    return DEFAULT_ALBUM_ART
+    return ALBUM_DEFAULTS
   }
 }
 
@@ -785,58 +629,19 @@ export default function App() {
     return () => window.cancelAnimationFrame(frame)
   }, [parallaxEnabled, parallaxAmount])
 
-  // Numeric clock fields are clamped on every write as well as on load, so an
-  // out-of-range value can never reach the overlay or localStorage.
+  // Every widget write goes through the preset normalisers for the same reason
+  // the loaders do: one clamp table, one migration path, and a value that means
+  // the same thing in state, in storage and in model-presets.json.
   const updateClock = (patch) => {
-    setClock((previous) => normalizeClock({ ...previous, ...patch }, previous))
+    setClock((previous) => normalizeClockPreset({ ...previous, ...patch }, previous))
   }
 
   const updateSpectrum = (patch) => {
-    setSpectrum((previous) => {
-      const next = { ...previous, ...patch }
-      return {
-        ...next,
-        style: SPECTRUM_STYLES.includes(next.style) ? next.style : previous.style,
-        offsetX: clampNumber(
-          next.offsetX,
-          previous.offsetX,
-          CLOCK_OFFSET_MIN,
-          CLOCK_OFFSET_MAX,
-        ),
-        offsetY: clampNumber(
-          next.offsetY,
-          previous.offsetY,
-          CLOCK_OFFSET_MIN,
-          CLOCK_OFFSET_MAX,
-        ),
-        size: clampNumber(next.size, previous.size, SPECTRUM_SIZE_MIN, SPECTRUM_SIZE_MAX),
-        color: normalizeHexColor(next.color, previous.color),
-      }
-    })
+    setSpectrum((previous) => normalizeSpectrumPreset({ ...previous, ...patch }, previous))
   }
 
   const updateAlbumArt = (patch) => {
-    setAlbumArt((previous) => {
-      const next = { ...previous, ...patch }
-      return {
-        ...next,
-        style: ALBUM_ART_STYLES.includes(next.style) ? next.style : previous.style,
-        corner: ALBUM_ART_CORNERS.includes(next.corner) ? next.corner : previous.corner,
-        size: clampNumber(next.size, previous.size, 10, 40),
-        offsetX: clampNumber(
-          next.offsetX,
-          previous.offsetX,
-          CLOCK_OFFSET_MIN,
-          CLOCK_OFFSET_MAX,
-        ),
-        offsetY: clampNumber(
-          next.offsetY,
-          previous.offsetY,
-          CLOCK_OFFSET_MIN,
-          CLOCK_OFFSET_MAX,
-        ),
-      }
-    })
+    setAlbumArt((previous) => normalizeAlbumPreset({ ...previous, ...patch }, previous))
   }
 
   return (

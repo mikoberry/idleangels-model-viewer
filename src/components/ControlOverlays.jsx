@@ -171,6 +171,10 @@ export default function ControlOverlays({
 
   const spectrumProps = spectrumOverlayProps(spectrum)
   const albumProps = albumArtOverlayProps(albumArt)
+  // The card's inline spectrum borrows the overlay's colour by default; the
+  // drawer lets it be set independently for the case where the two are both
+  // visible and should not read as one object.
+  const albumColor = albumArt.colorFollow === false ? albumArt.color : spectrum.color
 
   return (
     <>
@@ -181,8 +185,12 @@ export default function ControlOverlays({
         colorHex={spectrum.color}
         anchor={spectrumProps.anchor}
         size={spectrumProps.size}
+        width={spectrumProps.width}
+        height={spectrumProps.height}
         offsetX={spectrumProps.offsetX}
         offsetY={spectrumProps.offsetY}
+        intensity={spectrum.intensity}
+        curve={spectrum.curve}
         paused={paused}
       />
       <AlbumArt
@@ -190,8 +198,8 @@ export default function ControlOverlays({
         bars={barsRef.current}
         visible={showAlbumArt}
         variant={albumArt.style}
-        theme="light"
-        colorHex={spectrum.color}
+        theme={albumArt.theme}
+        colorHex={albumColor}
         anchor={albumProps.anchor}
         size={albumProps.size}
         offsetX={albumProps.offsetX}
@@ -213,8 +221,11 @@ export default function ControlOverlays({
         size={clock.size}
         offsetX={clock.offsetX}
         offsetY={clock.offsetY}
+        anchor={clock.anchor}
         beat={reactToBeat ? beat : 0}
         beatIntensity={clock.beatIntensity}
+        beatCurve={clock.beatCurve}
+        tilt={clock.tilt}
         labels={labels}
         onToggleHourFormat={onToggleHourFormat}
       />

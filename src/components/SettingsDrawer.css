@@ -419,6 +419,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+.viewer-number:disabled {
+  color: rgba(238, 242, 252, 0.35);
+  cursor: not-allowed;
+}
+
+.viewer-slider[data-disabled] {
+  opacity: 0.4;
+}
+
 .viewer-number::-webkit-outer-spin-button,
 .viewer-number::-webkit-inner-spin-button {
   margin: 0;
@@ -942,6 +951,70 @@
   border-color: rgba(143, 168, 255, 0.55);
   background: rgba(143, 168, 255, 0.2);
   color: #f2f5ff;
+}
+
+/* Anchor picker: a 3x3 dot grid mirroring the viewport, so the chosen point is
+   read as a position rather than as a word. Buttons carry an aria-label and a
+   tooltip; the visible mark is the dot. */
+.anchor-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.anchor-grid__cells {
+  display: grid;
+  grid-template-columns: repeat(3, 24px);
+  gap: var(--space-1);
+  align-self: flex-start;
+}
+
+.anchor-grid__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(143, 168, 255, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.045);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.anchor-grid__cell::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(238, 242, 252, 0.4);
+}
+
+.anchor-grid__cell:hover {
+  background: rgba(143, 168, 255, 0.14);
+}
+
+.anchor-grid__cell.is-active {
+  border-color: rgba(143, 168, 255, 0.55);
+  background: rgba(143, 168, 255, 0.24);
+}
+
+.anchor-grid__cell.is-active::before {
+  background: #f2f5ff;
+}
+
+.anchor-grid__cell:focus-visible {
+  outline: 2px solid rgba(143, 168, 255, 0.55);
+  outline-offset: 2px;
+}
+
+/* A control that is currently inert (the beat fields until beat reaction is on).
+   Fading the label instead of hiding the row keeps the pane from jumping. */
+.inspector-field.is-disabled .inspector-field__label {
+  opacity: 0.45;
 }
 
 @media (max-width: 640px) {

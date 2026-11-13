@@ -1,8 +1,18 @@
 import * as Slider from '@radix-ui/react-slider'
 import { useEffect, useRef, useState } from 'react'
-import { SPECTRUM_SIZE_MAX, SPECTRUM_SIZE_MIN } from 'wallkit/components/spectrum'
+import { ANCHORS } from 'wallkit/core'
+import {
+  SPECTRUM_CURVE_MAX,
+  SPECTRUM_CURVE_MIN,
+  SPECTRUM_INTENSITY_MAX,
+  SPECTRUM_INTENSITY_MIN,
+  SPECTRUM_SIZE_MAX,
+  SPECTRUM_SIZE_MIN,
+} from 'wallkit/components/spectrum'
 import { LANGUAGES } from '../i18n.js'
 import {
+  CLOCK_BEAT_CURVE_MAX,
+  CLOCK_BEAT_CURVE_MIN,
   CLOCK_BEAT_INTENSITY_MAX,
   CLOCK_BEAT_INTENSITY_MIN,
   CLOCK_OFFSET_MAX,
@@ -14,18 +24,22 @@ import './SettingsDrawer.css'
 
 const MIN_SCALE = 0.5
 
-// The album card is the only widget that exposes its anchor: it has always been
-// a corner card, and `corner` is the field its stored preference and presets
-// use. WallKit accepts nine anchors, the other five are not offered here.
-const ALBUM_ART_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
+// The album card's size is a cover diameter in vh, which is the unit WallKit's
+// `size` string uses, so the stored number and the rendered size are one value.
+const ALBUM_ART_SIZE_MIN = 10
+const ALBUM_ART_SIZE_MAX = 40
+// Height of the edge-to-edge spectrum band, in vh.
+const BAND_HEIGHT_MIN = 6
+const BAND_HEIGHT_MAX = 30
 
 // Tabs of the settings drawer, rendered as a vertical menu on its left edge.
-const DRAWER_TABS = ['clock', 'spectrum', 'model', 'other']
-// The clock and spectrum tabs only exist inside Wallpaper Engine: browsers
-// cannot read system audio, so the spectrum and its album card would only ever
-// show synthetic data, and the wallpaper's date/time belongs to the engine
-// build. In the browser the drawer therefore exposes just "model" and "other".
-const ENGINE_ONLY_TABS = ['clock', 'spectrum']
+// Each floating widget gets its own tab: the three are independent overlays with
+// independent positions, so sharing a pane implied they shared a placement.
+const DRAWER_TABS = ['clock', 'spectrum', 'albumArt', 'model', 'other']
+// Those three tabs only exist inside Wallpaper Engine: browsers cannot read
+// system audio or the media session, and the wallpaper's date/time belongs to
+// the engine build. In the browser the drawer exposes just "model" and "other".
+const ENGINE_ONLY_TABS = ['clock', 'spectrum', 'albumArt']
 const DRAWER_TAB_KEY = 'spine-viewer:drawer-tab:v1'
 
 // The tabs available for the current environment, in menu order.
@@ -166,7 +180,7 @@ function clampParallax(value, fallback = 3) {
   return roundToStep(Math.min(Math.max(number, PARALLAX_AMOUNT_MIN), PARALLAX_AMOUNT_MAX))
 }
 
-function ViewerSlider({ value, min, max, step, label, valueText, onChange }) {
+function ViewerSlider({ value, min, max, step, label, valueText, disabled, onChange }) {
   return (
     <Slider.Root
       className="viewer-slider"
@@ -174,6 +188,7 @@ function ViewerSlider({ value, min, max, step, label, valueText, onChange }) {
       min={min}
       max={max}
       step={step}
+      disabled={disabled}
       aria-label={label}
       onValueChange={(nextValues) => {
         const nextValue = nextValues[0]
@@ -224,6 +239,138 @@ function StepControl({
         +
       </button>
     </div>
+  )
+}
+
+// One numeric setting: a value field with -/+ buttons above a slider. Every
+// number in the widget panes goes through this, so a bound, a unit and a step
+// live in one place instead of being repeated per control.
+function NumericField({
+  label,
+  value,
+  min,
+  max,
+  step = 1,
+  decimals = 0,
+  unit = '',
+  signed = false,
+  disabled = false,
+  hint,
+  onChange,
+  t,
+}) {
+  const display = Number(value).toFixed(decimals)
+  const valueText = signed ? formatOffset(value) : `${display}${unit}`
+  const round = (next) => Number(next.toFixed(decimals))
+
+  return (
+    <div className={`inspector-field${disabled ? ' is-disabled' : ''}`}>
+      <div className="inspector-field inspector-field--split">
+        <span className="inspector-field__label">{label}</span>
+        <StepControl
+          label={label}
+          onStep={(delta) => onChange(round(value + delta))}
+          canDecrease={!disabled && value > min}
+          canIncrease={!disabled && value < max}
+          step={step}
+          t={t}
+        >
+          <label className="scale-input">
+            <input
+              className="viewer-number"
+              type="number"
+              min={min}
+              max={max}
+              step={step}
+              value={display}
+              aria-label={label}
+              disabled={disabled}
+              onChange={(event) => onChange(Number(event.currentTarget.value))}
+            />
+            {unit && <span aria-hidden="true">{unit}</span>}
+          </label>
+        </StepControl>
+      </div>
+      <ViewerSlider
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        label={label}
+        valueText={valueText}
+        disabled={disabled}
+        onChange={onChange}
+      />
+      {hint && <p className="inspector-hint">{hint}</p>}
+    </div>
+  )
+}
+
+// "top-left" -> "topLeft", so the CSS-style anchor names map onto i18n keys.
+function anchorKey(anchor) {
+  return anchor.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())
+}
+
+// An anchor is two independent axes: the vertical one decides which edge the
+// offset is measured from, the horizontal one the same for the other axis.
+function anchorAxes(anchor) {
+  const [vertical, horizontal] = anchor.includes('-') ? anchor.split('-') : ['center', 'center']
+  return { vertical, horizontal }
+}
+
+// Shared placement block: the 3x3 anchor picker plus one offset per axis.
+//
+// Every widget renders its own instance against its own stored numbers — the
+// clock, spectrum and album card are independent overlays, so this is a shared
+// control, not a shared position. The offset labels follow the chosen anchor,
+// because "10%" means a different edge on each of the nine points.
+function WidgetPosition({ anchor, offsetX, offsetY, onChange, t }) {
+  const { vertical, horizontal } = anchorAxes(anchor)
+  const labelX = t(
+    `position.x${horizontal === 'left' ? 'FromLeft' : horizontal === 'right' ? 'FromRight' : 'FromCenter'}`,
+  )
+  const labelY = t(
+    `position.y${vertical === 'top' ? 'FromTop' : vertical === 'bottom' ? 'FromBottom' : 'FromCenter'}`,
+  )
+
+  return (
+    <>
+      <div className="anchor-grid" role="group" aria-label={t('position.anchor')}>
+        <span className="inspector-field__label">{t('position.anchor')}</span>
+        <div className="anchor-grid__cells">
+          {ANCHORS.map((value) => (
+            <button
+              key={value}
+              type="button"
+              className={`anchor-grid__cell${anchor === value ? ' is-active' : ''}`}
+              aria-label={t(`anchor.${anchorKey(value)}`)}
+              aria-pressed={anchor === value}
+              title={t(`anchor.${anchorKey(value)}`)}
+              onClick={() => onChange({ anchor: value })}
+            />
+          ))}
+        </div>
+      </div>
+      <NumericField
+        label={labelX}
+        value={offsetX}
+        min={CLOCK_OFFSET_MIN}
+        max={CLOCK_OFFSET_MAX}
+        signed
+        onChange={(next) => onChange({ offsetX: next })}
+        t={t}
+      />
+      <NumericField
+        label={labelY}
+        value={offsetY}
+        min={CLOCK_OFFSET_MIN}
+        max={CLOCK_OFFSET_MAX}
+        signed
+        onChange={(next) => onChange({ offsetY: next })}
+        t={t}
+      />
+      <p className="inspector-hint">{t('position.hint')}</p>
+    </>
   )
 }
 
@@ -1201,174 +1348,66 @@ export default function SettingsDrawer({
               </div>
             </div>
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('clock.size')}</span>
-                <StepControl
-                  label={t('clock.size')}
-                  onStep={(delta) => onClockChange({ size: clock.size + delta })}
-                  canDecrease={clock.size > CLOCK_SIZE_MIN}
-                  canIncrease={clock.size < CLOCK_SIZE_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_SIZE_MIN}
-                      max={CLOCK_SIZE_MAX}
-                      step={1}
-                      value={Math.round(clock.size)}
-                      aria-label={t('clock.sizeAria')}
-                      onChange={(event) =>
-                        onClockChange({ size: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={clock.size}
-                min={CLOCK_SIZE_MIN}
-                max={CLOCK_SIZE_MAX}
-                step={1}
-                label={t('clock.size')}
-                valueText={`${Math.round(clock.size)}%`}
-                onChange={(size) => onClockChange({ size })}
-              />
-            </div>
+            <NumericField
+              label={t('clock.size')}
+              value={clock.size}
+              min={CLOCK_SIZE_MIN}
+              max={CLOCK_SIZE_MAX}
+              unit="%"
+              onChange={(size) => onClockChange({ size })}
+              t={t}
+            />
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('clock.offsetX')}</span>
-                <StepControl
-                  label={t('clock.offsetX')}
-                  onStep={(delta) => onClockChange({ offsetX: clock.offsetX + delta })}
-                  canDecrease={Math.round(clock.offsetX) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(clock.offsetX) < CLOCK_OFFSET_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(clock.offsetX)}
-                      aria-label={t('clock.offsetXAria')}
-                      onChange={(event) =>
-                        onClockChange({ offsetX: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={clock.offsetX}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('clock.offsetX')}
-                valueText={formatOffset(clock.offsetX)}
-                onChange={(offsetX) => onClockChange({ offsetX })}
-              />
-            </div>
+            <WidgetPosition
+              anchor={clock.anchor}
+              offsetX={clock.offsetX}
+              offsetY={clock.offsetY}
+              onChange={onClockChange}
+              t={t}
+            />
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('clock.offsetY')}</span>
-                <StepControl
-                  label={t('clock.offsetY')}
-                  onStep={(delta) => onClockChange({ offsetY: clock.offsetY + delta })}
-                  canDecrease={Math.round(clock.offsetY) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(clock.offsetY) < CLOCK_OFFSET_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(clock.offsetY)}
-                      aria-label={t('clock.offsetYAria')}
-                      onChange={(event) =>
-                        onClockChange({ offsetY: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={clock.offsetY}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('clock.offsetY')}
-                valueText={formatOffset(clock.offsetY)}
-                onChange={(offsetY) => onClockChange({ offsetY })}
-              />
-            </div>
-
-            <p className="inspector-hint">{t('clock.offsetHint')}</p>
-
-            <div className="inspector-field inspector-field--split">
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={clock.reactToBeat === true}
-                  onChange={(event) =>
-                    onClockChange({ reactToBeat: event.currentTarget.checked })
-                  }
-                />
-                <span>{t('clock.reactToBeat')}</span>
-              </label>
-              <StepControl
-                label={t('clock.beatIntensity')}
-                onStep={(delta) => onClockChange({ beatIntensity: clock.beatIntensity + delta })}
-                canDecrease={
-                  clock.reactToBeat === true &&
-                  clock.beatIntensity > CLOCK_BEAT_INTENSITY_MIN
+            <label className="toggle-row">
+              <input
+                type="checkbox"
+                checked={clock.reactToBeat === true}
+                onChange={(event) =>
+                  onClockChange({ reactToBeat: event.currentTarget.checked })
                 }
-                canIncrease={
-                  clock.reactToBeat === true &&
-                  clock.beatIntensity < CLOCK_BEAT_INTENSITY_MAX
-                }
-                t={t}
-              >
-                <label className="scale-input">
-                  <input
-                    className="viewer-number"
-                    type="number"
-                    min={CLOCK_BEAT_INTENSITY_MIN}
-                    max={CLOCK_BEAT_INTENSITY_MAX}
-                    step={1}
-                    value={Math.round(clock.beatIntensity)}
-                    aria-label={t('clock.beatIntensityAria')}
-                    disabled={clock.reactToBeat !== true}
-                    onChange={(event) =>
-                      onClockChange({ beatIntensity: Number(event.currentTarget.value) })
-                    }
-                  />
-                  <span aria-hidden="true">%</span>
-                </label>
-              </StepControl>
-            </div>
-            <ViewerSlider
+              />
+              <span>{t('clock.reactToBeat')}</span>
+            </label>
+            <NumericField
+              label={t('clock.beatIntensity')}
               value={clock.beatIntensity}
               min={CLOCK_BEAT_INTENSITY_MIN}
               max={CLOCK_BEAT_INTENSITY_MAX}
-              step={1}
-              label={t('clock.beatIntensity')}
-              valueText={`${Math.round(clock.beatIntensity)}%`}
+              unit="%"
+              disabled={clock.reactToBeat !== true}
               onChange={(beatIntensity) => onClockChange({ beatIntensity })}
+              t={t}
             />
-            <p className="inspector-hint">{t('clock.reactToBeatHint')}</p>
+            <NumericField
+              label={t('clock.beatCurve')}
+              value={clock.beatCurve}
+              min={CLOCK_BEAT_CURVE_MIN}
+              max={CLOCK_BEAT_CURVE_MAX}
+              step={0.02}
+              decimals={2}
+              disabled={clock.reactToBeat !== true}
+              hint={t('clock.beatCurveHint')}
+              onChange={(beatCurve) => onClockChange({ beatCurve })}
+              t={t}
+            />
+
+            <label className="toggle-row">
+              <input
+                type="checkbox"
+                checked={clock.tilt !== false}
+                onChange={(event) => onClockChange({ tilt: event.currentTarget.checked })}
+              />
+              <span>{t('clock.tilt')}</span>
+            </label>
+            <p className="inspector-hint">{t('clock.tiltHint')}</p>
           </>
         )}
       </section>
@@ -1414,121 +1453,59 @@ export default function SettingsDrawer({
               </div>
             </div>
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('spectrum.offsetX')}</span>
-                <StepControl
-                  label={t('spectrum.offsetX')}
-                  onStep={(delta) => onSpectrumChange({ offsetX: spectrum.offsetX + delta })}
-                  canDecrease={Math.round(spectrum.offsetX) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(spectrum.offsetX) < CLOCK_OFFSET_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(spectrum.offsetX)}
-                      aria-label={t('spectrum.offsetXAria')}
-                      onChange={(event) =>
-                        onSpectrumChange({ offsetX: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={spectrum.offsetX}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('spectrum.offsetX')}
-                valueText={formatOffset(spectrum.offsetX)}
-                onChange={(offsetX) => onSpectrumChange({ offsetX })}
-              />
-            </div>
+            <NumericField
+              label={t('spectrum.size')}
+              value={spectrum.size}
+              min={SPECTRUM_SIZE_MIN}
+              max={SPECTRUM_SIZE_MAX}
+              unit="%"
+              onChange={(size) => onSpectrumChange({ size })}
+              t={t}
+            />
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('spectrum.offsetY')}</span>
-                <StepControl
-                  label={t('spectrum.offsetY')}
-                  onStep={(delta) => onSpectrumChange({ offsetY: spectrum.offsetY + delta })}
-                  canDecrease={Math.round(spectrum.offsetY) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(spectrum.offsetY) < CLOCK_OFFSET_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(spectrum.offsetY)}
-                      aria-label={t('spectrum.offsetYAria')}
-                      onChange={(event) =>
-                        onSpectrumChange({ offsetY: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={spectrum.offsetY}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('spectrum.offsetY')}
-                valueText={formatOffset(spectrum.offsetY)}
-                onChange={(offsetY) => onSpectrumChange({ offsetY })}
-              />
-            </div>
+            <WidgetPosition
+              anchor={spectrum.anchor}
+              offsetX={spectrum.offsetX}
+              offsetY={spectrum.offsetY}
+              onChange={onSpectrumChange}
+              t={t}
+            />
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('spectrum.scale')}</span>
-                <StepControl
-                  label={t('spectrum.scale')}
-                  onStep={(delta) =>
-                    onSpectrumChange({ size: spectrum.size + delta })
+            <label className="toggle-row">
+              <input
+                type="checkbox"
+                checked={spectrum.edgeToEdge === true}
+                onChange={(event) => {
+                  const checked = event.currentTarget.checked
+                  // A full-width band that still believes it is "the spectrum,
+                  // centred" would hang half off the screen, so switching the
+                  // mode on from the centre default parks it on the bottom edge.
+                  if (checked && spectrum.anchor === 'center') {
+                    onSpectrumChange({
+                      edgeToEdge: true,
+                      anchor: 'bottom-center',
+                      offsetX: 0,
+                      offsetY: 0,
+                    })
+                    return
                   }
-                  canDecrease={spectrum.size > SPECTRUM_SIZE_MIN}
-                  canIncrease={spectrum.size < SPECTRUM_SIZE_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={SPECTRUM_SIZE_MIN}
-                      max={SPECTRUM_SIZE_MAX}
-                      step={1}
-                      value={Math.round(spectrum.size)}
-                      aria-label={t('spectrum.scaleAria')}
-                      onChange={(event) =>
-                        onSpectrumChange({ size: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={spectrum.size}
-                min={SPECTRUM_SIZE_MIN}
-                max={SPECTRUM_SIZE_MAX}
-                step={1}
-                label={t('spectrum.scale')}
-                valueText={`${Math.round(spectrum.size)}%`}
-                onChange={(size) => onSpectrumChange({ size })}
+                  onSpectrumChange({ edgeToEdge: checked })
+                }}
               />
-            </div>
+              <span>{t('spectrum.edgeToEdge')}</span>
+            </label>
+            {spectrum.edgeToEdge === true && (
+              <NumericField
+                label={t('spectrum.bandHeight')}
+                value={spectrum.bandHeight}
+                min={BAND_HEIGHT_MIN}
+                max={BAND_HEIGHT_MAX}
+                unit="vh"
+                onChange={(bandHeight) => onSpectrumChange({ bandHeight })}
+                t={t}
+              />
+            )}
+            <p className="inspector-hint">{t('spectrum.edgeToEdgeHint')}</p>
 
             <div className="inspector-field">
               <span className="inspector-field__label">{t('spectrum.color')}</span>
@@ -1539,13 +1516,34 @@ export default function SettingsDrawer({
               />
             </div>
 
+            <NumericField
+              label={t('spectrum.intensity')}
+              value={spectrum.intensity}
+              min={SPECTRUM_INTENSITY_MIN}
+              max={SPECTRUM_INTENSITY_MAX}
+              unit="%"
+              hint={t('spectrum.intensityHint')}
+              onChange={(intensity) => onSpectrumChange({ intensity })}
+              t={t}
+            />
+            <NumericField
+              label={t('spectrum.curve')}
+              value={spectrum.curve}
+              min={SPECTRUM_CURVE_MIN}
+              max={SPECTRUM_CURVE_MAX}
+              step={0.02}
+              decimals={2}
+              onChange={(curve) => onSpectrumChange({ curve })}
+              t={t}
+            />
+
             <p className="inspector-hint">{t('spectrum.hint')}</p>
           </>
         )}
       </section>
       )}
 
-      {inWallpaperEngine && activeTab === 'spectrum' && (
+      {inWallpaperEngine && activeTab === 'albumArt' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.albumArt')}</span>
         <label className="toggle-row">
@@ -1582,146 +1580,61 @@ export default function SettingsDrawer({
               </div>
             </div>
 
-            <div className="clock-placement" role="group" aria-label={t('albumArt.corner')}>
-              <span className="clock-placement__label">{t('albumArt.corner')}</span>
+            <NumericField
+              label={t('albumArt.size')}
+              value={albumArt.size}
+              min={ALBUM_ART_SIZE_MIN}
+              max={ALBUM_ART_SIZE_MAX}
+              unit="vh"
+              onChange={(size) => onAlbumArtChange({ size })}
+              t={t}
+            />
+
+            <WidgetPosition
+              anchor={albumArt.anchor}
+              offsetX={albumArt.offsetX}
+              offsetY={albumArt.offsetY}
+              onChange={onAlbumArtChange}
+              t={t}
+            />
+
+            <div className="clock-placement" role="group" aria-label={t('albumArt.theme')}>
+              <span className="clock-placement__label">{t('albumArt.theme')}</span>
               <div className="clock-placement__options">
-                {ALBUM_ART_CORNERS.map((corner) => (
+                {['light', 'dark'].map((theme) => (
                   <button
-                    key={corner}
+                    key={theme}
                     type="button"
-                    className={`clock-placement__option${albumArt.corner === corner ? ' is-active' : ''}`}
-                    aria-pressed={albumArt.corner === corner}
-                    onClick={() => onAlbumArtChange({ corner })}
+                    className={`clock-placement__option${albumArt.theme === theme ? ' is-active' : ''}`}
+                    aria-pressed={albumArt.theme === theme}
+                    onClick={() => onAlbumArtChange({ theme })}
                   >
-                    {t(
-                      `albumArt.corner${
-                        corner === 'bottom-right'
-                          ? 'BottomRight'
-                          : corner === 'bottom-left'
-                            ? 'BottomLeft'
-                            : corner === 'top-right'
-                              ? 'TopRight'
-                              : 'TopLeft'
-                      }`,
-                    )}
+                    {t(`albumArt.theme${theme.charAt(0).toUpperCase() + theme.slice(1)}`)}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('albumArt.size')}</span>
-                <StepControl
-                  label={t('albumArt.size')}
-                  onStep={(delta) => onAlbumArtChange({ size: albumArt.size + delta })}
-                  canDecrease={albumArt.size > 10}
-                  canIncrease={albumArt.size < 40}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={10}
-                      max={40}
-                      step={1}
-                      value={Math.round(albumArt.size)}
-                      aria-label={t('albumArt.sizeAria')}
-                      onChange={(event) =>
-                        onAlbumArtChange({ size: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={albumArt.size}
-                min={10}
-                max={40}
-                step={1}
-                label={t('albumArt.size')}
-                valueText={`${Math.round(albumArt.size)}%`}
-                onChange={(size) => onAlbumArtChange({ size })}
+            <label className="toggle-row">
+              <input
+                type="checkbox"
+                checked={albumArt.colorFollow !== false}
+                onChange={(event) =>
+                  onAlbumArtChange({ colorFollow: event.currentTarget.checked })
+                }
               />
-            </div>
-
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('albumArt.offsetX')}</span>
-                <StepControl
-                  label={t('albumArt.offsetX')}
-                  onStep={(delta) => onAlbumArtChange({ offsetX: albumArt.offsetX + delta })}
-                  canDecrease={Math.round(albumArt.offsetX) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(albumArt.offsetX) < CLOCK_OFFSET_MAX}
+              <span>{t('albumArt.colorFollow')}</span>
+            </label>
+            {albumArt.colorFollow === false && (
+              <div className="inspector-field">
+                <span className="inspector-field__label">{t('albumArt.color')}</span>
+                <BackgroundColorField
+                  value={albumArt.color}
+                  onChange={(color) => onAlbumArtChange({ color })}
                   t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(albumArt.offsetX)}
-                      aria-label={t('albumArt.offsetXAria')}
-                      onChange={(event) =>
-                        onAlbumArtChange({ offsetX: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
+                />
               </div>
-              <ViewerSlider
-                value={albumArt.offsetX}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('albumArt.offsetX')}
-                valueText={formatOffset(albumArt.offsetX)}
-                onChange={(offsetX) => onAlbumArtChange({ offsetX })}
-              />
-            </div>
-
-            <div className="inspector-field">
-              <div className="inspector-field inspector-field--split">
-                <span className="inspector-field__label">{t('albumArt.offsetY')}</span>
-                <StepControl
-                  label={t('albumArt.offsetY')}
-                  onStep={(delta) => onAlbumArtChange({ offsetY: albumArt.offsetY + delta })}
-                  canDecrease={Math.round(albumArt.offsetY) > CLOCK_OFFSET_MIN}
-                  canIncrease={Math.round(albumArt.offsetY) < CLOCK_OFFSET_MAX}
-                  t={t}
-                >
-                  <label className="scale-input">
-                    <input
-                      className="viewer-number"
-                      type="number"
-                      min={CLOCK_OFFSET_MIN}
-                      max={CLOCK_OFFSET_MAX}
-                      step={1}
-                      value={Math.round(albumArt.offsetY)}
-                      aria-label={t('albumArt.offsetYAria')}
-                      onChange={(event) =>
-                        onAlbumArtChange({ offsetY: Number(event.currentTarget.value) })
-                      }
-                    />
-                    <span aria-hidden="true">%</span>
-                  </label>
-                </StepControl>
-              </div>
-              <ViewerSlider
-                value={albumArt.offsetY}
-                min={CLOCK_OFFSET_MIN}
-                max={CLOCK_OFFSET_MAX}
-                step={1}
-                label={t('albumArt.offsetY')}
-                valueText={formatOffset(albumArt.offsetY)}
-                onChange={(offsetY) => onAlbumArtChange({ offsetY })}
-              />
-            </div>
+            )}
 
             <p className="inspector-hint">{t('albumArt.idleHint')}</p>
           </>

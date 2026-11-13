@@ -14,7 +14,7 @@
 
 A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **332 models** — 127 with `angel` + `bg`, and 205 with `angel` only; the GitHub Pages build ships **50 representative models**.
 
-The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in a normal browser and closed inside Wallpaper Engine; the eye button in the bottom-right corner toggles it in both. Inside Wallpaper Engine it is split into four tabs — **clock**, **spectrum**, **model**, and **other**; in a plain browser only **model** and **other** are available, because the clock and spectrum depend on engine audio and media data. It contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
+The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in a normal browser and closed inside Wallpaper Engine; the eye button in the bottom-right corner toggles it in both. Inside Wallpaper Engine it is split into five tabs — **clock**, **spectrum**, **cover**, **model** and **other**; in a plain browser only **model** and **other** are available, because the three widget tabs depend on engine audio and media data. It contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
 
 ## Online version
 
@@ -45,9 +45,10 @@ Unrecorded changes are not kept after a refresh. Recorded model views are restor
 - Horizontal/vertical position from -100% to 100%
 - Page background color with presets, color picker, and `#RRGGBB` input
 - Per-model view recording and copy-all export
-- Clock overlay with 9 selectable layouts (including ring and segmented progress), 3D pointer tilt, and audio-reactive bobbing with adjustable intensity
-- 128-bar audio spectrum that floats anywhere on screen, with 9 visual styles and adjustable horizontal position, vertical position, size, and color
-- Now-playing album art card (cover, title, artist, album) with a mini spectrum, from Wallpaper Engine media integration
+- Clock overlay with 9 selectable layouts (including ring and segmented progress), toggleable 3D pointer tilt, and audio-reactive bobbing with adjustable intensity and curve
+- 128-bar audio spectrum with 9 visual styles, adjustable response strength and curve, an edge-to-edge full-width band mode, and free placement
+- Now-playing album art card (cover, title, artist, album) with a mini spectrum from Wallpaper Engine media integration, its own light/dark text tone and an independently coloured mini spectrum
+- All three widgets share one placement control — a 3×3 anchor picker plus one offset per axis, measured inward from that anchor — while keeping their own independent positions
 - UI in Chinese, English, Japanese, and Korean; defaults to the browser language and can be switched in the drawer
 - Debug panel toggle inside the settings drawer
 - Responsive full-screen layout; the drawer fills the width on mobile

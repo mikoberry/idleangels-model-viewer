@@ -104,17 +104,17 @@ const messages = {
     'albumArt.styleMinimal': '极简文字',
     'albumArt.styleBar': '信息条',
     'albumArt.styleWall': '封面墙',
-    'albumArt.corner': '角落',
-    'albumArt.cornerBottomRight': '右下',
-    'albumArt.cornerBottomLeft': '左下',
-    'albumArt.cornerTopRight': '右上',
-    'albumArt.cornerTopLeft': '左上',
+    'albumArt.theme':
+      '文字配色',
+    'albumArt.themeLight':
+      '浅色文字',
+    'albumArt.themeDark':
+      '深色文字',
+    'albumArt.color':
+      '卡片频谱颜色',
+    'albumArt.colorFollow':
+      '跟随音频频谱的颜色',
     'albumArt.size': '大小',
-    'albumArt.sizeAria': '专辑封面大小百分比',
-    'albumArt.offsetX': '水平位置',
-    'albumArt.offsetXAria': '专辑封面水平位置百分比',
-    'albumArt.offsetY': '垂直位置',
-    'albumArt.offsetYAria': '专辑封面垂直位置百分比',
     'drawer.spectrum': '音频频谱',
     'spectrum.show': '显示音频频谱',
     'spectrum.style': '样式',
@@ -127,13 +127,21 @@ const messages = {
     'spectrum.styleDots': 'LED 点阵',
     'spectrum.styleRipples': '声波涟漪',
     'spectrum.styleAurora': '极光',
-    'spectrum.scale': '缩放',
-    'spectrum.offsetX': '水平位置',
-    'spectrum.offsetXAria': '频谱水平位置百分比',
-    'spectrum.offsetY': '垂直位置',
-    'spectrum.offsetYAria': '频谱垂直位置百分比',
     'spectrum.color': '颜色',
-    'spectrum.scaleAria': '频谱缩放百分比',
+    'spectrum.size':
+      '尺寸',
+    'spectrum.intensity':
+      '响应强度',
+    'spectrum.intensityHint':
+      '安静的音乐柱高不够时调大；100% 是库的默认响应。',
+    'spectrum.curve':
+      '响应曲线',
+    'spectrum.edgeToEdge':
+      '贴边满宽',
+    'spectrum.bandHeight':
+      '条带高度',
+    'spectrum.edgeToEdgeHint':
+      '满宽条带铺满窗口宽度，高度按视口高度的百分比设置；位置仍由上面的锚点决定。',
     'spectrum.hint':
       'Wallpaper Engine 中响应系统播放的音乐。浏览器不渲染频谱（读不到系统音频）。',
     'clock.show': '显示当前时间与日期',
@@ -147,6 +155,40 @@ const messages = {
     'clock.placementBar': '单行经典',
     'clock.placementRing': '环形进度',
     'clock.placementSegments': '分段进度',
+    'anchor.topLeft':
+      '左上',
+    'anchor.topCenter':
+      '顶部居中',
+    'anchor.topRight':
+      '右上',
+    'anchor.centerLeft':
+      '左侧居中',
+    'anchor.center':
+      '正中',
+    'anchor.centerRight':
+      '右侧居中',
+    'anchor.bottomLeft':
+      '左下',
+    'anchor.bottomCenter':
+      '底部居中',
+    'anchor.bottomRight':
+      '右下',
+    'position.anchor':
+      '对齐位置',
+    'position.xFromLeft':
+      '距左边缘',
+    'position.xFromRight':
+      '距右边缘',
+    'position.xFromCenter':
+      '水平偏移（向右为正）',
+    'position.yFromTop':
+      '距上边缘',
+    'position.yFromBottom':
+      '距下边缘',
+    'position.yFromCenter':
+      '垂直偏移（向下为正）',
+    'position.hint':
+      '九个锚点对应屏幕的四角、四边中点和正中央。偏移量从锚点向内计算，单位是窗口宽高的百分比；负值会把控件推到屏幕外。',
     'clock.theme': '时钟主题',
     'clock.themeDark': '深色模式',
     'clock.themeLight': '浅色模式',
@@ -154,17 +196,18 @@ const messages = {
     'clock.hour24': '24 小时制',
     'clock.hour12': '12 小时制',
     'clock.size': '大小',
-    'clock.sizeAria': '时钟大小百分比',
-    'clock.offsetX': '水平位置',
-    'clock.offsetXAria': '时钟水平位置百分比',
-    'clock.offsetY': '垂直位置',
-    'clock.offsetYAria': '时钟垂直位置百分比',
-    'clock.offsetHint': '位置以左下角为原点，单位是窗口宽高的百分比；正值向右、向上移动。',
     'clock.reactToBeat': '随音频节拍律动',
     'clock.beatIntensity': '响应强度',
-    'clock.beatIntensityAria': '音频响应强度百分比',
     'clock.reactToBeatHint':
       'Wallpaper Engine 中响应系统播放的音乐；浏览器中无法读取系统音频，会使用模拟节拍演示。',
+    'clock.beatCurve':
+      '节拍曲线',
+    'clock.beatCurveHint':
+      '小于 1 时起伏柔和，大于 1 时只在真正的重拍上跳动。',
+    'clock.tilt':
+      '跟随鼠标倾斜',
+    'clock.tiltHint':
+      '鼠标靠近屏幕边缘时卡片会轻微转向；关闭后完全静止。',
     'clock.label': '当前时间与日期',
     'clock.dateWithWeekday': '{date} {weekday}',
     'weekday.mon': '周一',
@@ -180,6 +223,8 @@ const messages = {
     'drawer.tab.spectrum': '频谱',
     'drawer.tab.model': '模型',
     'drawer.tab.other': '其它',
+    'drawer.tab.albumArt':
+      '封面',
     'drawer.modelHint': '当前线上预览共 {count} 个模型；支持拼音首字母或全拼搜索，例如海皇波塞冬搜 hhbsd，赫拉搜 hl 或 hela。刷新后默认第一个。',
     'drawer.heroNamesHint': '通过拼音首字母查询模型；人物名字与多语言名称的对应关系可以查看',
     'drawer.heroNamesSource': 'heroes_multilang.csv',
@@ -307,17 +352,17 @@ const messages = {
     'albumArt.styleMinimal': 'Minimal text',
     'albumArt.styleBar': 'Info bar',
     'albumArt.styleWall': 'Cover wall',
-    'albumArt.corner': 'Corner',
-    'albumArt.cornerBottomRight': 'Bottom right',
-    'albumArt.cornerBottomLeft': 'Bottom left',
-    'albumArt.cornerTopRight': 'Top right',
-    'albumArt.cornerTopLeft': 'Top left',
+    'albumArt.theme':
+      'Text tone',
+    'albumArt.themeLight':
+      'Light text',
+    'albumArt.themeDark':
+      'Dark text',
+    'albumArt.color':
+      'Card spectrum colour',
+    'albumArt.colorFollow':
+      'Match the spectrum colour',
     'albumArt.size': 'Size',
-    'albumArt.sizeAria': 'Album art size percentage',
-    'albumArt.offsetX': 'Horizontal position',
-    'albumArt.offsetXAria': 'Album art horizontal position percentage',
-    'albumArt.offsetY': 'Vertical position',
-    'albumArt.offsetYAria': 'Album art vertical position percentage',
     'drawer.spectrum': 'Audio spectrum',
     'spectrum.show': 'Show audio spectrum',
     'spectrum.style': 'Style',
@@ -330,13 +375,21 @@ const messages = {
     'spectrum.styleDots': 'LED dots',
     'spectrum.styleRipples': 'Sound ripples',
     'spectrum.styleAurora': 'Aurora',
-    'spectrum.scale': 'Scale',
-    'spectrum.offsetX': 'Horizontal position',
-    'spectrum.offsetXAria': 'Spectrum horizontal position percentage',
-    'spectrum.offsetY': 'Vertical position',
-    'spectrum.offsetYAria': 'Spectrum vertical position percentage',
     'spectrum.color': 'Colour',
-    'spectrum.scaleAria': 'Spectrum scale percentage',
+    'spectrum.size':
+      'Size',
+    'spectrum.intensity':
+      'Response strength',
+    'spectrum.intensityHint':
+      'Raise it when quiet music barely moves the bars; 100% is the library default.',
+    'spectrum.curve':
+      'Response curve',
+    'spectrum.edgeToEdge':
+      'Full-width band',
+    'spectrum.bandHeight':
+      'Band height',
+    'spectrum.edgeToEdgeHint':
+      'The band spans the whole window width and takes its height from the viewport; the anchor above still decides where it sits.',
     'spectrum.hint':
       'Follows the music playing on your system inside Wallpaper Engine. Browsers do not render the spectrum, because they cannot read system audio.',
     'clock.show': 'Show current time and date',
@@ -350,6 +403,40 @@ const messages = {
     'clock.placementBar': 'Classic Bar',
     'clock.placementRing': 'Ring progress',
     'clock.placementSegments': 'Segmented bars',
+    'anchor.topLeft':
+      'Top left',
+    'anchor.topCenter':
+      'Top centre',
+    'anchor.topRight':
+      'Top right',
+    'anchor.centerLeft':
+      'Left centre',
+    'anchor.center':
+      'Centre',
+    'anchor.centerRight':
+      'Right centre',
+    'anchor.bottomLeft':
+      'Bottom left',
+    'anchor.bottomCenter':
+      'Bottom centre',
+    'anchor.bottomRight':
+      'Bottom right',
+    'position.anchor':
+      'Anchor',
+    'position.xFromLeft':
+      'From left edge',
+    'position.xFromRight':
+      'From right edge',
+    'position.xFromCenter':
+      'Horizontal offset (+ right)',
+    'position.yFromTop':
+      'From top edge',
+    'position.yFromBottom':
+      'From bottom edge',
+    'position.yFromCenter':
+      'Vertical offset (+ down)',
+    'position.hint':
+      'The nine anchors are the screen corners, edge midpoints and centre. Offsets grow inward from the anchor as a percentage of the viewport, and a negative value pushes the widget past it, off-screen.',
     'clock.theme': 'Clock Theme',
     'clock.themeDark': 'Dark',
     'clock.themeLight': 'Light',
@@ -357,18 +444,18 @@ const messages = {
     'clock.hour24': '24-Hour',
     'clock.hour12': '12-Hour',
     'clock.size': 'Size',
-    'clock.sizeAria': 'Clock size percentage',
-    'clock.offsetX': 'Horizontal position',
-    'clock.offsetXAria': 'Clock horizontal position percentage',
-    'clock.offsetY': 'Vertical position',
-    'clock.offsetYAria': 'Clock vertical position percentage',
-    'clock.offsetHint':
-      'Position is measured from the bottom-left corner as a percentage of the window; positive values move right and up.',
     'clock.reactToBeat': 'React to audio',
     'clock.beatIntensity': 'Intensity',
-    'clock.beatIntensityAria': 'Audio response intensity percentage',
     'clock.reactToBeatHint':
       'Follows the music playing on your system in Wallpaper Engine. Browsers cannot read system audio, so a simulated beat is used for the preview.',
+    'clock.beatCurve':
+      'Beat curve',
+    'clock.beatCurveHint':
+      'Below 1 the pulse swells softly; above 1 it only moves on a real hit.',
+    'clock.tilt':
+      'Follow the pointer',
+    'clock.tiltHint':
+      'The card turns slightly as the pointer nears a screen edge; turn it off to keep it still.',
     'clock.label': 'Current time and date',
     'clock.dateWithWeekday': '{date} · {weekday}',
     'weekday.mon': 'Mon',
@@ -384,6 +471,8 @@ const messages = {
     'drawer.tab.spectrum': 'Spectrum',
     'drawer.tab.model': 'Model',
     'drawer.tab.other': 'Other',
+    'drawer.tab.albumArt':
+      'Cover',
     'drawer.modelHint': 'The online preview contains {count} models. Search by pinyin initials, full pinyin, or filename (e.g. hhbsd, hl, hela). The first model is selected after refresh.',
     'drawer.heroNamesHint': 'Search models by pinyin initials; see the character name mapping in',
     'drawer.heroNamesSource': 'heroes_multilang.csv',
@@ -511,17 +600,17 @@ const messages = {
     'albumArt.styleMinimal': 'ミニマルテキスト',
     'albumArt.styleBar': 'インフォバー',
     'albumArt.styleWall': 'ジャケットウォール',
-    'albumArt.corner': 'コーナー',
-    'albumArt.cornerBottomRight': '右下',
-    'albumArt.cornerBottomLeft': '左下',
-    'albumArt.cornerTopRight': '右上',
-    'albumArt.cornerTopLeft': '左上',
+    'albumArt.theme':
+      '文字の配色',
+    'albumArt.themeLight':
+      '明るい文字',
+    'albumArt.themeDark':
+      '暗い文字',
+    'albumArt.color':
+      'カード内スペクトルの色',
+    'albumArt.colorFollow':
+      'スペクトラムの色に合わせる',
     'albumArt.size': 'サイズ',
-    'albumArt.sizeAria': 'ジャケットのサイズ（%）',
-    'albumArt.offsetX': '横位置',
-    'albumArt.offsetXAria': 'ジャケットの横位置（%）',
-    'albumArt.offsetY': '縦位置',
-    'albumArt.offsetYAria': 'ジャケットの縦位置（%）',
     'drawer.spectrum': 'オーディオスペクトラム',
     'spectrum.show': 'オーディオスペクトラムを表示',
     'spectrum.style': 'スタイル',
@@ -534,13 +623,21 @@ const messages = {
     'spectrum.styleDots': 'LED ドット',
     'spectrum.styleRipples': 'サウンドリップル',
     'spectrum.styleAurora': 'オーロラ',
-    'spectrum.scale': '拡大率',
-    'spectrum.offsetX': '横位置',
-    'spectrum.offsetXAria': 'スペクトラムの横位置（%）',
-    'spectrum.offsetY': '縦位置',
-    'spectrum.offsetYAria': 'スペクトラムの縦位置（%）',
     'spectrum.color': '色',
-    'spectrum.scaleAria': 'スペクトラムの拡大率（%）',
+    'spectrum.size':
+      'サイズ',
+    'spectrum.intensity':
+      '反応の強さ',
+    'spectrum.intensityHint':
+      '静かな曲で柱が動かないときに上げます。100% がライブラリの既定値です。',
+    'spectrum.curve':
+      '反応カーブ',
+    'spectrum.edgeToEdge':
+      '横幅いっぱいの帯',
+    'spectrum.bandHeight':
+      '帯の高さ',
+    'spectrum.edgeToEdgeHint':
+      '帯はウィンドウ幅いっぱいに広がり、高さは画面高さの割合で指定します。位置は上の基準点で決まります。',
     'spectrum.hint':
       'Wallpaper Engine ではシステムで再生中の音楽に反応します。ブラウザではシステム音声を取得できないため、スペクトラムは表示されません。',
     'clock.show': '現在の日付と時刻を表示',
@@ -554,6 +651,40 @@ const messages = {
     'clock.placementBar': 'クラシック横並び',
     'clock.placementRing': 'リング進捗',
     'clock.placementSegments': 'セグメントバー',
+    'anchor.topLeft':
+      '左上',
+    'anchor.topCenter':
+      '上中央',
+    'anchor.topRight':
+      '右上',
+    'anchor.centerLeft':
+      '左中央',
+    'anchor.center':
+      '中央',
+    'anchor.centerRight':
+      '右中央',
+    'anchor.bottomLeft':
+      '左下',
+    'anchor.bottomCenter':
+      '下中央',
+    'anchor.bottomRight':
+      '右下',
+    'position.anchor':
+      '基準位置',
+    'position.xFromLeft':
+      '左端から',
+    'position.xFromRight':
+      '右端から',
+    'position.xFromCenter':
+      '横方向のずれ（右が正）',
+    'position.yFromTop':
+      '上端から',
+    'position.yFromBottom':
+      '下端から',
+    'position.yFromCenter':
+      '縦方向のずれ（下が正）',
+    'position.hint':
+      '9 つの基準点は画面の四隅・辺の中央・中央です。オフセットは基準点から内側への割合で、負の値は画面外へ押し出します。',
     'clock.theme': '時計テーマ',
     'clock.themeDark': 'ダーク',
     'clock.themeLight': 'ライト',
@@ -561,17 +692,18 @@ const messages = {
     'clock.hour24': '24時間制',
     'clock.hour12': '12時間制',
     'clock.size': 'サイズ',
-    'clock.sizeAria': '時計のサイズ（%）',
-    'clock.offsetX': '横位置',
-    'clock.offsetXAria': '時計の横位置（%）',
-    'clock.offsetY': '縦位置',
-    'clock.offsetYAria': '時計の縦位置（%）',
-    'clock.offsetHint': '位置は左下を基準にしたウィンドウ幅・高さの割合です。正の値で右・上へ移動します。',
     'clock.reactToBeat': 'オーディオに反応',
     'clock.beatIntensity': '反応の強さ',
-    'clock.beatIntensityAria': 'オーディオ反応の強さ（%）',
     'clock.reactToBeatHint':
       'Wallpaper Engine ではシステムで再生中の音楽に反応します。ブラウザはシステム音声を取得できないため、プレビューでは擬似ビートを使用します。',
+    'clock.beatCurve':
+      'ビートカーブ',
+    'clock.beatCurveHint':
+      '1 未満はゆるやかに、1 を超えると強い拍だけに反応します。',
+    'clock.tilt':
+      'ポインターで傾ける',
+    'clock.tiltHint':
+      'ポインターが画面端に近づくとカードが少し傾きます。オフで静止します。',
     'clock.label': '現在の日付と時刻',
     'clock.dateWithWeekday': '{date}（{weekday}）',
     'weekday.mon': '月曜日',
@@ -587,6 +719,8 @@ const messages = {
     'drawer.tab.spectrum': 'スペクトラム',
     'drawer.tab.model': 'モデル',
     'drawer.tab.other': 'その他',
+    'drawer.tab.albumArt':
+      'カバー',
     'drawer.modelHint': 'オンラインプレビューには {count} 件のモデルがあります。ピンインの頭文字・フルピンイン・ファイル名で検索できます（例: hhbsd、hl、hela）。更新後は最初のモデルが選択されます。',
     'drawer.heroNamesHint': 'ピンインの頭文字でモデルを検索できます。キャラクター名の対応表は',
     'drawer.heroNamesSource': 'heroes_multilang.csv',
@@ -714,17 +848,17 @@ const messages = {
     'albumArt.styleMinimal': '미니멀 텍스트',
     'albumArt.styleBar': '정보 바',
     'albumArt.styleWall': '커버 월',
-    'albumArt.corner': '모서리',
-    'albumArt.cornerBottomRight': '오른쪽 아래',
-    'albumArt.cornerBottomLeft': '왼쪽 아래',
-    'albumArt.cornerTopRight': '오른쪽 위',
-    'albumArt.cornerTopLeft': '왼쪽 위',
+    'albumArt.theme':
+      '글자 색조',
+    'albumArt.themeLight':
+      '밝은 글자',
+    'albumArt.themeDark':
+      '어두운 글자',
+    'albumArt.color':
+      '카드 스펙트럼 색',
+    'albumArt.colorFollow':
+      '스펙트럼 색과 맞추기',
     'albumArt.size': '크기',
-    'albumArt.sizeAria': '앨범 아트 크기 백분율',
-    'albumArt.offsetX': '가로 위치',
-    'albumArt.offsetXAria': '앨범 아트 가로 위치 백분율',
-    'albumArt.offsetY': '세로 위치',
-    'albumArt.offsetYAria': '앨범 아트 세로 위치 백분율',
     'drawer.spectrum': '오디오 스펙트럼',
     'spectrum.show': '오디오 스펙트럼 표시',
     'spectrum.style': '스타일',
@@ -737,13 +871,21 @@ const messages = {
     'spectrum.styleDots': 'LED 도트',
     'spectrum.styleRipples': '사운드 리플',
     'spectrum.styleAurora': '오로라',
-    'spectrum.scale': '확대 비율',
-    'spectrum.offsetX': '가로 위치',
-    'spectrum.offsetXAria': '스펙트럼 가로 위치 백분율',
-    'spectrum.offsetY': '세로 위치',
-    'spectrum.offsetYAria': '스펙트럼 세로 위치 백분율',
     'spectrum.color': '색상',
-    'spectrum.scaleAria': '스펙트럼 확대 비율 백분율',
+    'spectrum.size':
+      '크기',
+    'spectrum.intensity':
+      '반응 강도',
+    'spectrum.intensityHint':
+      '조용한 곡에서 막대가 거의 움직이지 않을 때 올리세요. 100%가 라이브러리 기본값입니다.',
+    'spectrum.curve':
+      '반응 곡선',
+    'spectrum.edgeToEdge':
+      '화면 폭 전체 띠',
+    'spectrum.bandHeight':
+      '띠 높이',
+    'spectrum.edgeToEdgeHint':
+      '띠는 창 너비를 가득 채우고 높이는 화면 높이 비율로 지정합니다. 위치는 위 기준점이 결정합니다.',
     'spectrum.hint':
       'Wallpaper Engine에서는 시스템에서 재생 중인 음악에 반응합니다. 브라우저는 시스템 오디오에 접근할 수 없어 스펙트럼을 표시하지 않습니다.',
     'clock.show': '현재 날짜와 시간 표시',
@@ -757,6 +899,40 @@ const messages = {
     'clock.placementBar': '클래식 가로',
     'clock.placementRing': '링 진행',
     'clock.placementSegments': '세그먼트 바',
+    'anchor.topLeft':
+      '왼쪽 위',
+    'anchor.topCenter':
+      '위 가운데',
+    'anchor.topRight':
+      '오른쪽 위',
+    'anchor.centerLeft':
+      '왼쪽 가운데',
+    'anchor.center':
+      '가운데',
+    'anchor.centerRight':
+      '오른쪽 가운데',
+    'anchor.bottomLeft':
+      '왼쪽 아래',
+    'anchor.bottomCenter':
+      '아래 가운데',
+    'anchor.bottomRight':
+      '오른쪽 아래',
+    'position.anchor':
+      '기준 위치',
+    'position.xFromLeft':
+      '왼쪽 끝에서',
+    'position.xFromRight':
+      '오른쪽 끝에서',
+    'position.xFromCenter':
+      '가로 오프셋(오른쪽이 +)',
+    'position.yFromTop':
+      '위쪽 끝에서',
+    'position.yFromBottom':
+      '아래쪽 끝에서',
+    'position.yFromCenter':
+      '세로 오프셋(아래가 +)',
+    'position.hint':
+      '9개 기준점은 화면의 네 모서리, 변의 중앙, 중앙입니다. 오프셋은 기준점에서 안쪽으로 재며 음수는 화면 밖으로 밀어냅니다.',
     'clock.theme': '시계 테마',
     'clock.themeDark': '다크',
     'clock.themeLight': '라이트',
@@ -764,17 +940,18 @@ const messages = {
     'clock.hour24': '24시간제',
     'clock.hour12': '12시간제',
     'clock.size': '크기',
-    'clock.sizeAria': '시계 크기 백분율',
-    'clock.offsetX': '가로 위치',
-    'clock.offsetXAria': '시계 가로 위치 백분율',
-    'clock.offsetY': '세로 위치',
-    'clock.offsetYAria': '시계 세로 위치 백분율',
-    'clock.offsetHint': '위치는 왼쪽 아래를 기준으로 한 창 너비·높이의 비율입니다. 양수는 오른쪽·위쪽으로 이동합니다.',
     'clock.reactToBeat': '오디오에 반응',
     'clock.beatIntensity': '반응 강도',
-    'clock.beatIntensityAria': '오디오 반응 강도 백분율',
     'clock.reactToBeatHint':
       'Wallpaper Engine에서는 시스템에서 재생 중인 음악에 반응합니다. 브라우저는 시스템 오디오에 접근할 수 없어 미리보기에서는 모의 비트를 사용합니다.',
+    'clock.beatCurve':
+      '비트 곡선',
+    'clock.beatCurveHint':
+      '1보다 작으면 부드럽게, 크면 강한 박자에만 반응합니다.',
+    'clock.tilt':
+      '포인터 따라 기울이기',
+    'clock.tiltHint':
+      '포인터가 화면 가장자리에 가까워지면 카드가 살짝 기울어집니다. 끄면 정지합니다.',
     'clock.label': '현재 날짜와 시간',
     'clock.dateWithWeekday': '{date} ({weekday})',
     'weekday.mon': '월요일',
@@ -790,6 +967,8 @@ const messages = {
     'drawer.tab.spectrum': '스펙트럼',
     'drawer.tab.model': '모델',
     'drawer.tab.other': '기타',
+    'drawer.tab.albumArt':
+      '커버',
     'drawer.modelHint': '온라인 미리보기에는 모델이 {count}개 있습니다. 병음 첫 글자, 전체 병음 또는 파일명으로 검색할 수 있습니다(예: hhbsd, hl, hela). 새로고침 후 첫 번째 모델이 선택됩니다.',
     'drawer.heroNamesHint': '병음 첫 글자로 모델을 검색할 수 있습니다. 캐릭터 이름 대응표는',
     'drawer.heroNamesSource': 'heroes_multilang.csv',
