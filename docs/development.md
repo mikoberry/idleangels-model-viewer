@@ -299,7 +299,8 @@ npm run preview -- --port 5174 --strictPort
 
 - 保持 `App` 持有 `startSpineStage`，不要让设置抽屉开关导致 Stage 重建。
 - **控件层在外部库 WallKit**（`wallkit/components/*`）：时钟、频谱、迷你频谱、专辑卡片的视觉、CSS 与绘制循环都不在本仓库。修改它们要去 WallKit 仓库；本仓库只负责引擎数据采集（`ControlOverlays.jsx`）和字段换算（`src/utils/controlOverlay.js`）。不要在本地复制一份控件实现。
-- `wallkit` 目前以 `file:../wallkit` 接入（本地开发），发布/CI 前必须换成 `github:mikoberry/wallkit#<commit>`，否则 `npm ci` 在 CI 上找不到该目录。`vite.config.js` 的 `server.fs.allow` 是为这个同级目录准备的。
+- `wallkit` 固定到 `git+https://github.com/mikoberry/wallkit.git#<sha>`（公开仓库），`npm ci` 可以不带任何凭据拉取。**只改 `package.json` 里的 `#sha` 不够**：`package-lock.json` 里那条 `resolved` 也要跟着变，否则装到的是旧提交；最稳的是改完 `package.json` 后跑一次 `npm install`。
+- 要改 wallkit 本身，去它的仓库；本地联调可以临时改回 `"wallkit": "file:../wallkit"`（并在 `vite.config.js` 的 `server.fs.allow` 里放开 `'..'`），提交前务必换回 git 引用并重装。
 - 不要用 Spine 4.x 运行时替换 vendored `spine-webgl.js`。
 - 不要直接修改 `spine-webgl.js` 的内部实现；它是第三方运行时。
 - `model-library/` 是源库，`public/spine/models/` 是生成物；不要把模型资源提交进 Git。

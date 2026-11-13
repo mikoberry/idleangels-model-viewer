@@ -205,6 +205,6 @@ The detailed documentation is currently written in Chinese:
 - `dist/` and `public/spine/models/` are generated and ignored by Git.
 - `npm run build` does not perform type checking; this is a JavaScript project.
 - The clock, spectrum, mini-spectrum and album card are rendered by [WallKit](https://github.com/mikoberry/wallkit), a separate widget library consumed as a git dependency. This repository owns the engine side — audio frames, media info, the paused flag and the settings drawer — and only passes plain props in. WallKit ships no build step, so `src/` there is compiled by this project's Vite.
-- While working on both repositories side by side, point the dependency at the local checkout (`"wallkit": "file:../wallkit"`); `vite.config.js` already allows the dev server to read the sibling directory.
+- The dependency is pinned to a commit (`git+https://github.com/mikoberry/wallkit.git#<sha>`). While working on both repositories side by side, point it at the local checkout (`"wallkit": "file:../wallkit"`) and add `'..'` to `server.fs.allow` in `vite.config.js`; switch back before committing.
 
 [简体中文版](README.zh-CN.md)

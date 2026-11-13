@@ -4,14 +4,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
-  // wallkit is consumed as a `file:` dependency during development, so its
-  // real path (a sibling directory) sits outside the Vite root. The dev server
-  // refuses to serve files above the root unless the parent is allowed.
-  server: {
-    fs: {
-      allow: ['.', '..'],
-    },
-  },
   // WallKit ships JSX source with no build step; leave it to the React plugin
   // instead of letting the dependency optimiser pre-bundle it.
   optimizeDeps: {
