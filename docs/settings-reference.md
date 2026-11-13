@@ -129,7 +129,7 @@ percent = round(scale × 100)
 ```js
 const DEFAULT_CLOCK = {
   show: false,
-  placement: 'card',
+  placement: 'minimal',
   offsetX: 10,
   offsetY: 50,
   size: 100,
@@ -141,7 +141,7 @@ const DEFAULT_CLOCK = {
 | 字段 | 类型 | 默认值 | 范围 | 说明 |
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示当前时间与日期 |
-| `placement` | `'minimal' \| 'cyberpunk' \| 'infobar' \| 'split' \| 'poster' \| 'card' \| 'bar'` | `'minimal'` | — | 时钟布局风格：极简数字、赛博朋克霓虹、横向信息条、双行分层、大字海报、经典竖排、经典横排 |
+| `placement` | `'minimal' \| 'cyberpunk' \| 'infobar' \| 'split' \| 'poster' \| 'card' \| 'bar' \| 'ring' \| 'segments'`（外加只在校验表里的 `'stamp'`） | `'minimal'` | — | 时钟布局：极简数字、赛博朋克、横向信息条、双行分层、大字海报、竖排经典、横排经典、环形进度、分段进度 |
 | `theme` | `'dark' \| 'light'` | `'dark'` | — | 时钟色彩模式（深色 / 浅色） |
 | `use24Hour` | `boolean` | `true` | — | 是否启用 24 小时制（为 `false` 时显示 12 小时制 AM/PM） |
 | `offsetX` | `number` | `10` | `0`–`100` | 水平位置，窗口宽度的百分比，正值向右 |
@@ -152,12 +152,14 @@ const DEFAULT_CLOCK = {
 
 默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
 
-- 位置以**左下角**为原点。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 贴对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
+- 位置从锚点**向内**测量。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 走到对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
 - 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
 - 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
 - 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这七个字段）。
 - 与其它播放设置不同，`clock` **会持久化**，因为它属于显示偏好而非按模型记录的视图。
-- 时间每秒刷新一次；秒数不变时不触发 React 重渲染。
+- 时间每秒刷新一次；`now` 由 `ControlOverlays.jsx` 驱动（WallKit 的 Clock 不持有定时器），秒数不变时不触发重渲染。
+- 时钟的视觉由 WallKit 渲染，本地只负责数据和 `labels`：`locale`（由语言 id 映射成 `zh-CN` / `en-GB` / `ja-JP` / `ko-KR`）、`weekday`、`dateWithWeekday`、`aria`。
+- `stamp` 布局带库内固定的中文「第 N 天 / 第 N 周」，在其它语言界面下不成立，所以抽屉不提供它；校验表仍接受，旧预设可用。
 - 时钟**没有背景**：无边框、无底色、无卡片阴影，只有文字和一层柔和投影保证在亮色画面上可读。
 - 时钟浮层设置了 `pointer-events: none`，不会拦截画布的点击触发 `action`。
 - **跟随鼠标摆动**：浮层按鼠标相对**视口中心**的位置做 3D 倾斜（`perspective(900px) rotateX/rotateY`，最大 14°）。鼠标指向右上角区域时，右上角向观察者翘起、左下角向屏幕内侧下沉；指向其它方向同理。
@@ -180,7 +182,7 @@ const DEFAULT_SPECTRUM = {
   style: 'bars',
   offsetX: 50,
   offsetY: 50,
-  scale: 1,
+  size: 300,
   color: DEFAULT_SPECTRUM_COLOR, // '#a8c4ff'
 }
 ```
@@ -188,14 +190,15 @@ const DEFAULT_SPECTRUM = {
 | 字段 | 类型 | 默认值 | 范围 | 说明 |
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示频谱 |
-| `style` | 见下 | `'bars'` | 8 种样式 | 视觉样式，见 `src/utils/spectrum.js` |
-| `offsetX` | `number` | `50` | `0`–`100` | 水平位置，窗口宽度的百分比，`50` 为居中 |
-| `offsetY` | `number` | `50` | `0`–`100` | 垂直位置，窗口高度的百分比，`50` 为居中 |
-| `scale` | `number` | `1` | `0.5`–`5` | 整块频谱的缩放，`1` 为 100% |
-| `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色；由 `spectrumGradientStops()` 生成上下两道渐变 |
+| `style` | 见下 | `'bars'` | 9 种样式 | WallKit 的绘制样式：`bars` / `mirror` / `curve` / `pill` / `ring` / `ringwave` / `dots` / `ripples` / `aurora` |
+| `offsetX` | `number` | `50` | `0`–`100` | 盒子中心的水平位置，窗口宽度的百分比，`50` 为居中 |
+| `offsetY` | `number` | `50` | `0`–`100` | 盒子中心的垂直位置，窗口高度的百分比，`50` 为居中 |
+| `size` | `number` | `300` | `20`–`500` | 整块频谱的大小百分比，`100` 是 WallKit 的基准盒（条形 `30vw × 15vh`）；`300` 约等于旧的 `scale: 1`（90vw 宽） |
+| `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色，以 `colorHex` 传给 WallKit |
 
-- 位置以**盒子中心**定位：`offsetX` / `offsetY` 决定浮层中心落在视口的哪个百分比位置，`scale` 以该中心为原点缩放，所以改变缩放不会让频谱漂移。
-- 旧的 `position`（`top` / `bottom`）和 `height` 字段已废弃：归一化时直接忽略，没有新字段的模型预设会回退到上面的默认值（居中、100%）。
+- 位置以**盒子中心**存储（`50` = 屏幕正中），传给 WallKit 时用 `anchor="center"`：换算在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 里把这两个数字平移成相对中心的位移（`offsetX - 50`）。中心锚点由库用 `translate(-50%, -50%)` 实现，所以改变 `size` 时盒子仍以同一个点缩放、不会漂移，也不需要再估算盒子有多大。
+- **`scale` 已废弃**：旧值是 0.5–5，读取时按 `size = scale × 300` 换算，超界夹到 20–500。抽屉现在直接调 `size`。
+- 旧的 `position`（`top` / `bottom`）和 `height` 字段同样已废弃：归一化时直接忽略，没有新字段的模型预设会回退到上面的默认值（居中、300）。
 - 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
 - 共 **128 根柱子**，与 Wallpaper Engine 的 128 个频段一一对应：左声道占 0–63，右声道镜像占 64–127，低频在两端。
 - 用 **Canvas 2D** 绘制（128 个 DOM 节点在 60fps 下开销过大），每帧一次绘制。
@@ -205,11 +208,12 @@ const DEFAULT_SPECTRUM = {
 
 ## 专辑封面 `albumArt`（独立 state）
 
-从 Wallpaper Engine 的媒体集成读取封面与曲目信息，卡片锚定在屏幕四角之一：
+从 Wallpaper Engine 的媒体集成读取封面与曲目信息。卡片可选四个角落之一，位置从所选角落**向内**测量：
 
 ```js
 const DEFAULT_ALBUM_ART = {
   show: false,
+  style: 'classic',
   corner: 'bottom-right',
   size: 18,
   offsetX: 0,
@@ -220,15 +224,17 @@ const DEFAULT_ALBUM_ART = {
 | 字段 | 类型 | 默认值 | 范围 | 说明 |
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示专辑封面卡片 |
-| `corner` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | — | 锚定的角落 |
-| `size` | `number` | `18` | `10`–`40` | 卡片高度，占视口高度的百分比（卡片宽度为该值的 3.6 倍） |
-| `offsetX` | `number` | `0` | `0`–`100` | 从所选角落向内的水平偏移 |
-| `offsetY` | `number` | `0` | `0`–`100` | 从所选角落向内的垂直偏移 |
+| `style` | 见下 | `'classic'` | 6 种布局 | `classic` / `glass` / `vinyl` / `minimal` / `bar` / `wall`，以 `variant` 传给 WallKit |
+| `corner` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | — | 卡片贴哪个角落，直接作为 WallKit 的 `anchor` |
+| `size` | `number` | `18` | `10`–`40` | 封面高度，占视口高度的百分比（卡片宽度约为该值的 3.6 倍）；换算成 WallKit 的 `20`–`300`（`100` = 18vh 封面） |
+| `offsetX` | `number` | `0` | `0`–`100` | 从所选角落**向内**的水平距离 |
+| `offsetY` | `number` | `0` | `0`–`100` | 从所选角落**向内**的垂直距离 |
 
 - 持久化：`localStorage` 的 `spine-viewer:album-art:v1`。
-- 非引擎环境或播放器不提供媒体信息时，卡片显示对应的提示文案，而不是空白。
+- **`corner` 与 WallKit 的锚点同名同义**：卡片一直只用四个角落，库另外还支持四边中点和居中，但抽屉不暴露它们。旧预设里的 `corner` 原样生效，偏移量的含义（从角落向内）也没变。
+- **没有空态卡片**：没有曲目时 WallKit 直接不渲染（`track == null`），不再显示"暂无播放中的音乐"；要不要提示由抽屉里的文案负责。
 - 卡片内的小频谱颜色跟随 `spectrum.color`。
-- 数据来源：[src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 读取 `index.html` 内联脚本写入的 `window.__weMedia`；`AlbumArt.jsx` 每秒轮询一次。
+- 数据来源：[src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 读取 `index.html` 内联脚本写入的 `window.__weMedia`；`ControlOverlays.jsx` 每秒轮询一次，字段没变时不触发重渲染。
 - 需要用户在 WE 设置中开启**媒体集成**，否则不会有任何数据。
 
 ## 音频数据来源（频谱 / 时钟律动 / 封面小频谱共用一个来源）
@@ -236,7 +242,7 @@ const DEFAULT_ALBUM_ART = {
 三处可视化都用同一套读取逻辑，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
 
 - **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时**静音**，绝不回退到模拟数据。
-- **浏览器中**（API 不存在）：无法读取系统音频，使用 `syntheticSpectrum()` / `syntheticAudioLevel()` 生成的确定性模拟数据。
+- **浏览器中**（API 不存在）：三个浮层根本不挂载（`App` 用 `inWallpaperEngine &&` 跳过），所以不会有模拟数据。`src/utils/audio.js` 里的 `syntheticSpectrum()` / `syntheticAudioLevel()` 目前没有任何调用方。
 
 其它要点：
 
@@ -244,7 +250,7 @@ const DEFAULT_ALBUM_ART = {
 - 帧超过 **1.5 秒**没有更新视为过期（`getWallpaperAudioFrame(staleMs)`），柱状图回到静止，而不是冻结在最后一次响亮的画面上。
 - 静音阈值 `NOISE_FLOOR = 0.06`：低于该值的采样视为静音并归零，避免引擎残留底噪让 128 根柱子持续微颤。高于阈值的值会重新缩放，不产生可见跳变。
 - 调试面板的「音频数据」一行只显示三态：`非 WE 环境` / `已注册，等待音频数据` / `接收中`。
-- 数值处理在 [src/utils/audio.js](../src/utils/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪；`syntheticSpectrum()` 生成浏览器预览用的模拟频谱。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动（attack 60/s、release 6/s）。
+- 数值处理在 [src/utils/audio.js](../src/utils/audio.js)：`extractSpectrumBars()` 把同一帧拆成 128 根柱子的高度（右声道镜像）并做去噪。全部夹取到 `0–1`（WE 偶尔会超过 1）；`smoothAudioLevel()` 做帧率无关的非对称缓动（attack 60/s、release 6/s）。
 - 律动与倾斜共用同一个 rAF 循环，只写 CSS 变量和 transform，不额外触发重排。
 - `public/project.json` 的音频开关必须写在 **`general` 对象内部**，不是顶层：
 

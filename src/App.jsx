@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import SettingsDrawer from './components/SettingsDrawer.jsx'
-import Clock from './components/Clock.jsx'
-import Spectrum from './components/Spectrum.jsx'
-import AlbumArt from './components/AlbumArt.jsx'
+import ControlOverlays from './components/ControlOverlays.jsx'
+import { SPECTRUM_SIZE_MAX, SPECTRUM_SIZE_MIN, SPECTRUM_STYLES } from 'wallkit/components/spectrum'
 import { detectLanguage, getTranslator, LANGUAGES, saveLanguage } from './i18n.js'
 import {
   CLOCK_BEAT_INTENSITY_MAX,
@@ -19,10 +18,8 @@ import {
   buildPresetForModel,
   normalizeAlbumPreset,
   normalizeClockPreset,
-  normalizePreset,
   normalizeSpectrumPreset,
 } from './utils/modelPreset.js'
-import { SPECTRUM_STYLES } from './utils/spectrum.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
 import { startSpineStage } from './spineStage.js'
 import './App.css'
@@ -31,7 +28,22 @@ const MODEL_VIEWS_KEY = 'spine-viewer:model-views:v1'
 const CLOCK_KEY = 'spine-viewer:clock:v1'
 const SPECTRUM_KEY = 'spine-viewer:spectrum:v1'
 const ALBUM_ART_KEY = 'spine-viewer:album-art:v1'
-const CLOCK_PLACEMENTS = ['card', 'bar', 'minimal', 'cyberpunk', 'infobar', 'split', 'poster']
+// WallKit provides seven typographic layouts plus three that draw time through
+// geometry ("ring" / "segments" / "stamp"). The drawer offers the two geometric
+// ones that carry no fixed wording; "stamp" prints Chinese counters in the
+// library and is therefore not exposed in this four-language UI.
+const CLOCK_PLACEMENTS = [
+  'card',
+  'bar',
+  'minimal',
+  'cyberpunk',
+  'infobar',
+  'split',
+  'poster',
+  'ring',
+  'segments',
+  'stamp',
+]
 // Clock position is stored as a percentage of the viewport, measured from the
 // bottom-left anchor corner, so a saved offset keeps its intent across
 // resolutions. Limits live in clock.js and are shared with the drawer.
@@ -109,15 +121,16 @@ function saveClockSettings(clock) {
 
 // The spectrum keeps its own preferences so enabling audio visualisation does
 // not depend on the clock being shown.
-// `style` picks the renderer in src/utils/spectrum.js. The surface floats
-// freely: `offsetX` / `offsetY` place it (0-100 viewport percentages, 50 is the
-// centre) and `scale` sizes it, the same 0.5-5 range the model view uses.
+// `style` picks the WallKit renderer. The surface floats freely: `offsetX` /
+// `offsetY` place its centre (0-100 viewport percentages, 50 is the centre) and
+// `size` sizes it in WallKit's own percentage, where 100 is the widget's
+// reference box. 300 keeps the old "scale 1 = nearly full width" look.
 const DEFAULT_SPECTRUM = {
   show: false,
   style: 'bars',
   offsetX: 50,
   offsetY: 50,
-  scale: 1,
+  size: 300,
   // Bar colour; the same #rrggbb form the background colour uses.
   color: DEFAULT_SPECTRUM_COLOR,
 }
@@ -148,7 +161,15 @@ function loadSpectrumSettings() {
         CLOCK_OFFSET_MIN,
         CLOCK_OFFSET_MAX,
       ),
-      scale: clampNumber(value.scale, DEFAULT_SPECTRUM.scale, 0.5, 5),
+      // `scale` is the pre-WallKit field (0.5-5 over a 90vw box). A stored value
+      // is converted so an existing preference keeps its on-screen width; `size`
+      // itself is the widget percentage WallKit expects.
+      size: clampNumber(
+        value.size ?? Number(value.scale) * 300,
+        DEFAULT_SPECTRUM.size,
+        SPECTRUM_SIZE_MIN,
+        SPECTRUM_SIZE_MAX,
+      ),
       color: normalizeHexColor(value.color, DEFAULT_SPECTRUM.color),
     }
   } catch {
@@ -165,9 +186,16 @@ function saveSpectrumSettings(spectrum) {
 }
 
 // Album art card: cover plus track metadata from the engine's media session.
-// `style` picks the visual treatment; every layout shares the same corner,
-// size and offset controls, so switching it never moves the widget.
+// `style` picks the visual treatment; every layout shares the same corner, size
+// and offset controls, so switching it never moves the widget.
+//
+// `corner` is the card's own name for WallKit's `anchor`: both pin the widget to
+// a viewport point and measure the offsets inward from it, so the value is
+// passed through unchanged. Only the four corners are offered here — the card
+// has always been a corner card, even though the library also supports the four
+// edge midpoints and `center`.
 const ALBUM_ART_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
+const ALBUM_ART_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
 const DEFAULT_ALBUM_ART = {
   show: false,
   style: 'classic',
@@ -186,7 +214,7 @@ function loadAlbumArtSettings() {
       style: ALBUM_ART_STYLES.includes(value.style)
         ? value.style
         : DEFAULT_ALBUM_ART.style,
-      corner: ['bottom-right', 'bottom-left', 'top-right', 'top-left'].includes(value.corner)
+      corner: ALBUM_ART_CORNERS.includes(value.corner)
         ? value.corner
         : DEFAULT_ALBUM_ART.corner,
       size: clampNumber(value.size, DEFAULT_ALBUM_ART.size, 10, 40),
@@ -781,7 +809,7 @@ export default function App() {
           CLOCK_OFFSET_MIN,
           CLOCK_OFFSET_MAX,
         ),
-        scale: clampNumber(next.scale, previous.scale, 0.5, 5),
+        size: clampNumber(next.size, previous.size, SPECTRUM_SIZE_MIN, SPECTRUM_SIZE_MAX),
         color: normalizeHexColor(next.color, previous.color),
       }
     })
@@ -793,6 +821,7 @@ export default function App() {
       return {
         ...next,
         style: ALBUM_ART_STYLES.includes(next.style) ? next.style : previous.style,
+        corner: ALBUM_ART_CORNERS.includes(next.corner) ? next.corner : previous.corner,
         size: clampNumber(next.size, previous.size, 10, 40),
         offsetX: clampNumber(
           next.offsetX,
@@ -824,45 +853,19 @@ export default function App() {
           they read engine audio and media data that a plain browser cannot
           provide. They are not mounted at all in the browser, so a model preset
           that sets show: true (e.g. spine_hhbsd_bdmy) has no visible effect
-          there either. */}
+          there either. The widgets themselves live in WallKit; ControlOverlays
+          feeds them. */}
       {inWallpaperEngine && (
-        <>
-          <Spectrum
-            visible={spectrum.show}
-            style={spectrum.style}
-            offsetX={spectrum.offsetX}
-            offsetY={spectrum.offsetY}
-            scale={spectrum.scale}
-            color={spectrum.color}
-          />
-          <AlbumArt
-            visible={albumArt.show}
-            style={albumArt.style}
-            corner={albumArt.corner}
-            size={albumArt.size}
-            offsetX={albumArt.offsetX}
-            offsetY={albumArt.offsetY}
-            spectrumColor={spectrum.color}
-            language={language}
-            t={t}
-          />
-          <Clock
-            visible={clock.show}
-            placement={clock.placement}
-            offsetX={clock.offsetX}
-            offsetY={clock.offsetY}
-            size={clock.size}
-            reactToBeat={clock.reactToBeat}
-            beatIntensity={clock.beatIntensity}
-            use24Hour={clock.use24Hour}
-            theme={clock.theme}
-            onToggleHourFormat={() =>
-              setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))
-            }
-            language={language}
-            t={t}
-          />
-        </>
+        <ControlOverlays
+          clock={clock}
+          spectrum={spectrum}
+          albumArt={albumArt}
+          language={language}
+          t={t}
+          onToggleHourFormat={() =>
+            setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))
+          }
+        />
       )}
       {debugOpen && (
         <div className="debug-hud">

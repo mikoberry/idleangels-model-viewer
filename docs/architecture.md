@@ -12,7 +12,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
             ├─ 默认选中 models[0]
             ├─ <canvas ref={canvasRef} />
             ├─ startSpineStage(canvas, { model, callbacks })
-            ├─ <Spectrum /> / <AlbumArt /> / <Clock />  // 全屏浮层
+            ├─ <ControlOverlays />  // 引擎数据 → WallKit 的 Clock / Spectrum / AlbumArt
             ├─ <SettingsDrawer />  // 标签：WE 中为时间 / 频谱 / 模型 / 其它，浏览器中只有模型 / 其它
             ├─ 眼睛按钮
             ├─ <main style={{ backgroundColor }} />
@@ -22,6 +22,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 核心原则：
 
 - `App` 加载模型清单，持有画布、当前模型、播放设置、当前动画和抽屉状态。Stage 随选中模型创建/重建，抽屉开关不会重建它。
+- **控件层由外部库 WallKit 渲染**（`wallkit/components/clock` 等）。本仓库只保留应用层：`App` 持有设置、`ControlOverlays` 采集引擎数据，两者都不渲染控件的视觉。
 - `spineStage.js` 是不依赖 React 的命令式 WebGL 层，按 manifest 的 `layers` 动态加载 1~N 个图层。
 - `spine-webgl.js` 是 vendored 的 Spine 3.8.99 运行时，只通过 `export { spine }` 暴露命名空间。
 - 设置分为两类：**播放设置**（缩放/位置/背景色/点击开关）和**当前模型选择**只存在于 React state，不持久化；**显示偏好**（时钟、频谱、专辑封面、语言、抽屉标签）和**按模型的视图记录**会写入 `localStorage`。当前版本没有 URL 状态、没有编辑/展示模式，刷新后默认选择清单第一个模型。
@@ -85,45 +86,28 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 没有速度、暂停、循环、自动播放、包围盒等控件。
 - 颜色输入（背景色与频谱颜色）共用 `BackgroundColorField`：预设色块、HSV 色域、色相条、`#RRGGBB` 输入框。
 
-### `src/components/Clock.jsx`
+### `src/components/ControlOverlays.jsx`
 
-- 显示当前时间与日期的浮层组件，`visible` 为 `false` 时不渲染。
-- 每秒刷新一次；`visible` 关闭时不创建定时器。
-- 监听 `visibilitychange` 和可选的 `wallpaperPropertyListener.setPaused`，壁纸或标签页恢复可见时立即刷新。
-- 位置和字号由 `offsetX` / `offsetY` / `size` 控制，默认左边 10%、垂直居中；两种版式：`card`（竖排）与 `bar`（横排）。
-- 三层结构：`.clock-anchor` 只管定位（`left` / `bottom` 百分比），`.clock-tilt` 只管 3D 变换，`.clock-card` / `.clock-bar` 只管排版；三者互不覆盖。
-- 字号通过内联 CSS 变量 `--clock-scale`（`size / 100`）缩放 `--clock-time-size` 等基础字号。
-- 视觉上无背景、无边框、无卡片阴影，只有 `text-shadow` 保证可读性。
-- **倾斜分两步**：`window` 的 `pointermove` 只更新目标角（`computeClockTilt()` 按**视口**尺寸归一化）；一个 rAF 循环用 `smoothStep()` 把渲染值指数缓动到目标，每帧只在角度实际变化时才 `setState`。
-- 不使用 CSS `transition`：目标值在指针移动时持续变化，CSS 过渡会被反复重启而产生卡顿，所以缓动完全由 rAF 接管。
-- 按视口而非卡片尺寸归一化是关键：按卡片尺寸时，指针一离开卡片就撞上 `clamp` 上限，表现为"过临界点瞬间跳到极限"。
-- 指针离开窗口（`pointerleave`）时目标归零；`prefers-reduced-motion: reduce` 下强制平放。
-- 浮层设置 `pointer-events: none`，不拦截画布点击，所以开着时钟也能触发 `action`。
-- **音频律动**：`reactToBeat` 打开时，同一个 rAF 循环读取音频低频并叠加 `scale` 与 `--clock-beat-glow` 变量；`beatIntensity`（0–500%）缩放这两项效果的幅度，0% 等于看不出反应。不额外起定时器。
+- 把引擎数据喂给 WallKit 的三个浮层（`Clock` / `Spectrum` / `AlbumArt`），只存在于 Wallpaper Engine 分支（`App` 用 `inWallpaperEngine &&` 挂载）。
+- 持有：`now`（1 秒 ticker）、`beat`（音频低频，rAF 缓动）、`track`（媒体信息，1 秒轮询）、`paused`（暂停桥接）。
+- **bars 用一块固定的 `Float32Array`**：音频帧在 rAF 里原地写入，直接作为 `bars` prop 传给两个频谱控件。WallKit 在内部把 prop 存进 ref、在自己的绘制循环里逐帧读取，所以原地改写就能更新画面，不需要每帧触发 React 重渲染。
+- 时钟的 `now` 由这里驱动（WallKit 的 Clock 不持有定时器）；暂停时停止 ticker，恢复时立即刷新一次。`visibilitychange` 同样处理。
+- `labels` 用 `useMemo` 挂在 `now` / `language` 上：日期格式化走 `Intl`，不能跟着每秒 60 次律动重渲染一起重算。
+- 暂停时整个音频循环停止（`paused` 同时传给 `Spectrum` / `AlbumArt`，让它们 cancel rAF）。
 
-### `src/components/Spectrum.jsx`
+### 控件视觉：WallKit（外部仓库）
 
-- 128 根柱子的音频频谱浮层，可自由摆放在屏幕上任意位置；`offsetX` / `offsetY`（0–100% 视口，50 为居中）定位盒子中心，`scale`（0.5–5）用 CSS `transform` 缩放整块画布。
-- 用 **Canvas 2D** 绘制而不是 128 个 DOM 节点：`requestAnimationFrame` 中一次 `fillRect` 循环完成整帧。
-- 每帧顺序：读音频目标 → `smoothAudioLevel()` 缓动实际高度 → 绘制带渐变的柱子。没有峰值标记。
-- 画布 backing store 用 CSS 像素（与 WebGL canvas 一致，不乘 `devicePixelRatio`）。
-- `pointer-events: none`，不拦截画布点击；`aria-hidden`，对辅助技术隐藏。
-- `position: 'top'` 通过 `transform: scaleY(-1)` 翻转，避免再写一套绘制逻辑。
+`Clock` / `Spectrum` / `MiniSpectrum` / `AlbumArt` 的视觉、CSS 与绘制循环都在 [WallKit](https://github.com/mikoberry/wallkit)，通过 `wallkit/components/*` 子路径导入，不在本仓库内。
 
-### `src/components/AlbumArt.jsx`
-
-- 显示 Wallpaper Engine 媒体信息里的专辑封面、曲名、艺术家和专辑名；`visible` 为 `false` 时不渲染。
-- 每秒轮询一次 `getWallpaperMedia()`（`index.html` 的内联脚本只写全局变量，没有可订阅的事件），`visible` 关闭时不创建定时器。
-- 卡片锚定在四角之一（`corner`），大小由 `size`（vh 百分比）换算成 `--album-size`，卡片宽度是 `--album-size` 的 3.6 倍、高度正好等于 `--album-size`；水平和垂直位置测量方向都是从所选角落向内，范围同样是 `0%`–`100%`。
-- 三种状态（环境不支持 / 暂无播放 / 正在播放）都通过同一个 `shell()` 渲染，卡片尺寸和版式不随数据到达而跳动。
-- 封面包在 `.album-art__disc` 里做圆形遮罩，每 24 秒转一圈；`is-paused` 时设置 `animation-play-state: paused`，`prefers-reduced-motion` 下完全关闭旋转。
-- 卡片为 `pointer-events: none`，不拦截画布点击。
-
-### `src/components/MiniSpectrum.jsx`
-
-- 与 `Spectrum.jsx` 相同的柱状渲染，但没有定位逻辑：填满父容器给定的盒子。
-- `readBars` 语义与 `Spectrum.jsx` 一致——引擎内用真实帧，浏览器里用模拟数据，引擎存在但没有帧时画静音（绝不伪造柱形）。
-- `AlbumArt.jsx` 用它作为卡片的背景图层；颜色跟随 `spectrum.color`。
+- WallKit 是**纯展示库**：只认 props，不读 `window.wallpaper*`、不轮询媒体、不持有数据定时器、不含 i18n。
+- 本仓库负责它需要的一切输入：音频帧（`extractSpectrumBars`）、媒体信息（`getWallpaperMedia`）、暂停标志、文案（`i18n.js` 的 `labels`）。
+- **定位锚点**：WallKit 的每个浮动控件都有 `anchor` —— 四角、四边中点、居中，共 9 个；`offsetX` / `offsetY` 从锚点**向内**计，也可以直接给 CSS 长度。本仓库只用到其中三个：
+  - 时钟 → `bottom-left`（默认值），本地 `offsetX/offsetY`（0–100）原样传入，和旧实现 `left/bottom` 的语义完全一致。
+  - 频谱 → `center`，因为本地存的仍是**盒子中心**（50 = 正中）；`controlOverlay.js` 把 `offsetX/offsetY` 平移成相对中心的带符号位移（`- 50`）。居中锚点由库用 `translate(-50%, -50%)` 实现，所以 `size` 变化时盒子绕着同一个点缩放，不用再按盒子宽高换算（旧版那个「半宽」估算是这里删掉的技术债）。
+  - 专辑卡片 → 直接用设置里的 `corner`，两者同名同义。
+- 其余换算集中在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js)：频谱 `size`（20–500，100 = 30vw × 15vh 基准盒）；专辑卡片的 `size`（本地是 vh 百分比）→ WallKit 百分比（100 = 18vh 封面）。
+- **专辑卡片保留四角选择**：库支持的 9 个锚点里只暴露四角（卡片一直是角落式布局），另外五种留给以后的控件。
+- 控件层自带 `--wallkit-*` 主题变量，本仓库没有覆盖它们。
 
 ### `src/utils/wallpaperMedia.js`
 
@@ -144,14 +128,14 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 统一暂停状态桥接。内联脚本在 `index.html` 中记录 `window.__wePaused`，并在状态变化时派发 `we-pause-change` DOM 事件。
 - 导出 `isWallpaperPaused()`、`onWallpaperPauseChange(listener)` 和事件名常量 `PAUSE_EVENT_NAME`；订阅会立即收到当前状态，之后每次变化再触发。
 - **不要**在组件里给 `wallpaperPropertyListener.setPaused` 重新赋值，那会覆盖启动时注册的回调。
-- `spineStage.js`、`Spectrum.jsx`、`MiniSpectrum.jsx` 在暂停时跳过整帧绘制（保留 rAF 以便立即恢复）；`Clock.jsx` 在恢复时立即刷新时间。
+- `spineStage.js` 在暂停时跳过整帧绘制（保留 rAF 以便立即恢复）；`ControlOverlays.jsx` 停止音频循环与时钟 ticker，并把 `paused` 传给 WallKit 的 `Spectrum` / `AlbumArt`（它们会 cancel rAF）；时钟在恢复时立即刷新时间。
 
 ### `src/utils/audio.js`
 
 - 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`、`spectrumGradientStops`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` / `DEFAULT_SPECTRUM_COLOR` 常量。
 - `spectrumGradientStops(hex)` 把 `#rrggbb` 转成柱子的两个渐变端点（顶部 0.95、底部 0.45 透明度）；输入不合法时返回 `null`，调用方回退到默认色，避免画不出柱子。
 - `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.06` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
-- `syntheticSpectrum(t)` 生成确定性的模拟频谱，供浏览器预览；负时间返回全 0。
+- `syntheticSpectrum(t)` / `syntheticAudioLevel(t)` 是确定性的模拟数据，**目前只作为纯函数保留**：浏览器不挂载三个浮层，所以没有任何界面在用它们，不要再接回控件（WallKit 明确拒绝假数据兜底）。
 - `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
 
 ### `src/utils/clock.js`
@@ -195,9 +179,8 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 - `src/base.css`：设计变量（字号、间距、颜色、圆角）、reset、`.viewer` 外壳与全屏 canvas。
 - `src/App.css`：调试面板、眼睛按钮。
-- `src/components/Clock.css`：时钟浮层，含锚点、七个布局与主题配色。
 - `src/components/SettingsDrawer.css`：右侧抽屉、标签菜单、表单控件与窄屏断点。
-- `src/components/Spectrum.css`、`MiniSpectrum.css`、`AlbumArt.css`：音频频谱与专辑封面卡片。
+- 三个浮层的样式在 WallKit 仓库内，由各组件自己 import，本仓库不覆盖。
 
 全屏布局：`html` / `body` / `#root` / `.viewer` 高度 100%，body 不滚动。视觉上保持无页头、页脚和卡片边框。
 
@@ -407,8 +390,16 @@ SettingsDrawer 动画选择
 ```text
 时钟 / 频谱 / 专辑封面 / 语言 / 抽屉标签
   → 各自的 state 更新
-  → 对应浮层组件重新渲染（不经过 Stage）
+  → ControlOverlays 重新渲染，换算成 WallKit 的 props
   → useEffect 写入各自的 localStorage key
+```
+
+```text
+WallKit 的 props 换算（src/utils/controlOverlay.js）
+  spectrum  { size, offsetX(中心), offsetY(中心) } → { anchor: 'center', size, offsetX(-50), offsetY(-50) }
+  albumArt  { corner, size(vh 百分比) }            → { anchor: corner, size(WallKit 百分比) }
+  clock     { offsetX, offsetY }                   → { anchor: 'bottom-left'(默认), offsetX, offsetY }
+  clock     { now, language, t }                   → { labels: { locale, weekday, dateWithWeekday, aria } }
 ```
 
 ```text
@@ -440,8 +431,8 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 | --- | --- | --- |
 | canvas | 默认 | 全屏画面 |
 | `.debug-hud` | 4 | 左上角调试面板（可开关） |
-| `.spectrum` | 3 | 贴边音频频谱 |
-| `.clock-anchor` / `.album-art` | 5 | 时钟与专辑封面浮层 |
+| `.wallkit-spectrum__anchor` | 3 | 浮动的音频频谱 |
+| `.wallkit-clock__anchor` / `.wallkit-album-art` | 5 | 时钟与专辑封面浮层 |
 | `.viewer__settings-button` | 12 | 右下角眼睛按钮 |
 | `.inspector-backdrop` | 15 | 抽屉打开时的透明点击层 |
 | `.playback-inspector` | 20 | 右侧设置抽屉 |
@@ -474,10 +465,8 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 
 - [src/App.jsx](../src/App.jsx)
 - [src/components/SettingsDrawer.jsx](../src/components/SettingsDrawer.jsx)
-- [src/components/Clock.jsx](../src/components/Clock.jsx)
-- [src/components/Spectrum.jsx](../src/components/Spectrum.jsx)
-- [src/components/MiniSpectrum.jsx](../src/components/MiniSpectrum.jsx)
-- [src/components/AlbumArt.jsx](../src/components/AlbumArt.jsx)
+- [src/components/ControlOverlays.jsx](../src/components/ControlOverlays.jsx)
+- [src/utils/controlOverlay.js](../src/utils/controlOverlay.js)
 - [src/utils/clock.js](../src/utils/clock.js)
 - [src/utils/audio.js](../src/utils/audio.js)
 - [src/utils/wallpaperAudio.js](../src/utils/wallpaperAudio.js)
@@ -488,11 +477,7 @@ spine-viewer:drawer-tab:v1      # 抽屉上次打开的标签
 - [src/spine-webgl.js](../src/spine-webgl.js)
 - [src/base.css](../src/base.css)
 - [src/App.css](../src/App.css)
-- [src/components/Clock.css](../src/components/Clock.css)
 - [src/components/SettingsDrawer.css](../src/components/SettingsDrawer.css)
-- [src/components/Spectrum.css](../src/components/Spectrum.css)
-- [src/components/MiniSpectrum.css](../src/components/MiniSpectrum.css)
-- [src/components/AlbumArt.css](../src/components/AlbumArt.css)
 - [vite.config.js](../vite.config.js)
 - [scripts/import-models.mjs](../scripts/import-models.mjs)
 - [scripts/prepare-models.mjs](../scripts/prepare-models.mjs)

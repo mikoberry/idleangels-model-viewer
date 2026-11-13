@@ -1,11 +1,9 @@
 /* Global foundation: design tokens, reset and the viewer shell.
    Component styles live next to their components:
    - App.css             debug panel, settings button
-   - components/Clock.css
    - components/SettingsDrawer.css
-   - components/Spectrum.css
-   - components/MiniSpectrum.css
-   - components/AlbumArt.css */
+   The clock / spectrum / album-card widgets come from WallKit, which brings its
+   own stylesheet with each component. */
 
 :root {
   color-scheme: dark;

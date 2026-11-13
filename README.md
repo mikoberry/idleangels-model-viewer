@@ -45,8 +45,8 @@ Unrecorded changes are not kept after a refresh. Recorded model views are restor
 - Horizontal/vertical position from -100% to 100%
 - Page background color with presets, color picker, and `#RRGGBB` input
 - Per-model view recording and copy-all export
-- Clock overlay with card/bar layouts, 3D pointer tilt, and audio-reactive bobbing with adjustable intensity
-- 128-bar audio spectrum that floats anywhere on screen, with adjustable horizontal position, vertical position, scale, and color
+- Clock overlay with 9 selectable layouts (including ring and segmented progress), 3D pointer tilt, and audio-reactive bobbing with adjustable intensity
+- 128-bar audio spectrum that floats anywhere on screen, with 9 visual styles and adjustable horizontal position, vertical position, size, and color
 - Now-playing album art card (cover, title, artist, album) with a mini spectrum, from Wallpaper Engine media integration
 - UI in Chinese, English, Japanese, and Korean; defaults to the browser language and can be switched in the drawer
 - Debug panel toggle inside the settings drawer
@@ -151,17 +151,11 @@ If a model has no preset, the fallback is `100 / 0 / 0` with a black background.
 │  ├─ components/
 │  │  ├─ SettingsDrawer.jsx
 │  │  ├─ SettingsDrawer.css
-│  │  ├─ Clock.jsx
-│  │  ├─ Clock.css
-│  │  ├─ Spectrum.jsx
-│  │  ├─ Spectrum.css
-│  │  ├─ MiniSpectrum.jsx
-│  │  ├─ MiniSpectrum.css
-│  │  ├─ AlbumArt.jsx
-│  │  └─ AlbumArt.css
+│  │  └─ ControlOverlays.jsx        # Feeds engine data into the WallKit widgets
 │  ├─ utils/
 │  │  ├─ audio.js
 │  │  ├─ clock.js
+│  │  ├─ controlOverlay.js
 │  │  ├─ wallpaperAudio.js
 │  │  ├─ wallpaperMedia.js
 │  │  └─ wallpaperPause.js
@@ -210,5 +204,7 @@ The detailed documentation is currently written in Chinese:
 - Canvas rendering currently uses CSS pixels without `devicePixelRatio` scaling, so high-DPI output may look soft.
 - `dist/` and `public/spine/models/` are generated and ignored by Git.
 - `npm run build` does not perform type checking; this is a JavaScript project.
+- The clock, spectrum, mini-spectrum and album card are rendered by [WallKit](https://github.com/mikoberry/wallkit), a separate widget library consumed as a git dependency. This repository owns the engine side — audio frames, media info, the paused flag and the settings drawer — and only passes plain props in. WallKit ships no build step, so `src/` there is compiled by this project's Vite.
+- The dependency is pinned to a commit (`git+https://github.com/mikoberry/wallkit.git#<sha>`). While working on both repositories side by side, point it at the local checkout (`"wallkit": "file:../wallkit"`) and add `'..'` to `server.fs.allow` in `vite.config.js`; switch back before committing.
 
 [简体中文版](README.zh-CN.md)
