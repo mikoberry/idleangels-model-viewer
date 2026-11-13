@@ -191,8 +191,8 @@ npm run package:all
 - [ ] 背景色即时生效，透明区域显示该颜色
 - [ ] 时钟显示/版式/大小/位置生效，鼠标移动时倾斜平滑
 - [ ] 时钟“随音频节拍律动”与“响应强度”生效
-- [ ] 频谱的水平位置、垂直位置、缩放在屏幕上正确生效
-- [ ] 专辑封面卡片能显示封面与曲名，角落/大小/位置生效，暂停时停止旋转
+- [ ] 频谱的水平位置、垂直位置、缩放在屏幕上正确生效；9 种样式都能切换
+- [ ] 专辑卡片能显示封面与曲名，大小/位置生效，暂停时停止旋转；没有曲目时整块不渲染
 - [ ] 抽屉在浏览器中默认打开、WE 中默认收起，点眼睛按钮可切换，刷新后停在上次的标签
 - [ ] 设置抽屉“其它”标签里的“显示调试信息”能控制左上角调试窗口的显示/隐藏
 - [ ] 移动端宽度下抽屉占满宽度，标签菜单改为顶部横排
@@ -298,6 +298,8 @@ npm run preview -- --port 5174 --strictPort
 ## 代码约定
 
 - 保持 `App` 持有 `startSpineStage`，不要让设置抽屉开关导致 Stage 重建。
+- **控件层在外部库 WallKit**（`wallkit/components/*`）：时钟、频谱、迷你频谱、专辑卡片的视觉、CSS 与绘制循环都不在本仓库。修改它们要去 WallKit 仓库；本仓库只负责引擎数据采集（`ControlOverlays.jsx`）和字段换算（`src/utils/controlOverlay.js`）。不要在本地复制一份控件实现。
+- `wallkit` 目前以 `file:../wallkit` 接入（本地开发），发布/CI 前必须换成 `github:mikoberry/wallkit#<commit>`，否则 `npm ci` 在 CI 上找不到该目录。`vite.config.js` 的 `server.fs.allow` 是为这个同级目录准备的。
 - 不要用 Spine 4.x 运行时替换 vendored `spine-webgl.js`。
 - 不要直接修改 `spine-webgl.js` 的内部实现；它是第三方运行时。
 - `model-library/` 是源库，`public/spine/models/` 是生成物；不要把模型资源提交进 Git。
@@ -308,7 +310,7 @@ npm run preview -- --port 5174 --strictPort
   - `src/i18n.js` 四套语言文案
   - 如涉及 Stage，补 `spineStage.js` 的 API / effect
   - 相关文档
-- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口（`main.jsx`）、应用状态（`App.jsx` 及其 `App.css`）、i18n、WebGL 层（`spineStage.js`）、vendored 运行时（`spine-webgl.js`）和全局样式（`base.css`）。样式按组件拆分：每个组件在自己文件里引入同目录的 CSS（如 `src/components/Clock.jsx` 引入 `Clock.css`）。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
+- React 组件放在 `src/components/`；非 React 模块（纯函数、WE 桥接）放在 `src/utils/`；`src/` 根目录只保留入口（`main.jsx`）、应用状态（`App.jsx` 及其 `App.css`）、i18n、WebGL 层（`spineStage.js`）、vendored 运行时（`spine-webgl.js`）和全局样式（`base.css`）。样式按组件拆分：每个组件在自己文件里引入同目录的 CSS（如 `src/components/SettingsDrawer.jsx` 引入 `SettingsDrawer.css`）。新增组件不要放到 `src/` 根目录，新增工具模块也不要放。
 - 纯函数（格式化、计算等）独立成模块，放在 `src/utils/` 下（例如 `clock.js`、`audio.js`），不要塞进组件文件，便于在不引入 React 的情况下验证。
 - 保持沉浸式全屏布局，不引入页头、页脚或明显卡片边框。
 - 关闭的设置抽屉应保持 `inert`。

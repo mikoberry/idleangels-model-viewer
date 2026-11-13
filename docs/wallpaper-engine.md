@@ -161,7 +161,7 @@ window.wallpaperRegisterMediaThumbnailListener(wallpaperMediaThumbnailListener)
 ### 本项目实现
 
 - 四个监听器（status / thumbnail / properties / playback）都在 [index.html](../index.html) 的内联脚本中注册，写入统一的全局对象 `window.__weMedia`。
-- [src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 只读该对象；`src/components/AlbumArt.jsx` 每秒轮询一次。
+- [src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 只读该对象；`src/components/ControlOverlays.jsx` 每秒轮询一次。
 - 播放状态常量取自 `window.wallpaperMediaIntegration`，对象缺失时保持“未知”，不能猜成 `stopped`。
 - 目前只用了 `thumbnail`、`title`、`artist`、`albumTitle`、`playback`，**没有**用 `primaryColor` / `textColor` 驱动背景色（见下方优先级建议）。
 - `timeline` 监听器未使用。

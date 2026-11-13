@@ -278,17 +278,11 @@ GitHub Pages 限制：发布站点不超过 1 GB，软带宽 100 GB/月，部署
 │  ├─ components/
 │  │  ├─ SettingsDrawer.jsx  # 四标签设置抽屉 + 模型选择
 │  │  ├─ SettingsDrawer.css
-│  │  ├─ Clock.jsx           # 时间与日期浮层
-│  │  ├─ Clock.css
-│  │  ├─ Spectrum.jsx        # 贴边音频频谱
-│  │  ├─ Spectrum.css
-│  │  ├─ MiniSpectrum.jsx    # 封面卡片内嵌的小频谱
-│  │  ├─ MiniSpectrum.css
-│  │  ├─ AlbumArt.jsx        # 专辑封面卡片
-│  │  └─ AlbumArt.css
+│  │  └─ ControlOverlays.jsx # 把引擎数据喂给 WallKit 的三个浮层
 │  ├─ utils/                 # 非 React 模块（纯函数 / WE 桥接）
 │  │  ├─ audio.js            # 音频帧解析、频谱提取、合成数据
 │  │  ├─ clock.js            # 时钟格式化与倾斜计算
+│  │  ├─ controlOverlay.js   # 本地设置字段 → WallKit props 的换算
 │  │  ├─ wallpaperAudio.js   # WE 音频帧读取
 │  │  ├─ wallpaperMedia.js   # WE 媒体信息读取
 │  │  └─ wallpaperPause.js   # WE 暂停状态
@@ -348,6 +342,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停）
 - 没有帧率上限；壁纸暂停时会跳过整帧渲染，但播放时仍按显示器刷新率运行。
 - `npm run build` 没有类型检查；逻辑错误不会被构建发现。
 - 复制步骤会清空 WE 目标目录；目标被 Wallpaper Engine 占用时可能失败。
+- 时钟 / 频谱 / 迷你频谱 / 专辑卡片由独立的控件库 [WallKit](https://github.com/mikoberry/wallkit) 渲染，本仓库只负责引擎数据（音频帧、媒体信息、暂停状态）与设置抽屉，通过 props 传入值。WallKit 没有构建步骤，源码由本项目的 Vite 直接编译。
 
 ## 文档
 

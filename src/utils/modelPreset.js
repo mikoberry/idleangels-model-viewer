@@ -23,7 +23,9 @@ export const PRESET_LIMITS = {
   positionY: { min: -300, max: 300 },
   clockSize: { min: 50, max: 200 },
   widgetOffset: { min: -100, max: 200 },
-  spectrumScale: { min: 0.5, max: 5 },
+  // WallKit's spectrum size percentage: 100 is the widget's reference box
+  // (30vw x 15vh), 500 fills a wide screen.
+  spectrumSize: { min: 20, max: 500 },
   albumSize: { min: 10, max: 40 },
   beatIntensity: { min: 0, max: 1000 },
   parallaxAmount: { min: -15, max: 15 },
@@ -45,30 +47,50 @@ export const CLOCK_DEFAULTS = {
 
 // The spectrum is a free-floating overlay: offsetX/offsetY place its centre in
 // the same 0-100 viewport percentages the other widgets use (50 is the centre),
-// and `scale` sizes the whole surface. The retired `position`/`height` fields
-// are ignored on purpose, so an older preset falls back to these defaults.
+// and `size` is WallKit's percentage of the widget reference box. `scale` is the
+// retired field (0.5-5 over a 90vw box); a preset that still carries it is
+// converted on read so old tunings keep their size.
 export const SPECTRUM_DEFAULTS = {
   show: false,
   style: 'bars',
   offsetX: 50,
   offsetY: 50,
-  scale: 1,
+  size: 300,
   color: '#a8c4ff',
 }
 
 export const ALBUM_DEFAULTS = {
   show: false,
   style: 'classic',
-  corner: 'bottom-right',
   size: 18,
-  offsetX: 0,
+  offsetX: 64,
   offsetY: 0,
 }
 
-const CLOCK_PLACEMENTS = ['card', 'bar', 'minimal', 'cyberpunk', 'infobar', 'split', 'poster']
-const SPECTRUM_STYLES = ['bars', 'mirror', 'curve', 'ring', 'ringwave', 'dots', 'ripples', 'aurora']
+const CLOCK_PLACEMENTS = [
+  'card',
+  'bar',
+  'minimal',
+  'cyberpunk',
+  'infobar',
+  'split',
+  'poster',
+  'ring',
+  'segments',
+  'stamp',
+]
+const SPECTRUM_STYLES = [
+  'bars',
+  'mirror',
+  'curve',
+  'pill',
+  'ring',
+  'ringwave',
+  'dots',
+  'ripples',
+  'aurora',
+]
 const ALBUM_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
-const ALBUM_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
 
 function clampNumber(value, fallback, { min, max }) {
   const number = Number(value)
@@ -146,17 +168,24 @@ export function normalizeSpectrumPreset(value, fallback = SPECTRUM_DEFAULTS) {
     style: oneOf(source.style, SPECTRUM_STYLES, fallback.style),
     offsetX: clampNumber(source.offsetX, fallback.offsetX, PRESET_LIMITS.widgetOffset),
     offsetY: clampNumber(source.offsetY, fallback.offsetY, PRESET_LIMITS.widgetOffset),
-    scale: clampNumber(source.scale, fallback.scale, PRESET_LIMITS.spectrumScale),
+    // `scale` predates WallKit: 1 was a 90vw-wide surface, which is `size: 300`.
+    size: clampNumber(
+      source.size ?? Number(source.scale) * 300,
+      fallback.size,
+      PRESET_LIMITS.spectrumSize,
+    ),
     color: hexColor(source.color, fallback.color),
   }
 }
 
 export function normalizeAlbumPreset(value, fallback = ALBUM_DEFAULTS) {
   const source = isPlainObject(value) ? value : {}
+  // `corner` is deliberately ignored: WallKit anchors every widget to the
+  // bottom-left corner, so a preset written for a top or right corner keeps its
+  // size but needs its offsets re-tuned.
   return {
     show: bool(source.show, fallback.show),
     style: oneOf(source.style, ALBUM_STYLES, fallback.style),
-    corner: oneOf(source.corner, ALBUM_CORNERS, fallback.corner),
     size: clampNumber(source.size, fallback.size, PRESET_LIMITS.albumSize),
     offsetX: clampNumber(source.offsetX, fallback.offsetX, PRESET_LIMITS.widgetOffset),
     offsetY: clampNumber(source.offsetY, fallback.offsetY, PRESET_LIMITS.widgetOffset),

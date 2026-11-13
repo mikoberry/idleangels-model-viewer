@@ -1,5 +1,6 @@
 import * as Slider from '@radix-ui/react-slider'
 import { useEffect, useRef, useState } from 'react'
+import { SPECTRUM_SIZE_MAX, SPECTRUM_SIZE_MIN } from 'wallkit/components/spectrum'
 import { LANGUAGES } from '../i18n.js'
 import {
   CLOCK_BEAT_INTENSITY_MAX,
@@ -1145,6 +1146,8 @@ export default function SettingsDrawer({
                   'poster',
                   'card',
                   'bar',
+                  'ring',
+                  'segments',
                 ].map((placement) => (
                   <button
                     key={placement}
@@ -1386,6 +1389,7 @@ export default function SettingsDrawer({
                   ['bars', 'Bars'],
                   ['mirror', 'Mirror'],
                   ['curve', 'Curve'],
+                  ['pill', 'Pill'],
                   ['ring', 'Ring'],
                   ['ringwave', 'Ringwave'],
                   ['dots', 'Dots'],
@@ -1487,23 +1491,23 @@ export default function SettingsDrawer({
                 <StepControl
                   label={t('spectrum.scale')}
                   onStep={(delta) =>
-                    onSpectrumChange({ scale: Math.round(spectrum.scale * 100 + delta) / 100 })
+                    onSpectrumChange({ size: spectrum.size + delta })
                   }
-                  canDecrease={spectrum.scale > MIN_SCALE}
-                  canIncrease={spectrum.scale < MAX_SCALE}
+                  canDecrease={spectrum.size > SPECTRUM_SIZE_MIN}
+                  canIncrease={spectrum.size < SPECTRUM_SIZE_MAX}
                   t={t}
                 >
                   <label className="scale-input">
                     <input
                       className="viewer-number"
                       type="number"
-                      min={MIN_SCALE * 100}
-                      max={MAX_SCALE * 100}
+                      min={SPECTRUM_SIZE_MIN}
+                      max={SPECTRUM_SIZE_MAX}
                       step={1}
-                      value={Math.round(spectrum.scale * 100)}
+                      value={Math.round(spectrum.size)}
                       aria-label={t('spectrum.scaleAria')}
                       onChange={(event) =>
-                        onSpectrumChange({ scale: Number(event.currentTarget.value) / 100 })
+                        onSpectrumChange({ size: Number(event.currentTarget.value) })
                       }
                     />
                     <span aria-hidden="true">%</span>
@@ -1511,13 +1515,13 @@ export default function SettingsDrawer({
                 </StepControl>
               </div>
               <ViewerSlider
-                value={spectrum.scale}
-                min={MIN_SCALE}
-                max={MAX_SCALE}
-                step={0.01}
+                value={spectrum.size}
+                min={SPECTRUM_SIZE_MIN}
+                max={SPECTRUM_SIZE_MAX}
+                step={1}
                 label={t('spectrum.scale')}
-                valueText={`${Math.round(spectrum.scale * 100)}%`}
-                onChange={(scale) => onSpectrumChange({ scale })}
+                valueText={`${Math.round(spectrum.size)}%`}
+                onChange={(size) => onSpectrumChange({ size })}
               />
             </div>
 
@@ -1568,33 +1572,6 @@ export default function SettingsDrawer({
                     onClick={() => onAlbumArtChange({ style: value })}
                   >
                     {t(`albumArt.style${key}`)}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="clock-placement" role="group" aria-label={t('albumArt.corner')}>
-              <span className="clock-placement__label">{t('albumArt.corner')}</span>
-              <div className="clock-placement__options">
-                {['bottom-right', 'bottom-left', 'top-right', 'top-left'].map((corner) => (
-                  <button
-                    key={corner}
-                    type="button"
-                    className={`clock-placement__option${albumArt.corner === corner ? ' is-active' : ''}`}
-                    aria-pressed={albumArt.corner === corner}
-                    onClick={() => onAlbumArtChange({ corner })}
-                  >
-                    {t(
-                      `albumArt.corner${
-                        corner === 'bottom-right'
-                          ? 'BottomRight'
-                          : corner === 'bottom-left'
-                            ? 'BottomLeft'
-                            : corner === 'top-right'
-                              ? 'TopRight'
-                              : 'TopLeft'
-                      }`,
-                    )}
                   </button>
                 ))}
               </div>
