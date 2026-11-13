@@ -3,6 +3,9 @@ dist
 *.local
 .DS_Store
 
+# 编辑器/助手工具写入的本地数据，不属于项目
+.workbuddy/
+
 # 本机路径配置，不提交
 local.config.json
 
