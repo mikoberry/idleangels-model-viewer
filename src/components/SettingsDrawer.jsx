@@ -14,6 +14,11 @@ import './SettingsDrawer.css'
 
 const MIN_SCALE = 0.5
 
+// The album card is the only widget that exposes its anchor: it has always been
+// a corner card, and `corner` is the field its stored preference and presets
+// use. WallKit accepts nine anchors, the other five are not offered here.
+const ALBUM_ART_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
+
 // Tabs of the settings drawer, rendered as a vertical menu on its left edge.
 const DRAWER_TABS = ['clock', 'spectrum', 'model', 'other']
 // The clock and spectrum tabs only exist inside Wallpaper Engine: browsers
@@ -1572,6 +1577,33 @@ export default function SettingsDrawer({
                     onClick={() => onAlbumArtChange({ style: value })}
                   >
                     {t(`albumArt.style${key}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="clock-placement" role="group" aria-label={t('albumArt.corner')}>
+              <span className="clock-placement__label">{t('albumArt.corner')}</span>
+              <div className="clock-placement__options">
+                {ALBUM_ART_CORNERS.map((corner) => (
+                  <button
+                    key={corner}
+                    type="button"
+                    className={`clock-placement__option${albumArt.corner === corner ? ' is-active' : ''}`}
+                    aria-pressed={albumArt.corner === corner}
+                    onClick={() => onAlbumArtChange({ corner })}
+                  >
+                    {t(
+                      `albumArt.corner${
+                        corner === 'bottom-right'
+                          ? 'BottomRight'
+                          : corner === 'bottom-left'
+                            ? 'BottomLeft'
+                            : corner === 'top-right'
+                              ? 'TopRight'
+                              : 'TopLeft'
+                      }`,
+                    )}
                   </button>
                 ))}
               </div>

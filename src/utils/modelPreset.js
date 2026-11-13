@@ -62,8 +62,9 @@ export const SPECTRUM_DEFAULTS = {
 export const ALBUM_DEFAULTS = {
   show: false,
   style: 'classic',
+  corner: 'bottom-right',
   size: 18,
-  offsetX: 64,
+  offsetX: 0,
   offsetY: 0,
 }
 
@@ -91,6 +92,7 @@ const SPECTRUM_STYLES = [
   'aurora',
 ]
 const ALBUM_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
+const ALBUM_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
 
 function clampNumber(value, fallback, { min, max }) {
   const number = Number(value)
@@ -180,12 +182,12 @@ export function normalizeSpectrumPreset(value, fallback = SPECTRUM_DEFAULTS) {
 
 export function normalizeAlbumPreset(value, fallback = ALBUM_DEFAULTS) {
   const source = isPlainObject(value) ? value : {}
-  // `corner` is deliberately ignored: WallKit anchors every widget to the
-  // bottom-left corner, so a preset written for a top or right corner keeps its
-  // size but needs its offsets re-tuned.
   return {
     show: bool(source.show, fallback.show),
     style: oneOf(source.style, ALBUM_STYLES, fallback.style),
+    // A corner is the same point WallKit's anchor names, and both measure the
+    // offsets inward from it, so a preset keeps working unchanged.
+    corner: oneOf(source.corner, ALBUM_CORNERS, fallback.corner),
     size: clampNumber(source.size, fallback.size, PRESET_LIMITS.albumSize),
     offsetX: clampNumber(source.offsetX, fallback.offsetX, PRESET_LIMITS.widgetOffset),
     offsetY: clampNumber(source.offsetY, fallback.offsetY, PRESET_LIMITS.widgetOffset),

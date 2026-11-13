@@ -101,8 +101,12 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 
 - WallKit 是**纯展示库**：只认 props，不读 `window.wallpaper*`、不轮询媒体、不持有数据定时器、不含 i18n。
 - 本仓库负责它需要的一切输入：音频帧（`extractSpectrumBars`）、媒体信息（`getWallpaperMedia`）、暂停标志、文案（`i18n.js` 的 `labels`）。
-- 两边的字段并不完全对应，换算集中在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js)：频谱的 `offsetX/offsetY`（本地是盒子中心）→ 左下锚点，`size`（20–500，100 = 30vw × 15vh 基准盒）；专辑卡片的 `size`（本地是 vh 百分比）→ WallKit 百分比（100 = 18vh 封面）。
-- **专辑卡片不再支持四角锚定**：WallKit 统一左下锚点，`corner` 字段已从设置中移除，`offsetX` 默认 64 让卡片落在右下角附近。
+- **定位锚点**：WallKit 的每个浮动控件都有 `anchor` —— 四角、四边中点、居中，共 9 个；`offsetX` / `offsetY` 从锚点**向内**计，也可以直接给 CSS 长度。本仓库只用到其中三个：
+  - 时钟 → `bottom-left`（默认值），本地 `offsetX/offsetY`（0–100）原样传入，和旧实现 `left/bottom` 的语义完全一致。
+  - 频谱 → `center`，因为本地存的仍是**盒子中心**（50 = 正中）；`controlOverlay.js` 把 `offsetX/offsetY` 平移成相对中心的带符号位移（`- 50`）。居中锚点由库用 `translate(-50%, -50%)` 实现，所以 `size` 变化时盒子绕着同一个点缩放，不用再按盒子宽高换算（旧版那个「半宽」估算是这里删掉的技术债）。
+  - 专辑卡片 → 直接用设置里的 `corner`，两者同名同义。
+- 其余换算集中在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js)：频谱 `size`（20–500，100 = 30vw × 15vh 基准盒）；专辑卡片的 `size`（本地是 vh 百分比）→ WallKit 百分比（100 = 18vh 封面）。
+- **专辑卡片保留四角选择**：库支持的 9 个锚点里只暴露四角（卡片一直是角落式布局），另外五种留给以后的控件。
 - 控件层自带 `--wallkit-*` 主题变量，本仓库没有覆盖它们。
 
 ### `src/utils/wallpaperMedia.js`
@@ -392,8 +396,9 @@ SettingsDrawer 动画选择
 
 ```text
 WallKit 的 props 换算（src/utils/controlOverlay.js）
-  spectrum  { size, offsetX(中心), offsetY(中心) } → { size, offsetX(左下), offsetY(左下) }
-  albumArt  { size(vh 百分比) }                    → { size(WallKit 百分比) }
+  spectrum  { size, offsetX(中心), offsetY(中心) } → { anchor: 'center', size, offsetX(-50), offsetY(-50) }
+  albumArt  { corner, size(vh 百分比) }            → { anchor: corner, size(WallKit 百分比) }
+  clock     { offsetX, offsetY }                   → { anchor: 'bottom-left'(默认), offsetX, offsetY }
   clock     { now, language, t }                   → { labels: { locale, weekday, dateWithWeekday, aria } }
 ```
 

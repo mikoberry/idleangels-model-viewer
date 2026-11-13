@@ -152,7 +152,7 @@ const DEFAULT_CLOCK = {
 
 默认值对应**左边距 10%、垂直居中**（`bottom: 50%` 让卡片底边落在视口中线）。
 
-- 位置以**左下角**为原点。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 贴对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
+- 位置从锚点**向内**测量。**所有小组件统一使用 `0%`–`100%` 的位置范围**：`0%` 贴锚定边，`100%` 走到对边，取值不会把组件推到屏幕外。Spine 模型的画面位置（`positionX` / `positionY`）使用自己的 `-100`–`100` 范围，与此无关。
 - 范围常量定义在 [src/utils/clock.js](../src/utils/clock.js)：`CLOCK_OFFSET_MIN`、`CLOCK_OFFSET_MAX`、`CLOCK_SIZE_MIN`、`CLOCK_SIZE_MAX`，抽屉和 `App.jsx` 共用，避免控件与校验范围不一致。
 - 所有字段在**加载时和每次更新时**都经过 `normalizeClock()` 校验并夹取范围，非法值回退到默认值。
 - 持久化：写入 `localStorage` 的 `spine-viewer:clock:v1`（只存这七个字段）。
@@ -196,7 +196,7 @@ const DEFAULT_SPECTRUM = {
 | `size` | `number` | `300` | `20`–`500` | 整块频谱的大小百分比，`100` 是 WallKit 的基准盒（条形 `30vw × 15vh`）；`300` 约等于旧的 `scale: 1`（90vw 宽） |
 | `color` | `string` | `#a8c4ff` | `#RRGGBB` | 柱子颜色，以 `colorHex` 传给 WallKit |
 
-- 位置以**盒子中心**存储，但 WallKit 用**左下锚点**：换算在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 里完成（`offsetX - 盒宽/2`），所以本地这几个数字的含义不变，改变 `size` 时盒子仍以同一个中心缩放、不会漂移。
+- 位置以**盒子中心**存储（`50` = 屏幕正中），传给 WallKit 时用 `anchor="center"`：换算在 [src/utils/controlOverlay.js](../src/utils/controlOverlay.js) 里把这两个数字平移成相对中心的位移（`offsetX - 50`）。中心锚点由库用 `translate(-50%, -50%)` 实现，所以改变 `size` 时盒子仍以同一个点缩放、不会漂移，也不需要再估算盒子有多大。
 - **`scale` 已废弃**：旧值是 0.5–5，读取时按 `size = scale × 300` 换算，超界夹到 20–500。抽屉现在直接调 `size`。
 - 旧的 `position`（`top` / `bottom`）和 `height` 字段同样已废弃：归一化时直接忽略，没有新字段的模型预设会回退到上面的默认值（居中、300）。
 - 持久化：`localStorage` 的 `spine-viewer:spectrum:v1`。
@@ -208,14 +208,15 @@ const DEFAULT_SPECTRUM = {
 
 ## 专辑封面 `albumArt`（独立 state）
 
-从 Wallpaper Engine 的媒体集成读取封面与曲目信息。卡片锚定在**左下角**（与时钟、频谱一致）：
+从 Wallpaper Engine 的媒体集成读取封面与曲目信息。卡片可选四个角落之一，位置从所选角落**向内**测量：
 
 ```js
 const DEFAULT_ALBUM_ART = {
   show: false,
   style: 'classic',
+  corner: 'bottom-right',
   size: 18,
-  offsetX: 64,
+  offsetX: 0,
   offsetY: 0,
 }
 ```
@@ -224,12 +225,13 @@ const DEFAULT_ALBUM_ART = {
 | --- | --- | --- | --- | --- |
 | `show` | `boolean` | `false` | — | 是否显示专辑封面卡片 |
 | `style` | 见下 | `'classic'` | 6 种布局 | `classic` / `glass` / `vinyl` / `minimal` / `bar` / `wall`，以 `variant` 传给 WallKit |
+| `corner` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left'` | `'bottom-right'` | — | 卡片贴哪个角落，直接作为 WallKit 的 `anchor` |
 | `size` | `number` | `18` | `10`–`40` | 封面高度，占视口高度的百分比（卡片宽度约为该值的 3.6 倍）；换算成 WallKit 的 `20`–`300`（`100` = 18vh 封面） |
-| `offsetX` | `number` | `64` | `0`–`100` | 距视口左边缘的距离；默认 `64` 让卡片落回右下角附近 |
-| `offsetY` | `number` | `0` | `0`–`100` | 距视口底边的距离 |
+| `offsetX` | `number` | `0` | `0`–`100` | 从所选角落**向内**的水平距离 |
+| `offsetY` | `number` | `0` | `0`–`100` | 从所选角落**向内**的垂直距离 |
 
 - 持久化：`localStorage` 的 `spine-viewer:album-art:v1`。
-- **`corner` 字段已移除**：WallKit 只支持左下锚点，四角锚定不再可用。旧预设里的 `corner` 会被忽略，卡片保留 `size` 与 `offsetX/offsetY`，需要按左下角重新对位。
+- **`corner` 与 WallKit 的锚点同名同义**：卡片一直只用四个角落，库另外还支持四边中点和居中，但抽屉不暴露它们。旧预设里的 `corner` 原样生效，偏移量的含义（从角落向内）也没变。
 - **没有空态卡片**：没有曲目时 WallKit 直接不渲染（`track == null`），不再显示"暂无播放中的音乐"；要不要提示由抽屉里的文案负责。
 - 卡片内的小频谱颜色跟随 `spectrum.color`。
 - 数据来源：[src/utils/wallpaperMedia.js](../src/utils/wallpaperMedia.js) 读取 `index.html` 内联脚本写入的 `window.__weMedia`；`ControlOverlays.jsx` 每秒轮询一次，字段没变时不触发重渲染。

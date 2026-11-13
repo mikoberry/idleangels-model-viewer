@@ -186,20 +186,22 @@ function saveSpectrumSettings(spectrum) {
 }
 
 // Album art card: cover plus track metadata from the engine's media session.
-// `style` picks the visual treatment; every layout shares the same size and
-// offset controls, so switching it never moves the widget.
+// `style` picks the visual treatment; every layout shares the same corner, size
+// and offset controls, so switching it never moves the widget.
 //
-// The card is anchored to the bottom-left corner, like the clock and the
-// spectrum. It used to pick one of four corners, but WallKit dropped that prop
-// so every widget in a wallpaper answers to the same pair of offsets. The
-// default `offsetX` parks the card near the right edge, which is where the old
-// bottom-right default put it.
+// `corner` is the card's own name for WallKit's `anchor`: both pin the widget to
+// a viewport point and measure the offsets inward from it, so the value is
+// passed through unchanged. Only the four corners are offered here — the card
+// has always been a corner card, even though the library also supports the four
+// edge midpoints and `center`.
 const ALBUM_ART_STYLES = ['classic', 'glass', 'vinyl', 'minimal', 'bar', 'wall']
+const ALBUM_ART_CORNERS = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
 const DEFAULT_ALBUM_ART = {
   show: false,
   style: 'classic',
+  corner: 'bottom-right',
   size: 18,
-  offsetX: 64,
+  offsetX: 0,
   offsetY: 0,
 }
 
@@ -212,6 +214,9 @@ function loadAlbumArtSettings() {
       style: ALBUM_ART_STYLES.includes(value.style)
         ? value.style
         : DEFAULT_ALBUM_ART.style,
+      corner: ALBUM_ART_CORNERS.includes(value.corner)
+        ? value.corner
+        : DEFAULT_ALBUM_ART.corner,
       size: clampNumber(value.size, DEFAULT_ALBUM_ART.size, 10, 40),
       offsetX: clampNumber(
         value.offsetX,
@@ -816,6 +821,7 @@ export default function App() {
       return {
         ...next,
         style: ALBUM_ART_STYLES.includes(next.style) ? next.style : previous.style,
+        corner: ALBUM_ART_CORNERS.includes(next.corner) ? next.corner : previous.corner,
         size: clampNumber(next.size, previous.size, 10, 40),
         offsetX: clampNumber(
           next.offsetX,

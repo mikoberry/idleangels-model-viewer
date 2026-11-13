@@ -179,6 +179,7 @@ export default function ControlOverlays({
         visible={showSpectrum}
         variant={spectrum.style}
         colorHex={spectrum.color}
+        anchor={spectrumProps.anchor}
         size={spectrumProps.size}
         offsetX={spectrumProps.offsetX}
         offsetY={spectrumProps.offsetY}
@@ -191,6 +192,7 @@ export default function ControlOverlays({
         variant={albumArt.style}
         theme="light"
         colorHex={spectrum.color}
+        anchor={albumProps.anchor}
         size={albumProps.size}
         offsetX={albumProps.offsetX}
         offsetY={albumProps.offsetY}
