@@ -1,10 +1,14 @@
-// Engine-only overlays: clock, spectrum and album card.
+// Engine overlays: clock, spectrum and album card.
 //
 // The widgets themselves come from WallKit, which is a pure-view library: it
 // renders what it is given and never touches `window.wallpaper*`, localStorage
 // or a timer. Everything the engine hands us — audio frames, media updates, the
 // paused flag — is collected here, so the library stays reusable and this file
 // stays the only place that knows the widgets exist.
+//
+// `preview` swaps those engine feeds for the deterministic stand-ins in
+// `audio.js` plus a made-up track, which is what lets a plain browser render and
+// tune the same widgets. See `utils/preview.js` for when it is on.
 //
 // Rendering the three widgets from one component also keeps the per-frame audio
 // work out of `App`: a newly arrived frame only re-renders this subtree, not the
@@ -19,12 +23,15 @@ import {
   extractSpectrumBars,
   smoothAudioLevel,
   summarizeWallpaperAudio,
+  syntheticAudioLevel,
+  syntheticSpectrum,
 } from '../utils/audio.js'
 import {
   albumArtOverlayProps,
   clockLabels,
   spectrumOverlayProps,
 } from '../utils/controlOverlay.js'
+import { previewTrack } from '../utils/preview.js'
 import { getWallpaperAudioFrame } from '../utils/wallpaperAudio.js'
 import { getWallpaperMedia } from '../utils/wallpaperMedia.js'
 import { isWallpaperPaused, onWallpaperPauseChange } from '../utils/wallpaperPause.js'
@@ -60,6 +67,7 @@ export default function ControlOverlays({
   language,
   t,
   onToggleHourFormat,
+  preview = false,
 }) {
   const [now, setNow] = useState(() => new Date())
   const [beat, setBeat] = useState(0)
@@ -114,8 +122,8 @@ export default function ControlOverlays({
   //
   // Inside the engine a missing frame means "nothing is playing", so the bars are
   // zeroed and the beat settles to zero rather than freezing on the last frame.
-  // Browsers never reach this component — the overlays are only mounted in the
-  // engine — so there is no synthetic fallback to pick between.
+  // A browser has no system-audio tap at all, so the preview path fills the same
+  // buffer from the synthetic generator and nothing else changes downstream.
   useEffect(() => {
     if (paused || (!needsBars && !reactToBeat)) return undefined
 
@@ -127,15 +135,24 @@ export default function ControlOverlays({
     const tick = (nowMs) => {
       const delta = clamp((nowMs - last) / 1000, 0, 0.05)
       last = nowMs
+      const seconds = nowMs / 1000
 
-      const audioFrame = getWallpaperAudioFrame()
+      const audioFrame = preview ? null : getWallpaperAudioFrame()
 
       if (needsBars) {
-        if (!audioFrame || !extractSpectrumBars(audioFrame, bars)) bars.fill(0)
+        if (preview) {
+          syntheticSpectrum(seconds, bars)
+        } else if (!audioFrame || !extractSpectrumBars(audioFrame, bars)) {
+          bars.fill(0)
+        }
       }
 
       if (reactToBeat) {
-        const bass = audioFrame ? (summarizeWallpaperAudio(audioFrame)?.bass ?? 0) : 0
+        const bass = preview
+          ? syntheticAudioLevel(seconds).bass
+          : audioFrame
+            ? (summarizeWallpaperAudio(audioFrame)?.bass ?? 0)
+            : 0
         const next = smoothAudioLevel(level, bass, delta)
         // Only re-render when the level actually moved; a settled card costs
         // nothing.
@@ -150,10 +167,10 @@ export default function ControlOverlays({
 
     frame = window.requestAnimationFrame(tick)
     return () => window.cancelAnimationFrame(frame)
-  }, [paused, needsBars, reactToBeat])
+  }, [paused, needsBars, reactToBeat, preview])
 
   useEffect(() => {
-    if (!showAlbumArt) return undefined
+    if (!showAlbumArt || preview) return undefined
 
     const update = () => {
       const next = getWallpaperMedia()
@@ -168,6 +185,15 @@ export default function ControlOverlays({
   // Date formatting runs through `Intl`, so it is memoised away from the beat
   // re-renders that happen up to 60 times a second.
   const labels = useMemo(() => clockLabels(now, language, t), [now, language, t])
+
+  // Keyed on the language rather than on `t`, which is rebuilt every render;
+  // the card only cares about the two translated strings.
+  const previewMedia = useMemo(
+    () => (preview ? previewTrack(t) : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [preview, language],
+  )
+  const shownTrack = preview ? previewMedia : track
 
   const spectrumProps = spectrumOverlayProps(spectrum)
   const albumProps = albumArtOverlayProps(albumArt)
@@ -194,7 +220,7 @@ export default function ControlOverlays({
         paused={paused}
       />
       <AlbumArt
-        track={track}
+        track={shownTrack}
         bars={barsRef.current}
         visible={showAlbumArt}
         variant={albumArt.style}
@@ -208,7 +234,7 @@ export default function ControlOverlays({
         labels={{
           aria: t('albumArt.label'),
           coverAlt: t('albumArt.coverAlt', {
-            title: track?.title || track?.albumTitle || '',
+            title: shownTrack?.title || shownTrack?.albumTitle || '',
           }),
         }}
       />

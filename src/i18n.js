@@ -97,6 +97,8 @@ const messages = {
     'albumArt.unknownTitle': '未知曲目',
     'albumArt.unknownArtist': '未知艺术家',
     'albumArt.coverAlt': '{title} 的专辑封面',
+    'preview.trackTitle': '预览曲目',
+    'preview.trackArtist': '模拟数据 · 非系统音乐',
     'albumArt.style': '样式',
     'albumArt.styleClassic': '经典原版',
     'albumArt.styleGlass': '玻璃卡片',
@@ -143,7 +145,7 @@ const messages = {
     'spectrum.edgeToEdgeHint':
       '满宽条带铺满窗口宽度，高度按视口高度的百分比设置；位置仍由上面的锚点决定。',
     'spectrum.hint':
-      'Wallpaper Engine 中响应系统播放的音乐。浏览器不渲染频谱（读不到系统音频）。',
+      'Wallpaper Engine 中响应系统播放的音乐；浏览器读不到系统音频，会使用模拟数据演示。',
     'clock.show': '显示当前时间与日期',
     'clock.placement': '布局风格',
     'clock.placementMinimal': '极简数显',
@@ -345,6 +347,8 @@ const messages = {
     'albumArt.unknownTitle': 'Unknown track',
     'albumArt.unknownArtist': 'Unknown artist',
     'albumArt.coverAlt': 'Album cover of {title}',
+    'preview.trackTitle': 'Preview track',
+    'preview.trackArtist': 'Simulated data, not system audio',
     'albumArt.style': 'Style',
     'albumArt.styleClassic': 'Classic',
     'albumArt.styleGlass': 'Glass card',
@@ -391,7 +395,7 @@ const messages = {
     'spectrum.edgeToEdgeHint':
       'The band spans the whole window width and takes its height from the viewport; the anchor above still decides where it sits.',
     'spectrum.hint':
-      'Follows the music playing on your system inside Wallpaper Engine. Browsers do not render the spectrum, because they cannot read system audio.',
+      'Follows the music playing on your system inside Wallpaper Engine. Browsers cannot read system audio, so a simulated spectrum is used instead.',
     'clock.show': 'Show current time and date',
     'clock.placement': 'Layout Style',
     'clock.placementMinimal': 'Minimal Digital',
@@ -593,6 +597,8 @@ const messages = {
     'albumArt.unknownTitle': '不明な曲',
     'albumArt.unknownArtist': '不明なアーティスト',
     'albumArt.coverAlt': '{title} のジャケット',
+    'preview.trackTitle': 'プレビュー曲',
+    'preview.trackArtist': '疑似データ（システム音声ではありません）',
     'albumArt.style': 'スタイル',
     'albumArt.styleClassic': 'クラシック',
     'albumArt.styleGlass': 'グラスカード',
@@ -639,7 +645,7 @@ const messages = {
     'spectrum.edgeToEdgeHint':
       '帯はウィンドウ幅いっぱいに広がり、高さは画面高さの割合で指定します。位置は上の基準点で決まります。',
     'spectrum.hint':
-      'Wallpaper Engine ではシステムで再生中の音楽に反応します。ブラウザではシステム音声を取得できないため、スペクトラムは表示されません。',
+      'Wallpaper Engine ではシステムで再生中の音楽に反応します。ブラウザではシステム音声を取得できないため、疑似データで表示します。',
     'clock.show': '現在の日付と時刻を表示',
     'clock.placement': 'レイアウトスタイル',
     'clock.placementMinimal': 'ミニマル数字',
@@ -841,6 +847,8 @@ const messages = {
     'albumArt.unknownTitle': '알 수 없는 곡',
     'albumArt.unknownArtist': '알 수 없는 아티스트',
     'albumArt.coverAlt': '{title} 앨범 커버',
+    'preview.trackTitle': '미리보기 트랙',
+    'preview.trackArtist': '시뮬레이션 데이터 · 시스템 음악 아님',
     'albumArt.style': '스타일',
     'albumArt.styleClassic': '클래식',
     'albumArt.styleGlass': '글래스 카드',
@@ -887,7 +895,7 @@ const messages = {
     'spectrum.edgeToEdgeHint':
       '띠는 창 너비를 가득 채우고 높이는 화면 높이 비율로 지정합니다. 위치는 위 기준점이 결정합니다.',
     'spectrum.hint':
-      'Wallpaper Engine에서는 시스템에서 재생 중인 음악에 반응합니다. 브라우저는 시스템 오디오에 접근할 수 없어 스펙트럼을 표시하지 않습니다.',
+      'Wallpaper Engine에서는 시스템에서 재생 중인 음악에 반응합니다. 브라우저는 시스템 오디오에 접근할 수 없어 시뮬레이션 데이터로 표시합니다.',
     'clock.show': '현재 날짜와 시간 표시',
     'clock.placement': '레이아웃 스타일',
     'clock.placementMinimal': '미니멀 디지털',

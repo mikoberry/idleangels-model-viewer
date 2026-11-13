@@ -14,6 +14,7 @@ import {
   normalizeSpectrumPreset,
 } from './utils/modelPreset.js'
 import { getWallpaperAudioFrame, isWallpaperAudioAvailable } from './utils/wallpaperAudio.js'
+import { isWidgetPreview } from './utils/preview.js'
 import { startSpineStage } from './spineStage.js'
 import './App.css'
 
@@ -289,6 +290,11 @@ export default function App() {
   const status = t(statusState.key, statusState.params)
   const [isError, setIsError] = useState(false)
   const inWallpaperEngine = isWallpaperEngineEnvironment()
+  // The widgets are engine-only in the packaged wallpaper. A browser renders
+  // them on synthetic data instead, which is what makes their settings worth
+  // opening there — see `utils/preview.js` for when that is allowed.
+  const widgetPreview = !inWallpaperEngine && isWidgetPreview()
+  const widgetsAvailable = inWallpaperEngine || widgetPreview
   // The drawer starts open in a normal browser so the settings are reachable
   // straight away, and closed inside Wallpaper Engine so the canvas stays
   // unobstructed until the eye button is used. The previous first-visit hint
@@ -654,19 +660,20 @@ export default function App() {
         className="viewer__canvas"
         onPointerUp={handleCanvasPointerUp}
       />
-      {/* The clock, spectrum and album card only exist inside Wallpaper Engine:
-          they read engine audio and media data that a plain browser cannot
-          provide. They are not mounted at all in the browser, so a model preset
-          that sets show: true (e.g. spine_hhbsd_bdmy) has no visible effect
-          there either. The widgets themselves live in WallKit; ControlOverlays
-          feeds them. */}
-      {inWallpaperEngine && (
+      {/* The clock, spectrum and album card read engine audio and media data
+          that a plain browser cannot provide, so a packaged wallpaper mounts
+          them only inside Wallpaper Engine. The browser preview mounts the same
+          widgets on synthetic audio and a demo track, which is what lets their
+          settings be tuned without packaging. The widgets themselves live in
+          WallKit; ControlOverlays feeds them. */}
+      {widgetsAvailable && (
         <ControlOverlays
           clock={clock}
           spectrum={spectrum}
           albumArt={albumArt}
           language={language}
           t={t}
+          preview={widgetPreview}
           onToggleHourFormat={() =>
             setClock((prev) => ({ ...prev, use24Hour: !prev.use24Hour }))
           }
@@ -750,6 +757,7 @@ export default function App() {
         albumArt={albumArt}
         onAlbumArtChange={updateAlbumArt}
         inWallpaperEngine={inWallpaperEngine}
+        widgetsAvailable={widgetsAvailable}
         status={status}
         isError={isError}
         modelId={selectedModel?.id ?? ''}

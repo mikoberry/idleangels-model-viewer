@@ -55,7 +55,7 @@ export const PRESET_LIMITS = {
   beatCurve: { min: CLOCK_BEAT_CURVE_MIN, max: CLOCK_BEAT_CURVE_MAX },
   spectrumIntensity: { min: SPECTRUM_INTENSITY_MIN, max: SPECTRUM_INTENSITY_MAX },
   spectrumCurve: { min: SPECTRUM_CURVE_MIN, max: SPECTRUM_CURVE_MAX },
-  spectrumBandHeight: { min: 6, max: 30 },
+  spectrumBandHeight: { min: 6, max: 60 },
   parallaxAmount: { min: -15, max: 15 },
 }
 

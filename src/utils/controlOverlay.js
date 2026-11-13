@@ -88,7 +88,7 @@ export function spectrumOverlayProps({
   // box is explicit — so turning the mode off restores the normal box as-is.
   if (edgeToEdge) {
     props.width = BAND_WIDTH
-    props.height = `${clamp(bandHeight, 6, 30)}vh`
+    props.height = `${clamp(bandHeight, 6, 60)}vh`
   }
 
   return props

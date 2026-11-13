@@ -216,7 +216,7 @@ const DEFAULT_SPECTRUM = {
 | `intensity` | `number` | `100` | `0`–`1000` | 响应强度百分比：安静的音乐柱高不够时调大 |
 | `curve` | `number` | `1` | `0.2`–`2` | 响应曲线指数：小于 1 抬高小幅波动，大于 1 让弱信号几乎不动 |
 | `edgeToEdge` | `boolean` | `false` | — | 贴边满宽：把基准盒换成 `width: 100vw` 的条带 |
-| `bandHeight` | `number` | `15` | `6`–`30` | 满宽条带的高度，单位是视口高度百分比（只在 `edgeToEdge` 时生效） |
+| `bandHeight` | `number` | `15` | `6`–`60` | 满宽条带的高度，单位是视口高度百分比（只在 `edgeToEdge` 时生效） |
 
 - 位置直接使用锚点 + 偏移，与时钟、专辑卡片同一套语义；改变 `size` 时以锚点为原点缩放，不会漂移。
 - **贴边满宽**只是盒子尺寸的覆盖：`edgeToEdge: true` 时传给 WallKit 的是 `width: '100vw'` + `height: '{bandHeight}vh'`，位置仍由 `anchor` / 偏移决定。默认锚点是 `center`，所以从默认值直接打开时抽屉会顺手改成 `bottom-center` + 零偏移，否则条带会有一半在屏幕外。
@@ -273,7 +273,7 @@ const DEFAULT_ALBUM_ART = {
 三处可视化都用同一套读取逻辑，**判定依据是引擎 API 是否存在**，而不是"有没有收到帧"：
 
 - **Wallpaper Engine 中**（`window.wallpaperRegisterAudioListener` 存在）：只使用真实音频。没收到帧或数据过期时**静音**，绝不回退到模拟数据。
-- **浏览器中**（API 不存在）：三个浮层根本不挂载（`App` 用 `inWallpaperEngine &&` 跳过），所以不会有模拟数据。`src/utils/audio.js` 里的 `syntheticSpectrum()` / `syntheticAudioLevel()` 目前没有任何调用方。
+- **浏览器中**（API 不存在）：只有预览模式会挂载三个浮层（`npm run dev`，或构建产物加 `?widgets=1`，见 [src/utils/preview.js](../src/utils/preview.js)），此时 `ControlOverlays` 的 `preview` 分支改用 `src/utils/audio.js` 的 `syntheticSpectrum()` / `syntheticAudioLevel()`。打包后的壁纸在普通浏览器里不挂载这些浮层。
 
 其它要点：
 
@@ -440,7 +440,7 @@ clock / spectrum / albumArt
 ## 新增设置检查清单
 
 1. 在 `App.jsx` 的 `viewSettings` 初始值中加入字段；如果是独立的显示偏好，按 `clock` / `spectrum` / `albumArt` 的模式新增一个 state + `load*` / `save*` + 夹取函数。
-2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传；控件放到对应的标签（`clock` / `spectrum` / `model` / `other`）里。注意 `clock` 和 `spectrum` 只在 Wallpaper Engine 中渲染（`availableTabs()` 与 `inWallpaperEngine &&` 双重判断），放在这两个标签里的控件浏览器中看不到。
+2. 在 `SettingsDrawer.jsx` 中加入控件，并通过 `onChange({ field: value })` 回传；控件放到对应的标签（`clock` / `spectrum` / `model` / `other`）里。注意三个控件标签只在浮层可用时出现（`availableTabs(widgetsAvailable)` 判断），打包后的壁纸在普通浏览器里看不到这些标签，预览模式下可以。
 3. 如果需要 i18n 文案，在 `src/i18n.js` 的四套语言表里同时加 key。
 4. 如果是 Stage 相关设置：
    - 在 `App.jsx` 中加同步 `useEffect`，或

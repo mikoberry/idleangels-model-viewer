@@ -28,25 +28,27 @@ const MIN_SCALE = 0.5
 // `size` string uses, so the stored number and the rendered size are one value.
 const ALBUM_ART_SIZE_MIN = 10
 const ALBUM_ART_SIZE_MAX = 40
-// Height of the edge-to-edge spectrum band, in vh.
+// Height of the edge-to-edge spectrum band, in vh. The upper bound covers a
+// full-screen band on a wide wallpaper without letting the box exceed it.
 const BAND_HEIGHT_MIN = 6
-const BAND_HEIGHT_MAX = 30
+const BAND_HEIGHT_MAX = 60
 
 // Tabs of the settings drawer, rendered as a vertical menu on its left edge.
 // Each floating widget gets its own tab: the three are independent overlays with
 // independent positions, so sharing a pane implied they shared a placement.
 const DRAWER_TABS = ['clock', 'spectrum', 'albumArt', 'model', 'other']
-// Those three tabs only exist inside Wallpaper Engine: browsers cannot read
-// system audio or the media session, and the wallpaper's date/time belongs to
-// the engine build. In the browser the drawer exposes just "model" and "other".
-const ENGINE_ONLY_TABS = ['clock', 'spectrum', 'albumArt']
+// Those three tabs only mean something when the widgets can render: browsers
+// cannot read system audio or the media session, so away from the engine the
+// drawer used to hide them. The preview path in `utils/preview.js` mounts the
+// widgets on synthetic data, and `widgetsAvailable` says so.
+const WIDGET_TABS = ['clock', 'spectrum', 'albumArt']
 const DRAWER_TAB_KEY = 'spine-viewer:drawer-tab:v1'
 
 // The tabs available for the current environment, in menu order.
-function availableTabs(inWallpaperEngine) {
-  return inWallpaperEngine
+function availableTabs(widgetsAvailable) {
+  return widgetsAvailable
     ? DRAWER_TABS
-    : DRAWER_TABS.filter((tab) => !ENGINE_ONLY_TABS.includes(tab))
+    : DRAWER_TABS.filter((tab) => !WIDGET_TABS.includes(tab))
 }
 
 // `display` was the single tab that used to hold both the clock and the
@@ -54,13 +56,13 @@ function availableTabs(inWallpaperEngine) {
 // a sensible pane after the split.
 const LEGACY_TAB_ALIASES = { display: 'clock' }
 
-function loadDrawerTab(inWallpaperEngine) {
-  const tabs = availableTabs(inWallpaperEngine)
+function loadDrawerTab(widgetsAvailable) {
+  const tabs = availableTabs(widgetsAvailable)
   try {
     const saved = window.localStorage.getItem(DRAWER_TAB_KEY)
     if (tabs.includes(saved)) return saved
-    // A stored engine-only tab (or the legacy alias for one) must not be
-    // restored in the browser: it has no pane and would leave the drawer blank.
+    // A stored widget tab must not be restored when the widgets cannot render:
+    // it would have no pane and leave the drawer blank.
     if (saved && LEGACY_TAB_ALIASES[saved] && tabs.includes(LEGACY_TAB_ALIASES[saved])) {
       return LEGACY_TAB_ALIASES[saved]
     }
@@ -752,6 +754,7 @@ export default function SettingsDrawer({
   albumArt,
   onAlbumArtChange,
   inWallpaperEngine,
+  widgetsAvailable,
   status,
   isError,
   modelId,
@@ -765,11 +768,11 @@ export default function SettingsDrawer({
   // The drawer is split into tabs shown as a vertical menu on the left. This
   // keeps each pane short enough to avoid relying on scrolling, which is
   // unreliable inside Wallpaper Engine.
-  const tabs = availableTabs(inWallpaperEngine)
+  const tabs = availableTabs(widgetsAvailable)
   // `availableTabs` returns a fresh array each render; key the reset effect on
   // the joined names so it only reacts to the environment actually changing.
   const tabKey = tabs.join('|')
-  const [activeTab, setActiveTab] = useState(() => loadDrawerTab(inWallpaperEngine))
+  const [activeTab, setActiveTab] = useState(() => loadDrawerTab(widgetsAvailable))
   const [recordState, setRecordState] = useState('idle')
   const [presetCopyState, setPresetCopyState] = useState('idle')
   const [scaleInput, setScaleInput] = useState(() =>
@@ -1274,7 +1277,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {inWallpaperEngine && activeTab === 'clock' && (
+      {activeTab === 'clock' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.clock')}</span>
         <label className="toggle-row">
@@ -1413,7 +1416,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {inWallpaperEngine && activeTab === 'spectrum' && (
+      {activeTab === 'spectrum' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.spectrum')}</span>
         <label className="toggle-row">
@@ -1543,7 +1546,7 @@ export default function SettingsDrawer({
       </section>
       )}
 
-      {inWallpaperEngine && activeTab === 'albumArt' && (
+      {activeTab === 'albumArt' && (
       <section className="inspector-section">
         <span className="inspector-section__title">{t('drawer.albumArt')}</span>
         <label className="toggle-row">
@@ -1636,7 +1639,11 @@ export default function SettingsDrawer({
               </div>
             )}
 
-            <p className="inspector-hint">{t('albumArt.idleHint')}</p>
+            {/* The browser preview shows a made-up track, so the "play music in
+                your system" note would only describe something it ignores. */}
+            {inWallpaperEngine && (
+              <p className="inspector-hint">{t('albumArt.idleHint')}</p>
+            )}
           </>
         )}
       </section>

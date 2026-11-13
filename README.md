@@ -14,7 +14,7 @@
 
 A full-screen Spine 3.8 WebGL viewer built with **Vite + React 18 (JSX)**. The local model library contains **332 models** — 127 with `angel` + `bg`, and 205 with `angel` only; the GitHub Pages build ships **50 representative models**.
 
-The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in a normal browser and closed inside Wallpaper Engine; the eye button in the bottom-right corner toggles it in both. Inside Wallpaper Engine it is split into five tabs — **clock**, **spectrum**, **cover**, **model** and **other**; in a plain browser only **model** and **other** are available, because the three widget tabs depend on engine audio and media data. It contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state.
+The canvas stays mounted while the settings drawer opens and closes. The drawer starts open in a normal browser and closed inside Wallpaper Engine; the eye button in the bottom-right corner toggles it in both. It is split into five tabs — **clock**, **spectrum**, **cover**, **model** and **other**. The three widget tabs need audio and media data, which only Wallpaper Engine provides, so the packaged wallpaper hides them in a plain browser; the dev server (`npm run dev`) or `?widgets=1` on a build mounts the widgets on simulated data and shows all five, so their settings can be tuned without packaging. It contains a searchable model picker, which is hidden inside Wallpaper Engine. There is no edit/show mode and no URL state beyond the `?widgets=1` preview switch.
 
 ## Online version
 

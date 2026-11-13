@@ -12,29 +12,40 @@
     "clock": {
       "show": true,
       "placement": "card",
-      "offsetX": 3,
-      "offsetY": 82,
-      "size": 160,
+      "anchor": "top-left",
+      "offsetX": 5,
+      "offsetY": 5,
+      "size": 130,
       "reactToBeat": true,
-      "beatIntensity": 150,
+      "beatIntensity": 300,
+      "beatCurve": 1,
+      "tilt": true,
       "use24Hour": true,
       "theme": "light"
     },
     "spectrum": {
       "show": true,
       "style": "curve",
-      "position": "bottom",
-      "height": 35,
+      "anchor": "bottom-center",
       "offsetX": 0,
-      "color": "#9e2d54"
+      "offsetY": 0,
+      "size": 100,
+      "color": "#9e2d54",
+      "intensity": 100,
+      "curve": 1,
+      "edgeToEdge": true,
+      "bandHeight": 25
     },
     "albumArt": {
       "show": true,
       "style": "minimal",
-      "corner": "top-right",
+      "anchor": "top-right",
       "size": 15,
-      "offsetX": 0,
-      "offsetY": 0
+      "offsetX": 2,
+      "offsetY": 5,
+      "theme": "light",
+      "colorFollow": true,
+      "color": "#a8c4ff"
     }
   },
   "spine_hhbsd_bdmy": {
@@ -61,9 +72,9 @@
     "spectrum": {
       "show": true,
       "style": "ringwave",
-      "position": "bottom",
-      "height": 52,
-      "offsetX": 14,
+      "offsetX": 52,
+      "offsetY": 75,
+      "scale": 0.75,
       "color": "#45739b"
     },
     "albumArt": {

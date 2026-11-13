@@ -13,7 +13,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
             ├─ <canvas ref={canvasRef} />
             ├─ startSpineStage(canvas, { model, callbacks })
             ├─ <ControlOverlays />  // 引擎数据 → WallKit 的 Clock / Spectrum / AlbumArt
-            ├─ <SettingsDrawer />  // 标签：WE 中为时间 / 频谱 / 模型 / 其它，浏览器中只有模型 / 其它
+            ├─ <SettingsDrawer />  // 标签：时间 / 频谱 / 封面 / 模型 / 其它（浮层可用时全开）
             ├─ 眼睛按钮
             ├─ <main style={{ backgroundColor }} />
             └─ 左上角调试面板（由抽屉开关控制）
@@ -48,6 +48,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
   - `language` / `t`
   - `clock` / `spectrum` / `albumArt`（三个独立的持久化偏好 state）
   - `inWallpaperEngine`（环境检测，决定模型选择器是否渲染、浮层是否挂载和抽屉默认状态：浏览器默认打开，WE 默认收起）
+  - `widgetPreview` / `widgetsAvailable`（浏览器中的浮层预览：`utils/preview.js` 判定，`widgetsAvailable = inWallpaperEngine || widgetPreview` 决定是否挂载 `<ControlOverlays />` 和抽屉里的三个控件标签）
 - 挂载后通过 XHR 加载 `spine/models/manifest.json`，默认选中 `models[0]`。
 - 在 `selectedModel` 变化时调用 `startSpineStage(canvas, { model, t, onStatus, onAnimationChange, isCancelled })`；`onStatus(key, vars, error)` 传状态 key，由 App 按当前语言渲染；切换模型会先 dispose 旧 Stage。
 - 把 Stage 返回的 `animations` 填进下拉框，并在 Stage ready 后应用当前模型已记录的视图；没有记录时用 `recommendedView`，再没有则 `100 / 0 / 0` + 黑色。
@@ -56,7 +57,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 把 `clickToAction` 和抽屉状态接到 canvas 的 `pointerup` 上。
 - 管理调试面板；调试面板在打开时收集环境、尺寸、WebGL、音频状态等 16 行信息。
 - 为 `clock` / `spectrum` / `albumArt` 各自定义 `normalize*` 或夹取逻辑，并在 `useEffect` 中把每次变化写回各自的 `localStorage` key；`recordModelView` 只在用户点击“记录当前视图”时写 `model-views`。
-- 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层（**仅 Wallpaper Engine 中挂载**：浏览器里整段用 `inWallpaperEngine &&` 跳过，所以模型预设里的 `clock.show` / `spectrum.show` / `albumArt.show` 在浏览器中也不会让它们出现），以及 `SettingsDrawer`；抽屉始终挂载，通过 `open` 控制动画和 `inert`。
+- 渲染 `Spectrum` / `AlbumArt` / `Clock` 三个浮层，条件是 `widgetsAvailable`：引擎里用真实音频与媒体数据，浏览器里只在预览模式下挂载，改用 `utils/audio.js` 的合成数据和 `utils/preview.js` 的示例曲目（打包后的壁纸在普通浏览器中依旧不挂载，五个 `show` 字段也不会有可见效果）；以及 `SettingsDrawer`，抽屉始终挂载，通过 `open` 控制动画和 `inert`。
 
 ### `src/components/SettingsDrawer.jsx`
 
@@ -137,7 +138,7 @@ index.html（<head> 内联脚本：音频 / 媒体 / 暂停桥接）
 - 纯函数模块：`summarizeWallpaperAudio`、`extractSpectrumBars`、`syntheticSpectrum`、`syntheticAudioLevel`、`smoothAudioLevel`、`spectrumGradientStops`，以及 `AUDIO_BANDS` / `SPECTRUM_BARS` / `DEFAULT_SPECTRUM_COLOR` 常量。
 - `spectrumGradientStops(hex)` 把 `#rrggbb` 转成柱子的两个渐变端点（顶部 0.95、底部 0.45 透明度）；输入不合法时返回 `null`，调用方回退到默认色，避免画不出柱子。
 - `extractSpectrumBars(frame)` 把左右各 64 个频段映射成 128 根柱子（右声道镜像），经过 `denoise()`：低于 `NOISE_FLOOR = 0.06` 的采样归零并重新缩放，消除引擎静音时的整片微颤；长度不足或非数组返回 `null`。
-- `syntheticSpectrum(t)` / `syntheticAudioLevel(t)` 是确定性的模拟数据，**目前只作为纯函数保留**：浏览器不挂载三个浮层，所以没有任何界面在用它们，不要再接回控件（WallKit 明确拒绝假数据兜底）。
+- `syntheticSpectrum(t)` / `syntheticAudioLevel(t)` 是确定性的模拟数据，只供浏览器预览使用（`ControlOverlays` 的 `preview` 分支）；WallKit 不做假数据兜底，是否用模拟数据由调用方决定，所以引擎路径永远只读真实帧，不存在两套数据混用。
 - `smoothAudioLevel(current, target, dt)` 指数缓动，attack 60/s、release 6/s，帧率无关。
 
 ### `src/utils/clock.js`
